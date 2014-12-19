@@ -1,0 +1,16 @@
+<?php
+return array(
+	'taxonomy' => array(
+		'taxonomies' => array(
+			array(
+				'label' => 'Tag',
+				'slug' => 'tag'
+			),
+			array(
+				'label' => 'Category',
+				'slug' => 'cat'
+			)
+		)
+	)
+);
+?>

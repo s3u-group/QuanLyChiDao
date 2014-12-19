@@ -1,0 +1,10 @@
+<?php
+
+ $title = 'NOT FOUND';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <h3>The taxonomy "<?php echo $this->escapeHtml($tax) ?>" not found !</h3>
+
+ <a href="<?php echo $this->url('taxonomies') ?>">Back to taxonomy list</a>

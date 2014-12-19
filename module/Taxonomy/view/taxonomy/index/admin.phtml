@@ -1,0 +1,21 @@
+<?php
+
+ $title = 'TAXONOMIES';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Slug</th>
+		<th></th>
+	</tr>	
+	<?php foreach($taxonomies as $taxonomy): ?>
+	<tr>
+		<td><?php echo $this->escapeHtml($taxonomy['label']) ?></td>
+		<td><?php echo $this->escapeHtml($taxonomy['slug']) ?></td>
+		<td><a href="<?php echo $this->url('taxonomies/taxonomy', array('tax'=>$taxonomy['slug'])) ?>">List taxon</a></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
