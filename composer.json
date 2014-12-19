@@ -9,6 +9,16 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.*"
+        "zendframework/zendframework": "2.3.*",
+		"doctrine/doctrine-orm-module": "0.9.*@dev",
+        "doctrine/doctrine-module": "@dev",
+        "zendframework/zftool": "dev-master",
+        "zendframework/zend-developer-tools": "dev-master",
+        "bjyoungblood/BjyProfiler": "dev-master",
+        "zf-commons/zfc-user": "@dev",
+        "zf-commons/zfc-base": "@dev",
+        "zf-commons/zfc-user-doctrine-orm": "1.0.*@dev",
+        "bjyoungblood/bjy-authorize":"1.4.*",
+        "bacon/bacon-string-utils": "1.0.*@dev"
     }
 }

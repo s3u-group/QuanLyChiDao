@@ -1,0 +1,37 @@
+<div id="login" class="container">
+<h1>Đăng nhập</h1>
+
+<?php
+$form = $this->loginForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/login'));
+$form->setAttribute('method', 'post');
+?>
+
+<?php echo $this->form()->openTag($form) ?>
+  <div class="ui form">
+    <div class="field">
+      <?php echo $this->formElementErrors($form->get('identity')) ?>
+      <?php echo $this->formLabel($form->get('identity')) ?>
+      <div class="ui left icon input">
+        <?php echo $this->formInput($form->get('identity')) ?>
+        <i class="user icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <?php echo $this->formLabel($form->get('credential')) ?>
+      <div class="ui left icon input">
+        <?php echo $this->formInput($form->get('credential')) ?>
+        <i class="lock icon"></i>
+      </div>
+    </div>
+    <?php if ($this->redirect): ?>
+        <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+    <?php endif ?>
+    <?php $submit = $form->get('submit'); ?>
+    <?php $submit->setAttribute('class', 'ui blue submit button'); ?>
+    <?php echo $this->formButton($submit) ?>
+  </div>
+
+<?php echo $this->form()->closeTag() ?>
+</div>

@@ -1,0 +1,15 @@
+<?php
+
+ $title = 'USER DETAIL';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<dl class="dl-horizontal">
+	<dt>Tên gọi</dt>
+	<dd><?php echo $this->escapeHtml($user->getDisplayName()); ?></dd>
+	<dt>Điện thoại</dt>
+	<dd><?php echo $this->escapeHtml($user->getPhoneNumber()); ?></dd>
+	<dt>Địa chỉ</dt>
+	<dd><?php echo $this->escapeHtml($user->getAddress()); ?></dd>
+</dl>
