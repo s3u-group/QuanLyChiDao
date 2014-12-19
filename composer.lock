@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1cf45e191441b2025eb99654870ce60e",
+    "hash": "41241dceae052c9b5a824fcc202cdd3e",
     "packages": [
         {
             "name": "bacon/bacon-string-utils",
