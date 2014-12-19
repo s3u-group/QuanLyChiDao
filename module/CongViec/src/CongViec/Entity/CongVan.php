@@ -90,8 +90,8 @@ class CongVan
 
 	// 11
 	/**
-	* @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan")
-	* @ORM\JoinColumn(name="cha_id", referencedColumnName="id", nullable=true)
+	* @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan", cascade={"persist"})
+	* @ORM\JoinColumn(name="cha_id", referencedColumnName="id")
 	*/
 	private $cha;
 
