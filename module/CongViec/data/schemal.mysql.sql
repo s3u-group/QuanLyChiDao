@@ -16,6 +16,12 @@ CREATE TABLE IF NOT EXISTS `cong_van`(
   KEY `cha_id` (`cha_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `don_vi`(
+  `id`			int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ten_don_vi`	varchar(255),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `cong_van_don_vi`(
   `id`			bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `don_vi_id`	int(11) unsigned, 
