@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `cong_van`(
   `id`              bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `ten`             varchar(255) DEFAULT NULL,
-  `loai`            bigint(20) unsigned,
+  `loai_id`            bigint(20) unsigned,
   `trich_yeu`       mediumtext DEFAULT NULL,
   `noi_dung`        text DEFAULT NULL,
   `ngay_ban_hanh`   datetime DEFAULT '0000-00-00 00:00:00',
@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS `cong_van`(
   `nguoi_tao_id`      	int(11) unsigned,
   `trang_thai`		mediumint,
   PRIMARY KEY (`id`),
-  KEY `nguoi_tao_id` (`nguoi_tao_id`)
+  KEY `nguoi_tao_id` (`nguoi_tao_id`),
+  KEY `loai_id` (`loai_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `don_vi`(
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `cong_van_don_vi`(
   KEY `cong_van_id` (`cong_van_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT NULL `phan_cong`(
+CREATE TABLE IF NOT EXISTS `phan_cong`(
   `id` 				bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `cong_van_id`		bigint(20) unsigned,
   `nguoi_thuc_hien_id`	int(11) unsigned,
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT NULL `phan_cong`(
   KEY `nguoi_thuc_hien_id` (`nguoi_thuc_hien_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT NULL `theo_doi`(
+CREATE TABLE IF NOT EXISTS `theo_doi`(
   `id`			bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `ngay_bao_cao` datetime DEFAULT '0000-00-00 00:00:00',
   `nguoi_bao_cao_id` int(11) unsigned,
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `dinh_kem`(
   `id`			bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `url`			varchar(255),
   `doi_tuong_id` bigint(20) unsigned,
-  `loai_doi_tuong` mediumint unsigned
+  `loai_doi_tuong` mediumint unsigned,
   PRIMARY KEY (`id`),
   KEY `doi_tuong_id` (`doi_tuong_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
