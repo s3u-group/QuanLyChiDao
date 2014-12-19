@@ -26,16 +26,19 @@ class CongVanDonVi
 	// 2 
 	// khóa ngoại
 	/**
-	 * @ORM\Column(name="don_vi_id",type="integer",length=11)
-	 */
+	* @ORM\ManyToOne(targetEntity="User\Entity\DonVi", cascade={"persist"})
+	* @ORM\JoinColumn(name="don_vi_id", referencedColumnName="id")
+	*/
 	private $donVi;
 
 	
 	// 3
 	// khóa ngoại
 	/**
-	 * @ORM\Column(name="cong_van_id",type="bigint",length=20)
-	 */
+	* @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan", cascade={"persist"})
+	* @ORM\JoinColumn(name="cong_van_id", referencedColumnName="id")
+	*/
+
 	private $congVan;
 
 	

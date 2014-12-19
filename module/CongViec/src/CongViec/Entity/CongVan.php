@@ -1,9 +1,8 @@
 <?php
 namespace CongViec\Entity;
 
-
-
  use Doctrine\ORM\Mapping as ORM;
+ use Doctrine\Common\Collections\ArrayCollection;
 /**
 * @ORM\Entity
 * @ORM\Table(name="cong_van")
@@ -33,7 +32,8 @@ class CongVan
 	//3
 	// khóa ngoại
 	/**
-	* @ORM\Column(name="loai_id",type="bigint",length=20)	
+	* @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy", cascade={"persist"})
+	* @ORM\JoinColumn(name="loai_id", referencedColumnName="id")
 	*/
 	private $loai;
 
@@ -74,8 +74,10 @@ class CongVan
 
 
 	// 9
+	// khóa ngoại
 	/**
-	* @ORM\Column(name="nguoi_tao_id",type="integer",length=11)	
+	* @ORM\ManyToOne(targetEntity="User\Entity\User", cascade={"persist"})
+	* @ORM\JoinColumn(name="nguoi_tao_id", referencedColumnName="id")
 	*/
 	private $nguoiTao;
 
@@ -85,6 +87,44 @@ class CongVan
 	* @ORM\Column(name="trang_thai",type="integer")	
 	*/
 	private $trangThai;
+
+	// 11
+	/**
+	* @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan")
+	* @ORM\JoinColumn(name="cha_id", referencedColumnName="id", nullable=true)
+	*/
+	private $cha;
+
+
+	/**
+     * @OneToMany(targetEntity="CongViec\Entity\DinhKem", mappedBy="doiTuong")
+     **/
+    private $dinhKems;
+
+    public function __construct()
+    {
+        $this->dinhKems = new ArrayCollection();
+    }
+
+    public function addDinhKems(Collection $dinhKems)
+    {
+        foreach ($dinhKems as $dinhKem) {
+            $this->dinhKems->add($dinhKem);
+        }
+    }
+
+    public function removeDinhKems(Collection $dinhKems)
+    {
+        foreach ($dinhKems as $dinhKem) {
+            $this->dinhKems->removeElement($dinhKem);
+        }
+    }
+
+    public function getDinhKems()
+    {
+        return $this->dinhKems;
+    }
+
 
 
 	// 1
@@ -191,6 +231,16 @@ class CongVan
 	public function getTrangThai()
 	{
 		return $this->trangThai;
+	}
+
+	// 11
+	public function setCha($cha)
+	{
+		$this->cha=$cha;
+	}
+	public function getCha()
+	{
+		return $this->cha;
 	}
 
 }

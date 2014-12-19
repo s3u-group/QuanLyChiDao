@@ -26,16 +26,18 @@ class PhanCong
 	// 2
 	// khóa ngoại
 	/**
-	 * @ORM\Column(name="cong_van_id",type="bigint",length=20)
-	 */
+	* @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan", cascade={"persist"})
+	* @ORM\JoinColumn(name="cong_van_id", referencedColumnName="id")
+	*/
 	private $congVan;
 
 	
 	// 3
 	// khóa ngoại
 	/**
-	 * @ORM\Column(name="nguoi_thuc_hien_id",type="integer",length=11)
-	 */
+	* @ORM\ManyToOne(targetEntity="User\Entity\User", cascade={"persist"})
+	* @ORM\JoinColumn(name="nguoi_thuc_hien_id", referencedColumnName="id")
+	*/
 	private $nguoiThucHien;
 
 	
@@ -45,7 +47,7 @@ class PhanCong
 	 */
 	private $vaiTro;
 
-	
+
 	
 	// 1
 	public function setId($id)
