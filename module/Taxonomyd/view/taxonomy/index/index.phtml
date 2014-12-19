@@ -1,0 +1,28 @@
+<?php
+
+ $title = 'TAXONS';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a href="<?php echo $this->url('taxonomies/taxonomy/crud', array('tax'=>$tax,'action'=>'add'));?>">Add taxon</a>
+      | <a href="<?php echo $this->url('taxonomies') ?>">Back to taxonomy list</a>
+ </p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Description</th>
+        <th>Count</th>
+    </tr>
+    <?php foreach($taxons as $taxon): ?>
+        <?php $term = $taxon->getTerm(); ?>
+        <tr>
+            <td><?php echo str_repeat('- ',$taxon->getLevel()).$this->escapeHtml($term->getName()); ?></td>
+            <td><?php echo $this->escapeHtml($term->getSlug()); ?></td>
+            <td><?php echo $this->escapeHtml($taxon->getDescription()); ?></td>
+            <td><?php echo $this->escapeHtml($taxon->getCount()); ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
