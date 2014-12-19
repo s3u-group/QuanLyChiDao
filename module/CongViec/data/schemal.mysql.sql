@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `phan_cong`(
   `nguoi_thuc_hien_id`	int(11) unsigned,
   `vai_tro`			mediumint unsigned,
   PRIMARY KEY (`id`),
+  KEY `cong_van_id` (`cong_van_id`),
   KEY `nguoi_thuc_hien_id` (`nguoi_thuc_hien_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
