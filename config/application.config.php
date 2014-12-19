@@ -2,7 +2,17 @@
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
+        'ZendDeveloperTools',
+        'BjyProfiler',
+        'DoctrineModule',
+        'DoctrineORMModule',
+        'ZfcBase',
+        'ZfcUser',
+        'ZfcUserDoctrineORM',
+        'BaconStringUtils',
         'Application',
+        'Taxonomy',
+        'User',
         'CongViec',
     ),
 
