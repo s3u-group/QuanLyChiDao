@@ -25,10 +25,20 @@ class DonVi
 	/**
 	 * @ORM\OneToMany(targetEntity="User\Entity\User", mappedBy="donVi")
 	 */
-	protected $nhanViens;
+	protected $nhanViens;	
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CongViec\Entity\CongVan")
+     * @ORM\JoinTable(name="cong_van_don_vi",
+     *      joinColumns={@ORM\JoinColumn(name="don_vi_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="cong_van_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $congVanDens;
 
 	public function __construct(){
         $this->nhanViens = new ArrayCollection();
+        $this->congVanDens = new ArrayCollection();
     }
 
 	public function getId(){
@@ -60,5 +70,21 @@ class DonVi
 
     public function getNhanViens(){
         return $this->nhanViens->toArray();
+    }
+
+    public function addCongVanDens($congVanDens){
+    	foreach($congVanDens as $congVan){
+    		$this->congVanDens->add($congVan);
+    	}
+    }
+
+    public function removeCongVanDens($congVanDens){
+    	foreach($congVanDens as $congVan){
+    		$this->congVanDens->removeElement($congVan);
+    	}
+    }
+
+    public function getCongVanDens(){
+    	return $this->congVanDens->toArray();
     }
 }

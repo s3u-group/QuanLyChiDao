@@ -133,11 +133,17 @@ class User implements UserInterface, ProviderInterface
     protected $donVi;
 
     /**
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\PhanCong", mappedBy="nguoiThucHien")
+     */
+    protected $congViecs;
+
+    /**
      * Initialies the roles variable.
      */
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->congViecs = new ArrayCollection();
     }
 
     /**
@@ -420,5 +426,23 @@ class User implements UserInterface, ProviderInterface
 
     public function getDonVi(){
         return $this->donVi;
+    }
+
+    public function addCongViecs($congViecs){
+        foreach($congViecs as $congViec){
+            $congViec->setNguoiThucHien($this);
+            $this->congViecs->add($congViec);
+        }
+    }
+
+    public function removeCongViecs($congViecs){
+        foreach($congViecs as $congViec){
+            $congViec->setNguoiThucHien(null);
+            $this->congViecs->removeElement($congViec);
+        }
+    }
+
+    public function getCongViecs(){
+        return $this->congViecs->toArray();
     }
 }

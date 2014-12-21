@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `cong_van`(
   `noi_dung`        text DEFAULT NULL,
   `ngay_ban_hanh`   datetime DEFAULT '0000-00-00 00:00:00',
   `ngay_hoan_thanh` datetime DEFAULT '0000-00-00 00:00:00',
+  `ngay_hoan_thanh_thuc` datetime DEFAULT '0000-00-00 00:00:00',
   `ngay_tao`       	datetime DEFAULT '0000-00-00 00:00:00',
   `nguoi_tao_id`    int(11) unsigned,
   `trang_thai`		  mediumint,
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `phan_cong`(
   `id` 				bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `cong_van_id`		bigint(20) unsigned,
   `nguoi_thuc_hien_id`	int(11) unsigned,
-  `vai_tro`			mediumint unsigned,
+  `vai_tro`			mediumint unsigned DEFAULT '2',
   PRIMARY KEY (`id`),
   KEY `cong_van_id` (`cong_van_id`),
   KEY `nguoi_thuc_hien_id` (`nguoi_thuc_hien_id`)

@@ -1,36 +1,18 @@
-<?php
-	namespace CongViec\Controller;
+<?php namespace CongViec\Controller;
 
-	 use Zend\Mvc\Controller\AbstractActionController;
-	 use Zend\View\Model\ViewModel;
-	
-	 class PhanCongController extends AbstractActionController
-	 {
-	 	
-	     public function indexAction()
-	     {
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
-	        
-	     	return new ViewModel();
-	     }
+class PhanCongController extends AbstractActionController
+{
+	protected $entityManager;
 
-
-	     public function addAction()
-	     {
-	        
-	     }
-
-	     public function editAction()
-	     {
-	     	 
-	     }
-
-	     public function deleteAction()
-	     {
-	     	
-	     }
-	     
-
-	        
-	 }
-?>
+    public function getEntityManager()
+    {
+        if(!$this->entityManager)
+        {
+          $this->entityManager=$this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        }
+        return $this->entityManager;
+    }
+}
