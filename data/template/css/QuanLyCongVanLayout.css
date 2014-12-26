@@ -2,11 +2,8 @@ body{
   background: white;
   font-family: segoe ui, arial;
 }
-
-.btnSidebar{
-	position: fixed;
-	left: 5px;
-	top: 5px;
+.btnSidebar:hover{
+	
 }
 
 .divContener{	
