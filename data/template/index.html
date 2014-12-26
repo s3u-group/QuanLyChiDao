@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="js/jquery.js"></script>
+    <script src="vendor/semantic.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/semantic.css">
+    <link rel="stylesheet" type="text/css" href="vendor/QuanLyCongVanLayout.css">
+  </head>
+  <body>
+
+    <div id="modalDangNhap" class="ui modal small transition visible active" style="margin-top: -154.5px; width:500px;">
+      <i class="close icon"></i>
+      <div class="header">
+        Đăng nhập
+      </div>
+      <div class="content">
+        <div class="ui grid">
+          
+          <div class="sixteen wide column">
+            <div class="ui form">          
+              <div class="required field">
+                <label>Email</label>
+                <div class="ui icon input">
+                  <input type="email" placeholder="Nhập email để đăng nhập">
+                  <i class="user icon"></i>
+                </div>
+              </div>
+              <div class="required field">
+                <label>Mật khẩu</label>
+                <div class="ui icon input">
+                  <input type="password">
+                  <i class="lock icon"></i>
+                </div>
+              </div>          
+            </div>
+         
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="ui button">Hủy</div>
+        <a href="quan-ly-cong-van.html"><div class="ui green button">Đăng nhập</div></a>
+      </div>
+    </div>
+  </body>
+</html>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#btnCongVanMoi').click(function(){
+      $('#modalCongVanMoi').modal('show');
+    });
+    $('#btnDangXuat').click(function(){
+      $('#modalDangNhap').modal('show');
+    });
+    $('#dropdownLocTheoTrangThai').dropdown();
+    $('#dropdownLocTheoLinhVuc').dropdown();
+  });
+</script>
