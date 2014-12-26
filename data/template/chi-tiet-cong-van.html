@@ -8,9 +8,13 @@
     <link rel="stylesheet" type="text/css" href="vendor/QuanLyCongVanLayout.css">
   </head>
   <body> 
-    <div class="divContener">
-      <div class="ui grid">
-        <div class="sixteen wide column">
+    <div class="circular ui icon button btnSidebar">
+      <i class="icon settings"></i>
+    </div>
+
+    <div class="ui page grid">
+      <div class="row">
+        <div class="column">
           <div class="ui menu">
             <div class="ui green label item" style="width:215px;">Website Quản Lý Chỉ Đạo</div>
             
@@ -20,334 +24,314 @@
             </div>
           </div>
         </div>
-        <div class="two column row">
-          
-          <div class="three wide column">
-            <div class="sixteen wide column"><h3>&nbsp;</h3></div>
+      </div>
+      <div class="row">      
+        <div class="column">
+          <div class="divView">
+            <div class="ui grid">                 
+              <div class="right aligned sixteen wide column">
+                <div class="ui blue button" id="btnCongViecMoi">Công việc mới</div>
+                <div class="positive ui button" id="btnTrangThai">Cập nhật trạng thái</div>
+                <div class="negative ui button">Xóa công văn</div>
+              </div>                  
+              <div class="sixteen wide column fluid">
+                <h3 class="ui header">Danh sách công việc</h3>
+              </div> 
+              <div class="five column row">
+                <div class="four wide column">
+                  <div class="ui fluid selection dropdown" id="dropdownLocTheoLinhVuc">
+                    <i class="filter icon"></i>
+                    <span class="text">Lọc Theo Lĩnh Vực</span>
+                    <div class="menu">
+                      <div class="item">
+                        <span class="right floated description">10 new</span>
+                        Công nghệ thông tin
+                      </div>
+                      <div class="item">
+                        Công an
+                      </div>
+                      <div class="item">
+                        Bán hàng
+                      </div>
+                      <div class="item">
+                        Important
+                      </div>
+                      <div class="item">
 
-            <div class="ui vertical menu">
-              <a class="active teal item" href="quan-ly-cong-van.html">
-                Quản lý công văn
-               
-              </a>
-              <a class="item" href="quan-ly-cong-viec.html">
-                Quản lý công việc
-                
-              </a>
-              <a class="item" href="quan-ly-don-vi.html">
-                Quản lý đơn vị
-                
-              </a>
-            </div>
-          </div>
-      
-          <div class=" left aligned thirteen wide column">
-            <div class="divView">
-              <div class="ui grid">                 
-                <div class="right aligned sixteen wide column">
-                  <div class="ui blue button" id="btnCongViecMoi">Công việc mới</div>
-                  <div class="positive ui button" id="btnTrangThai">Cập nhật trạng thái</div>
-                  <div class="negative ui button">Xóa công văn</div>
-                </div>                  
-                <div class="sixteen wide column fluid">
-                  <h3 class="ui header">Danh sách công việc</h3>
-                </div> 
-                <div class="five column row">
-                  <div class="four wide column">
-                    <div class="ui fluid selection dropdown" id="dropdownLocTheoLinhVuc">
-                      <i class="filter icon"></i>
-                      <span class="text">Lọc Theo Lĩnh Vực</span>
-                      <div class="menu">
-                        <div class="item">
-                          <span class="right floated description">10 new</span>
-                          Công nghệ thông tin
-                        </div>
-                        <div class="item">
-                          Công an
-                        </div>
-                        <div class="item">
-                          Bán hàng
-                        </div>
-                        <div class="item">
-                          Important
-                        </div>
-                        <div class="item">
+                        Announcement
+                      </div>
+                      <div class="item">
 
-                          Announcement
-                        </div>
-                        <div class="item">
-
-                          Discussion
-                        </div>
+                        Discussion
                       </div>
                     </div>
-                  </div>
-                  <div class="four wide column">
-                    <div class="ui fluid selection dropdown" id="dropdownLocTheoTrangThai">
-                      <i class="filter icon"></i>
-                      <span class="text">Lọc Theo Trạng Thái</span>
-                      <div class="menu">
-                        <div class="item">
-
-                          Important
-                        </div>
-                        <div class="item">
-
-                          Announcement
-                        </div>
-                        <div class="item">
-
-                          Discussion
-                        </div>
-                        <div class="item">
-
-                          Important
-                        </div>
-                        <div class="item">
-
-                          Announcement
-                        </div>
-                        <div class="item">
-                          Discussion
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="three wide column">
-                    <div class="ui form"><input type="date" placeholder="Lọc theo ngày bắt đầu"></div>                     
-                  </div>
-                  <div class="three wide column fluid">
-                    <div class="ui form"><input type="date"></div>
-                  </div>
-                  <div class="right aligned two wide column fluid">
-                    <div class="ui green button fluid" id="btnTim">Tìm</div>
                   </div>
                 </div>
-                <div class="sixteen wide column fluid">
-                  <table class="ui table">
-                    <thead>
-                      <tr>
-                        <th>Tên công việc</th>              
-                        <th>Nội dung công việc</th>
-                        <th>Thời gian</th>
-                        <th>Người giao</th>
-                        <th>Người theo dõi</th>
-                        <th>Người chủ trì</th>
-                        <th>Người thực hiện</th>
-                        <th>Trạng thái</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                <div class="four wide column">
+                  <div class="ui fluid selection dropdown" id="dropdownLocTheoTrangThai">
+                    <i class="filter icon"></i>
+                    <span class="text">Lọc Theo Trạng Thái</span>
+                    <div class="menu">
+                      <div class="item">
+
+                        Important
+                      </div>
+                      <div class="item">
+
+                        Announcement
+                      </div>
+                      <div class="item">
+
+                        Discussion
+                      </div>
+                      <div class="item">
+
+                        Important
+                      </div>
+                      <div class="item">
+
+                        Announcement
+                      </div>
+                      <div class="item">
+                        Discussion
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="three wide column">
+                  <div class="ui form"><input type="date" placeholder="Lọc theo ngày bắt đầu"></div>                     
+                </div>
+                <div class="three wide column fluid">
+                  <div class="ui form"><input type="date"></div>
+                </div>
+                <div class="right aligned two wide column fluid">
+                  <div class="ui green button fluid" id="btnTim">Tìm</div>
+                </div>
+              </div>
+              <div class="sixteen wide column fluid">
+                <table class="ui table">
+                  <thead>
+                    <tr>
+                      <th>Tên công việc</th>              
+                      <th>Nội dung công việc</th>
+                      <th>Thời gian</th>
+                      <th>Người giao</th>
+                      <th>Người theo dõi</th>
+                      <th>Người chủ trì</th>
+                      <th>Người thực hiện</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr class="blue">
+                      <td><a href="chi-tiet-cong-viec.html">Công việc 1</a></td>
+                      <td>Nội dung công việc</td>
+                      <td>23/12/2014 - 23/12/2015</td>
+                     
+                      <td>Huỳnh Sa Quang</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Phan Văn Thanh</td>
+                      <td>chưa xem</td>
+                    </tr> 
+                    <tr class="purple">
+                      <td><a href="chi-tiet-cong-viec.html">Công việc 2</a></td>
+                      <td>Nội dung công việc</td>
+                      <td>23/12/2014 - 23/12/2015</td>
+               
+                      <td>Huỳnh Sa Quang</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Phan Văn Thanh</td>
+                      <td>Đang xử lý</td>
+                    </tr> 
+                    <tr class="green">
+                      <td><a href="chi-tiet-cong-viec.html">Công việc 3</a></td>
+                      <td>Nội dung công việc</td>
+                      <td>23/12/2014 - 23/12/2015</td>
                       
-                      <tr class="blue">
-                        <td><a href="chi-tiet-cong-viec.html">Công việc 1</a></td>
-                        <td>Nội dung công việc</td>
-                        <td>23/12/2014 - 23/12/2015</td>
-                       
-                        <td>Huỳnh Sa Quang</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Phan Văn Thanh</td>
-                        <td>chưa xem</td>
-                      </tr> 
-                      <tr class="purple">
-                        <td><a href="chi-tiet-cong-viec.html">Công việc 2</a></td>
-                        <td>Nội dung công việc</td>
-                        <td>23/12/2014 - 23/12/2015</td>
-                 
-                        <td>Huỳnh Sa Quang</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Phan Văn Thanh</td>
-                        <td>Đang xử lý</td>
-                      </tr> 
-                      <tr class="green">
-                        <td><a href="chi-tiet-cong-viec.html">Công việc 3</a></td>
-                        <td>Nội dung công việc</td>
-                        <td>23/12/2014 - 23/12/2015</td>
+                      <td>Huỳnh Sa Quang</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Phan Văn Thanh</td>
+                      <td>Hoàn thành</td>
+                    </tr> 
+                    <tr class="lightred">
+                      <td><a href="chi-tiet-cong-viec.html">Công việc 4</a></td>
+                      <td>Nội dung công việc</td>
+                      <td>23/12/2014 - 23/12/2015</td>
+                      <td>Huỳnh Sa Quang</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Lưu Kim Loan</td>
+                      <td>Phan Văn Thanh</td>
+                      <td>Trễ hạn</td>
+                    </tr>   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <h3>Thông tin công văn</h3>
+            </div>
+
+            <div class="ui top attached tabular menu" id="tabInfo">
+              <a class="active item" data-tab="morInfo">More Info</a>
+              <a class="item" data-tab="update">Update</a>                  
+            </div>
+            <div class="ui bottom attached active tab segment" data-tab="morInfo">
+              <div class="ui grid">
+                
+                <div class="center aligned sixteen wide column">
+                  <table class="ui definition table">
+                    
+                    <tbody>
+                      <tr>
+                        <td class="four wide column">Tên công văn</td>
+                        <td class="purple">Xử lý vi phạm pháp luật
+                          <a class="ui purple circular label">
+                            Đang thực hiện
+                          </a>
+                        </td>
                         
-                        <td>Huỳnh Sa Quang</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Phan Văn Thanh</td>
-                        <td>Hoàn thành</td>
-                      </tr> 
-                      <tr class="lightred">
-                        <td><a href="chi-tiet-cong-viec.html">Công việc 4</a></td>
-                        <td>Nội dung công việc</td>
-                        <td>23/12/2014 - 23/12/2015</td>
-                        <td>Huỳnh Sa Quang</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Lưu Kim Loan</td>
-                        <td>Phan Văn Thanh</td>
-                        <td>Trễ hạn</td>
-                      </tr>   
+                      </tr>
+                      <tr>
+                        <td>Thời gian</td>
+                        <td>23/12/2014 - 23/12/2015</td>              
+                      </tr>
+                      <tr>
+                        <td>Nội dung</td>
+                        <td>
+                          Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật
+                        </td>              
+                      </tr>
+                      <tr>
+                        <td>Đính kèm</td>
+                        <td>
+                          <div class="ui buttons">
+                            <div class="ui button">Xem</div>
+                            <div class="or"></div>
+                            <div class="ui positive button">Tải xuống</div>
+                          </div>
+                        </td>              
+                      </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-              <div class="sixteen wide column">
-                <h3>Thông tin công văn</h3>
-              </div>
-
-              <div class="ui top attached tabular menu" id="tabInfo">
-                <a class="active item" data-tab="morInfo">More Info</a>
-                <a class="item" data-tab="update">Update</a>                  
-              </div>
-              <div class="ui bottom attached active tab segment" data-tab="morInfo">
-                <div class="ui grid">
-                  
-                  <div class="center aligned sixteen wide column">
-                    <table class="ui definition table">
-                      
-                      <tbody>
-                        <tr>
-                          <td class="four wide column">Tên công văn</td>
-                          <td class="purple">Xử lý vi phạm pháp luật
-                            <a class="ui purple circular label">
-                              Đang thực hiện
-                            </a>
-                          </td>
-                          
-                        </tr>
-                        <tr>
-                          <td>Thời gian</td>
-                          <td>23/12/2014 - 23/12/2015</td>              
-                        </tr>
-                        <tr>
-                          <td>Nội dung</td>
-                          <td>
-                            Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật
-                          </td>              
-                        </tr>
-                        <tr>
-                          <td>Đính kèm</td>
-                          <td>
-                            <div class="ui buttons">
-                              <div class="ui button">Xem</div>
-                              <div class="or"></div>
-                              <div class="ui positive button">Tải xuống</div>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="update">
+              <div class="center aligned sixteen wide column">
+                  <table class="ui definition table">
+                    
+                    <tbody>
+                      <tr>
+                        <td class="four wide column">Tên công văn</td>
+                        <td>
+                          <div class="ui form">
+                            <div class="field">
+                              <input type="text" value="Xử lý vi phạm pháp luật">
                             </div>
-                          </td>              
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                          </div>
+                        </td>
+                        
+                      </tr>
+                      <tr>
+                        <td>Thời gian</td>
+                        <td>
+                          <div class="ui form">
+                            <div class="two fields">
+                              <div class="field">
+                                <input type="date" value="2014-12-25">
+                              </div>
+                              <div class="field">
+                                <input type="date" value="2015-12-25">
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </td>              
+                      </tr>
+                      <tr>
+                        <td>Nội dung</td>
+                        <td>
+                          <div class="ui form">
+                            <div class="field">
+                              <textarea>Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật</textarea>
+                            </div>
+                          </div>
+                        </td>              
+                      </tr>
+                      <tr>
+                        <td>Đính kèm</td>
+                        <td>
+                          <div class="ui form">
+                            <div class="field">
+                              <div class="fluid ui button" style="text-align:left; height:38px;">
+                                <input type="file">
+                              </div>
+                            </div>
+                          </div>
+                        </td>              
+                      </tr>                
+                    </tbody>
+                  </table>
                 </div>
-              </div>
-              <div class="ui bottom attached tab segment" data-tab="update">
-                <div class="center aligned sixteen wide column">
-                    <table class="ui definition table">
-                      
-                      <tbody>
-                        <tr>
-                          <td class="four wide column">Tên công văn</td>
-                          <td>
-                            <div class="ui form">
-                              <div class="field">
-                                <input type="text" value="Xử lý vi phạm pháp luật">
-                              </div>
-                            </div>
-                          </td>
-                          
-                        </tr>
-                        <tr>
-                          <td>Thời gian</td>
-                          <td>
-                            <div class="ui form">
-                              <div class="two fields">
-                                <div class="field">
-                                  <input type="date" value="2014-12-25">
-                                </div>
-                                <div class="field">
-                                  <input type="date" value="2015-12-25">
-                                </div>
-                                
-                              </div>
-                            </div>
-                          </td>              
-                        </tr>
-                        <tr>
-                          <td>Nội dung</td>
-                          <td>
-                            <div class="ui form">
-                              <div class="field">
-                                <textarea>Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật Xử lý vi phạm pháp luật</textarea>
-                              </div>
-                            </div>
-                          </td>              
-                        </tr>
-                        <tr>
-                          <td>Đính kèm</td>
-                          <td>
-                            <div class="ui form">
-                              <div class="field">
-                                <div class="fluid ui button" style="text-align:left; height:38px;">
-                                  <input type="file">
-                                </div>
-                              </div>
-                            </div>
-                          </td>              
-                        </tr>                
-                      </tbody>
-                    </table>
-                  </div>
-                  <br>
-                  <div class="ui grid">
-                    <div class="right aligned sixteen wide column">
-                      <div class="ui buttons">
-                        <div class="ui button">Hủy</div>
-                        <div class="or"></div>
-                        <div class="ui positive button">Lưu</div>
-                      </div>
+                <br>
+                <div class="ui grid">
+                  <div class="right aligned sixteen wide column">
+                    <div class="ui buttons">
+                      <div class="ui button">Hủy</div>
+                      <div class="or"></div>
+                      <div class="ui positive button">Lưu</div>
                     </div>
                   </div>
-              </div>
+                </div>
+            </div>
+            
+            <br>
               
-              <br>
-                
-              <div class="right aligned sixteen wide column">                  
-                <table align="right">
-                  <tr style="text-align:left;">
-                    <td>
-                      <div class="ui blue empty circular label"></div>
-                    </td>
-                    <td>
-                      <span style="color:blue;">&nbsp;Chưa xem</span>
-                    </td>
-                  </tr>
-                  <tr style="text-align:left;">
-                    <td>
-                      <div class="ui purple empty circular label"></div>
-                    </td>
-                    <td>
-                      <span style="color:purple;">&nbsp;Đang xử lý</span>
-                    </td>
-                  </tr> 
-                  <tr style="text-align:left;">
-                    <td>
-                      <div class="ui green empty circular label"></div>
-                    </td>
-                    <td>
-                      <span style="color:green;">&nbsp;Hoàn thành</span>
-                    </td>
-                  </tr>                    
-                  <tr style="text-align:left;">
-                    <td>
-                      <div class="ui red empty circular label"></div>
-                    </td>
-                    <td>
-                      <span style="color:red;">&nbsp;Trễ hạn</span>
-                    </td>
-                  </tr> 
-                </table>              
-              </div>
+            <div class="right aligned sixteen wide column">                  
+              <table align="right">
+                <tr style="text-align:left;">
+                  <td>
+                    <div class="ui blue empty circular label"></div>
+                  </td>
+                  <td>
+                    <span style="color:blue;">&nbsp;Chưa xem</span>
+                  </td>
+                </tr>
+                <tr style="text-align:left;">
+                  <td>
+                    <div class="ui purple empty circular label"></div>
+                  </td>
+                  <td>
+                    <span style="color:purple;">&nbsp;Đang xử lý</span>
+                  </td>
+                </tr> 
+                <tr style="text-align:left;">
+                  <td>
+                    <div class="ui green empty circular label"></div>
+                  </td>
+                  <td>
+                    <span style="color:green;">&nbsp;Hoàn thành</span>
+                  </td>
+                </tr>                    
+                <tr style="text-align:left;">
+                  <td>
+                    <div class="ui red empty circular label"></div>
+                  </td>
+                  <td>
+                    <span style="color:red;">&nbsp;Trễ hạn</span>
+                  </td>
+                </tr> 
+              </table>              
             </div>
           </div>
         </div>
-        
-      </div>
+      </div>      
     </div>
+
     <div class="ui modal" id="modalCongViecMoi">
       <i class="close icon"></i>
       <div class="header">
@@ -588,12 +572,25 @@
       </div>
     </div>
     
+    <div class="ui left vertical inverted labeled icon sidebar menu">
+      <a class="item">
+        <i class="home icon"></i>
+        Home
+      </a>
+    </div>
    
   </body>
 </html>
 
 <script type="text/javascript">
   $( document ).ready(function() {
+
+    $('.btnSidebar').click(function(){
+      $('.left.sidebar')
+        .sidebar('toggle')
+      ;
+    });
+
     $('#btnCongViecMoi').click(function(){
       $('#modalCongViecMoi').modal('show');
     });
