@@ -2,6 +2,14 @@ body{
   background: white;
   font-family: segoe ui, arial;
 }
+.btnSidebar:hover{
+	
+}
+
+.ui.breadcrumb{
+	font-size: 1.5em;
+}
+
 .divContener{	
 	width: 98%;
   	margin: auto;

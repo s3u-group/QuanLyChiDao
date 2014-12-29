@@ -5,14 +5,14 @@
     <script src="js/jquery.js"></script>
     <script src="vendor/semantic.js"></script>
     <link rel="stylesheet" type="text/css" href="vendor/semantic.css">
-    <link rel="stylesheet" type="text/css" href="vendor/QuanLyCongVanLayout.css">
+    <link rel="stylesheet" type="text/css" href="css/QuanLyCongVanLayout.css">
   </head>
   <body> 
-    <div class="circular ui icon button btnSidebar">
-      <i class="icon settings"></i>
+    
+    <div class="ui black button btnSidebar" style="margin-left:0px; margin-top:75px; position:fixed; width:100px;">
+       Menu
     </div>
-
-    <div class="ui page grid">
+    <div class="ui page grid">      
       <div class="row">
         <div class="column">
           <!-- <div class="ui purple inverted segment">
@@ -31,6 +31,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">      
         <div class="column">
           <div class="divView">
@@ -57,27 +58,24 @@
                     <i class="filter icon"></i>
                     <span class="text">Lọc Theo Lĩnh Vực</span>
                     <div class="menu">
-                      <div class="item">
-                        <span class="right floated description">10 new</span>
-                        Công nghệ thông tin
+                      <div class="item">                        
+                        <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Công nghệt thông tin</label>
+                        </div>
                       </div>
                       <div class="item">
-                        Công an
+                        <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Công an</label>
+                        </div>
                       </div>
                       <div class="item">
-                        Bán hàng
-                      </div>
-                      <div class="item">
-                        Important
-                      </div>
-                      <div class="item">
-
-                        Announcement
-                      </div>
-                      <div class="item">
-
-                        Discussion
-                      </div>
+                        <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Công an</label>
+                        </div>
+                      </div>                      
                     </div>
                   </div>
                 </div>
@@ -87,28 +85,23 @@
                     <span class="text">Lọc Theo Trạng Thái</span>
                     <div class="menu">
                       <div class="item">
-
-                        Important
+                         <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Chưa xem</label>
+                        </div>
                       </div>
                       <div class="item">
-
-                        Announcement
+                        <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Đang xử lý</label>
+                        </div>
                       </div>
                       <div class="item">
-
-                        Discussion
-                      </div>
-                      <div class="item">
-
-                        Important
-                      </div>
-                      <div class="item">
-
-                        Announcement
-                      </div>
-                      <div class="item">
-                        Discussion
-                      </div>
+                         <div class="ui checkbox">
+                          <input type="checkbox">
+                          <label>Hoàn thành</label>
+                        </div>
+                      </div>                      
                     </div>
                   </div>
                 </div>
@@ -586,11 +579,27 @@
       </div>
     </div>
     
+    
     <div class="ui left vertical inverted labeled icon sidebar menu">
-      <a class="item">
-        <i class="home icon"></i>
-        Home
+      <div class="item"></div>
+      <div class="item"></div>
+      <a class="item" href="quan-ly-cong-van.html">
+        <br>
+        Quản lý công văn
+        <br>&nbsp;
       </a>
+      <a class="item" href="quan-ly-cong-viec.html">
+        <br>
+        Quản lý công việc
+        <br>&nbsp;
+      </a>
+      <a class="item" href="quan-ly-don-vi.html">
+       <br>
+        Quản lý đơn vị&nbsp;&nbsp;&nbsp;&nbsp;
+        <br>&nbsp;
+      </a>
+      <div class="item"></div>
+      <div class="item"></div>
     </div>
    
   </body>
@@ -632,12 +641,18 @@
             '</div>'+
           '</div>'+
         '</td>'+
-        '<td><i style="color:red;" class="recycle icon"></i></td>'+
+        '<td><i style="color:red;" class="trash icon"></i></td>'+
       '</tr>'; 
       temp = temp.replace(/__index__/g, sD);                    
       $('#tbNguoiThucHien tbody').append(temp);
       $('.checkbox').checkbox();
     });
-   
+    $('body').mousedown(function(){
+      
+      $('body').css({
+        'background-color': 'white',
+      });
+      return true;
+    });
   });
 </script>
