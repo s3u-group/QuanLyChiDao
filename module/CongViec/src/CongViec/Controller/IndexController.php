@@ -15,4 +15,9 @@ class IndexController extends AbstractActionController
         }
         return $this->entityManager;
     }
+
+    public function indexAction()
+    {
+    	$this->layout('layout/layout');
+    }
 }
