@@ -8,10 +8,11 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <script src="<?php echo $this->basePath();?>/js/jquery.js"></script>
+        <script src="<?php echo $this->basePath();?>/js/QuanLyChiDao.js"></script>
         <script src="<?php echo $this->basePath();?>/vendor/semantic.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/vendor/semantic.css">
         <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/QuanLyCongVanLayout.css">
-        <?php echo $this->headTitle();?>        
+        <?php echo $this->headTitle();?>
     </head>
     <body>        
         <div class="ui black button btnSidebar" style="margin-left:0px; margin-top:75px; position:fixed; width:100px;">
@@ -195,6 +196,9 @@
                 </div>
               </div>
             </div> -->
+            <div class="container">
+                <?php echo $this->content; ?>            
+            </div>
           </div>
         </div>
 
@@ -220,9 +224,9 @@
           <div class="item"></div>
         </div>
 
-        <div class="container">
+        <!-- <div class="container">
             <?php echo $this->content; ?>            
-        </div>
+        </div> -->
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
