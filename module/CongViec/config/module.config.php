@@ -2,7 +2,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'CongViec\Controller\Index' => 'CongViec\Controller\IndexController',
+            'CongViec\Controller\CongVan' => 'CongViec\Controller\CongVanController',
+            'CongViec\Controller\CongViec' => 'CongViec\Controller\CongViecController',
             'CongViec\Controller\PhanCong' => 'CongViec\Controller\PhanCongController',
             'CongViec\Controller\TheoDoi' => 'CongViec\Controller\TheoDoiController',
 
@@ -10,13 +11,13 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'cong_viec' => array(
+            'cong_van' => array(
                 'type'    => 'literal', 
                 'options' => array(
-                    'route'    => '/cong-viec',                    
+                    'route'    => '/cong-van',                    
                     'defaults' => array(
                        '__NAMESPACE__'=>'CongViec\Controller',
-                        'controller' => 'Index',
+                        'controller' => 'CongVan',
                         'action'     => 'index',
                     ),
                 ),
@@ -33,7 +34,31 @@ return array(
                         ),
                     ),            
                 ),
-             ),
+            ),
+            'cong_viec' => array(
+                'type'    => 'literal', 
+                'options' => array(
+                    'route'    => '/cong-viec',                    
+                    'defaults' => array(
+                       '__NAMESPACE__'=>'CongViec\Controller',
+                        'controller' => 'CongViec',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'=>'[0-9]+',
+                            ),                            
+                        ),
+                    ),            
+                ),
+            ),
          ),
      ), 
 
