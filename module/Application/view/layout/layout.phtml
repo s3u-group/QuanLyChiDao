@@ -3,53 +3,243 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
-
-        <?php echo $this->headMeta()
-            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-        ?>
-
-        <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/style.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
-
-        <!-- Scripts -->
-        <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-            ->prependFile($this->basePath() . '/js/jquery.min.js')
-            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
-        ; ?>
-
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <script src="<?php echo $this->basePath();?>/js/jquery.js"></script>
+        <script src="<?php echo $this->basePath();?>/js/QuanLyChiDao.js"></script>
+        <script src="<?php echo $this->basePath();?>/vendor/semantic.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/vendor/semantic.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/QuanLyCongVanLayout.css">
+        <?php echo $this->headTitle();?>
     </head>
-    <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Skeleton Application') ?></a>
+    <body>        
+        <div class="ui black button btnSidebar" style="margin-left:0px; margin-top:75px; position:fixed; width:100px;">
+           Menu
+        </div>
+
+        <div class="divContener">
+          <div class="ui page grid">
+            <div class="sixteen wide column">
+              <div class="ui menu">
+                <div class="ui green label item" style="width:215px;">Website Quản Lý Chỉ Đạo</div>
+                
+                <div class="right menu">
+                  <i class="ui green label item">Chào: Huỳnh Sa Quang</i>
+                  <a class="ui green label item" id="btnDangXuat" style="width:130px; text-align:center;">Đăng xuất</a>
                 </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
+              </div>
             </div>
-        </nav>
-        <div class="container">
-            <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
-            </footer>
-        </div> <!-- /container -->
+            <!-- <div class="two column row">
+              <div class=" left aligned sixteen wide column">
+                <div class="divView">   
+
+                  <div class="ui grid">                 
+                    <div class="two column row">                  
+                      <div class="eight wide column row">
+                        <h3 class="ui header">Danh Sách Công Văn</h3>
+                      </div>
+                      <div class="right aligned eight wide column row">
+                        <div class="ui blue button" id="btnCongVanMoi">Công văn mới</div>
+                      </div>
+                    </div>              
+                   
+                    <div class="five column row">
+                      <div class="four wide column">
+                        <div class="ui fluid selection dropdown" id="dropdownLocTheoLinhVuc">
+                          <i class="filter icon"></i>
+                          <span class="text">Lọc Theo Lĩnh Vực </span>
+                          <div class="menu">
+                          <div class="item">
+                             <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Công nghệ thông tin</label>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Công nghệ hóa học</label>
+                            </div>
+                          </div>
+                          <div class="item">
+                             <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Toán rời rạc</label>
+                            </div>
+                          </div>                      
+                        </div>
+                        </div>
+                      </div>
+                      <div class="four wide column">
+                        <div class="ui fluid selection dropdown" id="dropdownLocTheoTrangThai">
+                          <i class="filter icon"></i>
+                          <span class="text">Lọc Theo Trạng Thái</span>
+                          <div class="menu">
+                          <div class="item">
+                             <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Chưa xem</label>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Đang xử lý</label>
+                            </div>
+                          </div>
+                          <div class="item">
+                             <div class="ui checkbox">
+                              <input type="checkbox">
+                              <label>Hoàn thành</label>
+                            </div>
+                          </div>                      
+                        </div>
+                        </div>
+                      </div>
+                      <div class="three wide column">
+                        <div class="ui form"><input type="date" placeholder="Lọc theo ngày bắt đầu"></div>                     
+                      </div>
+                      <div class="three wide column fluid">
+                        <div class="ui form"><input type="date"></div>
+                      </div>
+                      <div class="right aligned two wide column fluid">
+                        <div class="ui green button fluid" id="btnTim">Tìm</div>
+                      </div>
+                    </div>
+                    <div class="sixteen wide column fluid">
+                      <table class="ui table">
+                        <thead>
+                          <tr>
+                            <th>Tên công văn</th>
+                            <th>Người tạo</th>
+                            <th>Ngày giao</th>
+                            <th>Ngày hoàn thành</th>
+                            <th>Trạng thái</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <tr class="blue">
+                            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+                            <td>Phan Văn Thanh</td>
+                            <td>23/12/2014</td>
+                            <td>23/12/2015</td>
+                            <td>chưa xem</td>
+                          </tr> 
+                          <tr class="purple">
+                            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+                            <td>Phan Văn Thanh</td>
+                            <td>23/12/2014</td>
+                            <td>23/12/2015</td>
+                            <td>Đang xử lý</td>
+                          </tr> 
+                          <tr class="green">
+                            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+                            <td>Phan Văn Thanh</td>
+                            <td>23/12/2014</td>
+                            <td>23/12/2015</td>
+                            <td>Hoàn thành</td>
+                          </tr> 
+                          <tr class="lightred">
+                            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+                            <td>Phan Văn Thanh</td>
+                            <td>23/12/2014</td>
+                            <td>23/12/2015</td>
+                            <td>Trễ hạn</td>
+                          </tr>   
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    <div class="right aligned sixteen wide column">                  
+                      <table align="right">
+                        <tr>
+                          <td colspan="2" style="text-align:left;">Ghi chú</td>
+                        </tr>
+                        <tr style="text-align:left;">
+                          <td>
+                            <div class="ui blue empty circular label"></div>
+                          </td>
+                          <td>
+                            <span style="color:blue;">&nbsp;Chưa xem</span>
+                          </td>
+                        </tr>
+                        <tr style="text-align:left;">
+                          <td>
+                            <div class="ui purple empty circular label"></div>
+                          </td>
+                          <td>
+                            <span style="color:purple;">&nbsp;Đang xử lý</span>
+                          </td>
+                        </tr> 
+                        <tr style="text-align:left;">
+                          <td>
+                            <div class="ui green empty circular label"></div>
+                          </td>
+                          <td>
+                            <span style="color:green;">&nbsp;Hoàn thành</span>
+                          </td>
+                        </tr>                    
+                        <tr style="text-align:left;">
+                          <td>
+                            <div class="ui red empty circular label"></div>
+                          </td>
+                          <td>
+                            <span style="color:red;">&nbsp;Trễ hạn</span>
+                          </td>
+                        </tr> 
+                      </table>              
+                    </div>                              
+                  </div>            
+                </div>
+              </div>
+            </div> -->
+            <div class="container">
+                <?php echo $this->content; ?>            
+            </div>
+          </div>
+        </div>
+
+        <div class="ui left vertical inverted labeled icon sidebar menu">
+          <div class="item"></div>
+          <div class="item"></div>
+          <a class="item" href="quan-ly-cong-van.html">
+            <br>
+            Quản lý công văn
+            <br>&nbsp;
+          </a>
+          <a class="item" href="quan-ly-cong-viec.html">
+            <br>
+            Quản lý công việc
+            <br>&nbsp;
+          </a>
+          <a class="item" href="quan-ly-don-vi.html">
+           <br>
+            Quản lý đơn vị&nbsp;&nbsp;&nbsp;&nbsp;
+            <br>&nbsp;
+          </a>
+          <div class="item"></div>
+          <div class="item"></div>
+        </div>
+
+        <!-- <div class="container">
+            <?php echo $this->content; ?>            
+        </div> -->
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
+
+<script type="text/javascript">
+  $( document ).ready(function() {    
+    /*$('#btnDangXuat').click(function(){
+      $('#modalDangXuat').modal('show');
+    });*/    
+    $('.btnSidebar').click(function(){
+      $('.left.sidebar')
+        .sidebar('toggle')
+      ;
+    });
+  });
+</script>
