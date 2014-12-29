@@ -15,6 +15,12 @@
     <div class="ui page grid">      
       <div class="row">
         <div class="column">
+          <!-- <div class="ui purple inverted segment">
+            <h3 class="ui header">Phần Mềm Quản Lý Chỉ Đạo</h3>
+            <div class="ui right floated segment">
+
+            </div>
+          </div> -->
           <div class="ui menu">
             <div class="ui green label item" style="width:215px;">Website Quản Lý Chỉ Đạo</div>
             
@@ -29,15 +35,23 @@
       <div class="row">      
         <div class="column">
           <div class="divView">
-            <div class="ui grid">                 
-              <div class="right aligned sixteen wide column">
-                <div class="ui blue button" id="btnCongViecMoi">Công việc mới</div>
-                <div class="positive ui button" id="btnTrangThai">Cập nhật trạng thái</div>
-                <div class="negative ui button">Xóa công văn</div>
-              </div>                  
-              <div class="sixteen wide column fluid">
-                <h3 class="ui header">Danh sách công việc</h3>
-              </div> 
+            <div class="ui grid">
+              <div class="two column row">                  
+                <div class="eight wide column row">
+                  <div class="ui breadcrumb">
+                    <a class="section">Quản lý</a>
+                    <div class="divider"> / </div>
+                    <a class="section">Công việc</a>
+                    <div class="divider"> / </div>
+                    <div class="active section">Chi tiết Công Việc</div>
+                  </div>
+                </div>
+                <div class="right aligned eight wide column row">
+                  <div class="ui blue button" id="btnCongViecMoi">Công việc mới</div>
+                  <div class="positive ui button" id="btnTrangThai">Cập nhật trạng thái</div>
+                  <div class="negative ui button">Xóa công văn</div>
+                </div>
+              </div>   
               <div class="five column row">
                 <div class="four wide column">
                   <div class="ui fluid selection dropdown" id="dropdownLocTheoLinhVuc">

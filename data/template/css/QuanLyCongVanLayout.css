@@ -6,6 +6,10 @@ body{
 	
 }
 
+.ui.breadcrumb{
+	font-size: 1.5em;
+}
+
 .divContener{	
 	width: 98%;
   	margin: auto;
