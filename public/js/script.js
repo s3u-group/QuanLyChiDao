@@ -25,3 +25,8 @@
         }
         $(idDisplay).text(valueDisplay);
     }
+
+    
+     $( document ).ready(function() {
+      $('.checkbox').checkbox();
+    });

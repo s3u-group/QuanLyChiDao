@@ -176,3 +176,14 @@
     </div>
   </div>
 </div>  
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.checkboxLocTheoLinhVuc').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoLinhVuc','Lọc theo lĩnh vực','#valueLocTheoLinhVuc');
+    });
+    $('.checkboxLocTheoTrangThai').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoTrangThai','lọc theo trạng thái','#valueLocTheoTrangThai');
+    });
+      
+  });
+</script>

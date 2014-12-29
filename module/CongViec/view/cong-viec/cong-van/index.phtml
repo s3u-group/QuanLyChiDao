@@ -10,7 +10,6 @@
                            
         <div class="five column row">
           <div class="four wide column">
-
             <div class="ui compact menu fluid">
               <div class="ui simple dropdown item fluid" id="dropdownLocTheoLinhVuc">
                 <i class="dropdown icon"></i>
@@ -176,3 +175,14 @@
     </div>
   </div>
 </div>  
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).ready(function(){
+    $('.checkboxLocTheoLinhVuc').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoLinhVuc','Lọc theo lĩnh vực','#valueLocTheoLinhVuc');
+    });
+    $('.checkboxLocTheoTrangThai').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoTrangThai','lọc theo trạng thái','#valueLocTheoTrangThai');
+    });
+  });
+</script>

@@ -36,8 +36,15 @@
                 <div class="ui green label item"  style="width:215px;">Website Quản Lý Chỉ Đạo</div>
                 
                 <div class="right menu">
-                  <i class="ui green label item">Chào: Huỳnh Sa Quang</i>
-                  <a class="ui green label item" href="index.html" style="width:130px; text-align:center;">Đăng xuất</a>
+                    <i class="ui green label item">
+                    <?php
+                        if($this->zfcUserIdentity())
+                        {
+                            echo 'Chào: '.$this->zfcUserIdentity()->getEmail();
+                        }
+                    ?>
+                    </i>
+                    <a class="ui green label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
                 </div>
               </div>
             </div>

@@ -11,7 +11,7 @@ class Module implements AutoloaderProviderInterface{
         $eventManager = $e->getApplication ()->getEventManager ();
         $moduleRouteListener = new ModuleRouteListener ();
         $moduleRouteListener->attach ( $eventManager );
-    //    $eventManager->attach('dispatch', array($this, 'checkLoginChangeLayout'));
+        $eventManager->attach('dispatch', array($this, 'checkLoginChangeLayout'));
 
     }
     public function checkLoginChangeLayout(MvcEvent $e) {
