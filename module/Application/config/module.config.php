@@ -60,6 +60,9 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' => array(
+            'main' => 'Application\Navigation\Service\MainNavigationFactory'
+        )
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -88,15 +91,54 @@ return array(
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'menu/sidebar'            => __DIR__ . '/../view/partial/menu/sidebar.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy', //add to use AJAX
         ),
     ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(
             'routes' => array(
+            ),
+        ),
+    ),
+
+    'navigation' => array(
+        'main' => array(
+            array(
+                'label' => 'Công văn',
+                'uri' => '#',
+                'pages' => array(
+                    array(
+                        'label' => 'Danh sách công văn',
+                        'uri' => '#'
+                    )
+                ),
+            ),
+            array(
+                'label' => 'Công việc',
+                'uri' => '#',
+                'pages' => array(
+                    array(
+                        'label' => 'Danh sách công việc',
+                        'uri' => '#'
+                    )
+                ),
+            ),
+            array(
+                'label' => 'Đơn vị',
+                'uri' => '#',
+                'pages' => array(
+                    array(
+                        'label' => 'Danh sách đơn vị',
+                        'uri' => '#'
+                    )
+                ),
             ),
         ),
     ),
