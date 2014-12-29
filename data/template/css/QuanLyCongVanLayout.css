@@ -2,17 +2,6 @@ body{
   background: white;
   font-family: segoe ui, arial;
 }
-
-.btnSidebar{
-	position: fixed;
-	left: 5px;
-	top: 5px;
-}
-
-.ui.breadcrumb{
-	font-size: 1.5em;
-}
-
 .divContener{	
 	width: 98%;
   	margin: auto;
