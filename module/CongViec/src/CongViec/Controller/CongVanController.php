@@ -3,7 +3,7 @@
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class CongVanController extends AbstractActionController
 {
 	protected $entityManager;
 
@@ -16,8 +16,6 @@ class IndexController extends AbstractActionController
         return $this->entityManager;
     }
 
-    public function indexAction()
-    {
-    	$this->layout('layout/layout');
+    public function indexAction(){
     }
 }

@@ -112,7 +112,7 @@ return array(
         'main' => array(
             array(
                 'label' => 'Công văn',
-                'uri' => '#',
+                'route' => 'cong_van',
                 'pages' => array(
                     array(
                         'label' => 'Danh sách công văn',
@@ -122,7 +122,7 @@ return array(
             ),
             array(
                 'label' => 'Công việc',
-                'uri' => '#',
+                'route' => 'cong_viec',
                 'pages' => array(
                     array(
                         'label' => 'Danh sách công việc',
