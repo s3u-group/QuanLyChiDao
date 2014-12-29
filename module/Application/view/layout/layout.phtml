@@ -26,10 +26,27 @@
 
     </head>
     <body>
-                <?php //$this->navigation('main')->menu()->setPartial('menu/sidebar'); ?>
-                <?php //echo $this->navigation('main')->menu(); ?>
+        <?php $this->navigation('main')->menu()->setPartial('menu/sidebar'); ?>
+        <?php echo $this->navigation('main')->menu(); ?>
 
-        <?php echo $this->content; ?>
+        <div class="divContener">
+          <div class="ui page grid">
+            <div class="sixteen wide column">
+              <div class="ui menu">
+                <div class="ui green label item"  style="width:215px;">Website Quản Lý Chỉ Đạo</div>
+                
+                <div class="right menu">
+                  <i class="ui green label item">Chào: Huỳnh Sa Quang</i>
+                  <a class="ui green label item" href="index.html" style="width:130px; text-align:center;">Đăng xuất</a>
+                </div>
+              </div>
+            </div>
+
+            <?php echo $this->content; ?>
+
+          </div>
+        </div>
+
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

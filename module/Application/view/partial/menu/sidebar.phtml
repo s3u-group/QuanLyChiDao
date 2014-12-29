@@ -1,23 +1,31 @@
-<?php foreach($this->container as $page): ?>
-    <?php if(!$page->isVisible() || !$this->navigation()->accept($page)) continue; ?>
-    <?php $hasChildren = $page->hasPages(); ?>
-    <?php if(!$hasChildren): ?>
+<div class="ui black button btnSidebar" style="margin-left:-2px; margin-top:75px; position:fixed;">
+    <i class="content icon"></i>
+</div>
+<div class="ui left vertical inverted labeled icon sidebar menu">
+    <div class="item"></div>
+    <div class="item"></div>
+    <?php foreach($this->container as $page): ?>
+        <?php if(!$page->isVisible() || !$this->navigation()->accept($page)) continue; ?>
         <a href="<?php echo $page->getHref() ?>" class="item <?php if($page->isActive()) echo 'active' ?>">
-            <?php echo $page->get('icon'); ?>
-            <?php echo $page->getLabel(); ?>
-        </a>
-    <?php else: ?>
-        <div class="link item">
-            <?php echo $page->get('icon'); ?>
-            <?php echo $page->getLabel(); ?>
-            <div class="menu">
-                <?php foreach ($page->getPages() as $child): ?>
-                    <?php if(!$child->isVisible() || !$this->navigation()->accept($child)) continue; ?>
-                    <a href="<?php echo $child->getHref(); ?>" class="item <?php if($child->isActive()) echo 'active' ?>">
-                        <?php echo $child->getLabel(); ?>
-                    </a>
-               <?php endforeach; ?>
-            </div>
-        </div>
-    <?php endif; ?>
-<?php endforeach; ?>
+            <br>
+                <?php echo $page->get('icon'); ?>
+                <?php echo $page->getLabel(); ?>
+            <br>&nbsp;
+        </a>    
+    <?php endforeach; ?>
+    
+    <div class="item"></div>
+    <div class="item"></div>
+</div>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+
+    $('.btnSidebar').click(function(){
+      $('.left.sidebar')
+        .sidebar('toggle')
+      ;
+    });
+    
+  });
+</script>
