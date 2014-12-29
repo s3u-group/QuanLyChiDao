@@ -41,7 +41,7 @@ $form->setAttribute('method', 'post');
       </div>
 
       <div class="actions">
-        <div class="ui button">Hủy</div>
+        <input type="reset" class="ui button" value="Hủy">
         <?php if ($this->redirect): ?>
             <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
         <?php endif ?>
