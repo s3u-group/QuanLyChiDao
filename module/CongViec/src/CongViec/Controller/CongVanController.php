@@ -19,11 +19,19 @@ class CongVanController extends AbstractActionController
     }
 
     public function indexAction(){
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
         $entityManager=$this->getEntityManager();
         
     }
     public function congVanMoiAction()
     {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
         $entityManager=$this->getEntityManager();
         $form= new TaoCongVanForm($entityManager);
         $congVan= new CongVan();
