@@ -89,3 +89,9 @@ color: #dc6868 !important;
 {
 width:98%;
 }
+#btnDangXuat{
+	cursor:pointer;
+}
+#btnProfile{
+	cursor:pointer;
+}
