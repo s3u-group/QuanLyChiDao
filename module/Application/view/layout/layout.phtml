@@ -13,6 +13,7 @@
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/QuanLyCongVanLayout.css')
                         ->prependStylesheet($this->basePath() . '/vendor/semantic-ui/semantic.css')
                        ; ?>
 
@@ -26,10 +27,95 @@
 
     </head>
     <body>
-        <?php $this->navigation('main')->menu()->setPartial('menu/sidebar'); ?>
-        <?php echo $this->navigation('main')->menu(); ?>
+        <div class="ui  page grid">
+      <div class="sixteen wide column row center aligned banner">
+        <img src="img/baner.png" class="imgBanner">
+      </div>
+          
+      <div class="two column row">
+        <div class="four wide column fluid">
+          <div class="ui vertical accordion menu fluid" id="accordion">
+            <div class="item  fluid">
+              <a class="active title">
+                <i class="dropdown icon"></i>
+                .:: Quản lý công việc
+              </a>
+              <div class="active content">
+                <div class="ui form">
+                  <div class="grouped fields">
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Công việc cần xử lý</a>
+                    </div>
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Tạo mới công việc</a>
+                    </div>
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Công việc chưa giao</a>
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Nhật ký công việc</a>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="item">
+              <a class="title">
+                <i class="dropdown icon"></i>
+                .:: Quản lý công văn
+              </a>
+              <div class="content">
+                <div class="ui form">
+                  <div class="grouped fields">
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Công văn đến</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <a class="title">
+                <i class="dropdown icon"></i>
+                .:: Quản lý nhân sự
+              </a>
+              <div class="content">
+                <div class="ui form">
+                  <div class="grouped fields">
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Tạo mới đơn vị</a>
+                    </div>
+                    <div class="field">
+                      <i class="caret right icon"></i><a href="#">Tạo mới nhân sự</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="twelve wide column left aligned fluid">
+          <div class="sixteen wide column row right aligned">
+            <div class="right menu">
+              <i class="ui primary label item">
+                <?php
+                        if($this->zfcUserIdentity())
+                        {
+                            echo 'Chào: '.$this->zfcUserIdentity()->getUsername();
+                        }
+                    ?>
+                </i>
+                <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
 
-        <div class="divContener">
+
+
+        <!-- <div class="divContener">
           <div class="ui page grid">
             <div class="sixteen wide column">
               <div class="ui menu">
@@ -40,7 +126,7 @@
                     <?php
                         if($this->zfcUserIdentity())
                         {
-                            echo 'Chào: '.$this->zfcUserIdentity()->getEmail();
+                            echo 'Chào: '.$this->zfcUserIdentity()->getUsername();
                         }
                     ?>
                     </i>
@@ -52,7 +138,7 @@
             <?php echo $this->content; ?>
 
           </div>
-        </div>
+        </div> -->
 
         <?php echo $this->inlineScript() ?>
     </body>

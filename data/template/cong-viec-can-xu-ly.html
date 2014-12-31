@@ -9,13 +9,13 @@
     
   </head>
   <body>
-    <div class="ui grid">
-      <div class="sixteen wide column row banner">
-        <img src="img/baner.png">
+    <div class="ui  page grid">
+      <div class="sixteen wide column row center aligned banner">
+        <img src="img/baner.png" class="imgBanner">
       </div>
-
+          
       <div class="two column row">
-        <div class="three wide column fluid">
+        <div class="four wide column fluid">
           <div class="ui vertical accordion menu fluid" id="accordion">
             <div class="item  fluid">
               <a class="active title">
@@ -77,56 +77,15 @@
             </div>
           </div>
         </div>
-        <div class="thirteen wide column left aligned">
-          <div class="sixteen wide column center aligned">
-            <div class="ui form">
-              <div class="inline fields">
-                <div class="field">
-                  <label>Tìm theo hạn xử lý - Từ ngày</label>
-                  <input type="date">
-                </div>
-                <div class="field">
-                  <label>Đến ngày</label><input type="date">
-                </div>
-                <div class="field">
-                  <div class="ui blue button">Xem theo ngày đã chọn</div>
-                </div>
-              </div>
+        <div class="twelve wide column left aligned fluid">
+          <div class="sixteen wide column row right aligned">
+            <div class="right menu">
+              <i class="ui primary label item">
+                luukimloan
+                </i>
+                <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
             </div>
-          </div>
-          <div class="sixteen wide column left aligned fluid">
-            <div class="ui form">
-              <div class="grouped inline fields fluid">
-                <div class="field">
-                  <div class="ui radio checkbox">
-                    <input type="radio" name="fruit" checked="checked">
-                    <label>Công việc chưa xử lý</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui radio checkbox">
-                    <input type="radio" name="fruit">
-                    <label>Công việc đang xử lý</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui radio checkbox">
-                    <input type="radio" name="fruit">
-                    <label>Công việc quá hạn</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui radio checkbox">
-                    <input type="radio" name="fruit">
-                    <label>Tất cả công việc</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          
-              
+          </div>  
         </div>
       </div>
     </div>
@@ -136,8 +95,6 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('#accordion').accordion();
-
   });
-  $('.ui.radio.checkbox').checkbox();
   
 </script>
