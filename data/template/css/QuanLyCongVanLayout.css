@@ -76,3 +76,12 @@ color: #dc6868 !important;
 .tbTrangThai tr td:last-child{
 	padding-left: 20px; 
 }
+.dangChon{
+	background-color: #FAEB87;
+}
+#accordion .item a:hover{
+	text-decoration:none;
+}
+.banner{
+	margin-bottom:-27px;
+}
