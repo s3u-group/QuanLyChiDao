@@ -79,5 +79,10 @@ class IndexController extends AbstractActionController
             'user' => $user
         );
     }
+
+    public function updateAction()
+    {
+        
+    }
 }
 ?>

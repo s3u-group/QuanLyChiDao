@@ -29,7 +29,7 @@
     <body>
         <div class="ui  page grid">
           <div class="sixteen wide column row center aligned banner">
-            <img src="img/baner.png" class="imgBanner">
+            <img src="<?php echo $this->basePath();?>/img/baner.png" class="imgBanner">
           </div>
               
           <div class="two column row">
@@ -101,10 +101,10 @@
                   <i class="ui primary label item">
                     <?php
                             if($this->zfcUserIdentity())
-                            {
-                                echo 'Chào: '.$this->zfcUserIdentity()->getUsername();
-                            }
-                        ?>
+                            {?>                                
+                                <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></a>
+                            <?php }
+                        ?>                        
                     </i>
                     <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
                 </div>
