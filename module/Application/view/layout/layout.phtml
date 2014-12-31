@@ -97,16 +97,14 @@
             </div>
             <div class="twelve wide column left aligned fluid">
               <div class="sixteen wide column row right aligned">
-                <div class="right menu">
-                  <i class="ui primary label item">
-                    <?php
-                            if($this->zfcUserIdentity())
-                            {?>                                
-                                <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></a>
-                            <?php }
-                        ?>                        
-                    </i>
-                    <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
+                <div class="right menu">              
+                  <?php
+                          if($this->zfcUserIdentity())
+                          {?>                                
+                              <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><label  class="ui primary label item" id="btnProfile"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></label></a>
+                          <?php }
+                      ?>                
+                    <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><label  class="ui blue label item" id="btnDangXuat">Đăng xuất</label></a>
                 </div>
               </div> 
               <div class="sixteen wide column row left aligned">
