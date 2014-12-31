@@ -17,5 +17,10 @@ class CongViecController extends AbstractActionController
     }
 
     public function indexAction(){
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        $entityManager=$this->getEntityManager();
     }
 }

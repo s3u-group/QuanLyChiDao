@@ -2,92 +2,8 @@
   <div class=" left aligned sixteen wide column">
     <div class="divView">        
       
-      <div class="ui grid">            
-        <!-- <div class="sixteen wide column fluid">
-          <h3 class="ui header">Danh Sách Công Văn</h3>
-        </div> -->
-        <div class="two column row">                  
-          <div class="eight wide column row">
-            <h3 class="ui header">Danh Sách Công Văn</h3>
-          </div>
-          <div class="right aligned eight wide column row">
-            <a href="<?php echo $this->url('cong_van/crud', array('action'=>'congVanMoi')); ?>"><div class="ui blue button">Công văn mới</div></a>
-          </div>
-        </div> 
-                           
-        <div class="five column row">
-          <div class="four wide column">
-            <div class="ui compact menu fluid">
-              <div class="ui simple dropdown item fluid" id="dropdownLocTheoLinhVuc">
-                <i class="dropdown icon"></i>
-                <label  id="valueLocTheoLinhVuc">Lọc theo lĩnh vực</label>
-                <div class="menu">
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoLinhVuc">
-                      <label>Công nghệ thông tin 1</label>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoLinhVuc">
-                      <label>Công nghệ thông tin 2</label>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoLinhVuc">
-                      <label>Công nghệ thông tin 3</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>                   
-          <div class="four wide column">
-            <div class="ui compact menu fluid">
-              <div class="ui simple dropdown item  fluid" id="dropdownLocTheoTrangThai">
-                <i class="dropdown icon"></i>
-                <label id="valueLocTheoTrangThai">Lọc theo trạng thái</label>
-                <div class="menu">
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoTrangThai">
-                      <label>Chưa xem</label>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox"  class="checkboxLocTheoTrangThai">
-                      <label>Đang xử lý</label>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoTrangThai">
-                      <label>Hoàn thành</label>
-                    </div>
-                  </div>
-                  <div class="item">
-                    <div class="ui checkbox">
-                      <input type="checkbox" class="checkboxLocTheoTrangThai">
-                      <label>Trễ hạn</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="three wide column">
-            <div class="ui form"><input type="date" placeholder="Lọc theo ngày bắt đầu"></div>                     
-          </div>
-          <div class="three wide column fluid">
-            <div class="ui form"><input type="date"></div>
-          </div>
-          <div class="right aligned two wide column fluid">
-            <div class="ui green button fluid" id="btnTim">Tìm</div>
-          </div>
-        </div>
+      <div class="ui grid">           
+        <div class="sixteen wide column fluid"></div>
         <div class="sixteen wide column fluid">
           <table class="ui table">
             <thead>
@@ -96,7 +12,7 @@
                 <th>Người tạo</th>
                 <th>Ngày giao</th>
                 <th>Ngày hoàn thành</th>
-                <th>Trạng thái</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -106,28 +22,28 @@
                 <td>Phan Văn Thanh</td>
                 <td>23/12/2014</td>
                 <td>23/12/2015</td>
-                <td>chưa xem</td>
+       
               </tr> 
               <tr class="purple">
                 <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
                 <td>Phan Văn Thanh</td>
                 <td>23/12/2014</td>
                 <td>23/12/2015</td>
-                <td>Đang xử lý</td>
+   
               </tr> 
               <tr class="green">
                 <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
                 <td>Phan Văn Thanh</td>
                 <td>23/12/2014</td>
                 <td>23/12/2015</td>
-                <td>Hoàn thành</td>
+
               </tr> 
               <tr class="lightred">
                 <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
                 <td>Phan Văn Thanh</td>
                 <td>23/12/2014</td>
                 <td>23/12/2015</td>
-                <td>Trễ hạn</td>
+
               </tr>   
             </tbody>
           </table>
@@ -175,12 +91,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.checkboxLocTheoLinhVuc').on('change',function(){
-      multiSelectDropdown('.checkboxLocTheoLinhVuc','Lọc theo lĩnh vực','#valueLocTheoLinhVuc');
-    });
-    $('.checkboxLocTheoTrangThai').on('change',function(){
-      multiSelectDropdown('.checkboxLocTheoTrangThai','lọc theo trạng thái','#valueLocTheoTrangThai');
-    });
     
   });
 </script>
