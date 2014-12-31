@@ -11,7 +11,7 @@ body{
 }
 
 .divContener{	
-	width: 98%;
+	width: 100%;
   	margin: auto;
 }
 .divView{	
@@ -84,4 +84,8 @@ color: #dc6868 !important;
 }
 .banner{
 	margin-bottom:-27px;
+}
+.imgBanner
+{
+width:98%;
 }

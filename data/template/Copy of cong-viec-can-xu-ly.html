@@ -9,12 +9,13 @@
     
   </head>
   <body>
-    <div class="ui grid">
-      <div class="sixteen wide column row banner">
-        <img src="img/baner.png" width="100%">
-      </div>      
+    <div class="ui  page grid">
+      <div class="sixteen wide column row center aligned banner">
+        <img src="img/baner.png" class="imgBanner">
+      </div>
+          
       <div class="two column row">
-        <div class="three wide column fluid">
+        <div class="four wide column fluid">
           <div class="ui vertical accordion menu fluid" id="accordion">
             <div class="item  fluid">
               <a class="active title">
@@ -76,8 +77,15 @@
             </div>
           </div>
         </div>
-        <div class="thirteen wide column left aligned fluid">
-          
+        <div class="twelve wide column left aligned fluid">
+          <div class="sixteen wide column row right aligned">
+            <div class="right menu">
+              <i class="ui primary label item">
+                luukimloan
+                </i>
+                <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
+            </div>
+          </div>  
         </div>
       </div>
     </div>
