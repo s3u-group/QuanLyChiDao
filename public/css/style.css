@@ -72,3 +72,7 @@ color: #dc6868 !important;
 .tbTrangThai tr td:last-child{
 	padding-left: 20px; 
 }
+
+input[type="date"]{
+	height: 37px;
+}

@@ -2,6 +2,8 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use CongViec\Entity\CongVan;
+use CongViec\Form\TaoCongVanForm;
 
 class CongVanController extends AbstractActionController
 {
@@ -17,5 +19,18 @@ class CongVanController extends AbstractActionController
     }
 
     public function indexAction(){
+        $entityManager=$this->getEntityManager();
+        
+    }
+    public function congVanMoiAction()
+    {
+        $entityManager=$this->getEntityManager();
+        $form= new TaoCongVanForm($entityManager);
+        $congVan= new CongVan();
+        $form->bind($congVan); 
+
+        return array(
+            'form'=>$form,
+        );       
     }
 }

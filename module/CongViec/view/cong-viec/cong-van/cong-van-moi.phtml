@@ -1,0 +1,101 @@
+
+<?php
+$this->headTitle('Quản lý công văn');
+$form->setAttribute('action', $this->url('cong_van/crud', array('action' => 'index')));
+$form->setAttribute('role','form');
+$form->prepare();
+echo $this->form()->openTag($form);
+$congVan=$form->get('cong-van');
+?>
+<div id="modalCongVanMoi" class="ui modal active" style="margin-top:-280px;">
+  <i class="close icon"></i>
+  <div class="header">
+    Thêm công văn mới
+  </div>
+  <div class="content">
+    <div class="ui form">
+      <div class="field">
+        <label>Tiêu đề</label>
+        <!-- <input type="text"> -->
+        <?php echo $this->formElement($congVan->get('ten')); ?>
+      </div> 
+      <div class="field">
+        <label>Nội dung</label>
+        <textarea></textarea>
+      </div>      
+    </div>
+    <div class="ui grid">
+      <div class="two column row">
+        <div class="column">
+          <div class="eight wide column">
+            <div class="ui form">
+              <div class="field">
+                <label>Đính kèm</label>
+                <div class="fluid ui button" style="text-align:left; height:38px;">
+                  <input type="file">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="eight wide column">
+            <div class="ui form">
+              <div class="field">
+                <label>Loại công văn</label>
+                <select class="four wide column">
+                  <option value="">Chọn loại công văn</option>
+                  <option value="1">Loại 01</option>
+                  <option value="2">Loại 02</option>
+                  <option value="3">Loại 03</option>
+                  <option value="4">Loại 04</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="two column row">
+        <div class="column">
+          <div class="eight wide column">
+            <div class="ui form">
+              <div class="field">
+                <label>Ngày ban hành</label>
+                <input type="date">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="eight wide column">
+            <div class="ui form">
+              <div class="field">
+                <label>Ngày hoàn thành</label>
+                <input type="date">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <div class="ui button">Cancel</div>
+    <div class="ui green button">Send</div>
+  </div>
+</div>
+<?php echo $this->form()->closeTag() ?>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.checkboxLocTheoLinhVuc').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoLinhVuc','Lọc theo lĩnh vực','#valueLocTheoLinhVuc');
+    });
+    $('.checkboxLocTheoTrangThai').on('change',function(){
+      multiSelectDropdown('.checkboxLocTheoTrangThai','lọc theo trạng thái','#valueLocTheoTrangThai');
+    });
+    
+  });
+</script>
