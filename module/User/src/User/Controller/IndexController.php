@@ -41,10 +41,13 @@ class IndexController extends AbstractActionController
             ));
         }
         $entityManager = $this->getEntityManager();        
-        $user = $entityManager->getRepository('User\Entity\User')->find(1);
-        $form = new UpdateUserForm($entityManager);        
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+       
+        $form = new UpdateUserForm($entityManager);     
+
         $form->bind($user);        
-        $request = $this->getRequest();
+        die(var_dump($user));
+        /*$request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
 
@@ -55,8 +58,8 @@ class IndexController extends AbstractActionController
         }        
         return array(
             'form' => $form,
-            'id'=>$idd,
-        );
+            'id'=>$id,
+        );*/
     }
 
     public function viewAction(){
@@ -87,7 +90,10 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('cong_viec');
         }        
         $entityManager = $this->getEntityManager();
-        $user = $entityManager->getRepository('User\Entity\User')->find($id);        
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        $form = new UpdateUserForm($entityManager);
+        $form->bind($user);
+        //die(var_dump($form));
         if(!$user)
         {
             return $this->redirect()->toRoute('cong_viec');  

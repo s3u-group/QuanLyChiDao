@@ -37,6 +37,25 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
+            'name' => 'displayName',
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Tên hiển thị',
+            ),
+            'attributes' => array(
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'password',
+            'type' => 'text',
+            'options' => array(                
+            ),
+            'attributes' => array(
+            ),           
+        ));
+
+        $this->add(array(
             'name' => 'ho',
             'type' => 'text',
             'attributes' => array(
@@ -58,7 +77,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $this->add(array(
+        /*$this->add(array(
             'name' => 'gioiTinh',
             'type' => 'hidden',
             'attributes' => array(
@@ -67,7 +86,18 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Giới tính'
             )
-        ));
+        ));*/
+
+        $this->add(array(
+            'name' => 'gioiTinh',
+            'type' => 'Zend\Form\Element\Checkbox',            
+            'options' => array(
+                'label' => 'Giới tính',
+                'use_hidden_element' => false,
+                'checked_value' => '1',
+                'unchecked_value' => '0'
+            )
+        ));        
 
         $this->add(array(
             'name' => 'diaChi',

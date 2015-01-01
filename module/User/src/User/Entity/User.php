@@ -8,10 +8,10 @@
  
 namespace User\Entity;
 
-use BjyAuthorize\Provider\Role\ProviderInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
+use BjyAuthorize\Provider\Role\ProviderInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
 
 /**

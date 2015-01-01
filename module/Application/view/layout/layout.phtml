@@ -102,7 +102,7 @@
                     <?php                    
                             if($this->zfcUserIdentity())
                             {?>                                
-                                <a href="<?php echo $this->url('user/crud', array('action'=>'update','id'=>$this->zfcUserIdentity()->getId())); ?>"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></a>
+                                <a href="<?php echo $this->url('user/crud', array('action'=>'list','id'=>$this->zfcUserIdentity()->getId())); ?>"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></a>
                             <?php }
                         ?>                        
                     </i>
