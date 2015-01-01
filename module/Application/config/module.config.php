@@ -91,7 +91,7 @@ return array(
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
-            'menu/sidebar'            => __DIR__ . '/../view/partial/menu/sidebar.phtml',
+            'menu/default'            => __DIR__ . '/../view/partial/menu/default.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -111,32 +111,70 @@ return array(
     'navigation' => array(
         'main' => array(
             array(
-                'label' => 'Công văn',
-                'route' => 'cong_van',
-                'pages' => array(
-                    array(
-                        'label' => 'Danh sách công văn',
-                        'uri' => '#'
-                    )
-                ),
-            ),
-            array(
-                'label' => 'Công việc',
-                'route' => 'cong_viec',
-                'pages' => array(
-                    array(
-                        'label' => 'Danh sách công việc',
-                        'uri' => '#'
-                    )
-                ),
-            ),
-            array(
-                'label' => 'Đơn vị',
+                'label' => 'Quản lý công việc',
                 'uri' => '#',
+                'icon' => '<i class="feed icon"></i>',
                 'pages' => array(
                     array(
-                        'label' => 'Danh sách đơn vị',
+                        'label' => 'Công việc cần xử lý',
+                        'route' => 'cong_viec'
+                    ),
+                    array(
+                        'label' => 'Giao việc mới',
                         'uri' => '#'
+                    ),
+                    array(
+                        'label' => 'Theo dõi việc đã giao',
+                        'uri' => '#'
+                    ),
+                    array(
+                        'label' => 'Báo cáo nghiệm thu',
+                        'uri' => '#'
+                    ),
+                ),
+            ),
+            array(
+                'label' => 'Quản lý tổ chức',
+                'uri' => '#',
+                'icon' => '<i class="sitemap icon"></i>',
+                'pages' => array(
+                    array(
+                        'label' => 'Danh sách nhân viên',
+                        'uri' => '#'
+                    ),
+                    array(
+                        'label' => 'Danh mục đơn vị',
+                        'uri' => '#'
+                    ),
+                    array(
+                        'label' => 'Phân quyền',
+                        'uri' => '#'
+                    )
+                ),
+            ),
+            array(
+                'label' => 'Hệ thống',
+                'uri' => '#',
+                'icon' => '<i class="setting icon"></i>',
+                'pages' => array(
+                    array(
+                        'label' => 'Hồ sơ cá nhân',
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'view'
+                        )
+                    ),
+                    array(
+                        'label' => 'Đổi mật khẩu',
+                        'route' => 'zfcuser/changepassword'
+                    ),
+                    array(
+                        'label' => 'Thông tin phần mềm',
+                        'route' => 'application/default',
+                        'params' => array(
+                            'controller' => 'index',
+                            'action' => 'app-info'
+                        )
                     )
                 ),
             ),

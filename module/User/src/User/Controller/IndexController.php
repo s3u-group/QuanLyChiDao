@@ -63,18 +63,13 @@ class IndexController extends AbstractActionController
     }
 
     public function viewAction(){
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if(!$id){
-            return $this->redirect()->toRoute('user');
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        
-        $entityManager = $this->getEntityManager();
-        $dql = 'select u from User\Entity\User u where u.id = :id';
-        $query = $entityManager->createQuery($dql);
-        $query->setParameter('id', $id);
-        $user = $query->getSingleResult();
+
         return array(
-            'user' => $user
+            'user' => $this->zfcUserAuthentication()->getIdentity()
         );
     }
 
