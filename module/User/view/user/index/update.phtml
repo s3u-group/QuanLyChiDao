@@ -5,54 +5,32 @@
 
 <div class="ui bottom attached active tab segment" data-tab="first">
   <!--  -->
-	<div class="ui form">  
-	  <div class="two fields">
+	<div class="ui small form segment">
+	  <div class="tree fields">
 	    <div class="field">
-	      <label>Họ tên</label>
-	      <div class="two fields">
-	        <div class="field">
-	          <input name="last-name" placeholder="Họ" type="text">
-	        </div>
-	        <div class="field">
-	          <input name="first-name" placeholder="Tên" type="text">
-	        </div>
-	      </div>
+	      <label>Họ</label>
+	      <input placeholder="Họ" type="text">
 	    </div>
+	    <div class="field">
+	      <label>Tên</label>
+	      <input placeholder="Tên" type="text">
+	    </div>
+
 	    <div class="field">
 	      <label>Giới tính</label>
-	      <div class="ui selection dropdown">
-	        <input name="gender" type="hidden">
-	        <div class="default text">Gender</div>
-	        <i class="dropdown icon"></i>
-	        <div class="menu">
-	          <div class="item" data-value="male">Male</div>
-	          <div class="item" data-value="female">Female</div>
-	        </div>
+		  <div class="ui radio checkbox">
+	        <input name="gioiTinh" checked="" type="radio">
+	        <label>Nam</label>
+	      </div>
+
+	      <div class="ui radio checkbox">
+	        <input name="gioiTinh" checked="" type="radio">
+	        <label>Nữ</label>
 	      </div>
 	    </div>
 	  </div>
-	  <div class="two fields">
-	    <div class="field">
-	      <label>State</label> 
-	      	<select class="ui search dropdown">
-	      		<option value="WA">Washington</option>
-		        <option value="WV">West Virginia</option>
-		        <option value="WI">Wisconsin</option>
-		        <option value="WY">Wyoming</option>
-	      	</select>    
-	    </div>
-	    <div class="field"></div>
-	  </div>
-	  <div class="field">
-	    <label>Biography</label>
-	    <textarea></textarea>
-	  </div>  
-	 
-	  <div class="ui error message">
-	    <div class="header">We noticed some issues</div>
-	  </div>
-	  <div class="ui submit button">Register</div>
-	</div>
+	  <div class="ui submit button">Submit</div>
+	</div>	
   <!--  -->
 
  <div class="ui form">
