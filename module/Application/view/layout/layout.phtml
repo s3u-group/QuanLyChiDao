@@ -101,7 +101,7 @@
                   <?php
                           if($this->zfcUserIdentity())
                           {?>                                
-                              <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
+                              <a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
                           <?php }
                       ?>                
                     <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><div class="tiny ui button item red">Đăng xuất</div></a>
