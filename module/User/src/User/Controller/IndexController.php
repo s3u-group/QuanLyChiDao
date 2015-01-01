@@ -43,7 +43,7 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();        
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
        
-        $form = new UpdateUserForm($entityManager);     
+        $form = new UpdateUserForm($entityManager);  
 
         $form->bind($user);        
         die(var_dump($user));
