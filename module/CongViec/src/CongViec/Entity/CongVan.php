@@ -30,7 +30,7 @@ class CongVan
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
-	 * @ORM\JoinColumn(name="loai_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="loai_id", referencedColumnName="term_taxonomy_id")
 	 */
 	protected $loai;
 
@@ -66,7 +66,7 @@ class CongVan
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
-	 * @ORM\JoinColumn(name="nguoi_tao_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="nguoi_tao_id", referencedColumnName="user_id")
 	 */
 	protected $nguoiTao;
 
@@ -199,11 +199,11 @@ class CongVan
 				return 'Chưa xem';
 				break;
 			
-			case '2':
+			case '5':
 				return 'Đang xử lý';
 				break;
 
-			case '3':
+			case '10':
 				return 'Hoàn thành';
 				break;
 
