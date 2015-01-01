@@ -67,7 +67,7 @@
     </div>
       
     <div class="sixteen wide column fluid">
-      <table class="ui table">
+      <table class="ui table" id="tatCaCacCongViec">
         <thead>
           <tr>
             <th>Người tạo công việc</th>
@@ -98,6 +98,54 @@
               echo '<td>'.$congViec->getTen().'</td>';
               echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
             echo '</tr>';
+          }
+        ?>          
+        </tbody>
+      </table>
+      <table class="ui table" id="congViecChuaXuLy" hidden="true">
+        <thead>
+          <tr>
+            <th>Người tạo công việc</th>
+            <th>Chủ đề</th>
+            <th>Hạn xử lý</th>            
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+          foreach ($congViecs as $congViec) {
+            if($congViec->getTrangThaiNhom()=='Chưa xem')
+            {
+              echo '<tr class="blue">'; 
+                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getTen().'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+              echo '</tr>';          
+            }          
+               
+          }
+        ?>          
+        </tbody>
+      </table>
+      <table class="ui table" id="congViecDangXuLy" hidden="true">
+        <thead>
+          <tr>
+            <th>Người tạo công việc</th>
+            <th>Chủ đề</th>
+            <th>Hạn xử lý</th>            
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+          foreach ($congViecs as $congViec) {
+            if($congViec->getTrangThaiNhom()=='Đang xử lý')
+            {
+              echo '<tr class="blue">'; 
+                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getTen().'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+              echo '</tr>';          
+            }          
+               
           }
         ?>          
         </tbody>

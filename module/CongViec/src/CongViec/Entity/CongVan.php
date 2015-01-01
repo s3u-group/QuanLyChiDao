@@ -193,7 +193,7 @@ class CongVan
 	}
 
 	public function getTrangThaiNhom(){
-		if($this->ngayHoanThanhThuc->getTimestamp() > $this->ngayHoanThanh->getTimestamp())
+		if(time() > $this->ngayHoanThanh->getTimestamp())
 			return 'Trễ hạn';
 		switch ($this->trangThai) {
 			case '1':
