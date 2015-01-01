@@ -44,7 +44,7 @@
                     <div class="ui form">
                       <div class="grouped fields">
                         <div class="field">
-                          <i class="caret right icon"></i><a href="#">Công việc cần xử lý</a>
+                          <i class="caret right icon"></i><a href="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>">Công việc cần xử lý</a>
                         </div>
                         <div class="field">
                           <i class="caret right icon"></i><a href="#">Tạo mới công việc</a>
@@ -97,16 +97,14 @@
             </div>
             <div class="twelve wide column left aligned fluid">
               <div class="sixteen wide column row right aligned">
-                <div class="right menu">
-                  <i class="ui primary label item">
-                    <?php                    
-                            if($this->zfcUserIdentity())
-                            {?>                                
-                                <a href="<?php echo $this->url('user/crud', array('action'=>'update','id'=>$this->zfcUserIdentity()->getId())); ?>"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></a>
-                            <?php }
-                        ?>                        
-                    </i>
-                    <a class="ui blue label item" href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;">Đăng xuất</a>
+                <div class="right menu">              
+                  <?php
+                          if($this->zfcUserIdentity())
+                          {?>                                
+                              <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
+                          <?php }
+                      ?>                
+                    <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><div class="tiny ui button item red">Đăng xuất</div></a>
                 </div>
               </div> 
               <div class="sixteen wide column row left aligned">

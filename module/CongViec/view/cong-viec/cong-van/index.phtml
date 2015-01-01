@@ -1,99 +1,156 @@
-<div class="two column row">
-  <div class=" left aligned sixteen wide column">
-    <div class="divView">        
-      
-      <div class="ui grid">           
-        <div class="sixteen wide column fluid"></div>
-        <div class="one column row">
-          
-        </div>
-        <div class="sixteen wide column fluid">
-          <table class="ui table">
-            <thead>
-              <tr>
-                <th>Tên công văn</th>
-                <th>Người tạo</th>
-                <th>Ngày giao</th>
-                <th>Ngày hoàn thành</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              
-              <tr class="blue">
-                <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
-                <td>Phan Văn Thanh</td>
-                <td>23/12/2014</td>
-                <td>23/12/2015</td>
-       
-              </tr> 
-              <tr class="purple">
-                <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
-                <td>Phan Văn Thanh</td>
-                <td>23/12/2014</td>
-                <td>23/12/2015</td>
-   
-              </tr> 
-              <tr class="green">
-                <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
-                <td>Phan Văn Thanh</td>
-                <td>23/12/2014</td>
-                <td>23/12/2015</td>
-
-              </tr> 
-              <tr class="lightred">
-                <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
-                <td>Phan Văn Thanh</td>
-                <td>23/12/2014</td>
-                <td>23/12/2015</td>
-
-              </tr>   
-            </tbody>
-          </table>
-        </div>
-        <div class="right aligned sixteen wide column">                  
-          <table align="right">
-            <tr style="text-align:left;">
-              <td>
-                <div class="ui blue empty circular label"></div>
-              </td>
-              <td>
-                <span style="color:blue;">&nbsp;Chưa xem</span>
-              </td>
-            </tr>
-            <tr style="text-align:left;">
-              <td>
-                <div class="ui purple empty circular label"></div>
-              </td>
-              <td>
-                <span style="color:purple;">&nbsp;Đang xử lý</span>
-              </td>
-            </tr> 
-            <tr style="text-align:left;">
-              <td>
-                <div class="ui green empty circular label"></div>
-              </td>
-              <td>
-                <span style="color:green;">&nbsp;Hoàn thành</span>
-              </td>
-            </tr>                    
-            <tr style="text-align:left;">
-              <td>
-                <div class="ui red empty circular label"></div>
-              </td>
-              <td>
-                <span style="color:red;">&nbsp;Trễ hạn</span>
-              </td>
-            </tr> 
-          </table>              
+<div class="divView">        
+  
+  <div class="ui grid">           
+    <div class="sixteen wide column fluid"></div>
+    <div class="sixteen wide column fluid"></div>
+  </div>
+  <div class="ui form">
+    <div class="inline fields">
+      <div class="field">
+        <div class="ui large label">Tìm theo hạn xử lý - từ ngày</div>
+        <input type="date" style="height:33px;">
+      </div>
+      <div class="field">
+        <label class="ui large label"> đến ngày</label>
+        <input type="date" style="height:33px;">
+      </div>
+      <div class="field">
+        <div class="tiny ui blue button"  style="width:130px;">
+           Tìm 
         </div>
       </div>
     </div>
+   </div>
+
+   <div class="ui grid">   
+    <div class="four column row">
+      <div class="four wide column">
+        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai"><label>Công việc chưa xử lý (10)</label></div>            
+      </div>
+      <div class="four wide column">
+        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai"><label>Công việc đang xử lý (10)</label></div>     
+      </div>
+      <div class="four wide column">
+        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai"><label>Công việc bị quá hạn (10)</label></div>           
+      </div>
+      <div class="four wide column">
+        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai" checked="checked"><label>Tất cả cac công việc (40)</label></div>         
+      </div>
+    </div>
+    <div class="sixteen wide column">
+      <div class="ui menu">
+        <div class="menu">
+          <div class="item">
+            Tìm nhanh
+          </div>
+          <div class="ui pointing dropdown link item">
+            <i class="dropdown icon"></i>
+            <span class="text">Tên chủ đề</span>
+            <div class="menu">              
+              <div class="item">chủ đề 2</div>
+              <div class="item">Chủ đề 3</div>             
+            </div>
+          </div>
+          <div class="item">
+            <div class="ui icon input">
+              <input type="text" placeholder="Search..." style="width:370px;">
+              <i class="search icon"></i>
+            </div>
+          </div>
+          <div class="right item">
+            <div class="tiny ui button">Tìm</div>
+            <div class="tiny ui button">Xem hết</div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+      
+    <div class="sixteen wide column fluid">
+      <table class="ui table">
+        <thead>
+          <tr>
+            <th>Tên công văn</th>
+            <th>Người tạo</th>
+            <th>Ngày giao</th>
+            <th>Ngày hoàn thành</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="blue">
+            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+            <td>Phan Văn Thanh</td>
+            <td>23/12/2014</td>
+            <td>23/12/2015</td>
+   
+          </tr> 
+          <tr class="purple">
+            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+            <td>Phan Văn Thanh</td>
+            <td>23/12/2014</td>
+            <td>23/12/2015</td>
+
+          </tr> 
+          <tr class="green">
+            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+            <td>Phan Văn Thanh</td>
+            <td>23/12/2014</td>
+            <td>23/12/2015</td>
+
+          </tr> 
+          <tr class="lightred">
+            <td><a href="chi-tiet-cong-van.html">Xử lý vi phạm pháp luật</a></td>
+            <td>Phan Văn Thanh</td>
+            <td>23/12/2014</td>
+            <td>23/12/2015</td>
+
+          </tr>   
+        </tbody>
+      </table>
+    </div>
+    <div class="right aligned sixteen wide column">                  
+      <table align="right">
+        <tr style="text-align:left;">
+          <td>
+            <div class="ui blue empty circular label"></div>
+          </td>
+          <td>
+            <span style="color:blue;">&nbsp;Chưa xem</span>
+          </td>
+        </tr>
+        <tr style="text-align:left;">
+          <td>
+            <div class="ui purple empty circular label"></div>
+          </td>
+          <td>
+            <span style="color:purple;">&nbsp;Đang xử lý</span>
+          </td>
+        </tr> 
+        <tr style="text-align:left;">
+          <td>
+            <div class="ui green empty circular label"></div>
+          </td>
+          <td>
+            <span style="color:green;">&nbsp;Hoàn thành</span>
+          </td>
+        </tr>                    
+        <tr style="text-align:left;">
+          <td>
+            <div class="ui red empty circular label"></div>
+          </td>
+          <td>
+            <span style="color:red;">&nbsp;Trễ hạn</span>
+          </td>
+        </tr> 
+      </table>              
+    </div>
   </div>
-</div>  
+</div>
 
 <script type="text/javascript">
   $(document).ready(function(){
-    
+    $('.dropdown').dropdown();
   });
 </script>
