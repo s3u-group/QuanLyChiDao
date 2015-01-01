@@ -30,8 +30,8 @@ class PhanCong
 	protected $congVan;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="User\Entity\User", cascade={"persist"})
-	 * @ORM\JoinColumn(name="nguoi_thuc_hien_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="User\Entity\User", inversedBy="congViecs")
+	 * @ORM\JoinColumn(name="nguoi_thuc_hien_id", referencedColumnName="user_id")
 	 */
 	protected $nguoiThucHien;
  
