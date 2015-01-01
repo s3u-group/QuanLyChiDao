@@ -34,7 +34,7 @@ return array(
 					'defaults' => array(
 						'__NAMESPACE__' => 'User\Controller',
 						'controller' => 'Index',
-                        'action'     => 'update',
+                        'action'     => 'list',
 					)
 				),
 				'may_terminate' => true,

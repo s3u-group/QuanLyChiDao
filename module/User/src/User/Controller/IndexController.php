@@ -40,27 +40,22 @@ class IndexController extends AbstractActionController
                 'action' => 'add'
             ));
         }
-
-        $entityManager = $this->getEntityManager();
-        $user = $entityManager->getRepository('User\Entity\User')->find($id);
-
-        $form = new UpdateUserForm($entityManager);
-        $form->bind($user);
-
+        $entityManager = $this->getEntityManager();        
+        $user = $entityManager->getRepository('User\Entity\User')->find(1);
+        $form = new UpdateUserForm($entityManager);        
+        $form->bind($user);        
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
                 $entityManager->flush();
-
                 return $this->redirect()->toRoute('user/crud', array('action'=>'list'));
             }
-        }
-        
+        }        
         return array(
             'form' => $form,
-            'id' => $id
+            'id'=>$idd,
         );
     }
 
@@ -82,6 +77,28 @@ class IndexController extends AbstractActionController
 
     public function updateAction()
     {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+         {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+         }
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('cong_viec');
+        }        
+        $entityManager = $this->getEntityManager();
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);        
+        if(!$user)
+        {
+            return $this->redirect()->toRoute('cong_viec');  
+        }
+        else
+        {            
+            return array(
+                'user' => $user,
+                'id'=>$id
+            ); 
+        }
         
     }
 }

@@ -1,10 +1,80 @@
 <div class="ui top attached tabular menu">
-  <a class="active item" data-tab="first">First</a>
-  <a class="item" data-tab="second">Second</a>  
+  <a class="active item" data-tab="first">Cập nhật thông tin cá nhân</a>
+  <a class="item" data-tab="second">Thay đổi mật khẩu</a>  
 </div>
+
 <div class="ui bottom attached active tab segment" data-tab="first">
-  First
+  <!--  -->
+	<div class="ui form">  
+	  <div class="two fields">
+	    <div class="field">
+	      <label>Họ tên</label>
+	      <div class="two fields">
+	        <div class="field">
+	          <input name="last-name" placeholder="Họ" type="text">
+	        </div>
+	        <div class="field">
+	          <input name="first-name" placeholder="Tên" type="text">
+	        </div>
+	      </div>
+	    </div>
+	    <div class="field">
+	      <label>Gender</label>
+	      <div class="ui selection dropdown">
+	        <input name="gender" type="hidden">
+	        <div class="default text">Gender</div>
+	        <i class="dropdown icon"></i>
+	        <div class="menu">
+	          <div class="item" data-value="male">Male</div>
+	          <div class="item" data-value="female">Female</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="two fields">
+	    <div class="field">
+	      <label>State</label> 
+	      	<select class="ui search dropdown">
+	      		<option value="WA">Washington</option>
+		        <option value="WV">West Virginia</option>
+		        <option value="WI">Wisconsin</option>
+		        <option value="WY">Wyoming</option>
+	      	</select>    
+	    </div>
+	    <div class="field"></div>
+	  </div>
+	  <div class="field">
+	    <label>Biography</label>
+	    <textarea></textarea>
+	  </div>  
+	 
+	  <div class="ui error message">
+	    <div class="header">We noticed some issues</div>
+	  </div>
+	  <div class="ui submit button">Register</div>
+	</div>
+  <!--  -->
+
+ <div class="ui form">
+ 	<div class="inline fields">
+    	<label for="fruit">Giới tính</label>
+    	<div class="field">
+      <div class="ui radio checkbox">
+        <input name="gioiTinh" checked="" type="radio">
+        <label>Nam</label>
+      </div>
+    	</div>
+    	<div class="field">
+      <div class="ui radio checkbox">
+        <input name="gioiTinh" type="radio">
+        <label>Nữ</label>
+      </div>
+    	</div>    
+  	</div>  
+ </div>
+
 </div>
+
 <div class="ui bottom attached tab segment" data-tab="second">
   Second
 </div>
@@ -12,5 +82,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.menu .item').tab();
+
+	$('.ui.radio.checkbox').checkbox();
+
+	$('select.dropdown').dropdown();
 });
 </script>
