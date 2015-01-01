@@ -192,9 +192,26 @@ class CongVan
 		return $this->trangThai;
 	}
 
-	public function getTrangThaiNhom(){
-		if(time() > $this->ngayHoanThanh->getTimestamp())
-			return 'Trễ hạn';
+	public function getTrangThaiNhom(){	
+
+        $ngayHoanThanh= $this->ngayHoanThanh->format('Y-m-d');
+        $ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');
+        $ngayHienTai=date('Y-m-d');
+
+        // nếu chưa có ngày hoàn thành thực
+        if($this->ngayHoanThanhThuc->getTimestamp()==0){
+        	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)
+        	{
+        		return 'Trễ hạn';
+        	}
+        }
+        else// đã có ngày hoàn thành thực
+        {
+        	if((strtotime($ngayHoanThanhThuc) - strtotime($ngayHoanThanh))>0)
+        	{
+        		return 'Trễ hạn';
+        	}
+        }
 		switch ($this->trangThai) {
 			case '1':
 				return 'Chưa xem';
@@ -207,6 +224,7 @@ class CongVan
 			case '10':
 				return 'Hoàn thành';
 				break;
+
 			case '15':
 				return 'Trễ hạn';
 				break;
