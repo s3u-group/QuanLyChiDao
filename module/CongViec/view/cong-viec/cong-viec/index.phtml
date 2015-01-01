@@ -34,7 +34,7 @@
         <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai"><label>Công việc bị quá hạn (10)</label></div>           
       </div>
       <div class="four wide column">
-        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai" checked="checked"><label>Tất cả cac công việc (40)</label></div>         
+        <div class="ui radio checkbox"><input type="radio" name="locTheoTrangThai" checked="checked"><label>Tất cả các công việc (40)</label></div>         
       </div>
     </div>
     <div class="sixteen wide column">
@@ -76,28 +76,30 @@
           </tr>
         </thead>
         <tbody>
-          
-          <tr class="blue">
-            <td>Phan Văn Thanh</td>
-            <td>Xử lý vi phạm pháp luật</td>            
-            <td>23/12/2014</td>       
-          </tr> 
-          <tr class="purple">
-            <td>Phan Văn Thanh</td>
-            <td>Xử lý vi phạm pháp luật</td>            
-            <td>23/12/2014</td>    
-          </tr> 
-          <tr class="green">
-            <td>Phan Văn Thanh</td>
-            <td>Xử lý vi phạm pháp luật</td>            
-            <td>23/12/2014</td>    
-          </tr> 
-          <tr class="lightred">
-            <td>Phan Văn Thanh</td>
-            <td>Xử lý vi phạm pháp luật</td>            
-            <td>23/12/2014</td>    
-
-          </tr>   
+        <?php
+          foreach ($congViecs as $congViec) {
+            if($congViec->getTrangThaiNhom()=='Chưa xem')
+            {
+              echo '<tr class="blue">';                
+            }
+            elseif($congViec->getTrangThaiNhom()=='Đang xử lý')
+            {
+              echo '<tr class="purple">';
+            }
+            elseif($congViec->getTrangThaiNhom()=='Trễ hạn')
+            {
+              echo '<tr class="lightred">';
+            }
+            else
+            {
+              echo '<tr>';
+            } 
+              echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+              echo '<td>'.$congViec->getTen().'</td>';
+              echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+            echo '</tr>';
+          }
+        ?>          
         </tbody>
       </table>
     </div>

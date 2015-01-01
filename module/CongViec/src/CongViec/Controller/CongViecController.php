@@ -28,7 +28,10 @@ class CongViecController extends AbstractActionController
         }
         $entityManager=$this->getEntityManager();
         $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser.' and cv.trangThai!='.CongVan::HOAN_THANH);
-        $congViecs=$query->getResult();
-        die(var_dump($congViecs));
+        $congViecs=$query->getResult();/*die(var_dump($congViecs));*/
+        return array(
+            'congViecs'=>$congViecs,
+        );
+        
     }
 }
