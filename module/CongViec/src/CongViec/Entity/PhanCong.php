@@ -9,8 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PhanCong
 {
-	const CHU_TRI = 1;
-	const PHOI_HOP = 2;
+	
+	const NGUOI_PHAN_CONG = 1;
+	const NGUOI_CAP_NHAT = 2;
+	const NGUOI_THEO_DOI = 3;
+	const CHU_TRI = 4;
+	const PHOI_HOP = 5;
 
 	/**
 	 * @ORM\Column(name="id",type="bigint",length=20)
@@ -61,15 +65,23 @@ class PhanCong
 	}
 
 	public function getVaiTro(){
-		switch ($this->vaiTro) {
+		switch ($this->vaiTro) {			
 			case '1':
+				return 'Phân công';
+				break;
+			case '2':
+				return 'Cập nhật';
+				break;
+			case '3':
+				return 'Theo dõi';
+				break;
+			case '4':
 				return 'Chủ trì';
 				break;
 			
-			case '2':
+			case '5':
 				return 'Phối hợp';
 				break;
-			
 			default:
 				return 'Chưa rõ';
 				break;

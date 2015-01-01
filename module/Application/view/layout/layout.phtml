@@ -44,7 +44,7 @@
                     <div class="ui form">
                       <div class="grouped fields">
                         <div class="field">
-                          <i class="caret right icon"></i><a href="#">Công việc cần xử lý</a>
+                          <i class="caret right icon"></i><a href="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>">Công việc cần xử lý</a>
                         </div>
                         <div class="field">
                           <i class="caret right icon"></i><a href="#">Tạo mới công việc</a>
@@ -101,10 +101,10 @@
                   <?php
                           if($this->zfcUserIdentity())
                           {?>                                
-                              <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><label  class="ui primary label item" id="btnProfile"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></label></a>
+                              <a href="<?php echo $this->url('user/crud', array('action'=>'update')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
                           <?php }
                       ?>                
-                    <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><label  class="ui blue label item" id="btnDangXuat">Đăng xuất</label></a>
+                    <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><div class="tiny ui button item red">Đăng xuất</div></a>
                 </div>
               </div> 
               <div class="sixteen wide column row left aligned">
