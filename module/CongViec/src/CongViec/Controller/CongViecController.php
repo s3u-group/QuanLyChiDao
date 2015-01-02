@@ -2,7 +2,10 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 use CongViec\Entity\CongVan;
+use CongViec\Entity\CongViec;
+use CongViec\Form\GiaoViecForm;
 
 class CongViecController extends AbstractActionController
 {
@@ -70,11 +73,11 @@ class CongViecController extends AbstractActionController
                 }             
                 if($dk!='')
                 {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.cha is not null and cv.trangThai!='.CongVan::TRE_HAN.' and cv.trangThai!='.CongVan::HOAN_THANH.' and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
+                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
                 }
                 elseif($dk=='')
                 {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.trangThai!='.CongVan::TRE_HAN.' and cv.trangThai!='.CongVan::HOAN_THANH.'  and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 }
 
                 $congViecs=$query->getResult();
@@ -83,13 +86,13 @@ class CongViecController extends AbstractActionController
             }
             else
             {
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.trangThai!='.CongVan::TRE_HAN.' and cv.trangThai!='.CongVan::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 $congViecs=$query->getResult();
             }
         }
         else
         {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.trangThai!='.CongVan::TRE_HAN.' and cv.trangThai!='.CongVan::HOAN_THANH.'  and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.'  and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
             $congViecs=$query->getResult();
         }
         if($dieuKienLoc=='')
@@ -158,10 +161,10 @@ class CongViecController extends AbstractActionController
                 elseif ($post['denNgay']==''&&$post['tuNgay']!='') {
                     $dk.='and cv.ngayHoanThanh >=\''.$post['tuNgay'].'\'';
                 }                
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.cha is not null and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.cha is not null and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
                 if($dk=='')
                 {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 }
                 $congViecs=$query->getResult();
                 
@@ -169,13 +172,13 @@ class CongViecController extends AbstractActionController
             }
             else
             {
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 $congViecs=$query->getResult();
             }
         }
         else
         {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
             $congViecs=$query->getResult();
         }
         if($dieuKienLoc=='')
@@ -193,5 +196,25 @@ class CongViecController extends AbstractActionController
         );
         
     }
-    
+
+
+    public function giaoViecAction(){
+        $entityManager = $this->getEntityManager();
+        $form = new GiaoViecForm($entityManager);
+        $congVan = new CongVan();
+        $form->bind($congVan);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $entityManager->persist($congVan);
+                $entityManager->flush();
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
+    }
 }

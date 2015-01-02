@@ -1,19 +1,25 @@
 CREATE TABLE IF NOT EXISTS `cong_van`(
   `id`              bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `so_hieu`         varchar(255) DEFAULT NULL,
   `ten`             varchar(255) DEFAULT NULL,
   `loai_id`         bigint(20) unsigned,
+  `linh_vuc_id`     bigint(20) unsigned,
   `trich_yeu`       mediumtext DEFAULT NULL,
   `noi_dung`        text DEFAULT NULL,
   `ngay_ban_hanh`   datetime DEFAULT '0000-00-00 00:00:00',
+  `nguoi_ky_id`     int(11) unsigned,
   `ngay_hoan_thanh` datetime DEFAULT '0000-00-00 00:00:00',
   `ngay_hoan_thanh_thuc` datetime DEFAULT '0000-00-00 00:00:00',
   `ngay_tao`       	datetime DEFAULT '0000-00-00 00:00:00',
   `nguoi_tao_id`    int(11) unsigned,
   `trang_thai`		  mediumint,
   `cha_id`          bigint(20) unsigned,
+  `discr`           varchar(20),
   PRIMARY KEY (`id`),
   KEY `nguoi_tao_id` (`nguoi_tao_id`),
+  KEY `nguoi_ky_id` (`nguoi_ky_id`),
   KEY `loai_id` (`loai_id`),
+  KEY `linh_vuc_id` (`linh_vuc_id`),
   KEY `cha_id` (`cha_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
