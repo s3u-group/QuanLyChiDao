@@ -34,3 +34,11 @@
       $('#tblTatCa').hide();
       $(id).show();
     }
+    function showTableNhatKy(id)
+    {    
+      $('#tblChuaXem').hide();
+      $('#tblDangXuLy').hide();
+      $('#tblTreHan').hide();
+      $('#tblHoanThanh').hide();
+      $(id).show();
+    }
