@@ -136,7 +136,11 @@ return array(
                     ),
                     array(
                         'label' => 'Nhật ký công việc',
-                        'uri' => '#'
+                        //'uri' => '#'
+                        'route' => 'cong_viec/crud',
+                        'params' => array(
+                            'action' => 'nhat-ky-cong-viec',
+                        )
                     ),
                 ),
             ),
