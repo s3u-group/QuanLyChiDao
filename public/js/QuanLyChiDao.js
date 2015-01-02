@@ -25,3 +25,12 @@
         }
         $(idDisplay).text(valueDisplay);
     }
+
+    function showTable(id)
+    {    
+      $('#tblChuaXem').hide();
+      $('#tblDangXuLy').hide();
+      $('#tblTreHan').hide();
+      $('#tblTatCa').hide();
+      $(id).show();
+    }
