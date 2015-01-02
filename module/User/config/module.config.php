@@ -1,12 +1,12 @@
 <?php 
 return array(
-	'controllers' => array(
-		'invokables' => array(
-			'User\Controller\Index' => 'User\Controller\IndexController'
-		)
-	),
+    'controllers' => array(
+        'invokables' => array(
+            'User\Controller\Index' => 'User\Controller\IndexController'
+        )
+    ),
 
-	'view_manager' => array(
+    'view_manager' => array(
         'template_path_stack' => array(
             'user' => __DIR__ . '/../view',
             'zfcuser' => __DIR__ . '/../view',
@@ -25,22 +25,22 @@ return array(
         ),
     ),
 
-	'router' => array(
-		'routes' => array(
-			'user' => array(
-				'type' => 'literal',
-				'options' => array(
-					'route' => '/nguoi-dung',
-					'defaults' => array(
-						'__NAMESPACE__' => 'User\Controller',
-						'controller' => 'Index',
+    'router' => array(
+        'routes' => array(
+            'user' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/nguoi-dung',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
                         'action'     => 'list',
-					)
-				),
-				'may_terminate' => true,
+                    )
+                ),
+                'may_terminate' => true,
                 'child_routes' => array(
-                	'crud' => array(
-                		'type'    => 'segment',
+                    'crud' => array(
+                        'type'    => 'segment',
                         'options' => array(
                             'route'    => '[/][:action][/:id]',
                             'constraints' => array(                            
@@ -51,13 +51,13 @@ return array(
                                 'action'     => 'list',
                             )  */                        
                         ),
-                	)
+                    )
                 )  
-			)
-		),
-	),
+            )
+        ),
+    ),
 
-	'doctrine' => array(
+    'doctrine' => array(
         'driver' => array(
             'user_annotation_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
