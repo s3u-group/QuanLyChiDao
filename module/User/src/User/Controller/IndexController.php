@@ -5,6 +5,9 @@ use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceManager;
 
 use User\Form\UpdateUserForm;
+use User\Form\ChangePassword;
+use User\Entity\User;
+use Zend\Crypt\Password\Bcrypt;
 
 class IndexController extends AbstractActionController
 {
@@ -153,12 +156,39 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('cong_viec');
         }        
         $entityManager = $this->getEntityManager();
-
-        $redirect = $this->url()->fromRoute('user');
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        //$email=$user->getEmail();
+        /*$redirect = $this->url()->fromRoute('user');
             $this->getRequest()->getQuery()->set('redirect', $redirect);    
             return $this->forward()->dispatch('zfcuser', array(
                 'action' => 'changepassword'
-            ));
+            ));*/
+        /*$form = new ChangePassword($entityManager); */       
+        $request = $this->getRequest();        
+        if ($request->isPost()) {
+            $post=$request->getPost();
+                    
+            $password = $post['matKhauMoi']//This is extremely bad form, don't do it. You don't want any passwords hanging out in plaintext.
+            
+            $bcrypt = new Bcrypt();
+            $bcrypt->setCost(14); // Needs to match password cost in ZfcUser options
+            $user->setPassword ($bcrypt->create($password));
+            $entityManager->flush();
+            var_dump($user);    
+            die(var_dump($post));    
+
+            /*$redirect = $this->url()->fromRoute('user');
+            $this->getRequest()->getQuery()->set('redirect', $redirect);    
+            return $this->forward()->dispatch('zfcuser', array(
+                'action' => 'changepassword'
+            ));*/
+        }
+
+        return array(
+            'id'=>$id,
+            /*'email'=>$email,
+            'form'=>$form,*/
+            );
 
         /*$user = $entityManager->getRepository('User\Entity\User')->find($id);
         $request = $this->getRequest();
