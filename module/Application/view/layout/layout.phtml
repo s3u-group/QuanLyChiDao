@@ -42,11 +42,23 @@
               <div class="sixteen wide column row right aligned">
                 <div class="right menu">              
                   <?php
-                          if($this->zfcUserIdentity())
-                          {?>                                
-                              <a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
-                          <?php }
-                      ?>                
+                    if($this->zfcUserIdentity())
+                    {
+                      if($this->zfcUserIdentity()->getId()==1)
+                      {
+                      ?>                                
+                        <a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">
+                        <div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div>
+                        </a>
+                    <?php }
+                      else
+                      {?>
+                        <a href="<?php echo $this->url('user/crud', array('action'=>'changePassWord','id'=>$this->zfcUserIdentity()->getId())); ?>">
+                        <div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div>
+                        </a>
+                    <?php }
+                    }
+                  ?>                
                     <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><div class="tiny ui button item red">Đăng xuất</div></a>
                 </div>
               </div> 
