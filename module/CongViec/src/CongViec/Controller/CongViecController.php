@@ -7,6 +7,7 @@ use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
 use CongViec\Form\GiaoViecForm;
 
+
 class CongViecController extends AbstractActionController
 {
 	protected $entityManager;
@@ -122,8 +123,6 @@ class CongViecController extends AbstractActionController
         
         $dieuKienLoc='';
         $dieuKien='';
-        $tuNgay='';
-        $denNgay='';
         $duLieu='';
 
 
@@ -139,8 +138,6 @@ class CongViecController extends AbstractActionController
                 $dk='';
                 $dieuKienLoc=$post['dieuKienLoc'];
                 $dieuKien=$post['dieuKien'];
-                $tuNgay=$post['tuNgay'];
-                $denNgay=$post['denNgay'];
                 $duLieu=$post['txtDuLieu'];
                 if($post['txtDuLieu'])
                 {
@@ -151,20 +148,10 @@ class CongViecController extends AbstractActionController
                         $dk.='and u.username LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
                     }
                 }
-                if($post['tuNgay']!=''&&$post['denNgay']!='')
-                {
-                    $dk.='and cv.ngayHoanThanh >=\''.$post['tuNgay'].'\''.' and cv.ngayHoanThanh <=\''.$post['denNgay'].'\'';
-                }
-                elseif ($post['tuNgay']==''&&$post['denNgay']!='') {
-                    $dk.='and cv.ngayHoanThanh <=\''.$post['denNgay'].'\'';
-                }
-                elseif ($post['denNgay']==''&&$post['tuNgay']!='') {
-                    $dk.='and cv.ngayHoanThanh >=\''.$post['tuNgay'].'\'';
-                }                
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.cha is not null and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
                 if($dk=='')
                 {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 }
                 $congViecs=$query->getResult();
                 
@@ -172,13 +159,13 @@ class CongViecController extends AbstractActionController
             }
             else
             {
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 $congViecs=$query->getResult();
             }
         }
         else
         {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
             $congViecs=$query->getResult();
         }
         if($dieuKienLoc=='')
@@ -189,18 +176,13 @@ class CongViecController extends AbstractActionController
         return array(
             'congViecs'=>$congViecs,
             'dieuKienLoc'=>$dieuKienLoc,
-            'tuNgay'=>$tuNgay,
-            'denNgay'=>$denNgay,
             'duLieu'=>$duLieu,
             'dieuKien'=>$dieuKien,
         );
         
     }
 
-    public function theoDoiViecDaGiao(){
-        $entityManager=$this->getEntityManager();
-        
-    }
+   
 
     public function giaoViecAction(){
         $entityManager = $this->getEntityManager();
