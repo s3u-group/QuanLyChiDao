@@ -28,12 +28,12 @@
 
     </head>
     <body>
-        <div class="ui  page grid">
+        <div class="ui page grid">
           <div class="sixteen wide column row center aligned banner">
             <img src="<?php echo $this->basePath();?>/img/baner.png" class="imgBanner">
           </div>
               
-          <div class="two column row">
+  
             <div class="four wide column fluid">
               <?php $this->navigation('main')->menu()->setPartial('menu/default'); ?>
               <?php echo $this->navigation('main')->menu(); ?>
@@ -54,7 +54,7 @@
               <?php echo $this->content; ?>
               </div>              
             </div>
-          </div>
+    
         </div>       
         <?php echo $this->inlineScript() ?>
     </body>
