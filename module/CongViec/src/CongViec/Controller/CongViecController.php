@@ -28,17 +28,27 @@ class CongViecController extends AbstractActionController
         }
         
         $dieuKienLoc='';
+        $dieuKien='';
+        $tuNgay='';
+        $denNgay='';
+        $duLieu='';
 
 
         $entityManager=$this->getEntityManager();           
         $request=$this->getRequest();
+        
         if($request->isPost())
         {           
             $post=$request->getPost();
+            //die(var_dump($post));
             if($post['btnSubmit']!='Xem hết')
             {
                 $dk='';
                 $dieuKienLoc=$post['dieuKienLoc'];
+                $dieuKien=$post['dieuKien'];
+                $tuNgay=$post['tuNgay'];
+                $denNgay=$post['denNgay'];
+                $duLieu=$post['txtDuLieu'];
                 if($post['txtDuLieu'])
                 {
                     if($post['dieuKien']=='ten'){
@@ -60,8 +70,7 @@ class CongViecController extends AbstractActionController
                 }                
                 $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.cha is not null and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
                 $congViecs=$query->getResult();
-                /*var_dump($congViecs);
-                die(var_dump($dk));*/
+                
             }
             else
             {
@@ -109,9 +118,17 @@ class CongViecController extends AbstractActionController
             $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongVan cv, CongViec\Entity\PhanCong pc WHERE cv.cha is not null and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
             $congViecs=$query->getResult();
         }
+        if($dieuKienLoc=='')
+        {
+            $dieuKienLoc='radioLocTatCa';
+        }
         return array(
             'congViecs'=>$congViecs,
             'dieuKienLoc'=>$dieuKienLoc,
+            'tuNgay'=>$tuNgay,
+            'denNgay'=>$denNgay,
+            'duLieu'=>$duLieu,
+            'dieuKien'=>$dieuKien,
         );
         
     }

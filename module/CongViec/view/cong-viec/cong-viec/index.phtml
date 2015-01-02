@@ -9,11 +9,15 @@
       <div class="inline fields">
         <div class="field">
           <div class="ui large label">Tìm theo hạn xử lý - từ ngày</div>
-          <input type="date" style="height:33px;" name="tuNgay" id="tuNgay">
+          <input type="date" style="height:33px;" name="tuNgay" id="tuNgay"
+          <?php if($tuNgay!='') echo 'value="'.$tuNgay.'"'; ?>
+          >
         </div>
         <div class="field">
           <label class="ui large label"> đến ngày</label>
-          <input type="date" style="height:33px;" name="denNgay" id="denNgay">
+          <input type="date" style="height:33px;" name="denNgay" id="denNgay"
+          <?php if($denNgay!='') echo 'value="'.$denNgay.'"'; ?>
+          >
         </div>
         <div class="field">
           <input type="submit" class="ui blue button"  style="width:130px;" name="btnSubmit" id="btnTimTheoNgay" value="Tìm theo ngày">
@@ -25,20 +29,27 @@
    <div class="ui grid">   
     <div class="four column row">
       <div class="four wide column">
-        <input type="hidden" name="dieuKienLoc" value="<?php echo $dieuKienLoc; ?>">
-        <div class="ui radio checkbox" id="radioLocChuaXem"><input type="radio" name="locTheoTrangThai"><label>Công việc chưa xử lý (10)</label></div>            
+        <input type="hidden" id='dieuKienLoc' name="dieuKienLoc" value="<?php echo $dieuKienLoc; ?>">
+        <div class="ui radio checkbox" id="radioLocChuaXem"><input value="tblChuaXem" type="radio" name="locTheoTrangThai"
+          <?php if($dieuKienLoc=='radioLocChuaXem') echo 'checked="true"';?>
+          ><label>Công việc chưa xử lý (10)</label></div>            
       </div>
       <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocDangXuLy"><input type="radio" name="locTheoTrangThai"><label>Công việc đang xử lý (10)</label></div>     
+        <div class="ui radio checkbox" id="radioLocDangXuLy"><input value="tblDangXuLy" type="radio" name="locTheoTrangThai"
+          <?php if($dieuKienLoc=='radioLocDangXuLy') echo 'checked="true"';?>
+          ><label>Công việc đang xử lý (10)</label></div>     
       </div>
       <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocTreHan"><input type="radio" name="locTheoTrangThai"><label>Công việc bị quá hạn (10)</label></div>           
+        <div class="ui radio checkbox" id="radioLocTreHan"><input value="tblTreHan" type="radio" name="locTheoTrangThai"
+          <?php if($dieuKienLoc=='radioLocTreHan') echo 'checked="true"';?>
+          ><label>Công việc bị quá hạn (10)</label></div>           
       </div>
       <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocTatCa"><input type="radio" name="locTheoTrangThai" checked="checked"><label>Tất cả các công việc (40)</label></div>         
+        <div class="ui radio checkbox" id="radioLocTatCa"><input value="tblTatCa" type="radio" name="locTheoTrangThai"
+          <?php if($dieuKienLoc=='radioLocTatCa') echo 'checked="true"';?>
+          ><label>Tất cả các công việc (40)</label></div>         
       </div>
     </div>
-   <!--  <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>"> -->
     <div class="sixteen wide column">
       <div class="ui menu">
         <div class="menu">
@@ -47,7 +58,25 @@
           </div>
           <div class="ui pointing dropdown link item">
             <i class="dropdown icon"></i>
-            <span class="text">Chọn chủ đề</span>
+            <span class="text">
+              <?php 
+                if($dieuKien=='ten')
+                {
+                  echo 'Chủ đề';
+                }
+                elseif ($dieuKien=='nguoiTao')
+                {
+                  echo 'Người tạo';
+                }
+                elseif ($dieuKien=='')
+                {
+                  echo 'Chọn chủ đề';
+                }
+              ?>
+            </span>
+             <div class="header">
+              
+            </div>
             <div class="menu">              
               <div class="item" id="ten">Chủ đề</div>
               <div class="item" id="nguoiTao">Người tạo</div>             
@@ -56,8 +85,9 @@
           </div>
           <div class="item">
             <div class="ui icon input">
-              <input type="hidden" value="ten" id="dieuKien" name="dieuKien">
-              <input type="text" placeholder="Search..." style="width:370px;" id="txtDuLieu" name="txtDuLieu">
+              <input type="hidden" value="ten" id="dieuKien" name="dieuKien" 
+              <?php echo 'value="'.$dieuKien.'"'; ?> >
+              <input type="text" placeholder="Search..." style="width:370px;" id="txtDuLieu" name="txtDuLieu" <?php echo 'value="'.$duLieu.'"'; ?> >
               <i class="search icon"></i>
             </div>
           </div>
@@ -243,17 +273,13 @@
       $('#dieuKienLoc').val('radioLocTreHan');
     });
 
-    if($('#dieuKienLoc').val()==''){
-      $('#dieuKienLoc').val('radioLocTatCa');
-      var id='#'.$('#dieuKienLoc').val();
-      $(id).attr('checked', true);
-    }
-    else
-    {
-      var id='#'.$('#dieuKienLoc').val();
-      $(id).attr('checked', true);
-    }
-
+    $('input[name="locTheoTrangThai"]').each(function () {
+      if($(this).is(':checked'))
+      {
+        var id='#'+$(this).val();
+        showTable(id);
+      }
+    });
 
     $('#ten').on('click',function(){
       $('#dieuKien').val('ten');
