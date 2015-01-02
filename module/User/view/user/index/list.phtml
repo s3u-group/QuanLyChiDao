@@ -1,23 +1,39 @@
 <?php
 
- $title = 'USERS';
+ $title = 'TÀI KHOẢN';
  $this->headTitle($title);
- ?>
- <h1><?php echo $this->escapeHtml($title); ?></h1>
+ ?> 
+ <div class="sixteen wide column row center aligned">
+ 	<h1><?php echo $this->escapeHtml($title); ?></h1>
+ </div>
 
-<table class="table">
-	<tr>
-		<th>Điện thoại</th>
-		<th>Tên</th>
-		<th>Địa chỉ</th>
-		<th></th>
-	</tr>	
-	<?php foreach($users as $user): ?>
-	<tr>
-		<td><?php echo $this->escapeHtml($user->getDienthoai()) ?></td>
-		<td><?php echo $this->escapeHtml($user->getTen()) ?></td>
-		<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>
-		<td><a href="<?php echo $this->url('user/crud', array('action'=>'edit', 'id'=>$user->getId())) ?>">Sửa</a></td>
-	</tr>
-	<?php endforeach; ?>
-</table>
+<div class="sixteen wide column fluid">
+      <table class="ui table">
+        <thead>
+          <tr>
+            <th>Tài khoản</th>
+            <th>Tên hiển thị</th>
+            <th>Họ</th>
+            <th>Tên</th>
+            <th>Giới tính</th>
+            <th>Điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Cập nhật</th>
+          </tr>
+        </thead>
+        <tbody>
+        	<?php foreach($users as $user): ?>
+				<tr>
+					<td><?php echo $this->escapeHtml($user->getUsername()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getDisplayName()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getHo()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getTen()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getGioiTinh()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
+					<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>					
+					<td><a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>">Sửa</a></td>
+				</tr>
+				<?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>

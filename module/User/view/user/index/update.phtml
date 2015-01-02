@@ -1,60 +1,211 @@
+<?php
+	if ($this->flashMessenger()->hasMessages()) 
+	{
+    	echo '<div class="ui positive message">
+  				<i id="btFm" class="close icon"></i>
+  				<div class="header">';
+
+    	$messages = $this->flashMessenger()->getMessages();
+    	foreach($messages as $message) {
+        	echo $message;
+    	}
+    	echo '</div></div>';
+
+    	echo '
+	    <script type="text/javascript">
+	        setTimeout(function(){
+	            document.getElementById("btFm").click();
+	        },5000);
+	    </script>';
+    }	
+?>
 <div class="ui top attached tabular menu">
+<?php if($id==1){?>
   <a class="active item" data-tab="first">Cập nhật thông tin cá nhân</a>
-  <a class="item" data-tab="second">Thay đổi mật khẩu</a>  
+  <!-- <a class="item" data-tab="second">Thay đổi mật khẩu</a> -->
+<?php } else {?>
+  <!-- <a class="active item" data-tab="second">Thay đổi mật khẩu</a> -->
+<?php }?>
+
 </div>
-
+<?php if($id==1){?>
 <div class="ui bottom attached active tab segment" data-tab="first">
-  <!--  -->
 	<div class="ui small form segment">
-	  <div class="tree fields">
-	    <div class="field">
+	  <div class="fields">
+	    <div class="four wide field">
 	      <label>Họ</label>
-	      <input placeholder="Họ" type="text">
+	      <?php
+	      	$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
+			$form->setAttribute('role','form');
+			$form->prepare(); 
+	      	echo $this->form()->openTag($form);
+	      	$nguoiDung=$form->get('user'); 
+			echo $this->formHidden($nguoiDung->get('id'));
+			echo $this->formHidden($nguoiDung->get('username'));
+			echo $this->formHidden($nguoiDung->get('password')); 
+			echo $this->formHidden($nguoiDung->get('gioiTinh')); 
+			echo $this->formHidden($nguoiDung->get('ngayTao'));
+			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
+	      	$ho=$nguoiDung->get('ho');
+	      	$ho->setAttribute('required','required');
+	      	echo $this->formElement($ho); 
+	      ?> 
 	    </div>
-	    <div class="field">
-	      <label>Tên</label>
-	      <input placeholder="Tên" type="text">
+	    <div class="four wide field">
+	      <label>Tên</label>	      
+	      <?php 
+	      	$ten=$nguoiDung->get('ten');
+	      	$ten->setAttribute('required','required');
+	      	echo $this->formElement($ten); 
+	      ?> 
 	    </div>
-
-	    <div class="field">
+	   </div>
+	   <div class="field">
 	      <label>Giới tính</label>
-		  <div class="ui radio checkbox">
-	        <input name="gioiTinh" checked="" type="radio">
-	        <label>Nam</label>
-	      </div>
+		  <?php
+		  	if($nguoiDung->get('gioiTinh')->getValue()=='Nam')
+		  	{?>
+		  		<div class="ui radio checkbox">
+		  			<input name="gioiTinh" value="Nam" checked="checked" type="radio">
+		  			<label>Nam</label>
+		  		</div>
+		  		<div class="ui radio checkbox">
+			        <input name="gioiTinh" value="Nu" type="radio">
+			        <label>Nữ</label>
+			    </div>
+		  <?php }
+		  	else
+		  	{?>
+		  		<div class="ui radio checkbox">
+		  			<input name="gioiTinh" value="Nam" type="radio">
+		  			<label>Nam</label>
+		  		</div>
+		  		<div class="ui radio checkbox">
+			        <input name="gioiTinh" value="Nu" checked="checked" type="radio">
+			        <label>Nữ</label>
+			    </div>
+		  	<?php }
+		  ?>	    
+	  </div>
 
-	      <div class="ui radio checkbox">
-	        <input name="gioiTinh" checked="" type="radio">
-	        <label>Nữ</label>
-	      </div>
+	  <div class="fields">
+	  	<div class="four wide field">
+	      <label>Tên hiển thị</label>
+	      <?php 
+	      	$displayName=$nguoiDung->get('displayName');
+	      	echo $this->formElement($displayName); 
+	      ?>
+	    </div>
+	    <div class="four wide field">
+	      <label>Điện thoại</label>
+	      <?php 
+	      	$dienThoai=$nguoiDung->get('dienThoai');	      	
+	      	echo $this->formElement($dienThoai); 
+	      ?> 
+	  	</div>
+	  </div>
+
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Địa chỉ</label>
+	      <?php 
+	      	$diaChi=$nguoiDung->get('diaChi');	      	
+	      	echo $this->formElement($diaChi);	      	
+	      ?>
 	    </div>
 	  </div>
-	  <div class="ui submit button">Submit</div>
-	</div>	
-  <!--  -->
 
- <div class="ui form">
- 	<!-- <div class="inline fields">
-    	<label for="fruit">Giới tính</label>
-    	<div class="field">
-      <div class="ui radio checkbox">
-        <input name="gioiTinh" checked="" type="radio">
-        <label>Nam</label>
-      </div>
-    	</div>
-    	<div class="field">
-      <div class="ui radio checkbox">
-        <input name="gioiTinh" type="radio">
-        <label>Nữ</label>
-      </div>
-    	</div>    
-  	</div> -->  
- </div>
-
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Email</label>
+	      <?php 
+	      	$email=$nguoiDung->get('email');
+	      	$email->setAttribute('required','required');	      	
+	      	echo $this->formElement($email);
+	      	if($kiemTraEmail==1)
+	      	{
+	      		echo "<div class='ui red message'>Email đã được sử dụng</div>";	      		
+	      	}
+	      ?>	      
+	    </div>
+	  </div>
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <a href="<?php echo $this->url('user/crud', array('action'=>'changePassWord', 'id'=>$this->zfcUserIdentity()->getId())) ?>">Thay đổi mật khẩu</a>		      
+	    </div>
+	  </div>
+	  <div class="fields">&nbsp;</div>
+	  <div class="fields">	  	
+	  	<?php if($this->zfcUserIdentity()->getId()==1){?>
+		<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">
+		<?php } else {?>
+		<a href="<?php echo $this->url('cong_viec');?>">
+		<?php } ?>
+	  		<input type="button" class="tiny ui button item" value="Trở về">
+	  	</a>	  	
+	  	<?php 
+	  		echo $this->formSubmit($form->get('submit'));
+	  		echo $this->form()->closeTag();
+	  	?>	  	
+	  </div>
+	</div>
 </div>
+<?php }?>
 
+
+<?php if($id==1){?>
 <div class="ui bottom attached tab segment" data-tab="second">
-  Second
+<?php } else {?>
+ <div class="ui bottom attached active tab segment" data-tab="second">
+<?php }?>
+  <?php
+  	$form->setAttribute('action', $this->url('user/crud', array('action'=>'changePassWord','id' => $id)));
+  	$form->setAttribute('id','frmUpdatePass');
+  	$form->setAttribute('onSubmit','return kiemTra();');
+	$form->setAttribute('role','form');	
+	$form->prepare(); 
+  	echo $this->form()->openTag($form);      	
+  ?>
+  <div class="ui small form segment">
+	<div class="fields">
+	  	<div class="eight wide field">
+	      <label>Mật khẩu hiện tại</label>
+	      <input type="password" id="credential" name="credential" required="required" />
+	    </div>
+	</div>
+	<div class="fields">
+	  	<div class="eight wide field">
+	      <label>Mật khẩu mới</label>
+	      <input type="password" id="newPass" name="newCredential" required="required" />
+	    </div>
+	</div>
+
+	<div class="fields">
+	  	<div class="eight wide field">
+	      <label>Nhập lại mật khẩu mới</label>
+	      <input type="password" id="rePass" name="newCredentialVerify" required="required" />	      	      
+	    </div>
+	</div>
+	<div class="fields">
+		<div id="kiemTraMatKhau" class='ui red message eight wide field' hidden></div>	
+	</div>
+	<div class="fields">&nbsp;</div>
+	<div class="fields">
+		<?php if($this->zfcUserIdentity()->getId()==1){?>
+		<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">
+		<?php } else {?>
+		<a href="<?php echo $this->url('cong_viec');?>">
+		<?php } ?>
+	  		<input type="button" class="tiny ui button item" value="Trở về">
+	  	</a>
+	  	<?php
+	  		$submit=$form->get('submit');	  		
+	  		echo $this->formSubmit($submit);
+	  		echo $this->form()->closeTag();
+	  	?>
+	</div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -65,4 +216,29 @@ $(document).ready(function(){
 
 	$('select.dropdown').dropdown();
 });
+
+$('.message .close').on('click', function() {
+  $(this).closest('.message').fadeOut();
+});
+</script>
+
+<script type="text/javascript">
+kiemTra=function()
+{
+	var newPass=document.getElementById('newPass');
+	var rePass=document.getElementById('rePass');	
+	if(newPass.value==rePass.value)
+	{
+		document.getElementById('frmUpdatePass').submit();
+		return true;
+	}
+	else
+	{
+		//newPass.value='';
+		//rePass.value='';
+		document.getElementById("kiemTraMatKhau").hidden=false;		
+		$('#kiemTraMatKhau').text('Xác nhận mật khẩu mới không đúng');
+		return false;
+	}	
+}
 </script>

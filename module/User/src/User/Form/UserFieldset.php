@@ -47,6 +47,11 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
+            'name' => 'username',
+            'type' => 'hidden',            
+        ));
+
+        $this->add(array(
             'name' => 'password',
             'type' => 'text',
             'options' => array(                
@@ -77,7 +82,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        /*$this->add(array(
+        $this->add(array(
             'name' => 'gioiTinh',
             'type' => 'hidden',
             'attributes' => array(
@@ -86,18 +91,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Giới tính'
             )
-        ));*/
-
-        $this->add(array(
-            'name' => 'gioiTinh',
-            'type' => 'Zend\Form\Element\Checkbox',            
-            'options' => array(
-                'label' => 'Giới tính',
-                'use_hidden_element' => false,
-                'checked_value' => '1',
-                'unchecked_value' => '0'
-            )
-        ));        
+        ));
 
         $this->add(array(
             'name' => 'diaChi',
@@ -129,6 +123,44 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Quốc gia'
             )
+        ));
+
+        $this->add(array(
+            'name' => 'ngayTao',
+            'type' => 'Date',
+            'attributes' => array(
+            ),
+            'options' => array(                
+            )
+        ));
+    
+
+        $this->add(array(
+            'name' => 'dangNhapCuoi',
+            'type' => 'Date',
+            'attributes' => array(
+            ),
+            'options' => array(                
+            )
+        ));       
+
+        $this->add(array(
+            'name' => 'ngayChinhSua',
+            'type' => 'Date',
+            'attributes' => array(
+            ),
+            'options' => array(                
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'donVi',
+            'type' => 'hidden',            
+        ));
+
+        $this->add(array(
+            'name' => 'congViecs',
+            'type' => 'hidden',            
         ));
 
         $dienThoai = new \User\Form\Element\Phone();
