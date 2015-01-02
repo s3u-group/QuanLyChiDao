@@ -1,9 +1,15 @@
-<form action="<?php echo $this->url('user/crud', array('action'=>'changePassWord', 'id'=>$id)) ?>" method="post">
+<form action="<?php echo $this->url('user/crud', array('action'=>'adminChangePassWord', 'id'=>$id)) ?>" method="post">
 <div class="ui top attached tabular menu">
 	<a class="active item" data-tab="first">Thay đổi mật khẩu</a>
 </div>	
 <div class="ui bottom attached active tab segment" data-tab="first">
 	<div class="ui small form segment">		
+		<div class="fields">
+			<div class="four wide field">
+				<label>Mật khẩu admin</label>
+      				<input type="password" name="matKhauAdmin" />
+			</div>
+		</div>
 		<div class="fields">
 			<div class="four wide field">
 				<label>Mật khẩu mới</label>      			
