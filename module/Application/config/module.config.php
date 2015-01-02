@@ -121,7 +121,10 @@ return array(
                     ),
                     array(
                         'label' => 'Giao việc mới',
-                        'uri' => '#'
+                        'route' => 'cong_viec/crud',
+                        'params' => array(
+                            'action' => 'giao-viec'
+                        )
                     ),
                     array(
                         'label' => 'Theo dõi việc đã giao',
@@ -129,6 +132,10 @@ return array(
                     ),
                     array(
                         'label' => 'Báo cáo nghiệm thu',
+                        'uri' => '#'
+                    ),
+                    array(
+                        'label' => 'Nhật ký công việc',
                         'uri' => '#'
                     ),
                 ),

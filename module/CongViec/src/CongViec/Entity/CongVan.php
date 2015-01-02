@@ -8,6 +8,9 @@ use Datetime;
 /**
  * @ORM\Entity
  * @ORM\Table(name="cong_van")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"cong-van" = "CongVan", "cong-viec" = "CongViec"})
  */
 class CongVan 
 {
@@ -25,6 +28,11 @@ class CongVan
 	protected $id;
 
 	/**
+	 * @ORM\Column(name="so_hieu")	
+	 */
+	protected $soHieu;
+
+	/**
 	 * @ORM\Column
 	 */
 	protected $ten;
@@ -34,6 +42,12 @@ class CongVan
 	 * @ORM\JoinColumn(name="loai_id", referencedColumnName="term_taxonomy_id")
 	 */
 	protected $loai;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
+	 * @ORM\JoinColumn(name="linh_vuc_id", referencedColumnName="term_taxonomy_id")
+	 */
+	protected $linhVuc;
 
 	/**
 	 * @ORM\Column(name="trich_yeu", type="text")	
@@ -49,6 +63,12 @@ class CongVan
 	 * @ORM\Column(name="ngay_ban_hanh", type="datetime")	
 	 */
 	protected $ngayBanHanh;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
+	 * @ORM\JoinColumn(name="nguoi_ky_id", referencedColumnName="user_id")
+	 */
+	protected $nguoiKy;
 
 	/**
 	 * @ORM\Column(name="ngay_hoan_thanh", type="datetime")	
@@ -101,15 +121,30 @@ class CongVan
      */
     protected $donViTiepNhans;
 
+    /**
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="congVan", cascade={"persist"})
+     */
+    protected $congViecs;
+
     public function __construct()
     {
         $this->dinhKems = new ArrayCollection();
         $this->nguoiThucHiens = new ArrayCollection();
         $this->donViTiepNhans = new ArrayCollection();
+        $this->congViecs = new ArrayCollection();
     }
 
 	public function getId(){
 		return $this->id;
+	}
+
+	public function setSoHieu($soHieu){
+		$this->soHieu = $soHieu;
+		return $this;
+	}
+
+	public function getSoHieu(){
+		return $this->soHieu;
 	}
 
 	public function setTen($ten){
@@ -126,6 +161,14 @@ class CongVan
 
 	public function getLoai(){
 		return $this->loai;
+	}
+
+	public function setLinhVuc($linhVuc){
+		$this->linhVuc = $linhVuc;
+	}
+
+	public function getLinhVuc(){
+		return $this->linhVuc;
 	}
 
 	public function setTrichYeu($trichYeu){
@@ -150,6 +193,14 @@ class CongVan
 
 	public function getNgayBanHanh(){
 		return $this->ngayBanHanh;
+	}
+
+	public function setNguoiKy($nguoiKy){
+		$this->nguoiKy = $nguoiKy;
+	}
+	
+	public function getNguoiKy(){
+		return $this->nguoiKy;
 	}
 
 	public function setNgayHoanThanh($ngayHoanThanh){
@@ -291,5 +342,23 @@ class CongVan
 
     public function getDonViTiepNhans(){
     	return $this->donViTiepNhans->toArray();
+    }
+
+    public function addCongViecs($congViecs){
+    	foreach($congViecs as $congViec){
+    		$congViec->setCha($this);
+    		$this->congViecs->add($congViec);
+    	}
+    }
+
+    public function removeCongViecs($congViecs){
+    	foreach($congViecs as $congViec){
+    		$congViec->setCha(null);
+    		$this->congViecs->remove($congViec);
+    	}
+    }
+
+    public function getCongViecs(){
+    	return $this->congViecs->toArray();
     }
 }

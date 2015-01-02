@@ -2,7 +2,9 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 use CongViec\Entity\CongVan;
+use CongViec\Form\GiaoViecForm;
 
 class CongViecController extends AbstractActionController
 {
@@ -114,5 +116,25 @@ class CongViecController extends AbstractActionController
             'dieuKienLoc'=>$dieuKienLoc,
         );
         
+    }
+
+    public function giaoViecAction(){
+        $entityManager = $this->getEntityManager();
+        $form = new GiaoViecForm($entityManager);
+        $congVan = new CongVan();
+        $form->bind($congVan);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $entityManager->persist($congVan);
+                $entityManager->flush();
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
     }
 }
