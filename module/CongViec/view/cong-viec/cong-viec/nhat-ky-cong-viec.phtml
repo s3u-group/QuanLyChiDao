@@ -2,10 +2,10 @@
   
   <div class="ui grid">           
     <div class="sixteen wide column fluid"></div>
-    <div class="sixteen wide column fluid"></div>
+    <!-- <div class="sixteen wide column fluid"></div> -->
   </div>
-  <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>">
-    <div class="ui form">
+  <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'nhatKyCongViec')); ?>">
+    <!-- <div class="ui form">
       <div class="inline fields">
         <div class="field">
           <div class="ui large label">Tìm theo hạn xử lý - từ ngày</div>
@@ -23,8 +23,8 @@
           <input type="submit" class="ui blue button"  style="width:130px;" name="btnSubmit" id="btnTimTheoNgay" value="Tìm theo ngày">
         </div>
       </div>
-     </div>
-   <!-- </form> -->
+     </div> -->
+
 
    <div class="ui grid">   
     <div class="four column row">
@@ -40,16 +40,18 @@
           <?php if($dieuKienLoc=='Đang xử lý') echo 'checked="true"';?>
           ><label>Công việc đang xử lý </label></div>     
       </div>
+
+      <div class="four wide column">
+        <div class="ui radio checkbox" id="radioLocHoanThanh"><input type="radio" name="locTheoTrangThai"
+          <?php if($dieuKienLoc=='Hoàn thành') echo 'checked="true"';?>
+          ><label>Công việc hoàn thành</label></div>         
+      </div>
       <div class="four wide column">
         <div class="ui radio checkbox" id="radioLocTreHan"><input type="radio" name="locTheoTrangThai"
           <?php if($dieuKienLoc=='Trễ hạn') echo 'checked="true"';?>
           ><label>Công việc bị quá hạn </label></div>           
       </div>
-      <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocTatCa"><input type="radio" name="locTheoTrangThai"
-          <?php if($dieuKienLoc=='Tất cả') echo 'checked="true"';?>
-          ><label>Tất cả các công việc</label></div>         
-      </div>
+      
     </div>
     <div class="sixteen wide column">
       <div class="ui menu">
@@ -113,32 +115,14 @@
         <tbody>
         <?php
           foreach ($congViecs as $congViec) {
-            if($dieuKienLoc=='Tất cả')
+            if($dieuKienLoc=='Hoàn thành'&&$congViec->getTrangThaiNhom()=='Hoàn thành')
             {
-              if($congViec->getTrangThaiNhom()=='Chưa xem')
-              {
-                echo '<tr class="blue">';                
-              }
-              elseif($congViec->getTrangThaiNhom()=='Đang xử lý')
-              {
-                echo '<tr class="purple">';
-              }
-              elseif($congViec->getTrangThaiNhom()=='Trễ hạn')
-              {
-                echo '<tr class="lightred">';
-              }
-              elseif($congViec->getTrangThaiNhom()=='Chưa rõ')
-              {
-                echo '<tr>';
-              } 
-              if($congViec->getTrangThaiNhom()!='Hoàn thành')
-              {
+              echo '<tr class="green">'; 
                 echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
-                  echo '<td>'.$congViec->getTen().'</td>';
-                  echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-                echo '</tr>';
-              }
-                  
+                echo '<td>'.$congViec->getTen().'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+              echo '</tr>';
+              
             }
             elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem')
             {
@@ -164,7 +148,6 @@
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
             }
-
               
           }
         ?>          
@@ -214,8 +197,8 @@
 
   $(document).ready(function(){
     $('.dropdown').dropdown();
-    $('#radioLocTatCa').on('click',function(){
-      $('#dieuKienLoc').val('Tất cả');
+    $('#radioLocHoanThanh').on('click',function(){
+      $('#dieuKienLoc').val('Hoàn thành');
       $('#btnLoc').click();
     });
     $('#radioLocChuaXem').on('click',function(){
