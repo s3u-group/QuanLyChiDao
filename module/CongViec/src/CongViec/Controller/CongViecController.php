@@ -197,6 +197,10 @@ class CongViecController extends AbstractActionController
         
     }
 
+    public function theoDoiViecDaGiao(){
+        $entityManager=$this->getEntityManager();
+        
+    }
 
     public function giaoViecAction(){
         $entityManager = $this->getEntityManager();
