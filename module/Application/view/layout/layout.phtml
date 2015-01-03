@@ -12,7 +12,6 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/QuanLyCongVanLayout.css')
                         ->prependStylesheet($this->basePath() . '/vendor/semantic-ui/semantic.css')
                        ; ?>
@@ -29,39 +28,31 @@
     </head>
     <body>
         <div class="ui page grid">
-          <div class="sixteen wide column row center aligned banner">
+          <div class="sixteen wide column banner">
             <img src="<?php echo $this->basePath();?>/img/baner.png" class="imgBanner">
+            <div class="top info">
+              <div class="ui small inverted menu">
+                <?php if($this->zfcUserIdentity()): ?>                           
+                  <a href="<?php echo $this->url('user/crud', array('action'=>'view')); ?>" class="item">
+                    Chào <strong><?php echo $this->zfcUserIdentity()->getUsername();?></strong>
+                  </a>
+                <?php endif; ?> 
+                <a href="<?php echo $this->url('zfcuser/logout'); ?>" class="item">Đăng xuất</a>
+              </div>
+            </div>                
           </div>
-              
   
-            <div class="four wide column fluid">
+          <div class="ui divided grid">
+            <div class="three wide column">
               <?php $this->navigation('main')->menu()->setPartial('menu/default'); ?>
               <?php echo $this->navigation('main')->menu(); ?>
             </div>
-            <div class="twelve wide column left aligned fluid">
-              <div class="sixteen wide column row right aligned">
-                <div class="right menu">              
-                  <?php
-                          if($this->zfcUserIdentity())
-                          {?>                                
-                              <a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>"><div class="tiny ui button item"><?php echo 'Chào: '.$this->zfcUserIdentity()->getUsername();?></div></a>
-                          <?php }
-                      ?>                
-                    <a href="<?php echo $this->url('zfcuser/logout'); ?>" style="width:130px; text-align:center;"><div class="tiny ui button item red">Đăng xuất</div></a>
-                </div>
-              </div> 
-              <div class="sixteen wide column row left aligned">
-              <?php echo $this->content; ?>
-              </div>              
+            <div class="thirteen wide column">
+              <?php echo $this->content; ?>          
             </div>
+          </div>
     
         </div>       
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('#accordion').accordion();
-  });
-  
-</script>
