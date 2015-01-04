@@ -32,7 +32,6 @@
 					<td><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
 					<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>					
 					<td>          
-          <?php //if($this->zfcUserIdentity()->getId()==1){?>
             <a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>">Sửa</a>            
           </td>
 				</tr>
