@@ -1,0 +1,10 @@
+<?php
+	echo 'Tên công việc'.$congViec->getTen().'<br>';
+	echo 'Tên người tạo'.$congViec->getNguoiTao()->getUsername().'<br>';
+	echo 'Nội dung'.$congViec->getNoiDung().'<br>';
+	echo 'Trích yếu' .$congViec->getTrichYeu().'<br>';
+	echo 'Ngày ban hànhs' .$congViec->getNgayBanHanh()->format('d-m-Y').'<br>';
+	echo 'Ngày hoàn thành' .$congViec->getNgayHoanThanh()->format('d-m-Y').'<br>';
+	echo 'Trạng thái' .$congViec->getTrangThaiNhom().'<br>';
+
+?>
