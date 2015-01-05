@@ -248,7 +248,7 @@ class CongVan
         $ngayHoanThanh= $this->ngayHoanThanh->format('Y-m-d');
         $ngayHoanThanhThuc= $this->ngayHoanThanhThuc;
         $ngayHienTai=date('Y-m-d');
-
+       
         // nếu chưa có ngày hoàn thành thực
         if($this->ngayHoanThanhThuc==null||$this->ngayHoanThanhThuc==''){
         	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)

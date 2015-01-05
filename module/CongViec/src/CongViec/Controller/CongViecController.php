@@ -93,14 +93,14 @@ class CongViecController extends AbstractActionController
         }
         else
         {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.'  and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
+            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
             $congViecs=$query->getResult();
         }
         if($dieuKienLoc=='')
         {
             $dieuKienLoc='Trễ hạn';
         }
-        //die(var_dump($congViecs));
+        /*die(var_dump($congViecs));*/
         return array(
             'congViecs'=>$congViecs,
             'dieuKienLoc'=>$dieuKienLoc,
@@ -201,6 +201,20 @@ class CongViecController extends AbstractActionController
 
         return array(
             'form' => $form
+        );
+    }
+
+    public function chiTietCongViecAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('kenh_phan_phoi/crud',array('action'=>'nhaCungCap'));
+        }  
+        $entityManager=$this->getEntityManager();
+        $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        //die(var_dump($congViec));
+        return array(
+            'congViec'=>$congViec,
         );
     }
 }

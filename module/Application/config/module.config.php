@@ -135,7 +135,10 @@ return array(
                     ),
                     array(
                         'label' => 'Báo cáo nghiệm thu',
-                        'uri' => '#'
+                        'route' => 'theo_doi/crud',
+                        'params' => array(
+                            'action' => 'bao-cao-nghiem-thu'
+                        )
                     ),
                     array(
                         'label' => 'Nhật ký công việc',
