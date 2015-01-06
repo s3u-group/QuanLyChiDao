@@ -6,6 +6,7 @@ use Zend\ServiceManager\ServiceManager;
 
 use User\Form\UpdateUserForm;
 use User\Entity\User;
+use User\Entity\UserRole;
 use Zend\Crypt\Password\Bcrypt;
 use User\Form\CreateAccountForm;
 
@@ -311,11 +312,24 @@ class IndexController extends AbstractActionController
                     else
                     {
                         $user->setGioiTinh(2);
-                    }
-                    //$user->addRole(2);
+                    }                    
                     $entityManager->persist($user);
                     $entityManager->flush();
-                    die(var_dump($user));
+
+                    $dql = 'select u from User\Entity\User u where u.username = :username';
+                    $query = $entityManager->createQuery($dql);
+                    $query->setParameter('username', $username);
+                    $userId = $query->getResult();
+                    if($userId)
+                    {
+                        $userRole=new UserRole();                        
+                        $userRole->setUserId($userId[0]->getId());
+                        $userRole->setRoleId(2);//Tạo tài khoản với role 'người dùng'
+
+                        $entityManager->persist($userRole);
+                        $entityManager->flush();
+                    }
+
                     $this->flashMessenger()->addMessage('Tạo tài khoản thành công!');
                     return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
                 }
