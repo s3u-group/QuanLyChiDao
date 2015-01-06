@@ -1,0 +1,53 @@
+BÁO CÁO MỚI
+<?php
+	echo $this->headTitle('Báo cáo mới');
+
+	if ($this->flashMessenger()->hasMessages()) 
+	{
+    	echo '<div class="ui negative message">
+  				<i id="btFm" class="close icon"></i>
+  				<div class="header">';
+
+    	$messages = $this->flashMessenger()->getMessages();
+    	foreach($messages as $message) {
+        	echo $message;
+    	}
+    	echo '</div></div>';
+
+    	echo '
+	    <script type="text/javascript">
+	        setTimeout(function(){
+	            document.getElementById("btFm").click();
+	        },5000);
+	    </script>';
+    }	
+
+	$form->setAttribute('action', $this->url('theo_doi/crud', array('action'=>'bao-cao-moi','id'=>$id)));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	$baoCao=$form->get('theo-doi');
+
+	echo $this->formHidden($baoCao->get('id'));
+	$baoCao->get('ngayBaoCao')->setAttribute('value',date('Y-m-d'));
+	echo $this->formHidden($baoCao->get('ngayBaoCao'));
+	$baoCao->get('congVan')->setAttribute('value',$id);
+	echo $this->formHidden($baoCao->get('congVan'));
+	echo $this->formRow($baoCao->get('noiDung'));
+	echo '<br>';
+	echo $this->formRow($baoCao->get('dinhKems'));
+	echo '<br>';
+	$baoCao->get('nguoiBaoCao')->setValueOptions($this->ArrayDanhSachNguoiThucHien($nguoiThucHiens));
+ 	echo $this->formElement($baoCao->get('nguoiBaoCao'));
+ 	echo '<br>';
+	echo $this->formSubmit($form->get('submit'));
+	
+
+	echo $this->form()->closeTag();
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.message .close').on('click', function() {
+		  $(this).closest('.message').fadeOut();
+		});
+	});
+</script>
