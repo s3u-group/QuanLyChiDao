@@ -185,11 +185,9 @@ class CongViecController extends AbstractActionController
         
     }
 
-   
-
     public function giaoViecAction(){
         $entityManager = $this->getEntityManager();
-        $form = new GiaoViecForm($entityManager);
+        $form = new GiaoViecForm($entityManager, $this->getServiceLocator());
         $congVan = new CongVan();
         $form->bind($congVan);
 
@@ -201,6 +199,7 @@ class CongViecController extends AbstractActionController
                 $entityManager->flush();
             }
         }
+
 
         return array(
             'form' => $form
@@ -215,17 +214,35 @@ class CongViecController extends AbstractActionController
         }  
         $entityManager=$this->getEntityManager();
         $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
-
-        $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
-        $theoDois=$query->getResult();
-        //die(var_dump($congViec->getDinhKems()));
         $form = new CapNhatCongViecForm($entityManager);
         $form->bind($congViec);
-
+        $request=$this->getRequest();
+        if($request->isPost())
+        {
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $entityManager->flush();
+                $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+            }
+        }
+        $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
+        $theoDois=$query->getResult();
         return array(
             'congViec'=>$congViec,
             'theoDois'=>$theoDois,
+            'form'=>$form,
         );
+    }
+
+    public function xoaDinhKemAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'index'));
+        }
+        $entityManager=$this->getEntityManager();
+        $dinhKem=$entityManager->getRepository('CongViec\Entity\DinhKem')->find($id);
+        //die(var_dump($dinhKem->getDoiTuong()->getNgayBanHanh()));
+
     }
 
     public function hoanThanhAction()

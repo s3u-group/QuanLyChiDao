@@ -11,7 +11,7 @@ use CongViec\Entity\CongViec;
 
 class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm = null)
     {
         parent::__construct('congViecs');
 
@@ -28,9 +28,7 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	'type' => 'select',
         	'options' => array(
         		'label' => 'Loại luồng',
-                'value_options' => array(
-                    '1' => 'Luồng nội bộ'
-                )
+                'value_options' => $this->getLoaiOption($sm)
         	),
             'attributes' => array(
                 'class' => 'ui dropdown'
@@ -69,22 +67,34 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	)
         ));
 
-        $this->add(array(
-            'name' => 'dinhKem',
-            'type' => 'file',
-            'options' => array(
-                'label' => 'Đính kèm',
-                'multiple'=>true,
-            )
-        ));
+        // File Input
+        $dinhKems = new \Zend\Form\Element\File('dinhKem');
+        $dinhKems->setAttribute('id', 'dinhKem') 
+                 ->setAttribute('label', 'Đính kèm')  
+                 ->setAttribute('multiple', true);   // That's it
+        $this->add($dinhKems);
     }
 
     public function getInputFilterSpecification()
     {
         return array(
             'loai' => array(
-                'required' => false
+                'required' => true
+            ),
+            'ten' => array(
+                'required' => true
+            ),
+            'noiDung' => array(
+                'required' => true
             )
         );
+    }
+
+    public function getLoaiOption($sm){
+        if($sm){
+            $taxonomyService = $sm->get('taxonomyService');
+            $options = $taxonomyService->getValueForOption('loai-cong-viec');
+            return $options;
+        }
     }
 }

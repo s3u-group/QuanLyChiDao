@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="dinh_kem")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="loai_doi_tuong", type="integer")
+ * @ORM\DiscriminatorMap({"1" = "DinhKem", "2" = "DinhKemTheoDoi"})
  */
 class DinhKem
 {
@@ -22,17 +25,10 @@ class DinhKem
 	protected $url;
 
 	/**
-	 * @ORM\Column(name="doi_tuong_id",type="bigint",length=20)
+	 * @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan")
+	 * @ORM\JoinColumn(name="doi_tuong_id", referencedColumnName="id", nullable=true)
 	 */
-	protected $doiTuong;
-
-	const CONG_VAN=1;
-	const THEO_DOI=2;
-
-	/**
-	 * @ORM\Column(name="loai_doi_tuong", type="integer")
-	 */
-	protected $loaiDoiTuong;
+	protected $congVan;
 
 	public function getId(){
 		return $this->id;
@@ -46,19 +42,11 @@ class DinhKem
 		return $this->url;
 	}
 
-	public function setDoiTuong($doiTuong){
-		$this->doiTuong = $doiTuong;
+	public function setCongVan($congVan){
+		$this->congVan = $congVan;
 	}
 
-	public function getDoiTuong(){
-		return $this->doiTuong;
-	}
-
-	public function setLoaiDoiTuong($loaiDoiTuong){
-		$this->loaiDoiTuong = $loaiDoiTuong;
-	}
-
-	public function getLoaiDoiTuong(){
-		return $this->loaiDoiTuong;
-	}
+	public function getCongVan(){
+		return $this->congVan;
+	}	
 }

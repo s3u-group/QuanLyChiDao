@@ -70,7 +70,7 @@ class TheoDoiFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => true
             ),
             'nguoiBaoCao' => array(
-                'required' => true
+                'required' => false // tam thoi de false
             ),
             'ngayBaoCao' => array(
                 'required' => true

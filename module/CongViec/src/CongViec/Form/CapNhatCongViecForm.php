@@ -27,7 +27,7 @@ class CapNhatCongViecForm extends Form
             'attributes' => array(
                 'type'  => 'submit',
                 'value' => 'Lưu',
-                'class' => 'tiny ui button item red',
+                'class' => 'tiny ui button item blue',
             ),
         ));
     }
