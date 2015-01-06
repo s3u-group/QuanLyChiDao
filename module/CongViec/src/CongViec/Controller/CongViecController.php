@@ -7,7 +7,7 @@ use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
 use CongViec\Form\GiaoViecForm;
 use DateTime;
-use CongViec\Entity\CapNhatCongViecForm;
+use CongViec\Form\CapNhatCongViecForm;
 
 
 class CongViecController extends AbstractActionController
@@ -217,7 +217,7 @@ class CongViecController extends AbstractActionController
 
         $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
         $theoDois=$query->getResult();
-
+        //die(var_dump($congViec->getDinhKems()));
         $form = new CapNhatCongViecForm($entityManager);
         $form->bind($congViec);
 

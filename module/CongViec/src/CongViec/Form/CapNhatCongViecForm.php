@@ -5,7 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 
-use User\Form\UserFieldset;
+use CongViec\Form\CongViecFieldset;
 
 class CapNhatCongViecForm extends Form
 {

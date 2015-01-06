@@ -102,11 +102,6 @@ class CongVan
 	 */
 	protected $cha;
 
-	/**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKem", mappedBy="doiTuong")
-     */
-    protected $dinhKems;
-
     /**
      * @ORM\OneToMany(targetEntity="CongViec\Entity\PhanCong", mappedBy="congVan")
      */
@@ -122,7 +117,7 @@ class CongVan
     protected $donViTiepNhans;
 
     /**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="congVan", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="congVan")
      */
     protected $congViecs;
 
