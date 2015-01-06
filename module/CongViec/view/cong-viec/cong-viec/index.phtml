@@ -1,75 +1,104 @@
-<div class="divView">        
-  
-  <div class="ui grid">           
-    <div class="sixteen wide column fluid"></div>
-    <div class="sixteen wide column fluid"></div>
-  </div>
-  <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>">
+<div class="ui segment"> 
+
+  <form method="post" action="<?php echo $this->url('cong_viec'); ?>">
     <div class="ui form">
       <div class="inline fields">
         <div class="field">
           <div class="ui large label">Tìm theo hạn xử lý - từ ngày</div>
-          <input type="date" style="height:33px;" name="tuNgay" id="tuNgay">
+          <input type="date" style="height:33px;" name="tuNgay" id="tuNgay"
+          <?php if($tuNgay!='') echo 'value="'.$tuNgay.'"'; ?>
+          >
         </div>
         <div class="field">
           <label class="ui large label"> đến ngày</label>
-          <input type="date" style="height:33px;" name="denNgay" id="denNgay">
+          <input type="date" style="height:33px;" name="denNgay" id="denNgay"
+          <?php if($denNgay!='') echo 'value="'.$denNgay.'"'; ?>
+          >
         </div>
         <div class="field">
           <input type="submit" class="ui blue button"  style="width:130px;" name="btnSubmit" id="btnTimTheoNgay" value="Tìm theo ngày">
         </div>
       </div>
      </div>
-   <!-- </form> -->
 
-   <div class="ui grid">   
-    <div class="four column row">
-      <div class="four wide column">
-        <input type="hidden" name="dieuKienLoc" value="<?php echo $dieuKienLoc; ?>">
-        <div class="ui radio checkbox" id="radioLocChuaXem"><input type="radio" name="locTheoTrangThai"><label>Công việc chưa xử lý (10)</label></div>            
-      </div>
-      <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocDangXuLy"><input type="radio" name="locTheoTrangThai"><label>Công việc đang xử lý (10)</label></div>     
-      </div>
-      <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocTreHan"><input type="radio" name="locTheoTrangThai"><label>Công việc bị quá hạn (10)</label></div>           
-      </div>
-      <div class="four wide column">
-        <div class="ui radio checkbox" id="radioLocTatCa"><input type="radio" name="locTheoTrangThai" checked="checked"><label>Tất cả các công việc (40)</label></div>         
-      </div>
-    </div>
-   <!--  <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'index')); ?>"> -->
-    <div class="sixteen wide column">
-      <div class="ui menu">
-        <div class="menu">
-          <div class="item">
-            Tìm nhanh
-          </div>
-          <div class="ui pointing dropdown link item">
-            <i class="dropdown icon"></i>
-            <span class="text">Chọn chủ đề</span>
-            <div class="menu">              
-              <div class="item" id="ten">Chủ đề</div>
-              <div class="item" id="nguoiTao">Người tạo</div>             
-              <!-- <div class="item" id="ngayHoanThanh">Hạn xử lý</div>  -->
-            </div>
-          </div>
-          <div class="item">
-            <div class="ui icon input">
-              <input type="hidden" value="ten" id="dieuKien" name="dieuKien">
-              <input type="text" placeholder="Search..." style="width:370px;" id="txtDuLieu" name="txtDuLieu">
-              <i class="search icon"></i>
-            </div>
-          </div>
-          <div class="right item">
-            <input type="submit" class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm">
-            <input type="submit"  class="tiny ui button" name="btnSubmit" id="btnXemHet" value="Xem hết">
-          </div>
-          
+    <div class="ui grid">   
+      <div class="four column row">
+        <div class="four wide column">
+          <input type="submit" name="btnSubmit" id="btnLoc" value="Lọc" hidden="true">
+          <input type="hidden" id='dieuKienLoc' name="dieuKienLoc" value="<?php echo $dieuKienLoc; ?>">
+          <div class="ui radio checkbox" id="radioLocChuaXem"><input type="radio" name="locTheoTrangThai"
+            <?php if($dieuKienLoc=='Chưa xem') echo 'checked="true"';?>
+            ><label>Công việc chưa xử lý </label></div>            
+        </div>
+        <div class="four wide column">
+          <div class="ui radio checkbox" id="radioLocDangXuLy"><input type="radio" name="locTheoTrangThai"
+            <?php if($dieuKienLoc=='Đang xử lý') echo 'checked="true"';?>
+            ><label>Công việc đang xử lý </label></div>     
+        </div>
+        <div class="four wide column">
+          <div class="ui radio checkbox" id="radioLocTreHan"><input type="radio" name="locTheoTrangThai"
+            <?php if($dieuKienLoc=='Trễ hạn') echo 'checked="true"';?>
+            ><label>Công việc bị quá hạn </label></div>           
+        </div>
+        <div class="four wide column">
+          <div class="ui radio checkbox" id="radioLocTatCa"><input type="radio" name="locTheoTrangThai"
+            <?php if($dieuKienLoc=='Tất cả') echo 'checked="true"';?>
+            ><label>Tất cả các công việc</label></div>         
         </div>
       </div>
-    </div>
-    </form>
+      <div class="sixteen wide column">
+        <div class="ui menu">
+          <div class="menu">
+            <div class="item">
+              Tìm nhanh
+            </div>
+            <div class="ui pointing dropdown link item">
+              <i class="dropdown icon"></i>
+              <span class="text">
+                <?php 
+                  if($dieuKien=='ten')
+                  {
+                    echo 'Chủ đề';
+                  }
+                  elseif ($dieuKien=='nguoiTao')
+                  {
+                    echo 'Người tạo';
+                  }
+                  elseif ($dieuKien=='')
+                  {
+                    echo 'Chọn chủ đề';
+                  }
+                ?>
+              </span>
+               <div class="header">
+                
+              </div>
+              <div class="menu">              
+                <div class="item" id="ten">Chủ đề</div>
+                <div class="item" id="nguoiTao">Người tạo</div>             
+                <!-- <div class="item" id="ngayHoanThanh">Hạn xử lý</div>  -->
+              </div>
+            </div>
+            <div class="item">
+              <div class="ui icon input">
+                <input type="hidden" value="ten" id="dieuKien" name="dieuKien" 
+                <?php echo 'value="'.$dieuKien.'"'; ?> >
+                <input type="text" placeholder="Search..." style="width:370px;" id="txtDuLieu" name="txtDuLieu" <?php echo 'value="'.$duLieu.'"'; ?> >
+                <i class="search icon"></i>
+              </div>
+            </div>
+            <div class="right item">
+              <input type="submit" class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm">
+              <input type="submit"  class="tiny ui button" name="btnSubmit" id="btnXemHet" value="Xem hết">
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>  
+  </form>
+</div>
+  <div class="ui grid"> 
     <div class="sixteen wide column fluid">
       <table class="ui table" id="tblTatCa">
         <thead>
@@ -82,7 +111,7 @@
         <tbody>
         <?php
           foreach ($congViecs as $congViec) {
-            if($congViec->getTrangThaiNhom()!='Hoàn thành')
+            if($dieuKienLoc=='Tất cả')
             {
               if($congViec->getTrangThaiNhom()=='Chưa xem')
               {
@@ -96,88 +125,45 @@
               {
                 echo '<tr class="lightred">';
               }
-              else
+              elseif($congViec->getTrangThaiNhom()=='Chưa rõ')
               {
                 echo '<tr>';
               } 
+              if($congViec->getTrangThaiNhom()!='Hoàn thành')
+              {
+                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                  echo '<td>'.$congViec->getTen().'</td>';
+                  echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+                echo '</tr>';
+              }
+                  
+            }
+            elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem')
+            {
+              echo '<tr class="blue">'; 
                 echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
                 echo '<td>'.$congViec->getTen().'</td>';
-                echo '<td>'.$congViec->getTrangThaiNhom().$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
             }
+            elseif($dieuKienLoc=='Đang xử lý'&&$congViec->getTrangThaiNhom()=='Đang xử lý')
+            {
+              echo '<tr class="purple">'; 
+                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getTen().'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+              echo '</tr>';
+            }
+            elseif($dieuKienLoc=='Trễ hạn'&&$congViec->getTrangThaiNhom()=='Trễ hạn')
+            {
+              echo '<tr class="lightred">'; 
+                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getTen().'</td>';
+                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
+              echo '</tr>';
+            }
+
               
-          }
-        ?>          
-        </tbody>
-      </table>
-      <table class="ui table" id="tblChuaXem" hidden="true">
-        <thead>
-          <tr>
-            <th>Người tạo công việc</th>
-            <th>Chủ đề</th>
-            <th>Hạn xử lý</th>            
-          </tr>
-        </thead>
-        <tbody>
-        <?php
-          foreach ($congViecs as $congViec) {
-            if($congViec->getTrangThaiNhom()=='Chưa xem')
-            {
-              echo '<tr>'; 
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
-                echo '<td>'.$congViec->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';          
-            }        
-               
-          }
-        ?>          
-        </tbody>
-      </table>
-      <table class="ui table" id="tblDangXuLy" hidden="true">
-        <thead>
-          <tr>
-            <th>Người tạo công việc</th>
-            <th>Chủ đề</th>
-            <th>Hạn xử lý</th>            
-          </tr>
-        </thead>
-        <tbody>
-        <?php
-          foreach ($congViecs as $congViec) {
-            if($congViec->getTrangThaiNhom()=='Đang xử lý')
-            {
-              echo '<tr>'; 
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
-                echo '<td>'.$congViec->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';          
-            }          
-               
-          }
-        ?>          
-        </tbody>
-      </table>
-      <table class="ui table" id="tblTreHan" hidden="true">
-        <thead>
-          <tr>
-            <th>Người tạo công việc</th>
-            <th>Chủ đề</th>
-            <th>Hạn xử lý</th>            
-          </tr>
-        </thead>
-        <tbody>
-        <?php
-          foreach ($congViecs as $congViec) {
-            if($congViec->getTrangThaiNhom()=='Trễ hạn')
-            {
-              echo '<tr>'; 
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
-                echo '<td>'.$congViec->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';          
-            }          
-               
           }
         ?>          
         </tbody>
@@ -220,40 +206,27 @@
       </table>              
     </div>
   </div>
-</div>
 
 <script type="text/javascript">
 
   $(document).ready(function(){
     $('.dropdown').dropdown();
     $('#radioLocTatCa').on('click',function(){
-      showTable('#tblTatCa');
-      $('#dieuKienLoc').val('radioLocTatCa');
+      $('#dieuKienLoc').val('Tất cả');
+      $('#btnLoc').click();
     });
     $('#radioLocChuaXem').on('click',function(){
-      showTable('#tblChuaXem');
-      $('#dieuKienLoc').val('radioLocChuaXem');
+      $('#dieuKienLoc').val('Chưa xem');
+      $('#btnLoc').click();
     });
     $('#radioLocDangXuLy').on('click',function(){
-      showTable('#tblDangXuLy');
-      $('#dieuKienLoc').val('radioLocDangXuLy');
+      $('#dieuKienLoc').val('Đang xử lý');
+      $('#btnLoc').click();
     });
     $('#radioLocTreHan').on('click',function(){
-      showTable('#tblTreHan');
-      $('#dieuKienLoc').val('radioLocTreHan');
+      $('#dieuKienLoc').val('Trễ hạn');
+     $('#btnLoc').click();
     });
-
-    if($('#dieuKienLoc').val()==''){
-      $('#dieuKienLoc').val('radioLocTatCa');
-      var id='#'.$('#dieuKienLoc').val();
-      $(id).attr('checked', true);
-    }
-    else
-    {
-      var id='#'.$('#dieuKienLoc').val();
-      $(id).attr('checked', true);
-    }
-
 
     $('#ten').on('click',function(){
       $('#dieuKien').val('ten');

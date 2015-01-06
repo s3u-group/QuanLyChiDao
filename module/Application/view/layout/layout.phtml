@@ -14,11 +14,13 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/QuanLyCongVanLayout.css')
                         ->prependStylesheet($this->basePath() . '/vendor/semantic-ui/semantic.css')
+                        ->prependStylesheet($this->basePath() . '/vendor/jstree/themes/default/style.css')
                        ; ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/vendor/semantic-ui/semantic.js')
+            ->prependFile($this->basePath() . '/vendor/jstree/jstree.js')
 
             ->prependFile($this->basePath() . '/js/script.js')
             ->prependFile($this->basePath() . '/js/QuanLyChiDao.js')
@@ -42,13 +44,13 @@
             </div>                
           </div>
   
-          <div class="ui divided grid">
+          <div class="ui grid">
             <div class="three wide column">
               <?php $this->navigation('main')->menu()->setPartial('menu/default'); ?>
               <?php echo $this->navigation('main')->menu(); ?>
             </div>
             <div class="thirteen wide column">
-              <?php echo $this->content; ?>          
+              <?php echo $this->content; ?>       
             </div>
           </div>
     

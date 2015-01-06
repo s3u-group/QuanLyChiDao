@@ -83,7 +83,6 @@ color: #dc6868 !important;
 	text-decoration:none;
 }
 .banner{
-	margin-bottom:-32px;
 	position: relative;;
 }
 .imgBanner
@@ -97,6 +96,6 @@ color: #dc6868 !important;
 	right: 20px;
 }
 
-.main.menu{
-	border-radius: 0;
+.ui.vertical.menu.main{
+	width: 14rem;
 }

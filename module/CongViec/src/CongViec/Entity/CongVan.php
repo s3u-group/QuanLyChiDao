@@ -246,23 +246,51 @@ class CongVan
 	public function getTrangThaiNhom(){	
 
         $ngayHoanThanh= $this->ngayHoanThanh->format('Y-m-d');
-        $ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');
+        $ngayHoanThanhThuc= $this->ngayHoanThanhThuc;
         $ngayHienTai=date('Y-m-d');
 
         // nếu chưa có ngày hoàn thành thực
-        if($this->ngayHoanThanhThuc->getTimestamp()==0){
+        if($this->ngayHoanThanhThuc==null||$this->ngayHoanThanhThuc==''){
         	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)
         	{
         		return 'Trễ hạn';
         	}
         }
-        else// đã có ngày hoàn thành thực
+        if($this->trangThai==null&&$this->ngayHoanThanhThuc==null)
         {
+        	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)
+        	{
+        		return 'Trễ hạn';
+        	}
+        	else
+        	{
+        		return 'Chưa xem';
+        	}
+        }
+        if($this->trangThai==null&&$this->ngayHoanThanhThuc)
+        {
+        	$ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');
         	if((strtotime($ngayHoanThanhThuc) - strtotime($ngayHoanThanh))>0)
         	{
         		return 'Trễ hạn';
         	}
+        	else
+        	{
+        		return 'Hoàn thành';
+        	}
         }
+       /* if($this->ngayHoanThanhThuc)
+        {
+        	$ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');
+        	if((strtotime($ngayHoanThanhThuc) - strtotime($ngayHoanThanh))>0)
+        	{
+        		return 'Trễ hạn';
+        	}
+        	else
+        	{
+        		return 'Hoàn thành';
+        	}
+        }*/
 		switch ($this->trangThai) {
 			case '1':
 				return 'Chưa xem';

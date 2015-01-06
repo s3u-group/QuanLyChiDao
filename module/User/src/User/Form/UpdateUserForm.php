@@ -23,17 +23,17 @@ class UpdateUserForm extends Form
         $userFieldset->setUseAsBaseFieldset(true);
         $this->add($userFieldset);
 
-        $this->add(array(
+        /*$this->add(array(
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
-        ));
+        ));*/
 
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Submit',
-                'class' => 'btn btn-primary',
+                'value' => 'Lưu',
+                'class' => 'tiny ui button item red',
             ),
         ));
     }

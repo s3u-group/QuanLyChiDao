@@ -91,6 +91,7 @@ class User implements UserInterface, ProviderInterface
      * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
      * @ORM\JoinColumn(name="thanh_pho_id", referencedColumnName="term_taxonomy_id")
      */
+    
     protected $thanhPho;
 
     /**
@@ -103,6 +104,7 @@ class User implements UserInterface, ProviderInterface
      * @var string
      * @ORM\Column(name="dien_thoai", type="string", unique=true,  length=20, nullable=true)
      */
+
     protected $dienThoai;
 
     /**

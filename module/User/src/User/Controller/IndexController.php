@@ -5,6 +5,8 @@ use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceManager;
 
 use User\Form\UpdateUserForm;
+use User\Entity\User;
+use Zend\Crypt\Password\Bcrypt;
 
 class IndexController extends AbstractActionController
 {
@@ -46,8 +48,7 @@ class IndexController extends AbstractActionController
         $form = new UpdateUserForm($entityManager);  
 
         $form->bind($user);        
-        die(var_dump($user));
-        /*$request = $this->getRequest();
+        $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
 
@@ -59,26 +60,94 @@ class IndexController extends AbstractActionController
         return array(
             'form' => $form,
             'id'=>$id,
-        );*/
+        );
     }
 
     public function viewAction(){
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
-           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('user');
         }
-
+        
+        $entityManager = $this->getEntityManager();
+        $dql = 'select u from User\Entity\User u where u.id = :id';
+        $query = $entityManager->createQuery($dql);
+        $query->setParameter('id', $id);
+        $user = $query->getSingleResult();
         return array(
-            'user' => $this->zfcUserAuthentication()->getIdentity()
+            'user' => $user
         );
     }
 
     public function updateAction()
     {
         if(!$this->zfcUserAuthentication()->hasIdentity())
-         {
-           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
-         }
+        {
+            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('cong_viec');
+        }        
+        $entityManager = $this->getEntityManager();        
+
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        $emailCu=$user->getEmail();        
+        $form = new UpdateUserForm($entityManager);
+        $form->bind($user);
+        if(!$user)
+        {
+            return $this->redirect()->toRoute('cong_viec');  
+        }
+
+        $request = $this->getRequest();        
+        if ($request->isPost()) {            
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $emailMoi=$user->getEmail();                
+                if($emailCu!=$emailMoi)
+                {
+                    $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE u.email=\''.$emailMoi.'\'');
+                    $email=$query->getResult();
+                    if($email)
+                    {                        
+                        return array(
+                            'form' => $form,
+                            'id'=>$id,
+                            'kiemTraEmail'=>1
+                        );
+                    }                    
+                }
+                if($request->getPost()->get('gioiTinh')=='Nam')
+                {
+                    $user->setGioiTinh(1);
+                }
+                else
+                {
+                    $user->setGioiTinh(2);
+                }
+                $entityManager->flush();                
+                $this->flashMessenger()->addMessage('Cập nhật thành công!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'update','id'=>$id));
+            }
+            else
+            {                
+            }
+        } 
+        return array(
+            'form' => $form,
+            'id'=>$id,
+            'kiemTraEmail'=>0
+        );
+    }
+
+    public function changePassWordAction()
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if(!$id){
@@ -86,21 +155,58 @@ class IndexController extends AbstractActionController
         }        
         $entityManager = $this->getEntityManager();
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
-        $form = new UpdateUserForm($entityManager);
-        $form->bind($user);
-        //die(var_dump($form));
-        if(!$user)
+        $request = $this->getRequest();        
+        if ($request->isPost()) {
+            $post=$request->getPost();
+
+            $bcrypt = new Bcrypt();
+            $bcrypt->setCost(14);
+            $password = $post['matKhauMoi'];            
+            $user->setPassword ($bcrypt->create($password));
+            $entityManager->flush();  
+            return $this->redirect()->toRoute('cong_viec');            
+        }
+        return array(
+            'id'=>$id,            
+        );        
+    }
+
+    public function adminChangePassWordAction()
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
         {
-            return $this->redirect()->toRoute('cong_viec');  
+            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        else
-        {            
-            return array(
-                'user' => $user,
-                'id'=>$id
-            ); 
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('cong_viec');
+        }        
+        $entityManager = $this->getEntityManager();
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        $request = $this->getRequest();        
+        if ($request->isPost()) {
+            $post=$request->getPost();
+
+            $bcrypt = new Bcrypt();
+            $bcrypt->setCost(14);
+
+            $passAdmin=$bcrypt->create($post['matKhauAdmin']);            
+            $admin = $entityManager->getRepository('User\Entity\User')->find(1);
+            if($admin->getPassword()==$passAdmin)
+            {
+                $password = $post['matKhauMoi'];            
+                $user->setPassword ($bcrypt->create($password));
+                $entityManager->flush();  
+                return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
+            }
+            else
+            {}
         }
-        
+
+        return array(
+            'id'=>$id,            
+            );        
     }
 }
 ?>

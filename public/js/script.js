@@ -29,4 +29,13 @@
     
      $( document ).ready(function() {
       $('.checkbox').checkbox();
+      $('.ui.checkbox')
+        .checkbox()
+      ;
+      $('select.dropdown')
+        .dropdown()
+      ;
+      $('.ui.dropdown')
+        .dropdown()
+      ;
     });

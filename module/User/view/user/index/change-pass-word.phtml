@@ -1,0 +1,35 @@
+<form action="<?php echo $this->url('user/crud', array('action'=>'changePassWord', 'id'=>$id)) ?>" method="post">
+<div class="ui top attached tabular menu">
+	<a class="active item" data-tab="first">Thay đổi mật khẩu</a>
+</div>	
+<div class="ui bottom attached active tab segment" data-tab="first">
+	<div class="ui small form segment">		
+		<div class="fields">
+			<div class="four wide field">
+				<label>Mật khẩu mới</label>      			
+      			 <input type="password" name="matKhauMoi" />      		
+			</div>
+		</div>
+		<div class="fields">
+			<div class="four wide field">
+				<label>Nhập lại mật khẩu mới</label>      			
+      			<input type="password" name="xacNhanMatKhauMoi" />
+			</div>
+		</div>
+		<div class="fields">&nbsp;</div>
+		<div class="fields">
+			<div class="four wide field">
+				<?php if($this->zfcUserIdentity()->getId()==1){?>
+					<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">
+				<?php } else {?>
+				<a href="<?php echo $this->url('cong_viec');?>">
+				<?php } ?>
+			  		<input type="button" class="tiny ui button item" value="Trở về">
+			  	</a>
+				<input type="submit" class="tiny ui button item blue" value="Lưu">				
+			</div>
+		</div>
+
+	</div>
+</div>
+</form>
