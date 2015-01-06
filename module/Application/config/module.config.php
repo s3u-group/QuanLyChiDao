@@ -151,11 +151,19 @@ return array(
                 'pages' => array(
                     array(
                         'label' => 'Danh sách nhân viên',
-                        'uri' => '#'
+                        /*'uri' => '#'*/
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'list',
+                        )
                     ),
                     array(
                         'label' => 'Danh mục đơn vị',
-                        'uri' => '#'
+                        //'uri' => '#'
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'danhMucDonVi',
+                        )
                     ),
                     array(
                         'label' => 'Phân quyền',

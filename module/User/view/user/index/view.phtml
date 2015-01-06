@@ -1,15 +1,60 @@
 <?php
-
- $title = 'USER DETAIL';
+ $title = 'Hồ sơ cá nhân';
  $this->headTitle($title);
- ?>
- <h1><?php echo $this->escapeHtml($title); ?></h1>
+?>
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="first">Thông tin cá nhân</a>
+</div>
 
-<dl class="dl-horizontal">
-	<dt>Tên gọi</dt>
-	<dd><?php echo $this->escapeHtml($user->getDisplayName()); ?></dd>
-	<dt>Điện thoại</dt>
-	<dd><?php echo $this->escapeHtml($user->getPhoneNumber()); ?></dd>
-	<dt>Địa chỉ</dt>
-	<dd><?php echo $this->escapeHtml($user->getAddress()); ?></dd>
-</dl>
+<div class="ui bottom attached active tab segment" data-tab="first">
+	<div class="ui small form segment">	  
+		<?php
+	      	$nguoiDung=$form->get('user');
+	      	$ho=$nguoiDung->get('ho');	      	
+	      	$ten=$nguoiDung->get('ten');
+	      	$giotinh=$nguoiDung->get('gioiTinh');
+	      	$displayName=$nguoiDung->get('displayName');
+	      	$dienThoai=$nguoiDung->get('dienThoai');
+	      	$diaChi=$nguoiDung->get('diaChi');
+	      	$email=$nguoiDung->get('email');
+	      ?>
+	    <div class="fields">
+	    	<div class="eight wide field">
+			  <label class="ui ribbon label">Họ tên</label>
+			  <p><?php echo $ho->getValue().'&nbsp;'.$ten->getValue();?></p>
+			  <label class="ui teal ribbon label">Giới tính</label>
+			  <p><?php echo $giotinh->getValue();?></p>
+			  <label class="ui red ribbon label">Tên hiển thị </label>
+			  <p><?php echo $displayName->getValue();?></p>		  
+		  	</div>
+		  	<div class="eight wide field">
+		  	  <label class="ui ribbon ribbon label">Điện thoại</label>
+			  <p><?php echo $dienThoai->getValue();?></p>		  
+			  <label class="ui teal ribbon label">Địa chỉ</label>
+			  <p><?php echo $diaChi->getValue();?></p>
+			  <label class="ui red ribbon label">Email</label>
+			  <p><?php echo $email->getValue();?></p>
+		  	</div>
+		</div>
+		<div class="fields">&nbsp;</div>
+	  		<div class="fields">
+	  			<a href="<?php echo $this->url('cong_viec');?>">
+	  				<input type="button" class="tiny ui button item" value="Trở về">
+	  			</a>
+	  		</div>
+		</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.menu .item').tab();
+
+	$('.ui.radio.checkbox').checkbox();
+
+	$('select.dropdown').dropdown();
+});
+
+$('.message .close').on('click', function() {
+  $(this).closest('.message').fadeOut();
+});
+</script>
