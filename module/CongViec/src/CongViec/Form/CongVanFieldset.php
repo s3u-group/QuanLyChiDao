@@ -11,7 +11,7 @@ use CongViec\Form\CongViecFieldset;
 
 class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm = null)
     {
         parent::__construct('cong-van');
 
@@ -69,7 +69,7 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $fieldset = new CongViecFieldset($objectManager);
+        $fieldset = new CongViecFieldset($objectManager, $sm);
         $fieldset->setUseAsBaseFieldset(true);
         $this->add($fieldset);
 
@@ -90,8 +90,14 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
     public function getInputFilterSpecification()
     {
         return array(
+            'soHieu' => array(
+                'required' => true
+            ),
+            'ngayBanHanh' => array(
+                'required' => true
+            ),
             'nguoiKy' => array(
-                'required' => false
+                'required' => true
             )
         );
     }

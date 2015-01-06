@@ -10,13 +10,13 @@ use CongViec\Form\CongVanFieldset;
 
 class GiaoViecForm extends Form
 {
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm = null)
     {
         parent::__construct('giao-viec');
                
         $this->setHydrator(new DoctrineHydrator($objectManager));
 
-        $fieldset = new CongVanFieldset($objectManager);
+        $fieldset = new CongVanFieldset($objectManager, $sm);
         $fieldset->setUseAsBaseFieldset(true);
         $this->add($fieldset);
 

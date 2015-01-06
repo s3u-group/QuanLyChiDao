@@ -22,7 +22,8 @@ class DinhKem
 	protected $url;
 
 	/**
-	 * @ORM\Column(name="doi_tuong_id",type="bigint",length=20)
+	 * @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan")
+	 * @ORM\JoinColumn(name="doi_tuong_id", referencedColumnName="id", nullable=true)
 	 */
 	protected $doiTuong;
 

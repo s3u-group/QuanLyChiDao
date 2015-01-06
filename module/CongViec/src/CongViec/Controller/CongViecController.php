@@ -185,11 +185,9 @@ class CongViecController extends AbstractActionController
         
     }
 
-   
-
     public function giaoViecAction(){
         $entityManager = $this->getEntityManager();
-        $form = new GiaoViecForm($entityManager);
+        $form = new GiaoViecForm($entityManager, $this->getServiceLocator());
         $congVan = new CongVan();
         $form->bind($congVan);
 
@@ -201,6 +199,7 @@ class CongViecController extends AbstractActionController
                 $entityManager->flush();
             }
         }
+
 
         return array(
             'form' => $form

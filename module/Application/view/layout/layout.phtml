@@ -15,12 +15,19 @@
                         ->prependStylesheet($this->basePath() . '/css/QuanLyCongVanLayout.css')
                         ->prependStylesheet($this->basePath() . '/vendor/semantic-ui/semantic.css')
                         ->prependStylesheet($this->basePath() . '/vendor/jstree/themes/default/style.css')
+                        ->prependStylesheet($this->basePath() . '/vendor/jqwidgets/styles/jqx.base.css')
                        ; ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/vendor/semantic-ui/semantic.js')
             ->prependFile($this->basePath() . '/vendor/jstree/jstree.js')
+
+            ->prependFile($this->basePath() . '/vendor/jqwidgets/globalization/globalize.js')
+            ->prependFile($this->basePath() . '/vendor/jqwidgets/jqxtooltip.js')
+            ->prependFile($this->basePath() . '/vendor/jqwidgets/jqxcalendar.js')
+            ->prependFile($this->basePath() . '/vendor/jqwidgets/jqxdatetimeinput.js')
+            ->prependFile($this->basePath() . '/vendor/jqwidgets/jqxcore.js')
 
             ->prependFile($this->basePath() . '/js/script.js')
             ->prependFile($this->basePath() . '/js/QuanLyChiDao.js')
