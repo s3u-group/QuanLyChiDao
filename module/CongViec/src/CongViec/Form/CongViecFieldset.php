@@ -67,14 +67,12 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	)
         ));
 
-        $this->add(array(
-            'name' => 'dinhKem',
-            'type' => 'file',
-            'options' => array(
-                'label' => 'Đính kèm',
-                'multiple'=>true,
-            )
-        ));
+        // File Input
+        $dinhKems = new \Zend\Form\Element\File('dinhKem');
+        $dinhKems->setAttribute('id', 'dinhKem') 
+                 ->setAttribute('label', 'Đính kèm')  
+                 ->setAttribute('multiple', true);   // That's it
+        $this->add($dinhKems);
     }
 
     public function getInputFilterSpecification()

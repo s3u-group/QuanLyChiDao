@@ -18,7 +18,7 @@ class CreateAccountForm extends Form
             ->setHydrator(new DoctrineHydrator($objectManager))
         ;
 
-        $this->add(array(
+        /*$this->add(array(
             'type' => 'hidden',
             'name' => 'id'
         ));
@@ -59,7 +59,11 @@ class CreateAccountForm extends Form
         $this->add(array(
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
-        ));
+        ));*/
+
+        $userFieldset = new UserFieldset($objectManager);
+        $userFieldset->setUseAsBaseFieldset(true);
+        $this->add($userFieldset);
 
         $this->add(array(
             'name' => 'submit',

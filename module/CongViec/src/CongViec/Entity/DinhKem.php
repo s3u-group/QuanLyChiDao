@@ -6,6 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="dinh_kem")
+ * @ORM\MappedSuperclass
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="loai_doi_tuong", type="integer")
+ * @ORM\DiscriminatorMap({"1" = "DinhKem", "2" = "DinhKemTheoDoi"})
  */
 class DinhKem
 {
@@ -27,14 +31,6 @@ class DinhKem
 	 */
 	protected $doiTuong;
 
-	const CONG_VAN=1;
-	const THEO_DOI=2;
-
-	/**
-	 * @ORM\Column(name="loai_doi_tuong", type="integer")
-	 */
-	protected $loaiDoiTuong;
-
 	public function getId(){
 		return $this->id;
 	}
@@ -53,13 +49,5 @@ class DinhKem
 
 	public function getDoiTuong(){
 		return $this->doiTuong;
-	}
-
-	public function setLoaiDoiTuong($loaiDoiTuong){
-		$this->loaiDoiTuong = $loaiDoiTuong;
-	}
-
-	public function getLoaiDoiTuong(){
-		return $this->loaiDoiTuong;
-	}
+	}	
 }

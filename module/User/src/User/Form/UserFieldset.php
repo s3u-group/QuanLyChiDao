@@ -48,12 +48,16 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 
         $this->add(array(
             'name' => 'username',
-            'type' => 'hidden',            
+            'type' => 'text',
+            'options' => array(                
+            ),
+            'attributes' => array(
+            ),            
         ));
 
         $this->add(array(
             'name' => 'password',
-            'type' => 'text',
+            'type' => 'password',
             'options' => array(                
             ),
             'attributes' => array(

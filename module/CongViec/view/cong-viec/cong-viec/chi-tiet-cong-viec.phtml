@@ -38,7 +38,51 @@ use CongViec\Entity\CongViec;
 ?>
 </div>
 <div class="ui bottom attached tab segment" data-tab="second">
-  cập nhật
+ <?php
+ 	$form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	$capNhatCongViec=$form->get('congViecs');
+	echo $this->formHidden($capNhatCongViec->get('id'));
+	echo $this->formRow($capNhatCongViec->get('loai'));
+	echo $this->formRow($capNhatCongViec->get('noiDung'));
+	echo $this->formRow($capNhatCongViec->get('ngayBanHanh'));
+	echo $this->formRow($capNhatCongViec->get('ngayHoanThanh'));
+	echo $this->formRow($capNhatCongViec->get('dinhKem'));
+	//die(var_dump($congViec->getDinhKems()));
+
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag();
+ ?>
+ <table>
+ 	<thead>
+ 		<tr>
+ 			<th>
+ 				Tên file
+ 			</th>
+ 			<th>
+ 				Xóa
+ 			</th>
+ 		</tr>
+ 	</thead>
+ 	<tbody>
+ 	<?php
+ 	foreach ($congViec->getDinhKems() as $dinhKem) {
+ 	?>
+ 		<tr>
+ 			<td>
+ 				<?php echo $dinhKem->getUrl(); ?>
+ 			</td>
+ 			<td>
+ 				<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Xóa</a>
+ 			</td>
+ 		</tr>
+ 	<?php
+ 	}
+ 	?>
+ 		
+ 	</tbody>
+ </table>
 </div>
 
 <table>
@@ -67,7 +111,7 @@ use CongViec\Entity\CongViec;
 				echo $theoDoi->getNguoiBaoCao()->getUsername();
 			echo '</td>';
 			echo '<td>';
-				echo 'dinh kem';
+				//die(var_dump($theoDoi->getDinhKems()));
 			echo '</td>';
 		echo '</tr>';
 
