@@ -25,7 +25,7 @@ class TheoDoi
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
-	 * @ORM\JoinColumn(name="nguoi_bao_cao_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="nguoi_bao_cao_id", referencedColumnName="user_id")
 	 */
 	protected $nguoiBaoCao;
 

@@ -73,7 +73,8 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
             'name' => 'dinhKem',
             'type' => 'file',
             'options' => array(
-                'label' => 'Đính kèm'
+                'label' => 'Đính kèm',
+                'multiple'=>true,
             )
         ));
     }

@@ -128,11 +128,17 @@ return array(
                     ),
                     array(
                         'label' => 'Theo dõi việc đã giao',
-                        'uri' => '#'
+                        'route' => 'theo_doi/crud',
+                        'params' => array(
+                            'action' => 'index'
+                        )
                     ),
                     array(
                         'label' => 'Báo cáo nghiệm thu',
-                        'uri' => '#'
+                        'route' => 'theo_doi/crud',
+                        'params' => array(
+                            'action' => 'bao-cao-nghiem-thu'
+                        )
                     ),
                     array(
                         'label' => 'Nhật ký công việc',

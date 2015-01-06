@@ -26,6 +26,9 @@ class DinhKem
 	 */
 	protected $doiTuong;
 
+	const CONG_VAN=1;
+	const THEO_DOI=2;
+
 	/**
 	 * @ORM\Column(name="loai_doi_tuong", type="integer")
 	 */
