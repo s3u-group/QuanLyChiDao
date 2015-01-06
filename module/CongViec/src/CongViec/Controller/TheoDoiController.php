@@ -3,6 +3,10 @@
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use CongViec\Entity\PhanCong;
+use CongViec\Entity\TheoDoi;
+use CongViec\Entity\DinhKem;
+use CongViec\Form\TheoDoiForm;
+use CongViec\Form\TheoDoiFieldset;
 
 class TheoDoiController extends AbstractActionController
 {
@@ -158,6 +162,73 @@ class TheoDoiController extends AbstractActionController
             'dieuKien'=>$dieuKien,
         );
         
+    }
+
+    public function baoCaoMoiAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('theo_doi/crud',array('action'=>'index'));
+        }  
+        $entityManager=$this->getEntityManager();  
+        $form = new TheoDoiForm($entityManager);
+        $baoCao = new TheoDoi();
+        $form->bind($baoCao);
+
+        $nguoiThucHiens=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        $nguoiThucHiens=$nguoiThucHiens->getNguoiThucHiens();
+        //die(var_dump($nguoiThucHiens));
+
+        $request=$this->getRequest();
+        if($request->isPost())
+        {
+            $form->setData($request->getPost());
+            if($form->isValid())
+            {
+                //die(var_dump('isValid'));
+                $post = array_merge_recursive(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+                );
+                $post=$post['theo-doi']['dinhKems'];
+                $entityManager->persist($baoCao);
+                $entityManager->flush();
+                $this->dinhKemMoi($entityManager,$post,$baoCao);
+                $this->flashMessenger()->addMessage('Thêm báo cáo thành công!');
+                return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
+                
+            }
+            else
+            {
+                $this->flashMessenger()->addMessage('Thêm báo cáo thất bại!');
+            }
+        }
+        return array(
+            'form'=>$form,
+            'id'=>$id,
+            'nguoiThucHiens'=>$nguoiThucHiens,
+        );
+
+    }
+
+    public function dinhKemMoi($entityManager,$post,$baoCao)
+    {
+        $dinhKems=$post;        
+        foreach ($dinhKems as $dinhKem) {
+            if($dinhKem['error']==0)
+            {
+                $uniqueToken=md5(uniqid(mt_rand(),true));
+                $newName=$uniqueToken.'_'.$dinhKem['name'];
+                $filter = new \Zend\Filter\File\Rename('./public/dinhKems/'.$newName);
+                $filter->filter($dinhKem);
+
+                $dk=new DinhKem();
+                $dk->setUrl($newName);
+                $dk->setDoiTuong($baoCao->getId());
+                $dk->setLoaiDoiTuong(DinhKem::THEO_DOI);
+                $entityManager->persist($dk);
+                $entityManager->flush();
+            }
+        }
     }
 
    

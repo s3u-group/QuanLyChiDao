@@ -6,6 +6,8 @@ use Zend\View\Model\ViewModel;
 use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
 use CongViec\Form\GiaoViecForm;
+use DateTime;
+use CongViec\Entity\CapNhatCongViecForm;
 
 
 class CongViecController extends AbstractActionController
@@ -98,7 +100,7 @@ class CongViecController extends AbstractActionController
         }
         if($dieuKienLoc=='')
         {
-            $dieuKienLoc='Trễ hạn';
+            $dieuKienLoc='Tất cả';
         }
         /*die(var_dump($congViecs));*/
         return array(
@@ -208,13 +210,47 @@ class CongViecController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('kenh_phan_phoi/crud',array('action'=>'nhaCungCap'));
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'index'));
         }  
         $entityManager=$this->getEntityManager();
         $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
-        //die(var_dump($congViec));
+
+        $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
+        $theoDois=$query->getResult();
+
+        $form = new CapNhatCongViecForm($entityManager);
+        $form->bind($congViec);
+
         return array(
             'congViec'=>$congViec,
+            'theoDois'=>$theoDois,
         );
+    }
+
+    public function hoanThanhAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'index'));
+        }
+        $entityManager=$this->getEntityManager();
+        $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        
+        $ngayHienTai=date('Y-m-d');        
+        $ngayHoanThanh=$congViec->getNgayHoanThanh()->format('Y-m-d');
+
+        
+        if(strtotime($ngayHienTai) > strtotime($ngayHoanThanh)){
+            $congViec->setTrangThai(CongViec::TRE_HAN);
+        }
+        else
+        {
+            $congViec->setTrangThai(CongViec::HOAN_THANH);
+        }
+        $ngayHienTai = DateTime::createFromFormat('Y-m-d', $ngayHienTai);
+        $congViec->setNgayHoanThanhThuc($ngayHienTai);
+        $entityManager->flush(); 
+        //$this->flashMessenger()->addMessage('Cập nhật công việc thành công!');
+        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$id));
     }
 }

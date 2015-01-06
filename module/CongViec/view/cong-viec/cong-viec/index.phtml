@@ -1,3 +1,8 @@
+<?php
+  use CongViec\Entity\PhanCong;
+
+  $idUser=$this->zfcUserIdentity()->getId();
+?>
 <div class="divView">        
   
   <div class="ui grid">           
@@ -134,8 +139,27 @@
               } 
               if($congViec->getTrangThaiNhom()!='Hoàn thành')
               {
-                
+                $link=0;
+                if($congViec->getNguoiThucHiens())
+                {
+                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
+                  
+                  foreach ($nguoiThucHiens as $nguoiThucHien) {
+                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
+                    {
+                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
+                        $link=1;
+                      }                      
+                    }
+                  }
+                  
+                }
+                if ($link==1){
+                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                }
+                else{   
                   echo '<td>'.$congViec->getTen().'</td>';
+                }               
                   echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
                   echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
                 echo '</tr>';
@@ -146,7 +170,27 @@
             {
               echo '<tr class="blue">'; 
                 
-                echo '<td>'.$congViec->getTen().'</td>';
+                $link=0;
+                if($congViec->getNguoiThucHiens())
+                {
+                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
+                  
+                  foreach ($nguoiThucHiens as $nguoiThucHien) {
+                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
+                    {
+                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
+                        $link=1;
+                      }                      
+                    }
+                  }
+                  
+                }
+                if ($link==1){
+                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                }
+                else{   
+                  echo '<td>'.$congViec->getTen().'</td>';
+                }      
                 echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -155,7 +199,27 @@
             {
               echo '<tr class="purple">'; 
                 
-                echo '<td>'.$congViec->getTen().'</td>';
+                $link=0;
+                if($congViec->getNguoiThucHiens())
+                {
+                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
+                  
+                  foreach ($nguoiThucHiens as $nguoiThucHien) {
+                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
+                    {
+                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
+                        $link=1;
+                      }                      
+                    }
+                  }
+                  
+                }
+                if ($link==1){
+                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                }
+                else{   
+                  echo '<td>'.$congViec->getTen().'</td>';
+                }      
                 echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -164,7 +228,27 @@
             {
               echo '<tr class="lightred">'; 
                 
-                echo '<td>'.$congViec->getTen().'</td>';
+                $link=0;
+                if($congViec->getNguoiThucHiens())
+                {
+                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
+                  
+                  foreach ($nguoiThucHiens as $nguoiThucHien) {
+                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
+                    {
+                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
+                        $link=1;
+                      }                      
+                    }
+                  }
+                  
+                }
+                if ($link==1){
+                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                }
+                else{   
+                  echo '<td>'.$congViec->getTen().'</td>';
+                }      
                 echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';

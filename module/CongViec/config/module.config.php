@@ -92,6 +92,14 @@ return array(
         ),
     ),
 
+    'view_helpers'=>array(
+        'invokables'=>array( 
+            'array_danh_sach_nguoi_thuc_hien'=>'CongViec\View\Helper\ArrayDanhSachNguoiThucHien',
+
+        ),
+    ),
+
+
     'doctrine' => array(
         'driver' => array(
 
