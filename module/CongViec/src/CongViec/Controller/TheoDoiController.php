@@ -4,7 +4,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use CongViec\Entity\PhanCong;
 use CongViec\Entity\TheoDoi;
-use CongViec\Entity\DinhKem;
+use CongViec\Entity\DinhKemTheoDoi;
 use CongViec\Form\TheoDoiForm;
 use CongViec\Form\TheoDoiFieldset;
 
@@ -192,7 +192,7 @@ class TheoDoiController extends AbstractActionController
                 $post=$post['theo-doi']['dinhKems'];
                 $entityManager->persist($baoCao);
                 $entityManager->flush();
-                $this->dinhKemMoi($entityManager,$post,$baoCao);
+                $this->dinhKemMoi($post,$baoCao);
                 $this->flashMessenger()->addMessage('Thêm báo cáo thành công!');
                 return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
                 
@@ -210,21 +210,24 @@ class TheoDoiController extends AbstractActionController
 
     }
 
-    public function dinhKemMoi($entityManager,$post,$baoCao)
+    public function dinhKemMoi($post,$baoCao)
     {
+        $entityManager=$this->getEntityManager();       
         $dinhKems=$post;        
+        //die(var_dump($baoCao));
         foreach ($dinhKems as $dinhKem) {
             if($dinhKem['error']==0)
             {
+                //die(var_dump($baoCao->getId()));
                 $uniqueToken=md5(uniqid(mt_rand(),true));
                 $newName=$uniqueToken.'_'.$dinhKem['name'];
                 $filter = new \Zend\Filter\File\Rename('./public/dinhKems/'.$newName);
                 $filter->filter($dinhKem);
-
-                $dk=new DinhKem();
+                $dk=new DinhKemTheoDoi();
+                
                 $dk->setUrl($newName);
-                $dk->setDoiTuong($baoCao->getId());
-                $dk->setLoaiDoiTuong(DinhKem::THEO_DOI);
+                $dk->setDoiTuong($baoCao);
+                //die(var_dump($dk));
                 $entityManager->persist($dk);
                 $entityManager->flush();
             }
