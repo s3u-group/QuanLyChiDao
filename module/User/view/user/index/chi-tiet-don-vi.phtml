@@ -5,7 +5,18 @@
  <div class="sixteen wide column row center aligned">
  	<h2><?php echo $this->escapeHtml($title).' - Danh sách tài khoản'; ?></h2>
  </div>
-
+<!-- <div class="sixteen wide column row right aligned">
+  <div class="fields">
+    <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'chiTietDonVi')); ?>" onsubmit="return kiemTraTim();">
+      <div class="ui icon input">      
+      <input placeholder="Tìm nhanh" id="txtDuLieu" name="txtDuLieu" type="text">
+      <i class="search icon"></i>
+      </div>
+      <input class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm" type="submit">
+      <a href="<?php echo $this->url('user/crud',array('action'=>'chiTietDonVi',));?>"><input class="tiny ui button" value="Xem hết" type="button"></a>
+    </form>
+  </div>
+ </div> -->
 <div class="sixteen wide column fluid">
       <table class="ui table">
         <thead>
@@ -33,4 +44,4 @@
 				<?php endforeach; ?>
         </tbody>
       </table>
-    </div>
+</div>
