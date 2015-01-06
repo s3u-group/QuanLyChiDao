@@ -3,7 +3,7 @@
  $title = 'EDIT USER';
  $this->headTitle($title);
  ?>
- <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <h2><?php echo $this->escapeHtml($title); ?></h2>
 
 <?php
 $form->setAttribute('action', $this->url('user/crud', array('action'=>'edit','id' => $id)));

@@ -29,7 +29,8 @@ class GiaoViecForm extends Form
              'name' => 'submit',
              'type' => 'Submit',
              'attributes' => array(
-                 'value' => 'Lưu thông tin'
+                'value' => 'Gửi công việc đi',
+                'class' => 'ui blue submit button'
              ),
          ));
     }

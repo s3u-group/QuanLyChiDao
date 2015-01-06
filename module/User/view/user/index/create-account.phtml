@@ -1,0 +1,201 @@
+<?php
+	$dateTime = new DateTime(null, new DateTimeZone('Asia/Ho_Chi_Minh'));
+	if ($this->flashMessenger()->hasMessages()) 
+	{
+    	echo '<div class="ui positive message">
+  				<i id="btFm" class="close icon"></i>
+  				<div class="header">';
+
+    	$messages = $this->flashMessenger()->getMessages();
+    	foreach($messages as $message) {
+        	echo $message;
+    	}
+    	echo '</div></div>';
+
+    	echo '
+	    <script type="text/javascript">
+	        setTimeout(function(){
+	            document.getElementById("btFm").click();
+	        },5000);
+	    </script>';
+    }	
+?>
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="first">TẠO TÀI KHOẢN</a>
+</div>
+<div class="ui bottom attached active tab segment" data-tab="first">
+	<div class="ui small form segment">
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Tên đăng nhập</label>
+	      <?php
+			$form->setAttribute('action', $this->url('user/crud', array('action'=>'createAccount')));
+			$form->setAttribute('id','frmCreateAccount');
+  			$form->setAttribute('onSubmit','return kiemTra();');
+			$form->setAttribute('role','form');
+			$form->prepare(); 
+			echo $this->form()->openTag($form);	      	
+			$nguoiDung=$form->get('user');	
+			echo $this->formHidden($nguoiDung->get('id'));
+
+			$nguoiDung->get('ngayTao')->setAttribute('value',Date('Y-m-d'));
+			echo $this->formHidden($nguoiDung->get('ngayTao'));
+			$nguoiDung->get('dangNhapCuoi')->setAttribute('value',Date('Y-m-d'));
+			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+			$nguoiDung->get('ngayChinhSua')->setAttribute('value',Date('Y-m-d'));
+			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
+
+	      	$username=$nguoiDung->get('username');
+	      	$username->setAttribute('required','required');
+	      	echo $this->formElement($username);
+	      	if($kiemTraUsername==1)
+	      	{
+	      		echo "<div class='ui red message'>Tên đăng nhập đã được sử dụng</div>";	      		
+	      	}
+	      ?>
+	    </div>
+	  </div>
+	  <div class="fields">
+	  	<div class="four wide field">
+	      <label>Mật khẩu</label>
+	      <?php 
+	      	$password=$nguoiDung->get('password');
+	      	$password->setAttribute('required','required');
+	      	$password->setAttribute('id','pass');
+	      	echo $this->formElement($password);	      	
+	      ?>
+	    </div>	    
+	  </div>
+
+	  <div class="fields">
+	  	<div class="four wide field">
+	      <label>Nhập lại mật khẩu</label>
+	      <input type="password" id="passVerify" required="required"/>
+	    </div>	    
+	  </div>
+	  <div class="fields">
+		<div id="kiemTraMatKhau" class='ui red message eight wide field' hidden></div>	
+	  </div>
+
+	  <div class="fields">
+	    <div class="four wide field">
+	      <label>Họ</label>
+	      <?php
+		    $ho=$nguoiDung->get('ho');
+			$ho->setAttribute('required','required');
+			echo $this->formElement($ho);
+	      ?>
+	    </div>
+	    <div class="four wide field">
+	      <label>Tên</label>	      
+	      <?php 
+	      	$ten=$nguoiDung->get('ten');
+	      	$ten->setAttribute('required','required');
+	      	echo $this->formElement($ten); 
+	      ?> 
+	    </div>
+	   </div>
+	  <div class="field">
+	      <label>Giới tính</label>
+		  <div class="ui radio checkbox">
+		  	<input name="gioiTinh" value="Nam" checked="checked" type="radio"><label>Nam</label>
+	  	  </div>
+	  	  <div class="ui radio checkbox">
+		    <input name="gioiTinh" value="Nu" type="radio"><label>Nữ</label>
+		  </div>	    
+	  </div>
+
+	  <div class="fields">
+	  	<div class="four wide field">
+	      <label>Tên hiển thị</label>
+	      <?php 
+	      	$displayName=$nguoiDung->get('displayName');
+	      	$displayName->setAttribute('required','required');
+	      	echo $this->formElement($displayName); 
+	      ?>
+	    </div>
+	    <div class="four wide field">
+	      <label>Điện thoại</label>
+	      <?php 
+	      	$dienThoai=$nguoiDung->get('dienThoai');
+	      	$dienThoai->setAttribute('required','required');
+	      	$dienThoai->setAttribute('type','number');
+	      	$dienThoai->setAttribute('min','0');	      	
+	      	echo $this->formElement($dienThoai); 
+	      ?> 
+	  	</div>
+	  </div>
+
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Địa chỉ</label>
+	      <?php 
+	      	$diaChi=$nguoiDung->get('diaChi');
+	      	$diaChi->setAttribute('required','required');
+	      	echo $this->formElement($diaChi);	      	
+	      ?>
+	    </div>
+	  </div>
+
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Email</label>
+	      <?php 
+	      	$email=$nguoiDung->get('email');
+	      	$email->setAttribute('required','required');	      	
+	      	echo $this->formElement($email);
+	      	if($kiemTraEmail==1)
+	      	{
+	      		echo "<div class='ui red message'>Email đã được sử dụng</div>";	      		
+	      	}
+	      ?>	      
+	    </div>
+	  </div>	  
+	  <div class="fields">&nbsp;</div>
+	  <div class="fields">	  	
+		<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">		
+	  		<input type="button" class="tiny ui button item" value="Trở về">
+	  	</a>	  	
+	  	<?php
+	  		$form->get('submit')->setAttribute('class','tiny ui button item blue');
+	  		echo $this->formSubmit($form->get('submit'));
+	  		echo $this->form()->closeTag();
+	  	?>	  	
+	  </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.menu .item').tab();
+
+	$('.ui.radio.checkbox').checkbox();
+
+	$('select.dropdown').dropdown();
+});
+
+$('.message .close').on('click', function() {
+  $(this).closest('.message').fadeOut();
+});
+</script>
+
+<script type="text/javascript">
+kiemTra=function()
+{
+	var pass=document.getElementById('pass');
+	var passVerify=document.getElementById('passVerify');	
+	if(pass.value==passVerify.value)
+	{
+		document.getElementById('frmCreateAccount').submit();
+		return true;
+	}
+	else
+	{
+		//pass.value='';
+		//passVerify.value='';
+		document.getElementById("kiemTraMatKhau").hidden=false;		
+		$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
+		return false;
+	}	
+}
+</script>

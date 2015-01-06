@@ -1,37 +1,178 @@
-<h1>Giao việc</h1>
 <?php
 $form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'giao-viec')));
 $form->prepare();?>
 
 <?php
 echo $this->form()->openTag($form);
-$congVan = $form->get('cong-van');?>
-<div class="ui grid">
-	<div class="ui form eight wide column">
-		<h4 class="ui dividing header">Công văn</h4>
-		<div class="field">
-			<?php echo $this->formRow($congVan->get('soHieu')); ?>
-		</div>
-		<div class="field">
-			<?php echo $this->formRow($congVan->get('ngayBanHanh'));?>
-		</div>
-		<div class="field">
-			<?php echo $this->formRow($congVan->get('nguoiKy'));?>
-		</div>
-		<div class="field">
-			<?php echo $this->formRow($congVan->get('trichYeu'));?>
-		</div>
-		<div class="field">
-			<?php echo $this->formRow($congVan->get('dinhKem'));?>
-		</div>		
-		<div class="field">
-			<?php echo $this->formCollection($congVan->get('congViecs'));?>
+$congVan = $form->get('cong-van');
+$congViec = $congVan->get('congViecs');?>
+<div class="ui form">
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="ten wide column">
+				<div class="field">
+					<?php echo $this->formLabel($congViec->get('loai')); ?>
+		          	<?php echo $this->formElement($congViec->get('loai')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('loai')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congViec->get('ten')); ?>
+		          	<?php echo $this->formElement($congViec->get('ten')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('ten')); ?>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<?php echo $this->formLabel($congViec->get('ngayBanHanh')); ?>
+			          	<?php echo $this->formElement($congViec->get('ngayBanHanh')); ?>
+			          	<?php echo $this->formElementErrors($congViec->get('ngayBanHanh')); ?>
+					</div>
+					<div class="field">
+						<?php echo $this->formLabel($congViec->get('ngayHoanThanh')); ?>
+			          	<?php echo $this->formElement($congViec->get('ngayHoanThanh')); ?>
+			          	<?php echo $this->formElementErrors($congViec->get('ngayHoanThanh')); ?>
+					</div>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congViec->get('noiDung')); ?>
+		          	<?php echo $this->formElement($congViec->get('noiDung')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('noiDung')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congViec->get('dinhKem')); ?>
+		          	<?php echo $this->formElement($congViec->get('dinhKem')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('dinhKem')); ?>
+				</div>
+			</div>
+			<div class="six wide column">
+				<div class="field">
+					<?php echo $this->formLabel($congVan->get('soHieu')); ?>
+		          	<?php echo $this->formElement($congVan->get('soHieu')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('soHieu')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congVan->get('ngayBanHanh')); ?>
+		          	<?php echo $this->formElement($congVan->get('ngayBanHanh')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('ngayBanHanh')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congVan->get('nguoiKy')); ?>
+		          	<?php echo $this->formElement($congVan->get('nguoiKy')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('nguoiKy')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congVan->get('trichYeu')); ?>
+		          	<?php echo $this->formElement($congVan->get('trichYeu')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('trichYeu')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($congVan->get('dinhKem')); ?>
+		          	<?php echo $this->formElement($congVan->get('dinhKem')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('dinhKem')); ?>
+				</div>
+			</div>
 		</div>
 
-		<?php echo $this->formHidden($form->get('csrf')); ?>
-		<div class="field">
-			<?php echo $this->formSubmit($form->get('submit')); ?>
+		<div class="row">
+			<div class="eight wide column">
+				<div class="field">
+					<label>Thực hiện</label>
+					<div class="jstree">
+                        <ul>
+                            <li>Văn phòng Ủy ban
+                                <ul>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                    <li>Nguyễn Trường Giang</li>
+                                </ul>
+                            </li>
+                            <li>Phòng Công nghệ thông tin
+                            	<ul>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            	</ul>
+                            </li>
+                            <li>Phòng Lao động thương binh và xã hội
+                            	<ul>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            	</ul>
+                            </li>
+                            <li>Phòng Quản lý đất đai
+                            	<ul>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            		<li>Nguyễn Trường Gian</li>
+                            	</ul>
+                            </li>
+                        </ul>
+                    </div>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<div class="field">
+					<label>Phân công</label>
+					<div id="event_result" class="ui divided list">
+						<div class="item">
+						    <div class="right floated compact ui dropdown">
+							  	<div class="text">Thực hiện</div>
+							  	<i class="dropdown icon"></i>
+							  	<div class="menu">
+								    <div class="item">Thực hiện</div>
+								    <div class="item">Chủ trì</div>
+								    <div class="item">Theo dõi</div>
+								    <div class="item">Cập nhật</div>
+							  	</div>
+							</div>
+						    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
+						    <div class="content">
+						     	Nguyễn Trường Giang
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<?php echo $this->form()->closeTag();?>
+			
+		<div class="row">
+			<div class="sixteen wide column">
+				<div class="field">
+					<div class="ui checkbox">
+				      	<input type="checkbox">
+				      	<label>Công việc khẩn</label>
+				    </div>
+				</div>
+				<div class="field">
+					<?php echo $this->formSubmit($form->get('submit')); ?>
+				</div>
+			</div>
+			<?php echo $this->formHidden($form->get('csrf')); ?>
+			<?php echo $this->form()->closeTag();?>
+		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$('.jstree').jstree({
+	    "checkbox" : {
+	      "keep_selected_style" : false
+	    },
+	    "plugins" : [ "checkbox" ]
+	}).on('changed.jstree', function (e, data) {
+	    var i, j, r = [];
+	    for(i = 0, j = data.selected.length; i < j; i++) {
+	      r.push(data.instance.get_node(data.selected[i]).text);
+	    }
+	   // $('#event_result').html('Selected: ' + r.join(', '));
+	   jQuery.each(r, function(i, val){
+	   		//alert(val);	   
+	   	});
+  	});
+</script>

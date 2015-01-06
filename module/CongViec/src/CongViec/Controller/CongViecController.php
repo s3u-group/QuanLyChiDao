@@ -102,6 +102,7 @@ class CongViecController extends AbstractActionController
         {
             $dieuKienLoc='Tất cả';
         }
+
         /*die(var_dump($congViecs));*/
         return array(
             'congViecs'=>$congViecs,

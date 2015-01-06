@@ -51,7 +51,13 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             'name' => 'nguoiKy',
             'type' => 'select',
             'options' => array(
-                'label' => 'Người ký'
+                'label' => 'Người ký',
+                'value_options' => array(
+                    '1' => 'Bình'
+                )
+            ),
+            'attributes' => array(
+                'class' => 'ui dropdown'
             )
         ));
 
@@ -63,18 +69,22 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $congViecFieldset = new CongViecFieldset($objectManager);
+        $fieldset = new CongViecFieldset($objectManager);
+        $fieldset->setUseAsBaseFieldset(true);
+        $this->add($fieldset);
+
+        /*$congViecFieldset = new CongViecFieldset($objectManager);
         $this->add(array(
             'type' => 'Zend\Form\Element\Collection',
             'name' => 'congViecs',
             'options' => array(
-                 'label' => 'Danh sách công việc',
+                'label' => 'Danh sách công việc',
                 'count' => 1,
                 'should_create_template' => true,
                 'allow_add' => true,
                 'target_element' => $congViecFieldset
             ),
-        ));
+        ));*/
        
     }
     public function getInputFilterSpecification()
