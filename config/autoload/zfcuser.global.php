@@ -153,7 +153,7 @@ $settings = array(
      * Accepted values: A valid route name within your application
      *
      */
-    'login_redirect_route' => 'cong_viec/crud',
+    'login_redirect_route' => 'cong_viec',
 
     /**
      * Logout Redirect Route

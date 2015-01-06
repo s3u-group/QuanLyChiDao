@@ -59,6 +59,30 @@ return array(
                     ),            
                 ),
             ),
+            'theo_doi' => array(
+                'type'    => 'literal', 
+                'options' => array(
+                    'route'    => '/theo-doi',                    
+                    'defaults' => array(
+                       '__NAMESPACE__'=>'CongViec\Controller',
+                        'controller' => 'TheoDoi',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'=>'[0-9]+',
+                            ),                            
+                        ),
+                    ),            
+                ),
+            ),
          ),
      ), 
 
@@ -67,6 +91,14 @@ return array(
             'cong_viec' => __DIR__ . '/../view',
         ),
     ),
+
+    'view_helpers'=>array(
+        'invokables'=>array( 
+            'array_danh_sach_nguoi_thuc_hien'=>'CongViec\View\Helper\ArrayDanhSachNguoiThucHien',
+
+        ),
+    ),
+
 
     'doctrine' => array(
         'driver' => array(

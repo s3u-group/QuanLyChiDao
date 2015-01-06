@@ -27,8 +27,22 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	'name' => 'loai',
         	'type' => 'select',
         	'options' => array(
-        		'label' => 'Loại luồng'
-        	)
+        		'label' => 'Loại luồng',
+                'value_options' => array(
+                    '1' => 'Luồng nội bộ'
+                )
+        	),
+            'attributes' => array(
+                'class' => 'ui dropdown'
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'ten',
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Chủ đề'
+            )
         ));
 
         $this->add(array(
@@ -59,7 +73,8 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
             'name' => 'dinhKem',
             'type' => 'file',
             'options' => array(
-                'label' => 'Đính kèm'
+                'label' => 'Đính kèm',
+                'multiple'=>true,
             )
         ));
     }

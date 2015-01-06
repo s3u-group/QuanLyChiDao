@@ -15,4 +15,5 @@ class PhanCongController extends AbstractActionController
         }
         return $this->entityManager;
     }
+    
 }

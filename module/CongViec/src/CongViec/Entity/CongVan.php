@@ -102,11 +102,6 @@ class CongVan
 	 */
 	protected $cha;
 
-	/**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKem", mappedBy="doiTuong")
-     */
-    protected $dinhKems;
-
     /**
      * @ORM\OneToMany(targetEntity="CongViec\Entity\PhanCong", mappedBy="congVan")
      */
@@ -122,7 +117,7 @@ class CongVan
     protected $donViTiepNhans;
 
     /**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="congVan", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="congVan")
      */
     protected $congViecs;
 
@@ -248,15 +243,16 @@ class CongVan
         $ngayHoanThanh= $this->ngayHoanThanh->format('Y-m-d');
         $ngayHoanThanhThuc= $this->ngayHoanThanhThuc;
         $ngayHienTai=date('Y-m-d');
-
+        //var_dump('id: '.$this->id.' ngayHienTai: '.$ngayHienTai.'  ngayHoanThanh: '.$ngayHoanThanh);
         // nếu chưa có ngày hoàn thành thực
-        if($this->ngayHoanThanhThuc==null||$this->ngayHoanThanhThuc==''){
-        	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)
+        if($this->ngayHoanThanhThuc==null||$this->ngayHoanThanhThuc==''||$this->ngayHoanThanhThuc->getTimestamp()==0){
+        	if(strtotime($ngayHienTai) > strtotime($ngayHoanThanh))
         	{
         		return 'Trễ hạn';
         	}
+        	//var_dump((strtotime($ngayHienTai) - strtotime($ngayHoanThanh)));
         }
-        if($this->trangThai==null&&$this->ngayHoanThanhThuc==null)
+        /*if($this->trangThai==null&&$this->ngayHoanThanhThuc==null)
         {
         	if((strtotime($ngayHienTai) - strtotime($ngayHoanThanh))>0)
         	{
@@ -266,8 +262,8 @@ class CongVan
         	{
         		return 'Chưa xem';
         	}
-        }
-        if($this->trangThai==null&&$this->ngayHoanThanhThuc)
+        }*/
+        /*if($this->trangThai==null&&$this->ngayHoanThanhThuc)
         {
         	$ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');
         	if((strtotime($ngayHoanThanhThuc) - strtotime($ngayHoanThanh))>0)
@@ -278,7 +274,7 @@ class CongVan
         	{
         		return 'Hoàn thành';
         	}
-        }
+        }*/
        /* if($this->ngayHoanThanhThuc)
         {
         	$ngayHoanThanhThuc= $this->ngayHoanThanhThuc->format('Y-m-d');

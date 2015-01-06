@@ -1,0 +1,102 @@
+<?php
+use CongViec\Entity\CongViec;
+
+
+	if ($this->flashMessenger()->hasMessages()) 
+	{
+    	echo '<div class="ui positive message">
+  				<i id="btFm" class="close icon"></i>
+  				<div class="header">';
+
+    	$messages = $this->flashMessenger()->getMessages();
+    	foreach($messages as $message) {
+        	echo $message;
+    	}
+    	echo '</div></div>';
+
+    	echo '
+	    <script type="text/javascript">
+	        setTimeout(function(){
+	            document.getElementById("btFm").click();
+	        },5000);
+	    </script>';
+    }	
+?>
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="first">Thông tin chi tiết</a>
+  <a class="item" data-tab="second">Cập nhật</a>
+</div>
+<div class="ui bottom attached active tab segment" data-tab="first">
+<?php
+	echo 'Tên công việc'.$congViec->getTen().'<br>';
+	echo 'Tên người tạo'.$congViec->getNguoiTao()->getUsername().'<br>';
+	echo 'Nội dung'.$congViec->getNoiDung().'<br>';
+	echo 'Trích yếu' .$congViec->getTrichYeu().'<br>';
+	echo 'Ngày ban hànhs' .$congViec->getNgayBanHanh()->format('d-m-Y').'<br>';
+	echo 'Ngày hoàn thành' .$congViec->getNgayHoanThanh()->format('d-m-Y').'<br>';
+	echo 'Trạng thái' .$congViec->getTrangThaiNhom().'<br>';
+?>
+</div>
+<div class="ui bottom attached tab segment" data-tab="second">
+  cập nhật
+</div>
+
+<table>
+	<thead>
+        <tr>
+			<th>Nội dung</th>
+			<th>Ngày báo cáo</th>
+			<th>Người báo cáo</th>
+			<th>Đính kèm</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	foreach ($theoDois as $theoDoi) {
+		//die(var_dump($theoDoi->getDinhKems()));
+		echo '<tr>';
+			echo '<td>'; 
+				echo $theoDoi->getNoiDung();
+			echo '</td>';
+
+			echo '<td>';
+				echo $theoDoi->getNgayBaoCao()->format('d-m-Y');
+			echo '</td>';
+
+			echo '<td>';
+				echo $theoDoi->getNguoiBaoCao()->getUsername();
+			echo '</td>';
+			echo '<td>';
+				echo 'dinh kem';
+			echo '</td>';
+		echo '</tr>';
+
+	}
+	?>
+		
+	</tbody>
+</table>
+<?php 
+	if($congViec->getTrangThai()==CongViec::HOAN_THANH||$congViec->getTrangThai()==CongViec::TRE_HAN)
+	{?>
+		<input type="submit" value="Hoàn thành">&nbsp;<input type="submit" value="Báo cáo mới">
+	<?php
+	}
+	else{ ?>
+		
+		<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'hoanThanh','id'=>$congViec->getId())); ?>"><input type="submit" value="Hoàn thành"></a>
+		<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'baoCaoMoi','id'=>$congViec->getId())); ?>"><input type="submit" value="Báo cáo mới"></a>
+	<?php
+	}
+?>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.menu .item').tab();
+		$('.message .close').on('click', function() {
+		  $(this).closest('.message').fadeOut();
+		});
+	})
+
+</script>
