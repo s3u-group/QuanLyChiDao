@@ -226,7 +226,7 @@ class TheoDoiController extends AbstractActionController
                 $dk=new DinhKemTheoDoi();
                 
                 $dk->setUrl($newName);
-                $dk->setDoiTuong($baoCao);
+                $dk->setTheoDoi($baoCao);
                 //die(var_dump($dk));
                 $entityManager->persist($dk);
                 $entityManager->flush();

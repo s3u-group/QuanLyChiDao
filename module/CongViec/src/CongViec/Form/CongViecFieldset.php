@@ -91,8 +91,10 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
     }
 
     public function getLoaiOption($sm){
-        $taxonomyService = $sm->get('taxonomyService');
-        $options = $taxonomyService->getValueForOption('loai-cong-viec');
-        return $options;
+        if($sm){
+            $taxonomyService = $sm->get('taxonomyService');
+            $options = $taxonomyService->getValueForOption('loai-cong-viec');
+            return $options;
+        }
     }
 }

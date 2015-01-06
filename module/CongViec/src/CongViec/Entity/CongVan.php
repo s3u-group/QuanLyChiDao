@@ -103,7 +103,7 @@ class CongVan
 	protected $cha;
 
 	/**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKem", mappedBy="doiTuong")
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKem", mappedBy="congVan")
      */
     protected $dinhKems;
 

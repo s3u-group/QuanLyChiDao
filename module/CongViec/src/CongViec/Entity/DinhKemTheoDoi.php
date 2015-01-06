@@ -6,15 +6,20 @@ use CongViec\Entity\DinhKem;
 
 /**
  * @ORM\Entity
- * @ORM\AssociationOverrides({
- * @ORM\AssociationOverride(name="doiTuong"
- *			joinTable=@ORM\JoinTable(name="CongViec\Entity\TheoDoi"
- *          joinColumns=@ORM\JoinColumn(
- *              name="doi_tuong_id", referencedColumnName="id"
- *          )),
- *      )
- * })
  */
 class DinhKemTheoDoi extends DinhKem{
+	/**
+	 * @ORM\ManyToOne(targetEntity="CongViec\Entity\TheoDoi")
+	 * @ORM\JoinColumn(name="doi_tuong_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $theoDoi;
 
+	public function setTheoDoi($theoDoi){
+		$this->theoDoi = $theoDoi;
+		return $this;
+	}
+
+	public function getTheoDoi(){
+		return $theoDoi;
+	}
 }

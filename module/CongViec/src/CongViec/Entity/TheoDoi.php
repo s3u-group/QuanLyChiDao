@@ -41,7 +41,7 @@ class TheoDoi
 	protected $congVan;
 
 	/**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKemTheoDoi", mappedBy="doiTuong")
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\DinhKemTheoDoi", mappedBy="theoDoi")
      */
     protected $dinhKems;
 
