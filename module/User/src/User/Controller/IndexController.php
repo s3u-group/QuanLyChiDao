@@ -115,6 +115,7 @@ class IndexController extends AbstractActionController
         $emailCu=$user->getEmail();        
         $form = new UpdateUserForm($entityManager);
         $form->bind($user);
+        
         if(!$user)
         {
             return $this->redirect()->toRoute('cong_viec');  
@@ -146,6 +147,7 @@ class IndexController extends AbstractActionController
                 {
                     $user->setGioiTinh(2);
                 }
+                die(var_dump($user));
                 $entityManager->flush();                
                 $this->flashMessenger()->addMessage('Cập nhật thành công!');
                 return $this->redirect()->toRoute('user/crud',array('action'=>'update','id'=>$id));

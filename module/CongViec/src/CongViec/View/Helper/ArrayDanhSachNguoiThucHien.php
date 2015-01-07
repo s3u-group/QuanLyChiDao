@@ -16,7 +16,7 @@ class ArrayDanhSachNguoiThucHien extends AbstractHelper{
 			
 			if($object->getVaiTro()=='Phân công'||$object->getVaiTro()=='Phối hợp')
 			{
-				$ds[$object->getNguoiThucHien()->getId()]=$object->getNguoiThucHien()->getUsername();
+				$ds[$object->getNguoiThucHien()->getId()]=$object->getNguoiThucHien()->getHo().' '.$object->getNguoiThucHien()->getTen();
 			}
 
 		}	

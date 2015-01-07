@@ -185,7 +185,7 @@ use CongViec\Entity\TheoDoi;
 						}								
 					}
 					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl(); ?>
-					<a href="<?php echo $link ?>"><?php echo $fileName; ?></a>&nbsp;&nbsp;
+					<a href="<?php echo $link ?>" class="blue"><?php echo $fileName; ?></a>&nbsp;&nbsp;
 					<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Hủy</a>
 				<?php
 				}

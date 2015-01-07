@@ -100,7 +100,7 @@
               echo '<tr class="green">'; 
                 
                 echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
               
@@ -110,7 +110,7 @@
               echo '<tr class="blue">'; 
                 
                 echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
             }
@@ -119,7 +119,7 @@
               echo '<tr class="purple">'; 
                 
                 echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
             }
@@ -128,7 +128,7 @@
               echo '<tr class="lightred">'; 
                 
                 echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                echo '<td>'.$congViec->getNguoiTao()->getUsername().'</td>';
+                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
             }

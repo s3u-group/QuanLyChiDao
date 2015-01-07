@@ -47,7 +47,6 @@ class TheoDoiFieldset extends Fieldset implements InputFilterProviderInterface
              'type' => 'Select',
              'options' => array(
                  'label' => 'Chọn người báo cáo',
-                 'empty_option'=>'----------Chọn Người Báo Cáo----------',
                  'disable_inarray_validator' => true,
              ),
          ));
