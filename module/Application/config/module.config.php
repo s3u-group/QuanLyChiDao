@@ -156,6 +156,14 @@ return array(
                 'icon' => '<i class="sitemap icon"></i>',
                 'pages' => array(
                     array(
+                        'label' => 'Tạo tài khoản',
+                        /*'uri' => '#'*/
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'createAccount',
+                        )
+                    ),
+                    array(
                         'label' => 'Danh sách nhân viên',
                         /*'uri' => '#'*/
                         'route' => 'user/crud',
