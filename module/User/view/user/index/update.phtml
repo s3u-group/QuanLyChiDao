@@ -33,11 +33,11 @@
 			$form->setAttribute('role','form');
 			$form->prepare(); 
 	      	echo $this->form()->openTag($form);
-	      	$nguoiDung=$form->get('user'); 
+	      	$nguoiDung=$form->get('user');	      	
 			echo $this->formHidden($nguoiDung->get('id'));
 			echo $this->formHidden($nguoiDung->get('username'));
-			echo $this->formHidden($nguoiDung->get('password')); 
-			echo $this->formHidden($nguoiDung->get('gioiTinh')); 
+			echo $this->formHidden($nguoiDung->get('password'));
+			echo $this->formHidden($nguoiDung->get('gioiTinh'));
 			echo $this->formHidden($nguoiDung->get('ngayTao'));
 			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
 			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));

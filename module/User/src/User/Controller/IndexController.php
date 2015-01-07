@@ -32,19 +32,20 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('select u from User\Entity\User u');
         $users = $query->getResult();
-
+                    
         $request = $this->getRequest();
         if ($request->isPost()) 
         {
             $post=$request->getPost();            
             $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
             $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
-            $users=$query->getResult();            
-            return array(
+            $users=$query->getResult();
+            
+            return array(                
                 'users' => $users
             );
         }
-        return array(
+        return array(            
             'users' => $users
         );
     }
@@ -112,6 +113,7 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();        
 
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
+
         $emailCu=$user->getEmail();        
         $form = new UpdateUserForm($entityManager);
         $form->bind($user);
@@ -123,7 +125,7 @@ class IndexController extends AbstractActionController
 
         $request = $this->getRequest();        
         if ($request->isPost()) {            
-            $form->setData($request->getPost());
+            $form->setData($request->getPost());            
             if ($form->isValid()) {
                 $emailMoi=$user->getEmail();                
                 if($emailCu!=$emailMoi)
@@ -159,7 +161,7 @@ class IndexController extends AbstractActionController
         return array(
             'form' => $form,
             'id'=>$id,
-            'kiemTraEmail'=>0
+            'kiemTraEmail'=>0,            
         );
     }    
 

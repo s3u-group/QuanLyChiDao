@@ -10,7 +10,7 @@ return array(
         'template_path_stack' => array(
             'user' => __DIR__ . '/../view',
             'zfcuser' => __DIR__ . '/../view',
-        )
+        ),        
     ),
 
     'service_manager' => array(
@@ -51,7 +51,7 @@ return array(
                                 'action'     => 'list',
                             )  */                        
                         ),
-                	)
+                	),                   
                 )  
 			)
 		),
