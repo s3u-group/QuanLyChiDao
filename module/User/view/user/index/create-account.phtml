@@ -44,7 +44,8 @@
 	      <?php 
 	      	$password=$nguoiDung->get('password');
 	      	$password->setAttribute('required','required');
-	      	$password->setAttribute('id','pass');	      	
+	      	$password->setAttribute('id','pass');
+	      	$password->setAttribute('type','password');	      	
 	      	echo $this->formElement($password);
 	      ?>
 	    </div>	    
