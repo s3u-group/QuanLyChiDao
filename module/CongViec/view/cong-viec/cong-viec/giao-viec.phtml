@@ -80,41 +80,11 @@ $congViecs = $congVan->get('congViecs');?>
 					<label>Thực hiện</label>
 					<div class="jstree">
                         <ul>
-                            <li>Văn phòng Ủy ban
-                                <ul>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                </ul>
-                            </li>
-                            <li>Phòng Công nghệ thông tin
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
-                            <li>Phòng Lao động thương binh và xã hội
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
-                            <li>Phòng Quản lý đất đai
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
+                        	<?php foreach($donVis as $donVi): ?>
+                        		<li id="<?php echo $donVi->getId() ?>">
+                        			<?php echo $donVi->getTenDonVi(); ?>
+                        		</li>
+                        	<?php endforeach; ?>
                         </ul>
                     </div>
 				</div>
@@ -170,11 +140,11 @@ $congViecs = $congVan->get('congViecs');?>
 	}).on('changed.jstree', function (e, data) {
 	    var i, j, r = [];
 	    for(i = 0, j = data.selected.length; i < j; i++) {
-	      r.push(data.instance.get_node(data.selected[i]).text);
+	      r.push(data.instance.get_node(data.selected[i]).id);
 	    }
 	   // $('#event_result').html('Selected: ' + r.join(', '));
 	   jQuery.each(r, function(i, val){
-	   		//alert(val);	   
+	   		alert(val);	   
 	   	});
   	});
 </script>

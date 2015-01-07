@@ -201,9 +201,11 @@ class CongViecController extends AbstractActionController
             }
         }
 
+        $query = $entityManager->createQuery('select d from User\Entity\DonVi d');
 
         return array(
-            'form' => $form
+            'form' => $form,
+            'donVis' => $query->getResult()
         );
     }
 
