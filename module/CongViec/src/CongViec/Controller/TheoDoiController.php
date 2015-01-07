@@ -214,14 +214,18 @@ class TheoDoiController extends AbstractActionController
     {
         $entityManager=$this->getEntityManager();       
         $dinhKems=$post;        
-        //die(var_dump($baoCao));
+        $dmy=$baoCao->getNgayBaoCao()->format('Y/m/d');
+        $path="./public/filedinhkems/".$dmy.'/';
+        if (!file_exists($path)) {            
+            mkdir($path, 0700, true);
+        }
         foreach ($dinhKems as $dinhKem) {
             if($dinhKem['error']==0)
             {
                 //die(var_dump($baoCao->getId()));
                 $uniqueToken=md5(uniqid(mt_rand(),true));
                 $newName=$uniqueToken.'_'.$dinhKem['name'];
-                $filter = new \Zend\Filter\File\Rename('./public/dinhKems/'.$newName);
+                $filter = new \Zend\Filter\File\Rename($path.$newName);
                 $filter->filter($dinhKem);
                 $dk=new DinhKemTheoDoi();
                 
@@ -233,6 +237,25 @@ class TheoDoiController extends AbstractActionController
             }
         }
     }
+    public function huyBaoCaoAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('theo_doi/crud',array('action'=>'index'));
+        } 
+        $entityManager=$this->getEntityManager();
+        $baoCao=$entityManager->getRepository('CongViec\Entity\TheoDoi')->find($id); 
+        if($baoCao)
+        {            
+            $idCongVan=$baoCao->getCongVan()->getId();
+            $baoCao->setTrangThai(TheoDoi::DA_HUY);
+            //$entityManager->remove($baoCao);
+            $entityManager->flush();
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongVan));
+        }
+        else{
+            return $this->redirect()->toRoute('theo_doi/crud',array('action'=>'index'));
+        }
 
+    }
    
 }
