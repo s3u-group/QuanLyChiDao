@@ -33,6 +33,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Email',
             ),
             'attributes' => array(
+                'placeholder' => 'Nhập email'
             ),
         ));
 
@@ -43,6 +44,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Tên hiển thị',
             ),
             'attributes' => array(
+                'placeholder' => 'Nhập tên hiển thị'
             ),
         ));
 
@@ -52,6 +54,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(                
             ),
             'attributes' => array(
+                'placeholder' => 'Nhập tên đăng nhập'
             ),            
         ));
 
@@ -61,6 +64,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(                
             ),
             'attributes' => array(
+                'placeholder' => 'Nhập mật khẩu'
             ),           
         ));
 
@@ -104,6 +108,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Địa chỉ',
             ),
             'attributes' => array(
+                'placeholder' => 'Nhập địa chỉ'
             ),
         ));
 

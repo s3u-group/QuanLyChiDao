@@ -22,7 +22,10 @@ $form->setAttribute('method', 'post');
               <div class="required field">
                 <label>Tên đăng nhập</label>
                 <div class="ui icon input">
-                  <?php echo $this->formInput($form->get('identity')) ?>
+                  <?php 
+                    $form->get('identity')->setAttribute('autofocus','autofocus');
+                    echo $this->formInput($form->get('identity')) 
+                  ?>
                   <i class="user icon"></i>              
                 </div>
                 <?php echo $this->formElementErrors($form->get('identity')) ?>

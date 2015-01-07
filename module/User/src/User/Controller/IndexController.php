@@ -159,36 +159,7 @@ class IndexController extends AbstractActionController
             'id'=>$id,
             'kiemTraEmail'=>0
         );
-    }
-
-    /*public function changePassWordAction()
-    {
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
-            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
-        }
-
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if(!$id){
-            return $this->redirect()->toRoute('cong_viec');
-        }        
-        $entityManager = $this->getEntityManager();
-        $user = $entityManager->getRepository('User\Entity\User')->find($id);
-        $request = $this->getRequest();        
-        if ($request->isPost()) {
-            $post=$request->getPost();
-
-            $bcrypt = new Bcrypt();
-            $bcrypt->setCost(14);
-            $password = $post['matKhauMoi'];            
-            $user->setPassword ($bcrypt->create($password));
-            $entityManager->flush();  
-            return $this->redirect()->toRoute('cong_viec');            
-        }
-        return array(
-            'id'=>$id,            
-        );        
-    }*/
+    }    
 
     public function adminChangePassWordAction()
     {
