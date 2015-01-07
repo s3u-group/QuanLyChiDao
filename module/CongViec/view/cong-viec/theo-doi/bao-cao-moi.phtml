@@ -1,4 +1,4 @@
-BÁO CÁO MỚI
+<div class="sixteen wide column row"><h4 class="ui header">BÁO CÁO MỚI</h4></div>
 <?php
 	echo $this->headTitle('Báo cáo mới');
 
@@ -26,20 +26,52 @@ BÁO CÁO MỚI
 	$form->prepare();
 	echo $this->form()->openTag($form);
 	$baoCao=$form->get('theo-doi');
-
 	echo $this->formHidden($baoCao->get('id'));
 	$baoCao->get('ngayBaoCao')->setAttribute('value',date('Y-m-d'));
 	echo $this->formHidden($baoCao->get('ngayBaoCao'));
 	$baoCao->get('congVan')->setAttribute('value',$id);
 	echo $this->formHidden($baoCao->get('congVan'));
-	echo $this->formRow($baoCao->get('noiDung'));
-	echo '<br>';
-	echo $this->formRow($baoCao->get('dinhKems'));
-	echo '<br>';
-	$baoCao->get('nguoiBaoCao')->setValueOptions($this->ArrayDanhSachNguoiThucHien($nguoiThucHiens));
- 	echo $this->formElement($baoCao->get('nguoiBaoCao'));
- 	echo '<br>';
-	echo $this->formSubmit($form->get('submit'));
+?>
+	<div class="ui form">
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($baoCao->get('noiDung')); ?>
+			</div>
+		</div>
+		
+
+		<span><b>Đính kèm</b></span>
+		<div class="fields">
+			<div class="sixteen wide field">
+				
+			<?php echo $this->formRow($baoCao->get('dinhKems')); ?>
+			</div>
+		</div>
+		
+		<span><b>Chọn người báo cáo</b></span>
+		<div class="fields">
+			<div class="sixteen wide field">				
+			<?php
+			 	$baoCao->get('nguoiBaoCao')->setValueOptions($this->ArrayDanhSachNguoiThucHien($nguoiThucHiens));
+			 	$baoCao->get('nguoiBaoCao')->setAttribute('class','ui selection dropdown');
+			 	echo $this->formElement($baoCao->get('nguoiBaoCao'));
+			 ?>
+			</div>
+		</div>
+		<br>
+		<div class="sixteen wide column row right aligned">
+			<div class="fields">
+				<div class="sixteen wide field">
+				<?php
+					$form->get('submit')->setAttribute('class','ui button blue');
+				 	echo $this->formSubmit($form->get('submit'));
+				 ?>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php
+	
 	
 
 	echo $this->form()->closeTag();
