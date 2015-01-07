@@ -100,6 +100,11 @@ return array(
             'ViewJsonStrategy', //add to use AJAX
         ),
     ),
+    'view_helpers'=>array(
+        'invokables'=>array(
+            'formJqxDate'=>'Application\View\Helper\FormDate',
+        ),
+    ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(

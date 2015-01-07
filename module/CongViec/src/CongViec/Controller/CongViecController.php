@@ -194,8 +194,10 @@ class CongViecController extends AbstractActionController
         $request = $this->getRequest();
         if($request->isPost()){
             $form->setData($request->getPost());
+            var_dump($request->getPost());
             if($form->isValid()){
                 $entityManager->persist($congVan);
+                die(var_dump($congVan));
                 $entityManager->flush();
             }
         }

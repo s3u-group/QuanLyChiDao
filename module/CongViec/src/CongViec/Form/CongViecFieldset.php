@@ -56,7 +56,10 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	'type' => 'date',
         	'options' => array(
         		'label' => 'Ngày bắt đầu'
-        	)
+        	),
+            'attributes' => array(
+                'value' => date('Y-m-d')
+            )
         ));
 
         $this->add(array(
@@ -67,12 +70,17 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	)
         ));
 
-        // File Input
-        $dinhKems = new \Zend\Form\Element\File('dinhKem');
-        $dinhKems->setAttribute('id', 'dinhKem') 
-                 ->setAttribute('label', 'Đính kèm')  
-                 ->setAttribute('multiple', true);   // That's it
-        $this->add($dinhKems);
+        $this->add(array(
+            'name' => 'dinhKems',
+            'type' => 'file',
+            'options' => array(
+                'label' => 'Đính kèm'
+            ),
+            'attributes' => array(
+                'id' => 'dinhKem',
+                'multiple' => true
+            )
+        ));
     }
 
     public function getInputFilterSpecification()

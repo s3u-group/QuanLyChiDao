@@ -44,6 +44,9 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             'type' => 'date',
             'options' => array(
                 'label' => 'Ngày ban hành'
+            ),
+            'attributes' => array(
+                'value' => date('Y-m-d')
             )
         ));
 
@@ -52,9 +55,7 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             'type' => 'select',
             'options' => array(
                 'label' => 'Người ký',
-                'value_options' => array(
-                    '1' => 'Bình'
-                )
+                'value_options' => $this->getNguoiKyOptions($objectManager)
             ),
             'attributes' => array(
                 'class' => 'ui dropdown'
@@ -62,10 +63,13 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
-            'name' => 'dinhKem',
+            'name' => 'dinhKems',
             'type' => 'file',
             'options' => array(
                 'label' => 'Đính kèm'
+            ),
+            'attributes' => array(
+                'multiple' => true
             )
         ));
 
@@ -100,6 +104,16 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => true
             )
         );
+    }
+
+    public function getNguoiKyOptions($objectManager){
+        $options = array();
+        $query = $objectManager->createQuery('select u from User\Entity\User u');
+        $users = $query->getResult();
+        foreach($users as $user){
+            $options[$user->getId()] = $user->getHoTen();
+        }
+        return $options;
     }
 }
 ?>

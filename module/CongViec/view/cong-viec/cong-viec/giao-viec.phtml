@@ -38,9 +38,9 @@ $congViec = $congVan->get('congViecs');?>
 		          	<?php echo $this->formElementErrors($congViec->get('noiDung')); ?>
 				</div>
 				<div class="field">
-					<?php echo $this->formLabel($congViec->get('dinhKem')); ?>
-		          	<?php echo $this->formElement($congViec->get('dinhKem')); ?>
-		          	<?php echo $this->formElementErrors($congViec->get('dinhKem')); ?>
+					<?php echo $this->formLabel($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
 				</div>
 			</div>
 			<div class="six wide column">
@@ -65,9 +65,9 @@ $congViec = $congVan->get('congViecs');?>
 		          	<?php echo $this->formElementErrors($congVan->get('trichYeu')); ?>
 				</div>
 				<div class="field">
-					<?php echo $this->formLabel($congVan->get('dinhKem')); ?>
-		          	<?php echo $this->formElement($congVan->get('dinhKem')); ?>
-		          	<?php echo $this->formElementErrors($congVan->get('dinhKem')); ?>
+					<?php echo $this->formLabel($congVan->get('dinhKems')); ?>
+		          	<?php echo $this->formElement($congVan->get('dinhKems')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('dinhKems')); ?>
 				</div>
 			</div>
 		</div>
@@ -159,8 +159,6 @@ $congViec = $congVan->get('congViecs');?>
 		</div>
 	</div>
 </div>
-<div class="jqxWidget"></div>
-<div class="jqxWidget"></div>
 <script type="text/javascript">
 	$('.jstree').jstree({
 	    "checkbox" : {
@@ -177,6 +175,4 @@ $congViec = $congVan->get('congViecs');?>
 	   		//alert(val);	   
 	   	});
   	});
-
-  	$(".jqxWidget").jqxCalendar({width: 220, height: 220});
 </script>
