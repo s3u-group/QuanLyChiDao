@@ -23,20 +23,109 @@ use CongViec\Entity\TheoDoi;
 	    </script>';
     }	
 ?>
+<div class="sixteen wide column row"><h3>Chi tiết công việc</h3></div>	
 <div class="ui top attached tabular menu">
   <a class="active item" data-tab="first">Thông tin chi tiết</a>
   <a class="item" data-tab="second">Cập nhật</a>
 </div>
 <div class="ui bottom attached active tab segment" data-tab="first">
-<?php
-	echo 'Tên công việc'.$congViec->getTen().'<br>';
-	echo 'Tên người tạo'.$congViec->getNguoiTao()->getUsername().'<br>';
-	echo 'Nội dung'.$congViec->getNoiDung().'<br>';
-	echo 'Trích yếu' .$congViec->getTrichYeu().'<br>';
-	echo 'Ngày ban hànhs' .$congViec->getNgayBanHanh()->format('d-m-Y').'<br>';
-	echo 'Ngày hoàn thành' .$congViec->getNgayHoanThanh()->format('d-m-Y').'<br>';
-	echo 'Trạng thái' .$congViec->getTrangThaiNhom().'<br>';
-?>
+	<table class="ui compact celled definition table">
+		<tr>
+			<td class="collapsing">
+				Tên công việc
+			</td>
+			<td>
+			<?php echo $congViec->getTen(); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Nội dung
+			</td>
+			<td>
+			<?php echo $congViec->getNoiDung(); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Trích yếu
+			</td>
+			<td>
+			<?php echo $congViec->getTrichYeu(); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Ngày ban hành
+			</td>
+			<td>
+			<?php echo $congViec->getNgayBanHanh()->format('Y-m-d'); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Hạn xử lý
+			</td>
+			<td>
+			<?php echo $congViec->getNgayHoanThanh()->format('Y-m-d'); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Người tạo
+			</td>
+			<td>
+			<?php echo $congViec->getNguoiTao()->getUsername(); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Đính kèm
+			</td>
+			<td>
+			<?php
+				$ymd=$congViec->getNgayTao()->format('Y/m/d');
+			 	foreach ($congViec->getDinhKems() as $soFile => $dinhKem) {
+			 		if($soFile>0){
+			 			echo ' | ';
+			 		}
+			 		$explodes=explode('_',$dinhKem->getUrl());
+					$fileName='';							
+					foreach ($explodes as $key => $explode) {
+						if($key>0)
+						{
+							$fileName.=$explode;
+						}								
+					}
+					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+					echo '<a href="'.$link.'">'.$fileName.'</a>'; 
+				}
+			?>
+			</td>
+		</tr>
+		<tr>
+			<td class="collapsing">
+				Trạng thái
+			</td>
+			<td 
+			<?php
+			if($congViec->getTrangThaiNhom()=='Chưa xem'){
+				echo 'class="blue"';
+			}elseif ($congViec->getTrangThaiNhom()=='Đang xử lý') {
+				echo 'class="purple"';
+			}
+			elseif ($congViec->getTrangThaiNhom()=='Hoàn thành') {
+				echo 'class="green"';
+			}
+			elseif ($congViec->getTrangThaiNhom()=='Trễ hạn') {
+				echo 'class="lightred"';
+			}
+			?>
+			>
+			<?php echo $congViec->getTrangThaiNhom(); ?>
+			</td>
+		</tr>
+	</table>
 </div>
 <div class="ui bottom attached tab segment" data-tab="second">
  <?php
@@ -45,76 +134,88 @@ use CongViec\Entity\TheoDoi;
 	echo $this->form()->openTag($form);
 	$capNhatCongViec=$form->get('congViecs');
 	echo $this->formHidden($capNhatCongViec->get('id'));
-	echo $this->formRow($capNhatCongViec->get('ten'));
-	echo $this->formRow($capNhatCongViec->get('noiDung'));
-	echo $this->formRow($capNhatCongViec->get('loai'));	
-	echo $this->formRow($capNhatCongViec->get('ngayBanHanh'));
-	echo $this->formRow($capNhatCongViec->get('ngayHoanThanh'));
-	echo $this->formRow($capNhatCongViec->get('dinhKem'));
-	//die(var_dump($congViec->getDinhKems()));
+?>
+	<div class="ui form">
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($capNhatCongViec->get('ten')); ?>
+			</div>
+		</div>
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($capNhatCongViec->get('noiDung')); ?>
+			</div>
+		</div>
+		<div class="fields">
+			<div class="sixteen wide field">			
+			<?php 
+				$capNhatCongViec->get('loai')->setAttribute('class','ui dropdown selection fluid');
+				echo $this->formRow($capNhatCongViec->get('loai'));	 
+			?>
+			</div>
+		</div>
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($capNhatCongViec->get('ngayBanHanh')); ?>
+			</div>
+		</div>
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($capNhatCongViec->get('ngayHoanThanh')); ?>
+			</div>
+		</div>
+		
+			<div class="ui divided selection list">
+			  <div class="item">
+			    <b>Đính kèm: </b>
+			    
+			  
+			<?php
+				$ymd=$congViec->getNgayTao()->format('Y/m/d');
+			 	foreach ($congViec->getDinhKems() as $soFile => $dinhKem) {
+			 		if($soFile>0){
+			 			echo ' | ';
+			 		}
+			 		$explodes=explode('_',$dinhKem->getUrl());
+					$fileName='';							
+					foreach ($explodes as $key => $explode) {
+						if($key>0)
+						{
+							$fileName.=$explode;
+						}								
+					}
+					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl(); ?>
+					<a href="<?php echo $link ?>"><?php echo $fileName; ?></a>&nbsp;&nbsp;
+					<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Hủy</a>
+				<?php
+				}
+			?>
+			
+		</div>
+		</div>
+		<div class="fields">
+			<div class="sixteen wide field">
+			<?php echo $this->formRow($capNhatCongViec->get('dinhKem')); ?>
+			</div>
+		</div>
 
-	echo $this->formSubmit($form->get('submit'));
+		<div class="sixteen wide column row right aligned">
+			<div class="fields">
+				<div class="sixteen wide field">
+				<?php 
+					$form->get('submit')->setAttribute('class','ui button blue');
+					echo $this->formSubmit($form->get('submit')); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
 	echo $this->form()->closeTag();
 	?>
 </div>
-<?php
-if($congViec->getDinhKems())
-	{
- ?>		
- 		 Danh sách file đính kèm
-		 <table>
-		 	<thead>
-		 		<tr>
-		 			<th>
-		 				Tên file
-		 			</th>
-		 			<th>
-		 				STT
-		 			</th>
-		 			<th>
-		 				Hủy
-		 			</th>
-		 		</tr>
-		 	</thead>
-		 	<tbody>
-		 	<?php
-		 	$stt=0;
-		 	$ymd=$congViec->getNgayTao()->format('Y/m/d');
-		 	foreach ($congViec->getDinhKems() as $dinhKem) {
-		 		$explodes=explode('_',$dinhKem->getUrl());
-				$fileName='';							
-				foreach ($explodes as $key => $explode) {
-					if($key>0)
-					{
-						$fileName.=$explode;
-					}								
-				}
-		 	?>
-		 		<tr>
-		 			<td>
-		 				<?php $stt++; echo $stt; ?>
-		 			</td>
-		 			<td>
-	 				<?php 
-						$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
-						echo '<a href="'.$link.'">'.$fileName.'</a>'; 
-					?>
-		 			</td>
-		 			<td>
-		 				<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>"><i class="large inverted red trash icon"></i></a>
-		 			</td>
-		 		</tr>
-		 	<?php
-		 	}
-		 	?>
-		 		
-		 	</tbody>
-		 </table>
-<?php
-	}
-?>
-Danh sách báo cáo
-<table>
+<div class="sixteen wide column row"><h3>Danh sách các báo cáo quá trình</h3></div>	
+
+<table  class="ui table">
 	<thead>
         <tr>
 			<th>Nội dung</th>
@@ -146,34 +247,30 @@ Danh sách báo cáo
 				echo $theoDoi->getNguoiBaoCao()->getUsername();
 			echo '</td>';
 			echo '<td>'; ?>
-				<table>
+				<!-- <table> -->
 				<?php
 				$ymd=$theoDoi->getNgayBaoCao()->format('Y/m/d');
 				
 				
-				foreach ($theoDoi->getDinhKems() as $dinhKem) { ?>
-					<tr>
-						<td>
-						<?php 
-							$explodes=explode('_',$dinhKem->getUrl());
-							$fileName='';							
-							foreach ($explodes as $key => $explode) {
-								if($key>0)
-								{
-									$fileName.=$explode;
-								}								
-							}
-							
-							$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
-							echo '<a href="'.$link.'">'.$fileName.'</a>'; 
-						?>
-						</td>
-					</tr>
-				<?php	
+				foreach ($theoDoi->getDinhKems() as $soFile => $dinhKem) { ?>
+				<?php 
+					if($soFile>0){
+						echo ' | ';
+					}
+					$explodes=explode('_',$dinhKem->getUrl());
+					$fileName='';							
+					foreach ($explodes as $key => $explode) {
+						if($key>0)
+						{
+							$fileName.=$explode;
+						}								
+					}
+					
+					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+					echo '<a href="'.$link.'">'.$fileName.'</a>'; 						
 				}
-				?>
-				
-				</table>
+				?>				
+				<!-- </table> -->
 			<?php 
 			echo '</td>'; ?>
 			<td>
@@ -190,17 +287,25 @@ Danh sách báo cáo
 <?php 
 	if($congViec->getTrangThai()==CongViec::HOAN_THANH||$congViec->getTrangThai()==CongViec::TRE_HAN)
 	{?>
-		<input type="submit" value="Hoàn thành">&nbsp;<input type="submit" value="Báo cáo mới">
+		<div class="sixteen wide column row right aligned">
+			<input type="submit" value="Hoàn thành" class="ui button green">&nbsp;
+			<input type="submit" value="Báo cáo mới" class="ui button blue">
+		</div>
 	<?php
 	}
 	else{ ?>
-		
-		<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'hoanThanh','id'=>$congViec->getId())); ?>"><input type="submit" value="Hoàn thành"></a>
-		<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'baoCaoMoi','id'=>$congViec->getId())); ?>"><input type="submit" value="Báo cáo mới"></a>
+		<div class="sixteen wide column row right aligned">
+			<input type="submit" id="btnHoanThanh" value="Hoàn thành" class="ui button green">&nbsp;
+			<input type="submit" id="btnBaoCaoMoi" value="Báo cáo mới" class="ui button blue">
+		</div>
 	<?php
 	}
 ?>
+<form id="frmHoanThanh" action="<?php echo $this->url('cong_viec/crud',array('action'=>'hoan-thanh','id'=>$congViec->getId())); ?>">
+</form>
 
+<form id="frmBaoCaoMoi" action="<?php echo $this->url('theo_doi/crud',array('action'=>'bao-cao-moi','id'=>$congViec->getId())); ?>">
+</form>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -208,6 +313,13 @@ Danh sách báo cáo
 		$('.message .close').on('click', function() {
 		  $(this).closest('.message').fadeOut();
 		});
-	})
+		$('#btnHoanThanh').on('click',function(){
+			$('#frmHoanThanh').submit();
+		});
+		$('#btnBaoCaoMoi').on('click',function(){
+			$('#frmBaoCaoMoi').submit();
+		});
+		$('.ui.dropdown').dropdown();
+	});
 
 </script>
