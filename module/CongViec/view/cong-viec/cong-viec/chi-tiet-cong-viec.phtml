@@ -1,5 +1,6 @@
 <?php
 use CongViec\Entity\CongViec;
+use CongViec\Entity\TheoDoi;
 
 
 	if ($this->flashMessenger()->hasMessages()) 
@@ -44,8 +45,9 @@ use CongViec\Entity\CongViec;
 	echo $this->form()->openTag($form);
 	$capNhatCongViec=$form->get('congViecs');
 	echo $this->formHidden($capNhatCongViec->get('id'));
-	echo $this->formRow($capNhatCongViec->get('loai'));
+	echo $this->formRow($capNhatCongViec->get('ten'));
 	echo $this->formRow($capNhatCongViec->get('noiDung'));
+	echo $this->formRow($capNhatCongViec->get('loai'));	
 	echo $this->formRow($capNhatCongViec->get('ngayBanHanh'));
 	echo $this->formRow($capNhatCongViec->get('ngayHoanThanh'));
 	echo $this->formRow($capNhatCongViec->get('dinhKem'));
@@ -53,38 +55,65 @@ use CongViec\Entity\CongViec;
 
 	echo $this->formSubmit($form->get('submit'));
 	echo $this->form()->closeTag();
- ?>
- <table>
- 	<thead>
- 		<tr>
- 			<th>
- 				Tên file
- 			</th>
- 			<th>
- 				Xóa
- 			</th>
- 		</tr>
- 	</thead>
- 	<tbody>
- 	<?php
- 	foreach ($congViec->getDinhKems() as $dinhKem) {
- 	?>
- 		<tr>
- 			<td>
- 				<?php echo $dinhKem->getUrl(); ?>
- 			</td>
- 			<td>
- 				<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Xóa</a>
- 			</td>
- 		</tr>
- 	<?php
- 	}
- 	?>
- 		
- 	</tbody>
- </table>
+	?>
 </div>
-
+<?php
+if($congViec->getDinhKems())
+	{
+ ?>		
+ 		 Danh sách file đính kèm
+		 <table>
+		 	<thead>
+		 		<tr>
+		 			<th>
+		 				Tên file
+		 			</th>
+		 			<th>
+		 				STT
+		 			</th>
+		 			<th>
+		 				Hủy
+		 			</th>
+		 		</tr>
+		 	</thead>
+		 	<tbody>
+		 	<?php
+		 	$stt=0;
+		 	$ymd=$congViec->getNgayTao()->format('Y/m/d');
+		 	foreach ($congViec->getDinhKems() as $dinhKem) {
+		 		$explodes=explode('_',$dinhKem->getUrl());
+				$fileName='';							
+				foreach ($explodes as $key => $explode) {
+					if($key>0)
+					{
+						$fileName.=$explode;
+					}								
+				}
+		 	?>
+		 		<tr>
+		 			<td>
+		 				<?php $stt++; echo $stt; ?>
+		 			</td>
+		 			<td>
+	 				<?php 
+						$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+						echo '<a href="'.$link.'">'.$fileName.'</a>'; 
+					?>
+		 			</td>
+		 			<td>
+		 				<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>"><i class="large inverted red trash icon"></i></a>
+		 			</td>
+		 		</tr>
+		 	<?php
+		 	}
+		 	?>
+		 		
+		 	</tbody>
+		 </table>
+<?php
+	}
+?>
+Danh sách báo cáo
 <table>
 	<thead>
         <tr>
@@ -92,13 +121,19 @@ use CongViec\Entity\CongViec;
 			<th>Ngày báo cáo</th>
 			<th>Người báo cáo</th>
 			<th>Đính kèm</th>
+			<th>hủy</th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php
 	foreach ($theoDois as $theoDoi) {
-		//die(var_dump($theoDoi->getDinhKems()));
-		echo '<tr>';
+		if($theoDoi->getTrangThai()==TheoDoi::DA_HUY){
+			echo '<tr class="lightred">';
+		}
+		else{
+			echo '<tr>';
+		}
+		
 			echo '<td>'; 
 				echo $theoDoi->getNoiDung();
 			echo '</td>';
@@ -110,9 +145,41 @@ use CongViec\Entity\CongViec;
 			echo '<td>';
 				echo $theoDoi->getNguoiBaoCao()->getUsername();
 			echo '</td>';
-			echo '<td>';
-				//die(var_dump($theoDoi->getDinhKems()));
-			echo '</td>';
+			echo '<td>'; ?>
+				<table>
+				<?php
+				$ymd=$theoDoi->getNgayBaoCao()->format('Y/m/d');
+				
+				
+				foreach ($theoDoi->getDinhKems() as $dinhKem) { ?>
+					<tr>
+						<td>
+						<?php 
+							$explodes=explode('_',$dinhKem->getUrl());
+							$fileName='';							
+							foreach ($explodes as $key => $explode) {
+								if($key>0)
+								{
+									$fileName.=$explode;
+								}								
+							}
+							
+							$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+							echo '<a href="'.$link.'">'.$fileName.'</a>'; 
+						?>
+						</td>
+					</tr>
+				<?php	
+				}
+				?>
+				
+				</table>
+			<?php 
+			echo '</td>'; ?>
+			<td>
+				<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'huy-bao-cao','id'=>$theoDoi->getId())); ?>"><i class="large inverted red trash icon"></i></a>
+			</td>
+		<?php
 		echo '</tr>';
 
 	}

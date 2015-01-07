@@ -173,7 +173,7 @@ return array(
                         //'uri' => '#'
                         'route' => 'user/crud',
                         'params' => array(
-                            'action' => 'danhMucDonVi',
+                            'action' => 'danh-muc-don-vi',
                         )
                     ),
                     array(

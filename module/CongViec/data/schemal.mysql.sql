@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `theo_doi`(
   `nguoi_bao_cao_id` int(11) unsigned,
   `noi_dung` mediumtext,
   `cong_van_id`   bigint(20) unsigned,
+  `trang_thai` mediumint unsigned,
   PRIMARY KEY (`id`),
   KEY `nguoi_bao_cao_id` (`nguoi_bao_cao_id`),
   KEY `cong_van_id` (`cong_van_id`)

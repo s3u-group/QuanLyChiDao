@@ -45,6 +45,14 @@ class TheoDoi
      */
     protected $dinhKems;
 
+    const DA_HUY=0;
+    const DANG_HOAT_DONG=1;
+
+    /**
+	 * @ORM\Column(name="trang_thai", type="integer")	
+	 */
+	protected $trangThai=1;
+
     public function __construct(){
         $this->dinhKems = new ArrayCollection();
     }
@@ -99,5 +107,15 @@ class TheoDoi
 
     public function getDinhKems(){
         return $this->dinhKems->toArray();
+    }
+
+    public function setTrangThai($trangThai)
+    {
+    	$this->trangThai=$trangThai;
+    }
+
+    public function getTrangThai()
+    {
+    	return $this->trangThai;
     }
 }

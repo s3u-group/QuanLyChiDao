@@ -87,10 +87,10 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
     {
         return array(
             'loai' => array(
-                'required' => true
+                'required' => false
             ),
             'ten' => array(
-                'required' => true
+                'required' => false
             ),
             'noiDung' => array(
                 'required' => true
