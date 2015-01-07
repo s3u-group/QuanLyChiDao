@@ -5,6 +5,7 @@ use Zend\View\Model\ViewModel;
 
 use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
+use CongViec\Entity\DinhKem;
 use CongViec\Form\GiaoViecForm;
 use DateTime;
 use CongViec\Form\CapNhatCongViecForm;
@@ -222,8 +223,21 @@ class CongViecController extends AbstractActionController
             $form->setData($request->getPost());
             if($form->isValid()){
                 $entityManager->flush();
-                $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+                $post = array_merge_recursive(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+                );
+                //die(var_dump($post));
+                $post=$post['congViecs']['dinhKem'];
+                $this->dinhKemMoi($entityManager,$post,$congViec);
+                $this->flashMessenger()->addMessage('Cập nhật công việc thành công!');
+                return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
             }
+            else
+            {
+                $this->flashMessenger()->addMessage('Cập nhật công việc thất bại!');
+            }
+            
         }
         $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
         $theoDois=$query->getResult();
@@ -241,9 +255,17 @@ class CongViecController extends AbstractActionController
         }
         $entityManager=$this->getEntityManager();
         $dinhKem=$entityManager->getRepository('CongViec\Entity\DinhKem')->find($id);
-        //die(var_dump($dinhKem->getDoiTuong()->getNgayBanHanh()));
-
+        $idCongViec=$dinhKem->getCongVan()->getId();
+        $ymd=$dinhKem->getCongVan()->getNgayTao()->format('Y/m/d');
+        $path="./public/filedinhkems/".$ymd.'/';
+        $mask =__ROOT_PATH__.'/public/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+        array_map( "unlink", glob( $mask )); 
+        $entityManager->remove($dinhKem); 
+        $entityManager->flush();
+        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongViec));
     }
+
+    
 
     public function hoanThanhAction()
     {
@@ -268,7 +290,32 @@ class CongViecController extends AbstractActionController
         $ngayHienTai = DateTime::createFromFormat('Y-m-d', $ngayHienTai);
         $congViec->setNgayHoanThanhThuc($ngayHienTai);
         $entityManager->flush(); 
-        //$this->flashMessenger()->addMessage('Cập nhật công việc thành công!');
-        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$id));
+        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
+    }
+
+    public function dinhKemMoi($entityManager,$post,$congViec)
+    {
+        //$entityManager=$this->getEntityManager();       
+        $dinhKems=$post;        
+        $ymd=$congViec->getNgayTao()->format('Y/m/d');
+        $path="./public/filedinhkems/".$ymd.'/';
+        if (!file_exists($path)) {            
+            mkdir($path, 0700, true);
+        }
+        foreach ($dinhKems as $dinhKem) {
+            if($dinhKem['error']==0)
+            {
+                $uniqueToken=md5(uniqid(mt_rand(),true));
+                $newName=$uniqueToken.'_'.$dinhKem['name'];
+                $filter = new \Zend\Filter\File\Rename($path.$newName);
+                $filter->filter($dinhKem);
+                $dk=new DinhKem();
+                
+                $dk->setUrl($newName);
+                $dk->setCongVan($congViec);
+                $entityManager->persist($dk);
+                $entityManager->flush();
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@ use Datetime;
 class CongVan 
 {
 	// tre han : ngay hien tai > ngay hoan thanh & chua hoan thanh
+	const DA_HUY = 0;
 	const CHUA_XEM = 1;
 	const DANG_XU_LY = 5;
 	const HOAN_THANH = 10;
@@ -293,6 +294,10 @@ class CongVan
         	}
         }*/
 		switch ($this->trangThai) {
+			case '0':
+				return 'Đã hủy';
+				break;
+				
 			case '1':
 				return 'Chưa xem';
 				break;
