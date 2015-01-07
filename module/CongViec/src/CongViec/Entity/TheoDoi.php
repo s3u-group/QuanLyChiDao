@@ -93,13 +93,13 @@ class TheoDoi
 		return $this->congVan;
 	}
 
-    public function addDinhKems(Collection $dinhKems){
+    public function addDinhKems($dinhKems){
         foreach ($dinhKems as $dinhKem) {
             $this->dinhKems->add($dinhKem);
         }
     }
 
-    public function removeDinhKems(Collection $dinhKems){
+    public function removeDinhKems($dinhKems){
         foreach ($dinhKems as $dinhKem) {
             $this->dinhKems->removeElement($dinhKem);
         }
