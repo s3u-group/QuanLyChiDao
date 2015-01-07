@@ -94,6 +94,12 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
             ),
             'noiDung' => array(
                 'required' => true
+            ),
+            'ngayBanHanh' => array(
+                'required' => true
+            ),
+            'ngayHoanThanh' => array(
+                'required' => false
             )
         );
     }

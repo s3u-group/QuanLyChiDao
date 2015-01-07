@@ -5,11 +5,12 @@ $form->prepare();?>
 <?php
 echo $this->form()->openTag($form);
 $congVan = $form->get('cong-van');
-$congViec = $congVan->get('congViecs');?>
+$congViecs = $congVan->get('congViecs');?>
 <div class="ui form">
 	<div class="ui celled grid">
 		<div class="row">
 			<div class="ten wide column">
+				<?php foreach($congViecs as $congViec): ?>
 				<div class="field">
 					<?php echo $this->formLabel($congViec->get('loai')); ?>
 		          	<?php echo $this->formElement($congViec->get('loai')); ?>
@@ -23,12 +24,12 @@ $congViec = $congVan->get('congViecs');?>
 				<div class="two fields">
 					<div class="field">
 						<?php echo $this->formLabel($congViec->get('ngayBanHanh')); ?>
-			          	<?php echo $this->formElement($congViec->get('ngayBanHanh')); ?>
+			          	<?php echo $this->formJqxDate($congViec->get('ngayBanHanh')); ?>
 			          	<?php echo $this->formElementErrors($congViec->get('ngayBanHanh')); ?>
 					</div>
 					<div class="field">
 						<?php echo $this->formLabel($congViec->get('ngayHoanThanh')); ?>
-			          	<?php echo $this->formElement($congViec->get('ngayHoanThanh')); ?>
+			          	<?php echo $this->formJqxDate($congViec->get('ngayHoanThanh')); ?>
 			          	<?php echo $this->formElementErrors($congViec->get('ngayHoanThanh')); ?>
 					</div>
 				</div>
@@ -42,6 +43,7 @@ $congViec = $congVan->get('congViecs');?>
 		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
 				</div>
+				<?php endforeach; ?>
 			</div>
 			<div class="six wide column">
 				<div class="field">
@@ -51,7 +53,7 @@ $congViec = $congVan->get('congViecs');?>
 				</div>
 				<div class="field">
 					<?php echo $this->formLabel($congVan->get('ngayBanHanh')); ?>
-		          	<?php echo $this->formElement($congVan->get('ngayBanHanh')); ?>
+		          	<?php echo $this->formJqxDate($congVan->get('ngayBanHanh')); ?>
 		          	<?php echo $this->formElementErrors($congVan->get('ngayBanHanh')); ?>
 				</div>
 				<div class="field">

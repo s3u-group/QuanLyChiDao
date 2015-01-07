@@ -73,22 +73,22 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $fieldset = new CongViecFieldset($objectManager, $sm);
+        /*$fieldset = new CongViecFieldset($objectManager, $sm);
         $fieldset->setUseAsBaseFieldset(true);
-        $this->add($fieldset);
+        $this->add($fieldset);*/
 
-        /*$congViecFieldset = new CongViecFieldset($objectManager);
+        $congViecFieldset = new CongViecFieldset($objectManager, $sm);
         $this->add(array(
             'type' => 'Zend\Form\Element\Collection',
             'name' => 'congViecs',
             'options' => array(
-                'label' => 'Danh sách công việc',
+            //    'label' => 'Danh sách công việc',
                 'count' => 1,
-                'should_create_template' => true,
-                'allow_add' => true,
+            //    'should_create_template' => true,
+            //    'allow_add' => true,
                 'target_element' => $congViecFieldset
             ),
-        ));*/
+        ));
        
     }
     public function getInputFilterSpecification()
