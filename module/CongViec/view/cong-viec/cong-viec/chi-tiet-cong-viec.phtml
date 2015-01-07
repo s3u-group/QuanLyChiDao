@@ -75,7 +75,7 @@ use CongViec\Entity\TheoDoi;
 				Người tạo
 			</td>
 			<td>
-			<?php echo $congViec->getNguoiTao()->getUsername(); ?>
+			<?php echo $congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen(); ?>
 			</td>
 		</tr>
 		<tr>
@@ -220,9 +220,9 @@ use CongViec\Entity\TheoDoi;
         <tr>
 			<th>Nội dung</th>
 			<th>Ngày báo cáo</th>
-			<th>Người báo cáo</th>
+			<th>Người tạo báo cáo</th>
 			<th>Đính kèm</th>
-			<th>hủy</th>
+			<th>Hủy</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -244,7 +244,7 @@ use CongViec\Entity\TheoDoi;
 			echo '</td>';
 
 			echo '<td>';
-				echo $theoDoi->getNguoiBaoCao()->getUsername();
+				echo $theoDoi->getNguoiTao()->getHo().' '.$theoDoi->getNguoiTao()->getTen();
 			echo '</td>';
 			echo '<td>'; ?>
 				<!-- <table> -->

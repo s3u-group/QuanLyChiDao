@@ -44,11 +44,14 @@ class TheoDoiFieldset extends Fieldset implements InputFilterProviderInterface
         ));
          $this->add(array(
              'name' => 'nguoiBaoCao',
-             'type' => 'Select',
+             'type' => 'Hidden',
              'options' => array(
-                 'label' => 'Chọn người báo cáo',
-                 'disable_inarray_validator' => true,
+                 'label' => 'Người báo cáo mặc định là người chủ trì',
              ),
+         ));
+         $this->add(array(
+             'name' => 'nguoiTao',
+             'type' => 'Hidden',
          ));
 
         // File Input
