@@ -1,3 +1,75 @@
 <?php
-echo "Đang xây dựng";
+	if ($this->flashMessenger()->hasMessages()) 
+	{
+    	echo '<div class="ui positive message">
+  				<i id="btFm" class="close icon"></i>
+  				<div class="header">';
+
+    	$messages = $this->flashMessenger()->getMessages();
+    	foreach($messages as $message) {
+        	echo $message;
+    	}
+    	echo '</div></div>';
+
+    	echo '
+	    <script type="text/javascript">
+	        setTimeout(function(){
+	            document.getElementById("btFm").click();
+	        },5000);
+	    </script>';
+    }	
 ?>
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="first">Sửa đơn vị</a>
+</div>
+
+<div class="ui bottom attached active tab segment" data-tab="first">
+	<div class="ui small form segment">
+	  <div class="fields">
+	    <div class="four wide field">
+	      <label>Tên đơn vị</label>
+	      <?php
+	      	$form->setAttribute('action', $this->url('user/crud', array('action'=>'sua-don-vi','id' => $id)));			
+			$form->setAttribute('role','form');
+			$form->prepare(); 
+			echo $this->form()->openTag($form);
+			$donVi=$form->get('don-vi');			
+			$tenDonVi=$donVi->get('tenDonVi');
+			$tenDonVi->setAttribute('required','required');
+			$tenDonVi->setAttribute('autofocus','autofocus');
+	      	echo $this->formElement($tenDonVi);
+
+	      	if($kiemTraTenDonVi==1)
+	      	{
+	      		echo "<div class='ui red message'>Tên đơn vị đã được sử dụng</div>";	      		
+	      	} 
+	      ?> 
+	    </div>
+	  </div>
+	  <div class="fields">&nbsp;</div>
+	  <div class="fields">	  	
+		<a href="<?php echo $this->url('user/crud', array('action'=>'danh-muc-don-vi')); ?>">		
+	  		<input type="button" class="tiny ui button item" value="Trở về">
+	  	</a>	  	
+	  	<?php
+	  		$form->get('submit')->setAttribute('class','tiny ui button item blue');
+	  		echo $this->formSubmit($form->get('submit'));
+	  		echo $this->form()->closeTag();
+	  	?>	  	
+	  </div>	   
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.menu .item').tab();
+
+	$('.ui.radio.checkbox').checkbox();
+
+	$('select.dropdown').dropdown();
+});
+
+$('.message .close').on('click', function() {
+  $(this).closest('.message').fadeOut();
+});
+</script>
