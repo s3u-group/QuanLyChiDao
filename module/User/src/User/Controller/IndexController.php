@@ -34,19 +34,18 @@ class IndexController extends AbstractActionController
         $users = $query->getResult();
                     
         $request = $this->getRequest();
+        $txtDuLieu='';
         if ($request->isPost()) 
         {
-            $post=$request->getPost();            
+            $post=$request->getPost();       
+            $txtDuLieu=$post['txtDuLieu']; 
             $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
             $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
             $users=$query->getResult();
-            
-            return array(                
-                'users' => $users
-            );
         }
         return array(            
-            'users' => $users
+            'users' => $users,
+            'txtDuLieu'=>$txtDuLieu
         );
     }
     
