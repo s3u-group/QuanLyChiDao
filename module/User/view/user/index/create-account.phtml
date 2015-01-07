@@ -1,24 +1,5 @@
 <?php
 	$dateTime = new DateTime(null, new DateTimeZone('Asia/Ho_Chi_Minh'));
-	if ($this->flashMessenger()->hasMessages()) 
-	{
-    	echo '<div class="ui positive message">
-  				<i id="btFm" class="close icon"></i>
-  				<div class="header">';
-
-    	$messages = $this->flashMessenger()->getMessages();
-    	foreach($messages as $message) {
-        	echo $message;
-    	}
-    	echo '</div></div>';
-
-    	echo '
-	    <script type="text/javascript">
-	        setTimeout(function(){
-	            document.getElementById("btFm").click();
-	        },5000);
-	    </script>';
-    }	
 ?>
 <div class="ui top attached tabular menu">
   <a class="active item" data-tab="first">TẠO TÀI KHOẢN</a>
@@ -180,22 +161,22 @@ $('.message .close').on('click', function() {
 </script>
 
 <script type="text/javascript">
-kiemTra=function()
-{
-	var pass=document.getElementById('pass');
-	var passVerify=document.getElementById('passVerify');	
-	if(pass.value==passVerify.value)
+	kiemTra=function()
 	{
-		document.getElementById('frmCreateAccount').submit();
-		return true;
+		var pass=document.getElementById('pass');
+		var passVerify=document.getElementById('passVerify');	
+		if(pass.value==passVerify.value)
+		{
+			document.getElementById('frmCreateAccount').submit();
+			return true;
+		}
+		else
+		{
+			//pass.value='';
+			//passVerify.value='';
+			document.getElementById("kiemTraMatKhau").hidden=false;		
+			$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
+			return false;
+		}	
 	}
-	else
-	{
-		//pass.value='';
-		//passVerify.value='';
-		document.getElementById("kiemTraMatKhau").hidden=false;		
-		$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
-		return false;
-	}	
-}
 </script>

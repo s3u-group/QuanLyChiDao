@@ -32,6 +32,18 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('select u from User\Entity\User u');
         $users = $query->getResult();
+
+        $request = $this->getRequest();
+        if ($request->isPost()) 
+        {
+            $post=$request->getPost();            
+            $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
+            $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
+            $users=$query->getResult();            
+            return array(
+                'users' => $users
+            );
+        }
         return array(
             'users' => $users
         );
@@ -149,7 +161,7 @@ class IndexController extends AbstractActionController
         );
     }
 
-    public function changePassWordAction()
+    /*public function changePassWordAction()
     {
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
@@ -176,7 +188,7 @@ class IndexController extends AbstractActionController
         return array(
             'id'=>$id,            
         );        
-    }
+    }*/
 
     public function adminChangePassWordAction()
     {
@@ -198,17 +210,18 @@ class IndexController extends AbstractActionController
             $bcrypt = new Bcrypt();
             $bcrypt->setCost(14);
 
-            $passAdmin=$bcrypt->create($post['matKhauAdmin']);            
+            /*$passAdmin=$bcrypt->create($post['matKhauAdmin']);
             $admin = $entityManager->getRepository('User\Entity\User')->find(1);
             if($admin->getPassword()==$passAdmin)
-            {
+            {*/
                 $password = $post['matKhauMoi'];            
                 $user->setPassword ($bcrypt->create($password));
                 $entityManager->flush();  
                 return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
-            }
+            /*}
             else
-            {}
+            {                
+            }*/
         }
 
         return array(
@@ -219,6 +232,37 @@ class IndexController extends AbstractActionController
     public function danhMucDonViAction()
     {
         $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if ($request->isPost()) 
+        {
+            $post=$request->getPost();
+            $dk='dv.tenDonVi LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
+            $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE '.$dk);
+            $donVis = $query->getResult();        
+            if($donVis)
+            {                
+                $listCount=array();
+                foreach ($donVis as $donVi) {               
+                    $dql = 'select count(u.id) as Tong from User\Entity\User u where u.donVi = :id';
+                    $query = $entityManager->createQuery($dql);
+                    $query->setParameter('id', $donVi->getId());
+                    $count = $query->getSingleResult();
+                    $listCount[]=$count['Tong'];                
+                }
+                return array(
+                    'donVis'=>$donVis,
+                    'listCount'=>$listCount,
+                    'kiemTraDonVi'=>1
+                );            
+            }
+            else
+            {
+                return array(
+                    'kiemTraDonVi'=>0
+                );
+            }
+        }
+
         $dql = 'select dv from User\Entity\DonVi dv';
         $query = $entityManager->createQuery($dql);        
         $donVis = $query->getResult();        
@@ -275,10 +319,11 @@ class IndexController extends AbstractActionController
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
             return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
-        }        
-        if($id =$this->zfcUserAuthentication()->getIdentity()->getId()!=1)
-        {
-            return $this->redirect()->toRoute('user');
+        }
+        $id =$this->zfcUserAuthentication()->getIdentity()->getId();
+        if($id!=1)
+        {            
+            return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
         }
         $entityManager = $this->getEntityManager();
         $user=new User();
@@ -312,7 +357,12 @@ class IndexController extends AbstractActionController
                     else
                     {
                         $user->setGioiTinh(2);
-                    }                    
+                    }
+                    $bcrypt = new Bcrypt();
+                    $bcrypt->setCost(14);                    
+                    $pass=$request->getPost()->get('user')['password'];
+                    $user->setPassword ($bcrypt->create($pass));
+
                     $entityManager->persist($user);
                     $entityManager->flush();
 
@@ -375,6 +425,6 @@ class IndexController extends AbstractActionController
             'kiemTraEmail'=>0,
             'kiemTraUsername'=>0
         );
-    }
+    }    
 }
 ?>
