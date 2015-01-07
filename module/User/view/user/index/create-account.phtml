@@ -28,7 +28,9 @@
 
 	      	$username=$nguoiDung->get('username');
 	      	$username->setAttribute('required','required');
+	      	$username->setAttribute('autofocus','autofocus');
 	      	echo $this->formElement($username);
+
 	      	if($kiemTraUsername==1)
 	      	{
 	      		echo "<div class='ui red message'>Tên đăng nhập đã được sử dụng</div>";	      		
@@ -42,8 +44,8 @@
 	      <?php 
 	      	$password=$nguoiDung->get('password');
 	      	$password->setAttribute('required','required');
-	      	$password->setAttribute('id','pass');
-	      	echo $this->formElement($password);	      	
+	      	$password->setAttribute('id','pass');	      	
+	      	echo $this->formElement($password);
 	      ?>
 	    </div>	    
 	  </div>
@@ -51,7 +53,7 @@
 	  <div class="fields">
 	  	<div class="four wide field">
 	      <label>Nhập lại mật khẩu</label>
-	      <input type="password" id="passVerify" required="required"/>
+	      <input type="password" id="passVerify" required="required" placeholder ='Nhập lại mật khẩu'/>
 	    </div>	    
 	  </div>
 	  <div class="fields">
@@ -99,11 +101,13 @@
 	      <label>Điện thoại</label>
 	      <?php 
 	      	$dienThoai=$nguoiDung->get('dienThoai');
+	      	$dienThoai->setAttribute('id','dienThoai');
 	      	$dienThoai->setAttribute('required','required');
 	      	$dienThoai->setAttribute('type','number');
-	      	$dienThoai->setAttribute('min','0');	      	
-	      	echo $this->formElement($dienThoai); 
-	      ?> 
+	      	$dienThoai->setAttribute('min','0');
+	      	echo $this->formElement($dienThoai);
+	      ?>
+	      <div id="kiemTraDienThoai" class='ui red message sixteen wide field' hidden></div>
 	  	</div>
 	  </div>
 
@@ -113,6 +117,7 @@
 	      <?php 
 	      	$diaChi=$nguoiDung->get('diaChi');
 	      	$diaChi->setAttribute('required','required');
+	      	$diaChi->setAttribute('placeholder','Nhập địa chỉ');
 	      	echo $this->formElement($diaChi);	      	
 	      ?>
 	    </div>
@@ -163,20 +168,34 @@ $('.message .close').on('click', function() {
 <script type="text/javascript">
 	kiemTra=function()
 	{
-		var pass=document.getElementById('pass');
-		var passVerify=document.getElementById('passVerify');	
+		var pass=document.getElementById('pass');		
+		var passVerify=document.getElementById('passVerify');
+		var dienThoai=document.getElementById('dienThoai');
+
+		if((pass.value).length<6||(passVerify.value).length<6)
+		{
+			document.getElementById("kiemTraMatKhau").hidden=false;		
+			$('#kiemTraMatKhau').text('Vui lòng nhập mật khẩu có tối thiểu 6 ký tự');
+			return false;
+		}
+
+		if((dienThoai.value).length<10||(dienThoai.value).length>11)
+		{
+			document.getElementById("kiemTraDienThoai").hidden=false;		
+			$('#kiemTraDienThoai').text('Số điện thoại dài 10 hoặc 11 ký tự');
+			return false;
+		}
+
 		if(pass.value==passVerify.value)
 		{
 			document.getElementById('frmCreateAccount').submit();
 			return true;
 		}
 		else
-		{
-			//pass.value='';
-			//passVerify.value='';
+		{			
 			document.getElementById("kiemTraMatKhau").hidden=false;		
 			$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
 			return false;
-		}	
+		}		
 	}
 </script>

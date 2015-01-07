@@ -15,48 +15,9 @@ class CreateAccountForm extends Form
         $this
             ->setAttribute('method', 'post')
             ->setAttribute('autocomplete', 'off')
-            ->setHydrator(new DoctrineHydrator($objectManager))
-        ;
+            ->setHydrator(new DoctrineHydrator($objectManager));        
 
         /*$this->add(array(
-            'type' => 'hidden',
-            'name' => 'id'
-        ));
-
-        $this->add(array(
-            'type' => 'text',
-            'name' => 'email',
-            'attributes' => array(
-
-            ),
-            'options' => array(
-                'label' => 'Email'
-            )
-        ));
-
-        $this->add(array(
-            'type' => 'password',
-            'name' => 'password',
-            'attributes' => array(
-                'autocomplete' => 'off'
-            ),
-            'options' => array(
-                'label' => 'Mật khẩu'
-            )
-        ));
-
-        $this->add(array(
-            'type' => 'password',
-            'name' => 'passwordVerify',
-            'attributes' => array(
-                'autocomplete' => 'off'
-            ),
-            'options' => array(
-                'label' => 'Xác nhận mật khẩu'
-            )
-        ));
-
-        $this->add(array(
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
         ));*/
