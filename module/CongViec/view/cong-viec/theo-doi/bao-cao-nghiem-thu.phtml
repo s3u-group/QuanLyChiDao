@@ -4,7 +4,7 @@
     <div class="sixteen wide column fluid"></div>
     <!-- <div class="sixteen wide column fluid"></div> -->
   </div>
-  <form method="post" action="<?php echo $this->url('theo_doi/crud',array('action'=>'baoCaoNghiemThu')); ?>">
+  <form method="post" action="<?php echo $this->url('theo_doi/crud',array('action'=>'bao-cao-nghiem-thu')); ?>">
    <div class="ui grid">   
     <div class="four column row">
       <div class="four wide column">
@@ -99,7 +99,7 @@
             {
               echo '<tr class="green">'; 
                 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -109,7 +109,7 @@
             {
               echo '<tr class="blue">'; 
                 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -118,7 +118,7 @@
             {
               echo '<tr class="purple">'; 
                 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -127,7 +127,7 @@
             {
               echo '<tr class="lightred">'; 
                 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';

@@ -99,7 +99,7 @@
             {
               echo '<tr class="green">'; 
                 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
               echo '</tr>';
@@ -108,7 +108,7 @@
             elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem')
             {
               echo '<tr class="blue">'; 
-              echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+              echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
              
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
@@ -117,7 +117,7 @@
             elseif($dieuKienLoc=='Đang xử lý'&&$congViec->getTrangThaiNhom()=='Đang xử lý')
             {
               echo '<tr class="purple">'; 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
    
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
@@ -126,7 +126,7 @@
             elseif($dieuKienLoc=='Trễ hạn'&&$congViec->getTrangThaiNhom()=='Trễ hạn')
             {
               echo '<tr class="lightred">'; 
-                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chiTietCongViec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
+                echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
                 echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
              
                 echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
