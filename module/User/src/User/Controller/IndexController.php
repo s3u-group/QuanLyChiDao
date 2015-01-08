@@ -521,15 +521,34 @@ class IndexController extends AbstractActionController
 
     public function phanQuyenAction(){
         $entityManager=$this->getEntityManager();
+        $request=$this->getRequest();
+        if($request->isPost()){
+            $post=$request->getPost();
+            $idUser=$post['idUser'];
+            $quyens=$post['quyens'];
+            $user=$entityManager->getRepository('User\Entity\User')->find($idUser);
+            $user->removeRole($user->getRoles());
+            $entityManager->flush();
+            if($quyens){
+                foreach ($quyens as $quyen) {
+                    $userRole=new UserRole();
+                    $userRole->setUserId($idUser);
+                    $userRole->setRoleId($quyen);
+                    $entityManager->persist($userRole);
+                    $entityManager->flush();
+                }    
+            }                
+        }
         $donVis=$entityManager->getRepository('User\Entity\DonVi')->findAll();
         $quyens=$entityManager->getRepository('User\Entity\Role')->findAll();
-        $user=$entityManager->getRepository('User\Entity\User')->find(1);
+
 
         return array(
             'donVis'=>$donVis,
             'quyens'=>$quyens,
         );
     }
+
 
     public function userRolesAction(){
         $entityManager=$this->getEntityManager();
@@ -552,6 +571,33 @@ class IndexController extends AbstractActionController
         }
         $json = new JsonModel($response);
         return $json;
+    }
+
+    public function ajaxGetToChucAction(){
+        $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $response = array();
+            $query = $entityManager->createQuery('select d from User\Entity\DonVi d left join d.nhanViens n');
+            $donVis = $query->getResult();
+            foreach($donVis as $donVi){
+                $nhanViens = $donVi->getNhanViens();
+                $childrens = array();
+                foreach($nhanViens as $nhanVien){
+                    $childrens[] = array(
+                        'text' => $nhanVien->getHoTen(),
+                        'id' => $nhanVien->getId()
+                    );
+                }
+                $response[] = array(
+                    'text' => $donVi->getTenDonVi(),
+                    'children' => $childrens
+                );
+            }
+
+            $json = new JsonModel($response);
+            return $json;
+        }
     }
 }
 ?>

@@ -1,3 +1,5 @@
+<form action="<?php echo $this->url('user/crud',array('action'=>'phan-quyen')); ?>" method="post">
+	<input type="hidden" name="idUser" id="idUser">	
 	<div class="ui celled grid">
 		<div class="row">
 			<div class="six wide column">
@@ -12,33 +14,50 @@
 					<div id="event_result" class="ui divided list">
 						<div class="template">
 							<div class="item">						
-								<table>
+								<table class="ui table">
 									<thead>
-										<th align="center">
+										<th style="text-align:center;">
+											STT
+										</th>
+										<th style="text-align:center;">
 											Quyền
 										</th>
-										<th align="center">
+										<th  style="text-align: right;">
 											Sử dụng
+											<div class="ui checkbox" style="margin-right:15px;">
+												<input type="checkbox" id="checkAll">
+											</div>
 										</th>
 									</thead>
 									<tbody>
 									<?php
+									$stt=0;
 										foreach ($quyens as $quyen) {
-											if($quyen->getRoleId()!='khach'){ ?>
+											if($quyen->getRoleId()!='khach'){ 
+												$stt++;
+										?>
+
 												<tr>
+													<td style="text-align:center;">
+														<?php echo $stt; ?>
+													</td>
 													<td>
 														<label for="<?php echo $quyen->getId(); ?>"><?php echo $quyen->getRoleName(); ?></label>		
 													</td>
-													<td align="center">
-														<div class="ui checkbox">
-														  	<input type="checkbox" id="q_<?php echo $quyen->getId(); ?>" class="checkboxQuyen">				  
+													<td style="text-align: right;">
+														<div class="ui checkbox" style="margin-right:15px;">
+														  	<input type="checkbox" id="q_<?php echo $quyen->getId(); ?>" class="checkboxQuyen" value="<?php echo $quyen->getId(); ?>" name="quyens[]">				  
 														</div>
 													</td>
 												</tr>
 											<?php }
 										}
 									?>
-												
+										<tr>
+											<td colspan="3" style="text-align:right;">
+												<input type="submit" class="ui button blue" value="Lưu" style="margin-right:-6px;" id="btnSubmit">
+											</td>
+										</tr>
 									</tbody>
 										
 								</table>
@@ -49,13 +68,13 @@
 			</div>
 		</div>
 	</div>
-
+</form>
 <script type="text/javascript">
 	var xhr;
 	$('.jstree').jstree({
 		'core' : {
 			'data' : {
-				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
+				"url" : "<?php echo $this->url('user/crud', array('action'=>'ajax-get-to-chuc')) ?>",
 				"dataType" : "json" // needed only if you do not supply JSON headers
 			}
 		}
@@ -66,7 +85,9 @@
 	   if(isNaN(id)){
 	 		// nếu chọn ngay node cha thì chưa làm gì hết
 	   }
-	   else{		   	
+	   else{
+	   		$('#checkAll').prop('checked',false);
+	   		$('#idUser').val(id);		   	
 		   	if(xhr && xhr.readyState != 4){
 	            xhr.abort(); //huy lenh ajax truoc do
 	        }
@@ -78,15 +99,39 @@
 	            data:{
 	                'id':id
 	            },
-	            success:function(data){
+	            success:function(data){	            	
 	            	$('.checkboxQuyen').each(function(){ this.checked = false; });
 	            	$.each(data, function(key,val){
-	            		var id='#q_'+val.id;
-	            		$(id).prop('checked', true);
+	            		var idRole='#q_'+val.id;
+	            		$(idRole).prop('checked', true);
 	            	});
 	            }
 	        });
 	   }
 	});
-	$('.ui.checkbox').checkbox();
+	$(document).ready(function(){
+		$('.ui.checkbox').checkbox();		
+		$('#btnSubmit').on('click',function(){
+			var idUser=$('#idUser').val();
+			if(!idUser){
+				return false;
+			}
+			return true;
+		});
+		$('#checkAll').on('change',function(){
+			if($('#checkAll').prop('checked')){
+				$('.checkboxQuyen').prop('checked',true);
+
+			}
+			else{
+				$('.checkboxQuyen').prop('checked',false);
+			}
+		});
+		$('tr').on('click',function(){
+			
+		});
+			
+		//$('.test.checkbox').checkbox('attach events', 'check');
+	});
+		
 </script>

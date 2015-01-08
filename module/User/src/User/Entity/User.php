@@ -302,6 +302,13 @@ class User implements UserInterface, ProviderInterface
         $this->roles[] = $role;
     }
 
+    public function removeRole($roles)
+    {
+        foreach($roles as $role){
+            $this->roles->removeElement($role);
+        }
+    }
+
     /**
      * @param string $dienThoai
      * @return void
