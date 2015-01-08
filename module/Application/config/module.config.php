@@ -142,7 +142,6 @@ return array(
                     ),
                     array(
                         'label' => 'Nhật ký công việc',
-                        //'uri' => '#'
                         'route' => 'cong_viec/crud',
                         'params' => array(
                             'action' => 'nhat-ky-cong-viec',
@@ -165,7 +164,6 @@ return array(
                     ),
                     array(
                         'label' => 'Danh sách nhân viên',
-                        /*'uri' => '#'*/
                         'route' => 'user/crud',
                         'params' => array(
                             'action' => 'list',
@@ -189,7 +187,10 @@ return array(
                     ),
                     array(
                         'label' => 'Phân quyền',
-                        'uri' => '#'
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'phan-quyen',
+                        )
                     )
                 ),
             ),
