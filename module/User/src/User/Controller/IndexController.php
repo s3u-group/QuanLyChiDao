@@ -309,7 +309,8 @@ class IndexController extends AbstractActionController
         $form->bind($user);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setData($request->getPost());            
+            $form->setData($request->getPost());
+            die(var_dump($request->getPost()));
             if ($form->isValid()) 
             {
                 $username=$request->getPost()->get('user')['username'];
