@@ -7,7 +7,7 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 
 use CongViec\Entity\CongViec;
-
+use CongViec\Form\PhanCongFieldset;
 
 class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
 {
@@ -79,6 +79,22 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
             'attributes' => array(
                 'id' => 'dinhKem',
                 'multiple' => true
+            )
+        ));
+
+        $phanCongFieldset = new PhanCongFieldset($objectManager);
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Collection',
+            'name' => 'nguoiThucHiens',
+            'options' => array(
+            //    'label' => 'Danh sách công việc',
+                'count' => 0,
+                'should_create_template' => true,
+                'allow_add' => true,
+                'target_element' => $phanCongFieldset
+            ),
+            'attributes' => array(
+                'class' => 'ui hidden'
             )
         ));
     }

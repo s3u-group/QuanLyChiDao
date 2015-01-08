@@ -5,7 +5,8 @@ $form->prepare();?>
 <?php
 echo $this->form()->openTag($form);
 $congVan = $form->get('cong-van');
-$congViecs = $congVan->get('congViecs');?>
+$congViecs = $congVan->get('congViecs');
+$congViec = null;?>
 <div class="ui form">
 	<div class="ui celled grid">
 		<div class="row">
@@ -84,24 +85,15 @@ $congViecs = $congVan->get('congViecs');?>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Phân công</label>
-					<div id="event_result" class="ui divided list">
+					<?php $nguoiThucHiens = $congViec->get('nguoiThucHiens'); ?>
+					<div id="event_result" class="ui list">
+						<?php echo $this->formCollection($nguoiThucHiens); ?>
 						<div class="template ui hidden">
-							<div class="item">
-							    <div class="right floated compact ui dropdown">
-								  	<div class="text">Thực hiện</div>
-								  	<i class="dropdown icon"></i>
-								  	<div class="menu">
-									    <div class="item">Thực hiện</div>
-									    <div class="item">Chủ trì</div>
-									    <div class="item">Theo dõi</div>
-									    <div class="item">Cập nhật</div>
-								  	</div>
-								</div>
-							    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
-							    <div class="content">
-							     	{{ten}}
-							    </div>
-							</div>
+						    <?php echo $this->vaiTro(); ?>
+						    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
+						    <div class="content">
+						     	__ten__
+						    </div>
 						</div>
 					</div>
 				</div>
@@ -141,10 +133,20 @@ $congViecs = $congVan->get('congViecs');?>
 	   	alert('Vui lòng chọn nhân viên để phân công');
 	   }
 	   else{
+	   	var currentCount = add_phan_cong();
 	   	var template = $('#event_result .template').html();
-	   	$('#event_result').append(template);
-	   	$('.ui.dropdown')
-	        .dropdown()
+	   	template = template.replace(/__ten__/g, ten);
+	   	$('#event_result').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
+	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
+	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
+	   	$('#pc_'+currentCount+' .ui.dropdown')
+	        .dropdown({
+	        	onChange: function (val) {
+	        		if(!isNaN(val)){
+	        			$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(val);
+	        		}
+			    }
+	        })
 	      ;
 	   	/*$.ajax({
 	   		type : 'post',
@@ -159,4 +161,14 @@ $congViecs = $congVan->get('congViecs');?>
 	   	});*/
 	   }
 	});
+
+	function add_phan_cong() {
+        var currentCount = $('#event_result > fieldset > fieldset').length;
+        var template = $('#event_result > fieldset > span').data('template');
+        template = template.replace(/__index__/g, currentCount);
+
+        $('#event_result > fieldset').prepend(template);
+
+        return currentCount;
+    }
 </script>

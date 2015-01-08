@@ -1,14 +1,13 @@
 <?php
  $title = $users[0]->getDonVi()->getTenDonVi();
  $this->headTitle($title);
- ?> 
- <div class="sixteen wide column row center aligned">
- 	<h2><?php echo $this->escapeHtml($title).' - Danh sách tài khoản'; ?></h2>
- </div>
- 
-<div class="sixteen wide column row right aligned">
-  <div class="fields">
-    <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'chiTietDonVi')); ?>" onsubmit="return kiemTraTim();">
+?>  
+<div class="ui grid">  
+  <div class="nine wide column">    
+    <div class="ui header"><?php echo $this->escapeHtml($title); ?></div>
+  </div>
+  <div class="seven wide column">
+    <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'chi-tiet-don-vi')); ?>" onsubmit="return kiemTraTim();">
       <div class="ui icon input">      
       <input placeholder="Tìm nhanh" id="txtDuLieu" name="txtDuLieu" type="text">
       <i class="search icon"></i>
@@ -17,10 +16,10 @@
       <a href="<?php echo $this->url('user/crud',array('action'=>'chiTietDonVi',));?>"><input class="tiny ui button" value="Xem hết" type="button"></a>
     </form>
   </div>
- </div>
+</div>
 
 <div class="sixteen wide column fluid">
-      <table class="ui table">
+      <table class="ui table" style="margin-top:5px;">
         <thead>
           <tr>            
             <th>Tên hiển thị</th>
