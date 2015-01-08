@@ -505,7 +505,11 @@ class IndexController extends AbstractActionController
     }
 
     public function phanQuyenAction(){
-        
+        $entityManager=$this->getEntityManager();
+        $donVis=$entityManager->getRepository('User\Entity\DonVi')->findAll();
+        return array(
+            'donVis'=>$donVis,
+        );
     }
 }
 ?>
