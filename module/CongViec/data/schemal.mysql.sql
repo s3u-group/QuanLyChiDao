@@ -52,11 +52,13 @@ CREATE TABLE IF NOT EXISTS `theo_doi`(
   `id`			bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `ngay_bao_cao` datetime DEFAULT '0000-00-00 00:00:00',
   `nguoi_bao_cao_id` int(11) unsigned,
+  `nguoi_tao_id` int(11) unsigned,
   `noi_dung` mediumtext,
   `cong_van_id`   bigint(20) unsigned,
   `trang_thai` mediumint unsigned,
   PRIMARY KEY (`id`),
   KEY `nguoi_bao_cao_id` (`nguoi_bao_cao_id`),
+  KEY `nguoi_tao_id` (`nguoi_tao_id`),
   KEY `cong_van_id` (`cong_van_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

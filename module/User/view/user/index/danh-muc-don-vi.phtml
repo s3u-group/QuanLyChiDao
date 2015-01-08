@@ -1,13 +1,31 @@
 <?php
-
  $title = 'Danh mục đơn vị';
  $this->headTitle($title);
- ?> 
- <div class="sixteen wide column row center aligned">
- 	<h2>DANH MỤC ĐƠN VỊ</h2>
- </div>
-<div class="sixteen wide column row right aligned">
-  <div class="fields">
+ if ($this->flashMessenger()->hasMessages()) 
+  {
+      echo '<div class="ui positive message">
+          <i id="btFm" class="close icon"></i>
+          <div class="header">';
+
+      $messages = $this->flashMessenger()->getMessages();
+      foreach($messages as $message) {
+          echo $message;
+      }
+      echo '</div></div>';
+
+      echo '
+      <script type="text/javascript">
+          setTimeout(function(){
+              document.getElementById("btFm").click();
+          },5000);
+      </script>';
+  } 
+?>
+<div class="ui grid">  
+  <div class="nine wide column">    
+    <div class="ui header">DANH MỤC ĐƠN VỊ</div>
+  </div>
+  <div class="seven wide column">
     <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'danhMucDonVi')); ?>" onsubmit="return kiemTraTim();">
       <div class="ui icon input">      
       <input placeholder="Tìm nhanh" id="txtDuLieu" name="txtDuLieu" type="text" autofocus>
@@ -17,13 +35,15 @@
       <a href="<?php echo $this->url('user/crud',array('action'=>'danhMucDonVi'));?>"><input class="tiny ui button" value="Xem hết" type="button"></a>
     </form>
   </div>
- </div>
+</div>
+
 <div class="sixteen wide column fluid">
-      <table class="ui table">
+  <table class="ui table" style="margin-top:5px">
         <thead>
           <tr>            
             <th>Tên đơn vị</th>
-            <th>Số thành viên</th>            
+            <th>Số thành viên</th>
+            <th>Cập nhật</th>            
           </tr>
         </thead>
         <tbody>
@@ -43,6 +63,9 @@
                 }?>              
             </td>
             <td><?php echo $this->escapeHtml($listCount[$i]);?></td>
+            <td>          
+              <a href="<?php echo $this->url('user/crud', array('action'=>'sua-don-vi', 'id'=>$donVi->getId())) ?>" title="Sửa tên đơn vị"><i class="edit icon"></i></a>            
+            </td>
   				</tr>
           <?php 
             $i++;}
@@ -51,8 +74,22 @@
             <tr><td>Danh sách đơn vị trống</td></tr>
           <?php }?>
         </tbody>
-      </table>
+  </table>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.menu .item').tab();
+
+  $('.ui.radio.checkbox').checkbox();
+
+  $('select.dropdown').dropdown();
+});
+
+$('.message .close').on('click', function() {
+  $(this).closest('.message').fadeOut();
+});
+</script>
 
 <script type="text/javascript">
   kiemTraTim=function()

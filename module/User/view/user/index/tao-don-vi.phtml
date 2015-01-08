@@ -1,0 +1,40 @@
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="first">TẠO ĐƠN VỊ</a>
+</div>
+<div class="ui bottom attached active tab segment" data-tab="first">
+	<div class="ui small form segment">
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Tên đơn vị</label>
+	      <?php
+			$form->setAttribute('action', $this->url('user/crud', array('action'=>'tao-don-vi')));
+			$form->setAttribute('id','frmTaoDonVi'); 
+			$form->setAttribute('role','form');
+			$form->prepare(); 
+			echo $this->form()->openTag($form);
+			$donVi=$form->get('don-vi');			
+			$tenDonVi=$donVi->get('tenDonVi');
+			$tenDonVi->setAttribute('required','required');
+			$tenDonVi->setAttribute('autofocus','autofocus');
+	      	echo $this->formElement($tenDonVi);
+
+	      	if($kiemTraDonVi==1)
+	      	{
+	      		echo "<div class='ui red message'>Tên đơn vị đã được sử dụng</div>";	      		
+	      	}
+	      ?>	     	
+	    </div>
+	  </div>	  
+	  <div class="fields">&nbsp;</div>
+	  <div class="fields">	  	
+		<a href="<?php echo $this->url('user/crud', array('action'=>'danh-muc-don-vi')); ?>">		
+	  		<input type="button" class="tiny ui button item" value="Trở về">
+	  	</a>	  	
+	  	<?php
+	  		$form->get('submit')->setAttribute('class','tiny ui button item blue');
+	  		echo $this->formSubmit($form->get('submit'));
+	  		echo $this->form()->closeTag();
+	  	?>	  	
+	  </div>
+	</div>
+</div>

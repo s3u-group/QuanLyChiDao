@@ -30,6 +30,12 @@ class TheoDoi
 	protected $nguoiBaoCao;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
+	 * @ORM\JoinColumn(name="nguoi_tao_id", referencedColumnName="user_id")
+	 */
+	protected $nguoiTao;
+
+	/**
 	 * @ORM\Column(name="noi_dung", type="text")	
 	 */
 	protected $noiDung;
@@ -118,4 +124,12 @@ class TheoDoi
     {
     	return $this->trangThai;
     }
+
+    public function setNguoiTao($nguoiTao){
+    	$this->nguoiTao=$nguoiTao;
+    }
+    public function getNguoiTao(){
+    	return $this->nguoiTao;
+    }
+
 }

@@ -31,6 +31,11 @@
 	echo $this->formHidden($baoCao->get('ngayBaoCao'));
 	$baoCao->get('congVan')->setAttribute('value',$id);
 	echo $this->formHidden($baoCao->get('congVan'));
+	if($this->zfcUserIdentity()){
+		$baoCao->get('nguoiTao')->setAttribute('value',$this->zfcUserIdentity()->getId());
+	}
+	
+	echo $this->formHidden($baoCao->get('nguoiTao'));
 ?>
 	<div class="ui form">
 		<div class="fields">
@@ -47,19 +52,24 @@
 			<?php echo $this->formRow($baoCao->get('dinhKems')); ?>
 			</div>
 		</div>
-		
-		<span><b>Chọn người báo cáo</b></span>
+	
 		<div class="fields">
 			<div class="sixteen wide field">				
-			<?php
-			 	$baoCao->get('nguoiBaoCao')->setValueOptions($this->ArrayDanhSachNguoiThucHien($nguoiThucHiens));
-			 	$baoCao->get('nguoiBaoCao')->setAttribute('class','ui selection dropdown');
+			<?php	
+				$chuTris=$this->ArrayDanhSachNguoiThucHien($nguoiThucHiens);
+				$co=0;
+				foreach ($chuTris as $key => $chuTri) {
+					if($co==0){
+						$baoCao->get('nguoiBaoCao')->setAttribute('value',$key);
+					}
+					$co++;
+				}
 			 	echo $this->formElement($baoCao->get('nguoiBaoCao'));
 			 ?>
 			</div>
 		</div>
 		<br>
-		<div class="sixteen wide column row right aligned">
+		<div class="sixteen wide column row">
 			<div class="fields">
 				<div class="sixteen wide field">
 				<?php

@@ -6,9 +6,12 @@ use Zend\ServiceManager\ServiceManager;
 
 use User\Form\UpdateUserForm;
 use User\Entity\User;
+use User\Entity\DonVi;
 use User\Entity\UserRole;
 use Zend\Crypt\Password\Bcrypt;
 use User\Form\CreateAccountForm;
+use User\Form\CreateDonViForm;
+use User\Form\UpdateDonViForm;
 
 class IndexController extends AbstractActionController
 {
@@ -147,8 +150,7 @@ class IndexController extends AbstractActionController
                 else
                 {
                     $user->setGioiTinh(2);
-                }
-                die(var_dump($user));
+                }                
                 $entityManager->flush();                
                 $this->flashMessenger()->addMessage('Cập nhật thành công!');
                 return $this->redirect()->toRoute('user/crud',array('action'=>'update','id'=>$id));
@@ -323,7 +325,7 @@ class IndexController extends AbstractActionController
                 $kiemTraEmail = $query->getResult();                
 
                 if((!$tenDangNhap)&&(!$kiemTraEmail))                
-                {                    
+                {
                     if($gioiTinh=='Nam')
                     {
                         $user->setGioiTinh(1);
@@ -388,9 +390,9 @@ class IndexController extends AbstractActionController
 
                 }
             }
-            else//not valid
+            else
             {
-                //var_dump($form->getMessages());                
+                //var_dump($form->getMessages());
             }
         }
         
@@ -399,6 +401,111 @@ class IndexController extends AbstractActionController
             'kiemTraEmail'=>0,
             'kiemTraUsername'=>0
         );
-    }    
+    }
+
+    public function taoDonViAction()  
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        $id =$this->zfcUserAuthentication()->getIdentity()->getId();
+        if($id!=1)
+        {            
+            return $this->redirect()->toRoute('user/crud',array('action'=>'danh-muc-don-vi'));
+        }
+
+        $entityManager = $this->getEntityManager();
+        $donVi=new DonVi();
+        $form = new CreateDonViForm($entityManager);
+        $form->bind($donVi);
+
+        $request = $this->getRequest();
+        if ($request->isPost()) 
+        {
+            $tenDonVi=$request->getPost()->get('don-vi')['tenDonVi'];
+            $form->setData($request->getPost());
+            if ($form->isValid()) 
+            {
+                $dql = 'select dv from User\Entity\DonVi dv where dv.tenDonVi = :tenDonVi';
+                $query = $entityManager->createQuery($dql);
+                $query->setParameter('tenDonVi', $tenDonVi);
+                $donVis = $query->getResult();                
+                if(!$donVis)
+                {
+                    $entityManager->persist($donVi);
+                    $entityManager->flush();
+                    $this->flashMessenger()->addMessage('Tạo đơn vị thành công!');
+                    return $this->redirect()->toRoute('user/crud',array('action'=>'danh-muc-don-vi'));
+                }
+                else
+                {
+                    return array(
+                        'form' => $form,
+                        'kiemTraDonVi'=>1
+                    );
+                }
+            }            
+        }
+        return array(
+            'form' => $form,
+            'kiemTraDonVi'=>0
+        );
+    }
+
+    public function suaDonViAction()
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){            
+            return $this->redirect()->toRoute('user/crud',array('action'=>'danh-muc-don-vi'));
+        }        
+        $entityManager = $this->getEntityManager();        
+
+        $donVi = $entityManager->getRepository('User\Entity\DonVi')->find($id);
+        $tenCu=$donVi->getTenDonVi();        
+        $form = new UpdateDonViForm($entityManager);
+        $form->bind($donVi);
+
+        $request = $this->getRequest();        
+        if ($request->isPost()) {            
+            $form->setData($request->getPost());            
+            if ($form->isValid()) {
+                $tenMoi=$request->getPost()->get('don-vi')['tenDonVi'];
+                if($tenCu!=$tenMoi)
+                {
+                    $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE dv.tenDonVi=\''.$tenMoi.'\'');
+                    $donVis=$query->getResult();
+                    if($donVis)
+                    {                        
+                        return array(
+                            'form' => $form,
+                            'id'=>$id,
+                            'kiemTraTenDonVi'=>1
+                        );
+                    }                    
+                }                
+                $entityManager->flush();                
+                $this->flashMessenger()->addMessage('Cập nhật thành công!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'sua-don-vi','id'=>$id));
+            }
+            else
+            {}
+        } 
+
+        return array(
+            'form' => $form,
+            'id'=>$id,
+            'kiemTraTenDonVi'=>0,
+        );
+    }
+
+    public function phanQuyenAction(){
+        
+    }
 }
 ?>

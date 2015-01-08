@@ -20,36 +20,28 @@
               document.getElementById("btFm").click();
           },5000);
       </script>';
-    } 
-?>
- 
-<div class="sixteen wide column row">
-  <div class="fields">
-    <div class="four wide field">
-      <a href="<?php echo $this->url('user/crud', array('action'=>'createAccount')) ?>">
-        <input class="tiny ui button item blue" value="Tạo tài khoản" type="button">
-        </a>
+  } 
+?> 
+ <div class="ui grid"> 
+    <div class="nine wide column">
+      <h2 class="ui header">TÀI KHOẢN</h2> 
     </div>
-  </div>
- </div>
- <div class="sixteen wide column row center aligned">
-  <h2>TÀI KHOẢN</h2>
- </div>
-<div class="sixteen wide column row right aligned">
-  <div class="fields">
-    <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'list')); ?>" onsubmit="return kiemTraTim();">
-      <div class="ui icon input">      
-      <input placeholder="Tìm nhanh" value="<?php echo $txtDuLieu; ?>" id="txtDuLieu" name="txtDuLieu" type="text" autofocus>      
-      <i class="search icon"></i>
+    <div class="seven wide column right aligned">
+      <div class="fields">
+        <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'list')); ?>" onsubmit="return kiemTraTim();">
+          <div class="ui icon input">      
+          <input placeholder="Tìm nhanh" value="<?php echo $txtDuLieu; ?>" id="txtDuLieu" name="txtDuLieu" type="text" autofocus>      
+          <i class="search icon"></i>
+          </div>
+          <input class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm" type="submit">
+          <a href="<?php echo $this->url('user/crud',array('action'=>'list'));?>"><input class="tiny ui button" value="Xem hết" type="button"></a>
+        </form>
       </div>
-      <input class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm" type="submit">
-      <a href="<?php echo $this->url('user/crud',array('action'=>'list'));?>"><input class="tiny ui button" value="Xem hết" type="button"></a>
-    </form>
-  </div>
- </div>
+     </div>
+</div>
         
 <div class="sixteen wide column fluid">
-    <table class="ui table">
+    <table class="ui table" style="margin-top:5px;">
       <thead>
         <tr>            
           <th>Tên hiển thị</th>

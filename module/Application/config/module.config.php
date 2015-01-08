@@ -147,7 +147,6 @@ return array(
                     ),
                     array(
                         'label' => 'Nhật ký công việc',
-                        //'uri' => '#'
                         'route' => 'cong_viec/crud',
                         'params' => array(
                             'action' => 'nhat-ky-cong-viec',
@@ -161,11 +160,26 @@ return array(
                 'icon' => '<i class="sitemap icon"></i>',
                 'pages' => array(
                     array(
-                        'label' => 'Danh sách nhân viên',
+                        'label' => 'Tạo tài khoản',
                         /*'uri' => '#'*/
                         'route' => 'user/crud',
                         'params' => array(
+                            'action' => 'createAccount',
+                        )
+                    ),
+                    array(
+                        'label' => 'Danh sách nhân viên',
+                        'route' => 'user/crud',
+                        'params' => array(
                             'action' => 'list',
+                        )
+                    ),
+                    array(
+                        'label' => 'Tạo đơn vị',
+                        //'uri' => '#'
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'tao-don-vi',
                         )
                     ),
                     array(
@@ -178,7 +192,10 @@ return array(
                     ),
                     array(
                         'label' => 'Phân quyền',
-                        'uri' => '#'
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'phan-quyen',
+                        )
                     )
                 ),
             ),
