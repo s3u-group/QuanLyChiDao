@@ -477,5 +477,9 @@ class IndexController extends AbstractActionController
             'kiemTraTenDonVi'=>0,
         );
     }
+
+    public function phanQuyenAction(){
+        
+    }
 }
 ?>
