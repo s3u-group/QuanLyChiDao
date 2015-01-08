@@ -80,4 +80,34 @@ return array(
             )
         )
     ),
+
+
+    /*//phân quyền theo zfcuser
+    
+     'bjyauthorize'=>array(
+
+        'guards'=>array(
+            'BjyAuthorize\Guard\Controller'=>array(                
+                
+                array(
+                    'controller'=>array('zfcuser'),  
+                    'action'    =>array('login'),                 
+                    'roles'     =>array('khach'),
+                ),
+
+                array(
+                    'controller'=>array('zfcuser'),  
+                    'action'    =>array('logout'),                 
+                    'roles'     =>array('nguoi-dung'),
+                ),                
+
+                array(
+                    'controller'=>array('S3UTaxonomy\Controller\Taxonomy'),
+                    'action'    =>array('taxonomyIndex','taxonomyEdit','taxonomyAdd'),
+                    'roles'     =>array('nguoi-dung'),
+                ),
+              
+            ),
+        ),
+    ),*/
 );

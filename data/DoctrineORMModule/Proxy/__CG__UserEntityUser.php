@@ -334,6 +334,17 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function removeRole($roles)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeRole', array($roles));
+
+        return parent::removeRole($roles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setDienThoai($dienThoai)
     {
 
