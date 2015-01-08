@@ -1,5 +1,92 @@
-<?php
-	foreach ($donVis as $donVi) {
-		echo $donVi->getId().' '.$donVi->getTenDonVi();
-	}
-?>
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="six wide column">
+				<div class="field">
+					<label>Thực hiện</label>
+					<div class="jstree"></div>
+				</div>
+			</div>
+			<div class="ten wide column">
+				<div class="field">
+					<!-- <label>Quyền</label> -->
+					<div id="event_result" class="ui divided list">
+						<div class="template">
+							<div class="item">						
+								<table>
+									<thead>
+										<th align="center">
+											Quyền
+										</th>
+										<th align="center">
+											Sử dụng
+										</th>
+									</thead>
+									<tbody>
+									<?php
+										foreach ($quyens as $quyen) {
+											if($quyen->getRoleId()!='khach'){ ?>
+												<tr>
+													<td>
+														<label for="<?php echo $quyen->getId(); ?>"><?php echo $quyen->getRoleName(); ?></label>		
+													</td>
+													<td align="center">
+														<div class="ui checkbox">
+														  	<input type="checkbox" id="q_<?php echo $quyen->getId(); ?>" class="checkboxQuyen">				  
+														</div>
+													</td>
+												</tr>
+											<?php }
+										}
+									?>
+												
+									</tbody>
+										
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	var xhr;
+	$('.jstree').jstree({
+		'core' : {
+			'data' : {
+				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
+				"dataType" : "json" // needed only if you do not supply JSON headers
+			}
+		}
+	}).bind("click.jstree", function (event) {
+	   var node = $(event.target).closest("li");
+	   var id = node.attr('id');
+	   var ten = node.text();
+	   if(isNaN(id)){
+	 		// nếu chọn ngay node cha thì chưa làm gì hết
+	   }
+	   else{		   	
+		   	if(xhr && xhr.readyState != 4){
+	            xhr.abort(); //huy lenh ajax truoc do
+	        }
+
+	        xhr = $.ajax({
+	            url:'<?php echo $this->url('user/crud', array('action'=>'userRoles')); ?>',
+	            type:'POST',
+	            dataType:'json',
+	            data:{
+	                'id':id
+	            },
+	            success:function(data){
+	            	$('.checkboxQuyen').each(function(){ this.checked = false; });
+	            	$.each(data, function(key,val){
+	            		var id='#q_'+val.id;
+	            		$(id).prop('checked', true);
+	            	});
+	            }
+	        });
+	   }
+	});
+	$('.ui.checkbox').checkbox();
+</script>

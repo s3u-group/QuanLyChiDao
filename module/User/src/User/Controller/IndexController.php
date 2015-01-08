@@ -12,6 +12,7 @@ use Zend\Crypt\Password\Bcrypt;
 use User\Form\CreateAccountForm;
 use User\Form\CreateDonViForm;
 use User\Form\UpdateDonViForm;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -507,9 +508,36 @@ class IndexController extends AbstractActionController
     public function phanQuyenAction(){
         $entityManager=$this->getEntityManager();
         $donVis=$entityManager->getRepository('User\Entity\DonVi')->findAll();
+        $quyens=$entityManager->getRepository('User\Entity\Role')->findAll();
+        $user=$entityManager->getRepository('User\Entity\User')->find(1);
+
         return array(
             'donVis'=>$donVis,
+            'quyens'=>$quyens,
         );
+    }
+
+    public function userRolesAction(){
+        $entityManager=$this->getEntityManager();
+        $response=array();
+        $request=$this->getRequest();
+        if($request->isXmlHttpRequest())
+        {
+          $data=$request->getPost();
+          $id=$data['id'];
+          if($id){
+            $user=$entityManager->getRepository('User\Entity\User')->find($id);
+            foreach ($user->getRoles() as $role) {
+                if($role->getRoleId()!='khach'){
+                    $response[]=array(
+                        'id'=>$role->getId(),
+                    );
+                }                    
+            }
+          }
+        }
+        $json = new JsonModel($response);
+        return $json;
     }
 }
 ?>

@@ -36,6 +36,12 @@ class Role implements HierarchicalRoleInterface
     protected $roleId;
 
     /**
+     * @var string
+     * @ORM\Column(name="role_name", type="string", length=255, unique=true, nullable=true)
+     */
+    protected $roleName;
+
+    /**
      * @var Role
      * @ORM\ManyToOne(targetEntity="User\Entity\Role")
      */
@@ -84,6 +90,15 @@ class Role implements HierarchicalRoleInterface
     {
         $this->roleId = (string) $roleId;
     }
+
+    public function setRoleName($roleName){
+        $this->roleName=$roleName;
+    }
+
+    public function getRoleName(){
+        return $this->roleName;
+    }
+
 
     /**
      * Get the parent role

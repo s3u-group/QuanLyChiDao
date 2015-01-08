@@ -1,6 +1,10 @@
-<div class="sixteen wide column row"><h4 class="ui header">BÁO CÁO MỚI</h4></div>
 <?php
 	echo $this->headTitle('Báo cáo mới');
+	$dateTime=new DateTime(null,new DateTimeZone('Asia/Ho_Chi_Minh'));
+?>
+<div class="sixteen wide column row"><h4 class="ui header">BÁO CÁO MỚI</h4></div>
+<?php
+	
 
 	if ($this->flashMessenger()->hasMessages()) 
 	{
@@ -27,7 +31,7 @@
 	echo $this->form()->openTag($form);
 	$baoCao=$form->get('theo-doi');
 	echo $this->formHidden($baoCao->get('id'));
-	$baoCao->get('ngayBaoCao')->setAttribute('value',date('Y-m-d'));
+	$baoCao->get('ngayBaoCao')->setAttribute('value',$dateTime);
 	echo $this->formHidden($baoCao->get('ngayBaoCao'));
 	$baoCao->get('congVan')->setAttribute('value',$id);
 	echo $this->formHidden($baoCao->get('congVan'));

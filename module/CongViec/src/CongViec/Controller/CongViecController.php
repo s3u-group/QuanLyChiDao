@@ -273,7 +273,7 @@ class CongViecController extends AbstractActionController
                     $request->getFiles()->toArray()
                 );
                 //die(var_dump($post));
-                $post=$post['congViecs']['dinhKem'];
+                $post=$post['congViecs']['dinhKems'];
                 $this->dinhKemMoi($entityManager,$post,$congViec);
                 $this->flashMessenger()->addMessage('Cập nhật công việc thành công!');
                 return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
@@ -281,6 +281,7 @@ class CongViecController extends AbstractActionController
             else
             {
                 $this->flashMessenger()->addMessage('Cập nhật công việc thất bại!');
+                //die(var_dump($form->getMessages()));
             }
             
         }

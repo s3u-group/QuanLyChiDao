@@ -199,6 +199,7 @@ class TheoDoiController extends AbstractActionController
             }
             else
             {
+                die(var_dump($form->getMessages()));
                 $this->flashMessenger()->addMessage('Thêm báo cáo thất bại!');
             }
         }
