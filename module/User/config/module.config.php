@@ -13,6 +13,12 @@ return array(
         ),        
     ),
 
+    'view_helpers'=>array(
+        'invokables'=>array(
+            'make_array_option_don_vi'=>'User\View\Helper\MakeArrayOptionDonVi',
+        ),
+    ),
+
     'service_manager' => array(
         'invokables' => array(
             'user_service' => 'User\Service\User'

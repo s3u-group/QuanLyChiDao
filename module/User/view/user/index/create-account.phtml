@@ -10,7 +10,7 @@
 	  	<div class="eight wide field">
 	      <label>Tên đăng nhập</label>
 	      <?php
-			$form->setAttribute('action', $this->url('user/crud', array('action'=>'createAccount')));
+			$form->setAttribute('action', $this->url('user/crud', array('action'=>'create-account')));
 			$form->setAttribute('id','frmCreateAccount');
   			$form->setAttribute('onSubmit','return kiemTra();');
 			$form->setAttribute('role','form');
@@ -107,6 +107,10 @@
 	      	$dienThoai->setAttribute('type','number');
 	      	$dienThoai->setAttribute('min','0');
 	      	echo $this->formElement($dienThoai);
+	      	if($kiemTraSoDienThoai==1)
+	      	{
+	      		echo "<div class='ui red message'>Số điện thoại đã sử dụng</div>";	      		
+	      	}
 	      ?>
 	      <div id="kiemTraDienThoai" class='ui red message sixteen wide field' hidden></div>
 	  	</div>
@@ -137,6 +141,20 @@
 	      	}
 	      ?>	      
 	    </div>
+	  </div>
+	  <div class="fields">
+	  	<div class="eight wide field">
+	      <label>Đơn vị</label>
+	      <?php
+		    $donVi=$nguoiDung->get('donVi');	      	
+	      	//$donVi->setAttribute('class','ui selection dropdown');
+	      	$donVi->setAttribute('required','required');
+			$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
+	      	echo $this->formElement($donVi);
+		  ?>		  
+		</div>
+	  </div>
+
 	  </div>	  
 	  <div class="fields">&nbsp;</div>
 	  <div class="fields">	  	
@@ -164,6 +182,7 @@ $(document).ready(function(){
 $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
+
 </script>
 
 <script type="text/javascript">

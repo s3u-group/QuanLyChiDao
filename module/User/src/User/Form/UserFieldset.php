@@ -162,10 +162,20 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $this->add(array(
+        /*$this->add(array(
             'name' => 'donVi',
             'type' => 'hidden',            
-        ));
+        ));*/
+        $this->add(array(
+             'name' => 'donVi',
+             'type' => '\Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Đơn vị',
+                 'empty_option'=>'----------Chọn Đơn Vị----------',
+                 'disable_inarray_validator' => true,
+             ),
+             'attributes'=>array('required'=>'required'),
+         ));
 
         $this->add(array(
             'name' => 'congViecs',

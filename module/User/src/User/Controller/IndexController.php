@@ -35,7 +35,7 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('select u from User\Entity\User u');
         $users = $query->getResult();
-                    
+
         $request = $this->getRequest();
         $txtDuLieu='';
         if ($request->isPost()) 
@@ -45,7 +45,7 @@ class IndexController extends AbstractActionController
             $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
             $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
             $users=$query->getResult();
-        }
+        }        
         return array(            
             'users' => $users,
             'txtDuLieu'=>$txtDuLieu
@@ -302,17 +302,19 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
         }
         $entityManager = $this->getEntityManager();
+        $donVis = $entityManager->getRepository('User\Entity\DonVi')->findAll();
         $user=new User();
         $form = new CreateAccountForm($entityManager);
         $form->bind($user);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setData($request->getPost());
+            $form->setData($request->getPost());            
             if ($form->isValid()) 
-            {                
+            {
                 $username=$request->getPost()->get('user')['username'];
                 $email=$request->getPost()->get('user')['email'];
                 $gioiTinh=$request->getPost()->get('gioiTinh');
+                $dienThoai=$request->getPost()->get('user')['dienThoai'];                
 
                 $dql = 'select u from User\Entity\User u where u.username = :username';
                 $query = $entityManager->createQuery($dql);
@@ -322,9 +324,14 @@ class IndexController extends AbstractActionController
                 $dql = 'select u from User\Entity\User u where u.email = :email';
                 $query = $entityManager->createQuery($dql);
                 $query->setParameter('email', $email);
-                $kiemTraEmail = $query->getResult();                
+                $kiemTraEmail = $query->getResult();
 
-                if((!$tenDangNhap)&&(!$kiemTraEmail))                
+                $dql = 'select u from User\Entity\User u where u.dienThoai = :dienThoai';
+                $query = $entityManager->createQuery($dql);
+                $query->setParameter('dienThoai', $dienThoai);
+                $kiemTraSoDienThoai = $query->getResult();                
+
+                if((!$tenDangNhap)&&(!$kiemTraEmail)&&(!$kiemTraSoDienThoai))                
                 {
                     if($gioiTinh=='Nam')
                     {
@@ -361,21 +368,24 @@ class IndexController extends AbstractActionController
                 }
                 else
                 {
-                    if($tenDangNhap&&$kiemTraEmail)
-                    {
-                        return array(
-                            'form' => $form,
-                            'kiemTraEmail'=>1,
-                            'kiemTraUsername'=>1
-                        );
-                    }
-
                     if($tenDangNhap)
                     {
                         return array(
                             'form' => $form,
+                            'donVis'=>$donVis,
                             'kiemTraEmail'=>0,
-                            'kiemTraUsername'=>1
+                            'kiemTraUsername'=>1,
+                            'kiemTraSoDienThoai'=>0
+                        );
+                    }
+                    if($kiemTraSoDienThoai)
+                    {
+                        return array(
+                            'form' => $form,
+                            'donVis'=>$donVis,
+                            'kiemTraEmail'=>0,
+                            'kiemTraUsername'=>0,
+                            'kiemTraSoDienThoai'=>1
                         );
                     }
 
@@ -383,11 +393,12 @@ class IndexController extends AbstractActionController
                     {
                         return array(
                             'form' => $form,
+                            'donVis'=>$donVis,
                             'kiemTraEmail'=>1,
-                            'kiemTraUsername'=>0
+                            'kiemTraUsername'=>0,
+                            'kiemTraSoDienThoai'=>0
                         );
-                    }
-
+                    }                    
                 }
             }
             else
@@ -398,8 +409,10 @@ class IndexController extends AbstractActionController
         
         return array(
             'form' => $form,
+            'donVis'=>$donVis,
             'kiemTraEmail'=>0,
-            'kiemTraUsername'=>0
+            'kiemTraUsername'=>0,
+            'kiemTraSoDienThoai'=>0
         );
     }
 
