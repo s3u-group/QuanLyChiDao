@@ -160,7 +160,7 @@ return array(
                         /*'uri' => '#'*/
                         'route' => 'user/crud',
                         'params' => array(
-                            'action' => 'createAccount',
+                            'action' => 'create-account',
                         )
                     ),
                     array(

@@ -56,7 +56,7 @@
   				<tr>					
   					<td>
               <?php if((int)($listCount[$i])>0){?>
-              <a href="<?php echo $this->url('user/crud', array('action'=>'chiTietDonVi', 'id'=>$donVi->getId())) ?>"><?php echo $donVi->getTenDonVi();?></a>
+              <a href="<?php echo $this->url('user/crud', array('action'=>'chi-tiet-don-vi', 'id'=>$donVi->getId())) ?>"><?php echo $donVi->getTenDonVi();?></a>
               <?php }else
                 {
                   echo $donVi->getTenDonVi();

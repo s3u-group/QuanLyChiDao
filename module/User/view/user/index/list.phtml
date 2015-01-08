@@ -23,14 +23,14 @@
   } 
 ?> 
  <div class="ui grid"> 
-    <div class="nine wide column">
-      <h2 class="ui header">TÀI KHOẢN</h2> 
+    <div class="nine wide column">      
+      <div class="ui header">TÀI KHOẢN</div>
     </div>
     <div class="seven wide column right aligned">
       <div class="fields">
         <form method="post" action="<?php echo $this->url('user/crud',array('action'=>'list')); ?>" onsubmit="return kiemTraTim();">
           <div class="ui icon input">      
-          <input placeholder="Tìm nhanh" value="<?php echo $txtDuLieu; ?>" id="txtDuLieu" name="txtDuLieu" type="text" autofocus>      
+          <input placeholder="Tìm nhanh" value="<?php echo $txtDuLieu; ?>" id="txtDuLieu" name="txtDuLieu" type="text" autofocus>
           <i class="search icon"></i>
           </div>
           <input class="tiny ui button" name="btnSubmit" id="btnTim" value="Tìm" type="submit">
@@ -56,14 +56,14 @@
         </tr>
       </thead>
       <tbody>
-      	<?php foreach($users as $user): ?>
+      	<?php foreach($users as $user):?>
 			<tr>					
 				<td><?php echo $this->escapeHtml($user->getDisplayName()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getHo()).' '.$this->escapeHtml($user->getTen()); ?></td>				
 				<td><?php echo $this->escapeHtml($user->getGioiTinh()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>
-        <td><?php echo $this->escapeHtml($user->getDonVi()) ?></td>
+        <td><?php echo $this->escapeHtml($user->getDonVi()->getTenDonVi()) ?></td>
         <?php if($this->zfcUserIdentity()->getId()==1){?>
 				<td>          
           <a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>" title="Sửa thông tin"><i class="edit icon"></i></a>            
