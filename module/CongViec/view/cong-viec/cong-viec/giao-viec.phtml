@@ -78,36 +78,30 @@ $congViecs = $congVan->get('congViecs');?>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Thực hiện</label>
-					<div class="jstree">
-                        <ul>
-                        	<?php foreach($donVis as $donVi): ?>
-                        		<li id="<?php echo $donVi->getId() ?>">
-                        			<?php echo $donVi->getTenDonVi(); ?>
-                        		</li>
-                        	<?php endforeach; ?>
-                        </ul>
-                    </div>
+					<div class="jstree"></div>
 				</div>
 			</div>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Phân công</label>
 					<div id="event_result" class="ui divided list">
-						<div class="item">
-						    <div class="right floated compact ui dropdown">
-							  	<div class="text">Thực hiện</div>
-							  	<i class="dropdown icon"></i>
-							  	<div class="menu">
-								    <div class="item">Thực hiện</div>
-								    <div class="item">Chủ trì</div>
-								    <div class="item">Theo dõi</div>
-								    <div class="item">Cập nhật</div>
-							  	</div>
+						<div class="template ui hidden">
+							<div class="item">
+							    <div class="right floated compact ui dropdown">
+								  	<div class="text">Thực hiện</div>
+								  	<i class="dropdown icon"></i>
+								  	<div class="menu">
+									    <div class="item">Thực hiện</div>
+									    <div class="item">Chủ trì</div>
+									    <div class="item">Theo dõi</div>
+									    <div class="item">Cập nhật</div>
+								  	</div>
+								</div>
+							    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
+							    <div class="content">
+							     	{{ten}}
+							    </div>
 							</div>
-						    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
-						    <div class="content">
-						     	Nguyễn Trường Giang
-						    </div>
 						</div>
 					</div>
 				</div>
@@ -133,18 +127,36 @@ $congViecs = $congVan->get('congViecs');?>
 </div>
 <script type="text/javascript">
 	$('.jstree').jstree({
-	    "checkbox" : {
-	      "keep_selected_style" : false
-	    },
-	    "plugins" : [ "checkbox" ]
-	}).on('changed.jstree', function (e, data) {
-	    var i, j, r = [];
-	    for(i = 0, j = data.selected.length; i < j; i++) {
-	      r.push(data.instance.get_node(data.selected[i]).id);
-	    }
-	   // $('#event_result').html('Selected: ' + r.join(', '));
-	   jQuery.each(r, function(i, val){
-	   		alert(val);	   
-	   	});
-  	});
+		'core' : {
+			'data' : {
+				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
+				"dataType" : "json" // needed only if you do not supply JSON headers
+			}
+		}
+	}).bind("dblclick.jstree", function (event) {
+	   var node = $(event.target).closest("li");
+	   var id = node.attr('id');
+	   var ten = node.text();
+	   if(isNaN(id)){
+	   	alert('Vui lòng chọn nhân viên để phân công');
+	   }
+	   else{
+	   	var template = $('#event_result .template').html();
+	   	$('#event_result').append(template);
+	   	$('.ui.dropdown')
+	        .dropdown()
+	      ;
+	   	/*$.ajax({
+	   		type : 'post',
+	   		dataType : 'json',
+	   		data : {
+	   			'id' : id,
+	   		},
+	   		url : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-nhan-vien')) ?>",
+	   		success : function(data){
+	   			alert(data.id);
+	   		}
+	   	});*/
+	   }
+	});
 </script>
