@@ -295,29 +295,23 @@ use CongViec\Entity\TheoDoi;
 	}
 	else{ ?>
 		<div class="sixteen wide column row right aligned">
-			<input type="submit" id="btnHoanThanh" value="Hoàn thành" class="ui button green">&nbsp;
+			<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'hoan-thanh','id'=>$congViec->getId())); ?>">
+			<input type="submit" id="btnHoanThanh" value="Hoàn thành" class="ui button green">
+			</a>
+			&nbsp;
+			<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'bao-cao-moi','id'=>$congViec->getId())); ?>">
 			<input type="submit" id="btnBaoCaoMoi" value="Báo cáo mới" class="ui button blue">
+			</a>
 		</div>
 	<?php
 	}
 ?>
-<form id="frmHoanThanh" action="<?php echo $this->url('cong_viec/crud',array('action'=>'hoan-thanh','id'=>$congViec->getId())); ?>">
-</form>
-
-<form id="frmBaoCaoMoi" action="<?php echo $this->url('theo_doi/crud',array('action'=>'bao-cao-moi','id'=>$congViec->getId())); ?>">
-</form>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.menu .item').tab();
 		$('.message .close').on('click', function() {
 		  $(this).closest('.message').fadeOut();
-		});
-		$('#btnHoanThanh').on('click',function(){
-			$('#frmHoanThanh').submit();
-		});
-		$('#btnBaoCaoMoi').on('click',function(){
-			$('#frmBaoCaoMoi').submit();
 		});
 		$('.ui.dropdown').dropdown();
 	});
