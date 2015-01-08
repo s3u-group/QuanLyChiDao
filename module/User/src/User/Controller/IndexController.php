@@ -150,8 +150,7 @@ class IndexController extends AbstractActionController
                 else
                 {
                     $user->setGioiTinh(2);
-                }
-                die(var_dump($user));
+                }                
                 $entityManager->flush();                
                 $this->flashMessenger()->addMessage('Cập nhật thành công!');
                 return $this->redirect()->toRoute('user/crud',array('action'=>'update','id'=>$id));
@@ -391,9 +390,9 @@ class IndexController extends AbstractActionController
 
                 }
             }
-            else//not valid
+            else
             {
-                //var_dump($form->getMessages());                
+                //var_dump($form->getMessages());
             }
         }
         
@@ -468,8 +467,35 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();        
 
         $donVi = $entityManager->getRepository('User\Entity\DonVi')->find($id);
+        $tenCu=$donVi->getTenDonVi();        
         $form = new UpdateDonViForm($entityManager);
         $form->bind($donVi);
+
+        $request = $this->getRequest();        
+        if ($request->isPost()) {            
+            $form->setData($request->getPost());            
+            if ($form->isValid()) {
+                $tenMoi=$request->getPost()->get('don-vi')['tenDonVi'];
+                if($tenCu!=$tenMoi)
+                {
+                    $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE dv.tenDonVi=\''.$tenMoi.'\'');
+                    $donVis=$query->getResult();
+                    if($donVis)
+                    {                        
+                        return array(
+                            'form' => $form,
+                            'id'=>$id,
+                            'kiemTraTenDonVi'=>1
+                        );
+                    }                    
+                }                
+                $entityManager->flush();                
+                $this->flashMessenger()->addMessage('Cập nhật thành công!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'sua-don-vi','id'=>$id));
+            }
+            else
+            {}
+        } 
 
         return array(
             'form' => $form,

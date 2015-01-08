@@ -172,6 +172,14 @@ return array(
                         )
                     ),
                     array(
+                        'label' => 'Tạo đơn vị',
+                        //'uri' => '#'
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'tao-don-vi',
+                        )
+                    ),
+                    array(
                         'label' => 'Danh mục đơn vị',
                         //'uri' => '#'
                         'route' => 'user/crud',
