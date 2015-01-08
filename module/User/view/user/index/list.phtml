@@ -50,9 +50,9 @@
           <th>Điện thoại</th>
           <th>Địa chỉ</th>
           <th>Thuộc đơn vị</th>
-          <?php if($this->zfcUserIdentity()->getId()==1){?>
+          <?php //if($this->zfcUserIdentity()->getId()==1){?>
           <th>Cập nhật</th>
-          <?php } ?>
+          <?php //} ?>
         </tr>
       </thead>
       <tbody>
@@ -64,11 +64,11 @@
 				<td><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>
         <td><?php echo $this->escapeHtml($user->getDonVi()->getTenDonVi()) ?></td>
-        <?php if($this->zfcUserIdentity()->getId()==1){?>
+        <?php //if($this->zfcUserIdentity()->getId()==1){?>
 				<td>          
           <a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>" title="Sửa thông tin"><i class="edit icon"></i></a>            
         </td>
-        <?php } ?>
+        <?php //} ?>
 			</tr>
 			<?php endforeach; ?>
       </tbody>

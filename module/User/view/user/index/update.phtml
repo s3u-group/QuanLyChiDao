@@ -126,16 +126,24 @@
 	  </div>
 	  <div class="fields">
 	  	<div class="eight wide field">
+	      <label>Đơn vị</label>
+			<?php
+			    $donVi=$nguoiDung->get('donVi');	      	
+		      	//$donVi->setAttribute('required','required');
+				//$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
+		      	echo $this->formElement($donVi);
+		      	echo $this->formElementErrors($donVi);
+			  ?>			  
+		</div>
+	  </div>
+	  <div class="fields">
+	  	<div class="eight wide field">
 	      <a href="<?php echo $this->url('user/crud', array('action'=>'adminChangePassWord', 'id'=>$id)) ?>">Thay đổi mật khẩu</a>		      
 	    </div>
 	  </div>
 	  <div class="fields">&nbsp;</div>
 	  <div class="fields">	  	
-	  	<?php if($this->zfcUserIdentity()->getId()==1){?>
-		<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">
-		<?php } else {?>
-		<a href="<?php echo $this->url('cong_viec');?>">
-		<?php } ?>
+		<a href="<?php echo $this->url('user/crud', array('action'=>'list')); ?>">		
 	  		<input type="button" class="tiny ui button item" value="Trở về">
 	  	</a>	  	
 	  	<?php

@@ -167,8 +167,8 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
              'type' => '\Zend\Form\Element\Select',
              'options' => array(
                  'label' => 'Đơn vị',
-                 //'empty_option'=>'----------Chọn Đơn Vị----------',
-                 //'disable_inarray_validator' => true,
+                 'empty_option'=>'----------Chọn Đơn Vị----------',
+                 'disable_inarray_validator' => true,
                  'value_options' => $this->getDonViOptions($objectManager)
              ),
              'attributes'=>array(

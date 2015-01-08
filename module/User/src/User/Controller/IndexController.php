@@ -297,11 +297,7 @@ class IndexController extends AbstractActionController
         {
             return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        $id =$this->zfcUserAuthentication()->getIdentity()->getId();
-        if($id!=1)
-        {            
-            return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
-        }
+        $id =$this->zfcUserAuthentication()->getIdentity()->getId();        
         $entityManager = $this->getEntityManager();
         $donVis = $entityManager->getRepository('User\Entity\DonVi')->findAll();
         $user=new User();
@@ -359,7 +355,7 @@ class IndexController extends AbstractActionController
                     {
                         $userRole=new UserRole();                        
                         $userRole->setUserId($userId[0]->getId());
-                        $userRole->setRoleId(2);//Tạo tài khoản với role 'người dùng'
+                        $userRole->setRoleId(2);
 
                         $entityManager->persist($userRole);
                         $entityManager->flush();
@@ -424,11 +420,7 @@ class IndexController extends AbstractActionController
         {
             return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        $id =$this->zfcUserAuthentication()->getIdentity()->getId();
-        if($id!=1)
-        {            
-            return $this->redirect()->toRoute('user/crud',array('action'=>'danh-muc-don-vi'));
-        }
+        $id =$this->zfcUserAuthentication()->getIdentity()->getId();        
 
         $entityManager = $this->getEntityManager();
         $donVi=new DonVi();
