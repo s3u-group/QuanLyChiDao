@@ -123,7 +123,7 @@ class CongVan
     protected $donViTiepNhans;
 
     /**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="cha")
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="cha", cascade={"persist"})
      */
     protected $congViecs;
 

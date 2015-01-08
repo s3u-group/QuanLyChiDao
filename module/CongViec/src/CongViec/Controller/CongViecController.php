@@ -2,6 +2,7 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
@@ -201,10 +202,54 @@ class CongViecController extends AbstractActionController
             }
         }
 
-
         return array(
-            'form' => $form
+            'form' => $form,
         );
+    }
+
+    public function ajaxGetToChucAction(){
+        $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $response = array();
+            $query = $entityManager->createQuery('select d from User\Entity\DonVi d left join d.nhanViens n');
+            $donVis = $query->getResult();
+            foreach($donVis as $donVi){
+                $nhanViens = $donVi->getNhanViens();
+                $childrens = array();
+                foreach($nhanViens as $nhanVien){
+                    $childrens[] = array(
+                        'text' => $nhanVien->getHoTen(),
+                        'id' => $nhanVien->getId()
+                    );
+                }
+                $response[] = array(
+                    'text' => $donVi->getTenDonVi(),
+                    'children' => $childrens
+                );
+            }
+
+            $json = new JsonModel($response);
+            return $json;
+        }
+    }
+
+    public function ajaxGetNhanVienAction(){
+        $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $data = $request->getPost();
+            $id = $data['id'];
+            $query = $entityManager->createQuery('select u from User\Entity\User u where u.id = :id');
+            $query->setParamater('id', $id);
+            $nhanVien = $query->getResult();
+            $response = array(
+                'id' => $id,
+                'ten' => $nhanVien->getHoTen()
+            );
+            $json = new JsonModel($response);
+            return $json;
+        }
     }
 
     public function chiTietCongViecAction()
