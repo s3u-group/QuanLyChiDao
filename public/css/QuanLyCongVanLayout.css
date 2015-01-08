@@ -99,3 +99,7 @@ color: #dc6868 !important;
 .ui.vertical.menu.main{
 	width: 14rem;
 }
+
+.ui.hidden{
+	display: none;
+}

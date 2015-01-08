@@ -5,11 +5,12 @@ $form->prepare();?>
 <?php
 echo $this->form()->openTag($form);
 $congVan = $form->get('cong-van');
-$congViec = $congVan->get('congViecs');?>
+$congViecs = $congVan->get('congViecs');?>
 <div class="ui form">
 	<div class="ui celled grid">
 		<div class="row">
 			<div class="ten wide column">
+				<?php foreach($congViecs as $congViec): ?>
 				<div class="field">
 					<?php echo $this->formLabel($congViec->get('loai')); ?>
 		          	<?php echo $this->formElement($congViec->get('loai')); ?>
@@ -23,12 +24,12 @@ $congViec = $congVan->get('congViecs');?>
 				<div class="two fields">
 					<div class="field">
 						<?php echo $this->formLabel($congViec->get('ngayBanHanh')); ?>
-			          	<?php echo $this->formElement($congViec->get('ngayBanHanh')); ?>
+			          	<?php echo $this->formJqxDate($congViec->get('ngayBanHanh')); ?>
 			          	<?php echo $this->formElementErrors($congViec->get('ngayBanHanh')); ?>
 					</div>
 					<div class="field">
 						<?php echo $this->formLabel($congViec->get('ngayHoanThanh')); ?>
-			          	<?php echo $this->formElement($congViec->get('ngayHoanThanh')); ?>
+			          	<?php echo $this->formJqxDate($congViec->get('ngayHoanThanh')); ?>
 			          	<?php echo $this->formElementErrors($congViec->get('ngayHoanThanh')); ?>
 					</div>
 				</div>
@@ -38,10 +39,11 @@ $congViec = $congVan->get('congViecs');?>
 		          	<?php echo $this->formElementErrors($congViec->get('noiDung')); ?>
 				</div>
 				<div class="field">
-					<?php echo $this->formLabel($congViec->get('dinhKem')); ?>
-		          	<?php echo $this->formElement($congViec->get('dinhKem')); ?>
-		          	<?php echo $this->formElementErrors($congViec->get('dinhKem')); ?>
+					<?php echo $this->formLabel($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
 				</div>
+				<?php endforeach; ?>
 			</div>
 			<div class="six wide column">
 				<div class="field">
@@ -51,7 +53,7 @@ $congViec = $congVan->get('congViecs');?>
 				</div>
 				<div class="field">
 					<?php echo $this->formLabel($congVan->get('ngayBanHanh')); ?>
-		          	<?php echo $this->formElement($congVan->get('ngayBanHanh')); ?>
+		          	<?php echo $this->formJqxDate($congVan->get('ngayBanHanh')); ?>
 		          	<?php echo $this->formElementErrors($congVan->get('ngayBanHanh')); ?>
 				</div>
 				<div class="field">
@@ -65,9 +67,9 @@ $congViec = $congVan->get('congViecs');?>
 		          	<?php echo $this->formElementErrors($congVan->get('trichYeu')); ?>
 				</div>
 				<div class="field">
-					<?php echo $this->formLabel($congVan->get('dinhKem')); ?>
-		          	<?php echo $this->formElement($congVan->get('dinhKem')); ?>
-		          	<?php echo $this->formElementErrors($congVan->get('dinhKem')); ?>
+					<?php echo $this->formLabel($congVan->get('dinhKems')); ?>
+		          	<?php echo $this->formElement($congVan->get('dinhKems')); ?>
+		          	<?php echo $this->formElementErrors($congVan->get('dinhKems')); ?>
 				</div>
 			</div>
 		</div>
@@ -76,66 +78,30 @@ $congViec = $congVan->get('congViecs');?>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Thực hiện</label>
-					<div class="jstree">
-                        <ul>
-                            <li>Văn phòng Ủy ban
-                                <ul>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                    <li>Nguyễn Trường Giang</li>
-                                </ul>
-                            </li>
-                            <li>Phòng Công nghệ thông tin
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
-                            <li>Phòng Lao động thương binh và xã hội
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
-                            <li>Phòng Quản lý đất đai
-                            	<ul>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            		<li>Nguyễn Trường Gian</li>
-                            	</ul>
-                            </li>
-                        </ul>
-                    </div>
+					<div class="jstree"></div>
 				</div>
 			</div>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Phân công</label>
 					<div id="event_result" class="ui divided list">
-						<div class="item">
-						    <div class="right floated compact ui dropdown">
-							  	<div class="text">Thực hiện</div>
-							  	<i class="dropdown icon"></i>
-							  	<div class="menu">
-								    <div class="item">Thực hiện</div>
-								    <div class="item">Chủ trì</div>
-								    <div class="item">Theo dõi</div>
-								    <div class="item">Cập nhật</div>
-							  	</div>
+						<div class="template ui hidden">
+							<div class="item">
+							    <div class="right floated compact ui dropdown">
+								  	<div class="text">Thực hiện</div>
+								  	<i class="dropdown icon"></i>
+								  	<div class="menu">
+									    <div class="item">Thực hiện</div>
+									    <div class="item">Chủ trì</div>
+									    <div class="item">Theo dõi</div>
+									    <div class="item">Cập nhật</div>
+								  	</div>
+								</div>
+							    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
+							    <div class="content">
+							     	{{ten}}
+							    </div>
 							</div>
-						    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
-						    <div class="content">
-						     	Nguyễn Trường Giang
-						    </div>
 						</div>
 					</div>
 				</div>
@@ -159,24 +125,38 @@ $congViec = $congVan->get('congViecs');?>
 		</div>
 	</div>
 </div>
-<div class="jqxWidget"></div>
-<div class="jqxWidget"></div>
 <script type="text/javascript">
 	$('.jstree').jstree({
-	    "checkbox" : {
-	      "keep_selected_style" : false
-	    },
-	    "plugins" : [ "checkbox" ]
-	}).on('changed.jstree', function (e, data) {
-	    var i, j, r = [];
-	    for(i = 0, j = data.selected.length; i < j; i++) {
-	      r.push(data.instance.get_node(data.selected[i]).text);
-	    }
-	   // $('#event_result').html('Selected: ' + r.join(', '));
-	   jQuery.each(r, function(i, val){
-	   		//alert(val);	   
-	   	});
-  	});
-
-  	$(".jqxWidget").jqxCalendar({width: 220, height: 220});
+		'core' : {
+			'data' : {
+				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
+				"dataType" : "json" // needed only if you do not supply JSON headers
+			}
+		}
+	}).bind("dblclick.jstree", function (event) {
+	   var node = $(event.target).closest("li");
+	   var id = node.attr('id');
+	   var ten = node.text();
+	   if(isNaN(id)){
+	   	alert('Vui lòng chọn nhân viên để phân công');
+	   }
+	   else{
+	   	var template = $('#event_result .template').html();
+	   	$('#event_result').append(template);
+	   	$('.ui.dropdown')
+	        .dropdown()
+	      ;
+	   	/*$.ajax({
+	   		type : 'post',
+	   		dataType : 'json',
+	   		data : {
+	   			'id' : id,
+	   		},
+	   		url : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-nhan-vien')) ?>",
+	   		success : function(data){
+	   			alert(data.id);
+	   		}
+	   	});*/
+	   }
+	});
 </script>
