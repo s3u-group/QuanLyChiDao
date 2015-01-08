@@ -30,7 +30,7 @@ class PhanCong
 	protected $congVan;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="User\Entity\User", inversedBy="congViecs")
+	 * @ORM\ManyToOne(targetEntity="User\Entity\User", inversedBy="congViecs", cascade={"persist"})
 	 * @ORM\JoinColumn(name="nguoi_thuc_hien_id", referencedColumnName="user_id")
 	 */
 	protected $nguoiThucHien;
@@ -38,7 +38,7 @@ class PhanCong
 	/**
 	 * @ORM\Column(name="vai_tro",type="integer")
 	 */
-	protected $vaiTro = 2; //mac dinh la nguoi phoi hop
+	protected $vaiTro = 5; //mac dinh la nguoi phoi hop
 
 	public function getId(){
 		return $this->id;

@@ -109,7 +109,7 @@ class CongVan
     protected $dinhKems;
 
     /**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\PhanCong", mappedBy="congVan")
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\PhanCong", mappedBy="congVan", cascade={"persist"})
      */
     protected $nguoiThucHiens;
 

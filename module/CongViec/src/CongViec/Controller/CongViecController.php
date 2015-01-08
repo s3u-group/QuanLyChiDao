@@ -191,10 +191,10 @@ class CongViecController extends AbstractActionController
         $entityManager = $this->getEntityManager();
         $form = new GiaoViecForm($entityManager, $this->getServiceLocator());
         $congVan = new CongVan();
-        $form->bind($congVan);
 
         $request = $this->getRequest();
         if($request->isPost()){
+            $form->bind($congVan);
             $form->setData($request->getPost());
             if($form->isValid()){
                 $entityManager->persist($congVan);
