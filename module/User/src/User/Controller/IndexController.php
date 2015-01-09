@@ -34,7 +34,7 @@ class IndexController extends AbstractActionController
 
     public function listAction(){
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('select u from User\Entity\User u');
+        $query = $entityManager->createQuery('select u from User\Entity\User u ORDER BY u.displayName ASC');
         $users = $query->getResult();
 
         $request = $this->getRequest();
@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
             $post=$request->getPost();       
             $txtDuLieu=$post['txtDuLieu']; 
             $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-            $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
+            $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk.'ORDER BY u.displayName ASC');
             $users=$query->getResult();
         }        
         return array(            
@@ -199,7 +199,7 @@ class IndexController extends AbstractActionController
         {
             $post=$request->getPost();
             $dk='dv.tenDonVi LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-            $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE '.$dk);
+            $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE '.$dk.'ORDER BY dv.tenDonVi ASC');
             $donVis = $query->getResult();        
             if($donVis)
             {                
@@ -225,7 +225,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $dql = 'select dv from User\Entity\DonVi dv';
+        $dql = 'select dv from User\Entity\DonVi dv ORDER BY dv.tenDonVi ASC';
         $query = $entityManager->createQuery($dql);        
         $donVis = $query->getResult();        
         if($donVis)

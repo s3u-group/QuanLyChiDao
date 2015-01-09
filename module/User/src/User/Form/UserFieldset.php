@@ -221,6 +221,9 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'dienThoai' => array(
                 'required' => true
             ),
+            'diaChi' => array(
+                'required' => true
+            ),
             'email' => array(
                 'required' => true
             ),

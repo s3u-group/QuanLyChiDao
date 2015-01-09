@@ -117,7 +117,7 @@
 	  		<?php $nguoiDung->get('diaChi')->setAttribute('required','required');?>
 	  		<?php echo $this->formLabel($nguoiDung->get('diaChi')); ?>
 	      	<?php echo $this->formElement($nguoiDung->get('diaChi')); ?>
-	      	<?php echo $this->formElementErrors($nguoiDung->get('diaChi')); ?>	      
+	      	<?php echo $this->formElementErrors($nguoiDung->get('diaChi')); ?>	      	
 	    </div>
 	  </div>
 
@@ -179,6 +179,7 @@ $('.message .close').on('click', function() {
 		document.getElementById("kiemTraMatKhau").hidden=true;
 		document.getElementById("kiemTraDienThoai").hidden=true;
 		document.getElementById("kiemTraDienThoai").hidden=true;
+		
 		var pass=document.getElementById('pass');		
 		var passVerify=document.getElementById('passVerify');
 		var dienThoai=document.getElementById('dienThoai');
@@ -203,7 +204,7 @@ $('.message .close').on('click', function() {
 			return true;
 		}
 		else
-		{			
+		{
 			document.getElementById("kiemTraMatKhau").hidden=false;		
 			$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
 			return false;
