@@ -5,7 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 
-use CongViec\Form\CongVanFieldset;
+use CongViec\Form\CongViecFieldset;
 
 
 class GiaoViecForm extends Form
@@ -16,7 +16,7 @@ class GiaoViecForm extends Form
                
         $this->setHydrator(new DoctrineHydrator($objectManager));
 
-        $fieldset = new CongVanFieldset($objectManager, $sm);
+        $fieldset = new CongViecFieldset($objectManager, $sm);
         $fieldset->setUseAsBaseFieldset(true);
         $this->add($fieldset);
 

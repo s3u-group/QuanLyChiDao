@@ -51,7 +51,8 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         $this->add(array(
             'name' => 'username',
             'type' => 'text',
-            'options' => array(                
+            'options' => array(
+                'label'=>'Tên đăng nhập'
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập tên đăng nhập'
@@ -65,7 +66,10 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập mật khẩu'
-            ),           
+            ),
+            'options' => array(
+                'label' => 'Mật khẩu'
+            )           
         ));
 
         $this->add(array(
@@ -92,12 +96,16 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 
         $this->add(array(
             'name' => 'gioiTinh',
-            'type' => 'hidden',
+            'type' => 'radio',
             'attributes' => array(
 
             ),
             'options' => array(
-                'label' => 'Giới tính'
+                'label' => 'Giới tính',
+                'value_options'=>array(
+                    '1'=>'Nam',
+                    '2'=>'Nữ'
+                ),                
             )
         ));
 
@@ -164,17 +172,15 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         
         $this->add(array(
              'name' => 'donVi',
-             'type' => '\Zend\Form\Element\Select',
+             'type' => 'select',
              'options' => array(
                  'label' => 'Đơn vị',
-                 'empty_option'=>'----------Chọn Đơn Vị----------',
-                 'disable_inarray_validator' => true,
                  'value_options' => $this->getDonViOptions($objectManager)
              ),
              'attributes'=>array(
-                'required'=>'required',                
+                'class'  => 'ui dropdown'           
              ),
-         ));
+         ));        
 
         $this->add(array(
             'name' => 'congViecs',
@@ -213,6 +219,9 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => true
             ),
             'dienThoai' => array(
+                'required' => true
+            ),
+            'diaChi' => array(
                 'required' => true
             ),
             'email' => array(

@@ -97,8 +97,7 @@ return array(
 
     //phân quyền theo zfcuser
     
-     'bjyauthorize'=>array(
-
+    /* 'bjyauthorize'=>array(
         'guards'=>array(
             'BjyAuthorize\Guard\Controller'=>array(                
                 // ApplicationController
@@ -133,8 +132,13 @@ return array(
                 //CongVanController
                 array(
                     'controller'=>array('CongViec\Controller\CongVan'),
+<<<<<<< HEAD
                     'action'    =>array('index','cong-van-moi'),
                     'roles'     =>array('admin'),
+=======
+                    'action'    =>array(),
+                    'roles'     =>array(),
+>>>>>>> 1cf87f3b3128a7d0c6229fef185cbd34f577f3e2
                 ),
 
                 //CongViecController
@@ -163,13 +167,18 @@ return array(
                 array(
                     'controller'=>array('CongViec\Controller\PhanCong'),
                     'action'    =>array(),
+<<<<<<< HEAD
                     'roles'     =>array('admin'),
+=======
+                    'roles'     =>array(),
+>>>>>>> 1cf87f3b3128a7d0c6229fef185cbd34f577f3e2
                 ),
                 
 
                 // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
+<<<<<<< HEAD
                     'action'    =>array('index','chi-tiet-cong-viec','bao-cao-moi','hoan-thanh'),
                     'roles'     =>array('theo-doi-viec-da-giao','admin'),
                 ),
@@ -223,7 +232,12 @@ return array(
                  * @var admin có toàn quyền trên hệ thống
                  */
 
+=======
+                    'action'    =>array(),
+                    'roles'     =>array(),
+                ),              
+>>>>>>> 1cf87f3b3128a7d0c6229fef185cbd34f577f3e2
             ),
         ),
-    ),
+    ),*/
 );

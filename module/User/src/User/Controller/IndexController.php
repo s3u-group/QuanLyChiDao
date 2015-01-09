@@ -34,7 +34,7 @@ class IndexController extends AbstractActionController
 
     public function listAction(){
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('select u from User\Entity\User u');
+        $query = $entityManager->createQuery('select u from User\Entity\User u ORDER BY u.displayName ASC');
         $users = $query->getResult();
 
         $request = $this->getRequest();
@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
             $post=$request->getPost();       
             $txtDuLieu=$post['txtDuLieu']; 
             $dk='u.displayName LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-            $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk);
+            $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE '.$dk.'ORDER BY u.displayName ASC');
             $users=$query->getResult();
         }        
         return array(            
@@ -114,7 +114,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('cong_viec');
         }        
         $entityManager = $this->getEntityManager();        
-
+        $donVis = $entityManager->getRepository('User\Entity\DonVi')->findAll();
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
 
         $emailCu=$user->getEmail();        
@@ -128,7 +128,7 @@ class IndexController extends AbstractActionController
 
         $request = $this->getRequest();        
         if ($request->isPost()) {            
-            $form->setData($request->getPost());            
+            $form->setData($request->getPost());                
             if ($form->isValid()) {
                 $emailMoi=$user->getEmail();                
                 if($emailCu!=$emailMoi)
@@ -136,21 +136,14 @@ class IndexController extends AbstractActionController
                     $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE u.email=\''.$emailMoi.'\'');
                     $email=$query->getResult();
                     if($email)
-                    {                        
+                    {
                         return array(
                             'form' => $form,
+                            'donVis'=>$donVis,
                             'id'=>$id,
                             'kiemTraEmail'=>1
                         );
                     }                    
-                }
-                if($request->getPost()->get('gioiTinh')=='Nam')
-                {
-                    $user->setGioiTinh(1);
-                }
-                else
-                {
-                    $user->setGioiTinh(2);
                 }                
                 $entityManager->flush();                
                 $this->flashMessenger()->addMessage('Cập nhật thành công!');
@@ -162,6 +155,7 @@ class IndexController extends AbstractActionController
         } 
         return array(
             'form' => $form,
+            'donVis'=>$donVis,
             'id'=>$id,
             'kiemTraEmail'=>0,            
         );
@@ -186,19 +180,10 @@ class IndexController extends AbstractActionController
 
             $bcrypt = new Bcrypt();
             $bcrypt->setCost(14);
-
-            /*$passAdmin=$bcrypt->create($post['matKhauAdmin']);
-            $admin = $entityManager->getRepository('User\Entity\User')->find(1);
-            if($admin->getPassword()==$passAdmin)
-            {*/
-                $password = $post['matKhauMoi'];            
-                $user->setPassword ($bcrypt->create($password));
-                $entityManager->flush();  
-                return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
-            /*}
-            else
-            {                
-            }*/
+            $password = $post['matKhauMoi'];
+            $user->setPassword ($bcrypt->create($password));
+            $entityManager->flush();
+            return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
         }
 
         return array(
@@ -214,7 +199,7 @@ class IndexController extends AbstractActionController
         {
             $post=$request->getPost();
             $dk='dv.tenDonVi LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-            $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE '.$dk);
+            $query=$entityManager->createQuery('SELECT dv FROM User\Entity\DonVi dv WHERE '.$dk.'ORDER BY dv.tenDonVi ASC');
             $donVis = $query->getResult();        
             if($donVis)
             {                
@@ -240,7 +225,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $dql = 'select dv from User\Entity\DonVi dv';
+        $dql = 'select dv from User\Entity\DonVi dv ORDER BY dv.tenDonVi ASC';
         $query = $entityManager->createQuery($dql);        
         $donVis = $query->getResult();        
         if($donVis)
@@ -305,8 +290,7 @@ class IndexController extends AbstractActionController
         $form->bind($user);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setData($request->getPost());
-            die(var_dump($request->getPost()));
+            $form->setData($request->getPost());            
             if ($form->isValid()) 
             {
                 $username=$request->getPost()->get('user')['username'];
@@ -330,15 +314,7 @@ class IndexController extends AbstractActionController
                 $kiemTraSoDienThoai = $query->getResult();                
 
                 if((!$tenDangNhap)&&(!$kiemTraEmail)&&(!$kiemTraSoDienThoai))                
-                {
-                    if($gioiTinh=='Nam')
-                    {
-                        $user->setGioiTinh(1);
-                    }
-                    else
-                    {
-                        $user->setGioiTinh(2);
-                    }
+                {                    
                     $bcrypt = new Bcrypt();
                     $bcrypt->setCost(14);                    
                     $pass=$request->getPost()->get('user')['password'];

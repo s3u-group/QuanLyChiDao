@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `cong_van`(
   `ngay_hoan_thanh_thuc` datetime DEFAULT '0000-00-00 00:00:00',
   `ngay_tao`       	datetime DEFAULT '0000-00-00 00:00:00',
   `nguoi_tao_id`    int(11) unsigned,
-  `trang_thai`		  mediumint,
+  `trang_thai`		  mediumint DEFAULT '1',
   `cha_id`          bigint(20) unsigned,
   `discr`           varchar(20),
   PRIMARY KEY (`id`),

@@ -5,32 +5,32 @@
   <a class="active item" data-tab="first">TẠO TÀI KHOẢN</a>
 </div>
 <div class="ui bottom attached active tab segment" data-tab="first">
+<?php
+	$form->setAttribute('action', $this->url('user/crud', array('action'=>'create-account')));
+	$form->setAttribute('id','frmCreateAccount');
+		$form->setAttribute('onSubmit','return kiemTra();');
+	$form->setAttribute('role','form');
+	$form->prepare(); 
+	echo $this->form()->openTag($form);	      	
+	$nguoiDung = $form->get('user');	
+	echo $this->formHidden($nguoiDung->get('id'));
+
+	$nguoiDung->get('ngayTao')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('ngayTao'));
+	$nguoiDung->get('dangNhapCuoi')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+	$nguoiDung->get('ngayChinhSua')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
+?>
 	<div class="ui small form segment">
 	  <div class="fields">
-	  	<div class="eight wide field">
-	      <label>Tên đăng nhập</label>
-	      <?php
-			$form->setAttribute('action', $this->url('user/crud', array('action'=>'create-account')));
-			$form->setAttribute('id','frmCreateAccount');
-  			$form->setAttribute('onSubmit','return kiemTra();');
-			$form->setAttribute('role','form');
-			$form->prepare(); 
-			echo $this->form()->openTag($form);	      	
-			$nguoiDung=$form->get('user');	
-			echo $this->formHidden($nguoiDung->get('id'));
-
-			$nguoiDung->get('ngayTao')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('ngayTao'));
-			$nguoiDung->get('dangNhapCuoi')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
-			$nguoiDung->get('ngayChinhSua')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
-
+	  	<div class="eight wide field">	      
+	      <?php  
 	      	$username=$nguoiDung->get('username');
 	      	$username->setAttribute('required','required');
-	      	$username->setAttribute('autofocus','autofocus');
+	      	$username->setAttribute('autofocus','autofocus');	      	
+	      	echo $this->formLabel($username);
 	      	echo $this->formElement($username);
-
 	      	if($kiemTraUsername==1)
 	      	{
 	      		echo "<div class='ui red message'>Tên đăng nhập đã được sử dụng</div>";	      		
@@ -40,14 +40,15 @@
 	  </div>
 	  <div class="fields">
 	  	<div class="four wide field">
-	      <label>Mật khẩu</label>
-	      <?php 
-	      	$password=$nguoiDung->get('password');
-	      	$password->setAttribute('required','required');
-	      	$password->setAttribute('id','pass');
-	      	$password->setAttribute('type','password');	      	
-	      	echo $this->formElement($password);
-	      ?>
+	  		<?php 
+	  			$password=$nguoiDung->get('password');
+	  			$password->setAttribute('required','required');
+	  			$password->setAttribute('id','pass');
+	      		$password->setAttribute('type','password');
+	  		?>
+	  		<?php echo $this->formLabel($password); ?>
+	      	<?php echo $this->formElement($password); ?>
+	      	<?php echo $this->formElementErrors($password); ?>	      
 	    </div>	    
 	  </div>
 
@@ -63,50 +64,45 @@
 
 	  <div class="fields">
 	    <div class="four wide field">
-	      <label>Họ</label>
-	      <?php
-		    $ho=$nguoiDung->get('ho');
-			$ho->setAttribute('required','required');
-			echo $this->formElement($ho);
-	      ?>
+	      <?php $nguoiDung->get('ho')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('ho')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('ho')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('ho')); ?>
 	    </div>
 	    <div class="four wide field">
-	      <label>Tên</label>	      
-	      <?php 
-	      	$ten=$nguoiDung->get('ten');
-	      	$ten->setAttribute('required','required');
-	      	echo $this->formElement($ten); 
-	      ?> 
+	    	<?php $nguoiDung->get('ten')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('ten')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('ten')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('ten')); ?>	      
 	    </div>
 	   </div>
 	  <div class="field">
-	      <label>Giới tính</label>
-		  <div class="ui radio checkbox">
-		  	<input name="gioiTinh" value="Nam" checked="checked" type="radio"><label>Nam</label>
-	  	  </div>
-	  	  <div class="ui radio checkbox">
-		    <input name="gioiTinh" value="Nu" type="radio"><label>Nữ</label>
-		  </div>	    
+	  	  <?php echo $this->formLabel($nguoiDung->get('gioiTinh')); ?>
+	      <div class="ui form">
+			  <div class="inline fields">
+			    <?php 
+			    	$nguoiDung->get('gioiTinh')->setValue(1);
+			    	echo $this->formRadio($nguoiDung->get('gioiTinh')); 
+			    ?>
+			  </div>			  
+			</div>
 	  </div>
 
 	  <div class="fields">
 	  	<div class="four wide field">
-	      <label>Tên hiển thị</label>
-	      <?php 
-	      	$displayName=$nguoiDung->get('displayName');
-	      	$displayName->setAttribute('required','required');
-	      	echo $this->formElement($displayName); 
-	      ?>
+	  		<?php $nguoiDung->get('displayName')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('displayName')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('displayName')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('displayName')); ?>	      
 	    </div>
 	    <div class="four wide field">
-	      <label>Điện thoại</label>
-	      <?php 
-	      	$dienThoai=$nguoiDung->get('dienThoai');
-	      	$dienThoai->setAttribute('id','dienThoai');
-	      	$dienThoai->setAttribute('required','required');
-	      	$dienThoai->setAttribute('type','number');
-	      	$dienThoai->setAttribute('min','0');
-	      	echo $this->formElement($dienThoai);
+	    	<?php $nguoiDung->get('dienThoai')->setAttribute('required','required');?>
+	    	<?php $nguoiDung->get('dienThoai')->setAttribute('id','dienThoai');?>
+	    	<?php $nguoiDung->get('dienThoai')->setAttribute('type','number');?>	    	
+	  		<?php echo $this->formLabel($nguoiDung->get('dienThoai')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('dienThoai')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('dienThoai')); ?>	      
+	      <?php	      	
 	      	if($kiemTraSoDienThoai==1)
 	      	{
 	      		echo "<div class='ui red message'>Số điện thoại đã sử dụng</div>";	      		
@@ -118,23 +114,20 @@
 
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Địa chỉ</label>
-	      <?php 
-	      	$diaChi=$nguoiDung->get('diaChi');
-	      	$diaChi->setAttribute('required','required');
-	      	$diaChi->setAttribute('placeholder','Nhập địa chỉ');
-	      	echo $this->formElement($diaChi);	      	
-	      ?>
+	  		<?php $nguoiDung->get('diaChi')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('diaChi')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('diaChi')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('diaChi')); ?>	      	
 	    </div>
 	  </div>
 
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Email</label>
-	      <?php 
-	      	$email=$nguoiDung->get('email');
-	      	$email->setAttribute('required','required');	      	
-	      	echo $this->formElement($email);
+	      <?php $nguoiDung->get('email')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('email')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('email')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('email')); ?>
+	      <?php	      	
 	      	if($kiemTraEmail==1)
 	      	{
 	      		echo "<div class='ui red message'>Email đã được sử dụng</div>";	      		
@@ -144,14 +137,9 @@
 	  </div>
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Đơn vị</label>
-			<?php
-			    $donVi=$nguoiDung->get('donVi');	      	
-		      	//$donVi->setAttribute('required','required');
-				//$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));					
-		      	echo $this->formElement($donVi);
-		      	echo $this->formElementErrors($donVi);
-			  ?>			  
+	  		<?php echo $this->formLabel($nguoiDung->get('donVi')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('donVi')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('donVi')); ?>	      
 		</div>
 	  </div>
 
@@ -188,6 +176,10 @@ $('.message .close').on('click', function() {
 <script type="text/javascript">
 	kiemTra=function()
 	{
+		document.getElementById("kiemTraMatKhau").hidden=true;
+		document.getElementById("kiemTraDienThoai").hidden=true;
+		document.getElementById("kiemTraDienThoai").hidden=true;
+		
 		var pass=document.getElementById('pass');		
 		var passVerify=document.getElementById('passVerify');
 		var dienThoai=document.getElementById('dienThoai');
@@ -212,7 +204,7 @@ $('.message .close').on('click', function() {
 			return true;
 		}
 		else
-		{			
+		{
 			document.getElementById("kiemTraMatKhau").hidden=false;		
 			$('#kiemTraMatKhau').text('Xác nhận mật khẩu không chính xác');
 			return false;
