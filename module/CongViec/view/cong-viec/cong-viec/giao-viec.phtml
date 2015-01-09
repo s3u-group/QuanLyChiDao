@@ -4,20 +4,23 @@ $form->prepare();?>
 
 <?php
 echo $this->form()->openTag($form);
-$congVan = $form->get('cong-van');
-$congViecs = $congVan->get('congViecs');
-$congViec = null;?>
+$congViec = $form->get('congViec');
+$congVan = $congViec->get('cha');?>
 <div class="ui form">
+	<?php echo $this->formHidden($congVan->get('id')); ?>
 	<div class="ui celled grid">
 		<div class="row">
 			<div class="ten wide column">
-				<?php foreach($congViecs as $congViec): ?>
+				<?php $user =  $this->zfcUserIdentity();?>
+				<?php $nguoiTao = $congViec->get('nguoiTao'); ?>
+				<?php $nguoiTao->setAttribute('value', $user->getId()) ?>
+				<?php echo $this->formHidden($nguoiTao); ?>
 				<div class="field">
 					<?php echo $this->formLabel($congViec->get('loai')); ?>
 		          	<?php echo $this->formElement($congViec->get('loai')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('loai')); ?>
 				</div>
-				<div class="field">
+				<div class="field reset able">
 					<?php echo $this->formLabel($congViec->get('ten')); ?>
 		          	<?php echo $this->formElement($congViec->get('ten')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('ten')); ?>
@@ -34,17 +37,16 @@ $congViec = null;?>
 			          	<?php echo $this->formElementErrors($congViec->get('ngayHoanThanh')); ?>
 					</div>
 				</div>
-				<div class="field">
+				<div class="field reset able">
 					<?php echo $this->formLabel($congViec->get('noiDung')); ?>
 		          	<?php echo $this->formElement($congViec->get('noiDung')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('noiDung')); ?>
 				</div>
-				<div class="field">
+				<div class="field reset able">
 					<?php echo $this->formLabel($congViec->get('dinhKems')); ?>
 		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
-				</div>
-				<?php endforeach; ?>
+				</div>			
 			</div>
 			<div class="six wide column">
 				<div class="field">
@@ -58,6 +60,7 @@ $congViec = null;?>
 		          	<?php echo $this->formElementErrors($congVan->get('ngayBanHanh')); ?>
 				</div>
 				<div class="field">
+					<?php //var_dump($congVan->get('nguoiKy')->getValue()); ?>
 					<?php echo $this->formLabel($congVan->get('nguoiKy')); ?>
 		          	<?php echo $this->formElement($congVan->get('nguoiKy')); ?>
 		          	<?php echo $this->formElementErrors($congVan->get('nguoiKy')); ?>
@@ -84,17 +87,18 @@ $congViec = null;?>
 			</div>
 			<div class="eight wide column">
 				<div class="field">
-					<label>Phân công</label>
+					<label>Phân công <i id="phan_lai" class="circular undo link icon" title="Phân công lại"></i></label>
 					<?php $nguoiThucHiens = $congViec->get('nguoiThucHiens'); ?>
-					<div id="event_result" class="ui list">
+					<div id="event_result">
 						<?php echo $this->formCollection($nguoiThucHiens); ?>
 						<div class="template ui hidden">
 						    <?php echo $this->vaiTro(); ?>
-						    <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png">
+						    <!-- <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png"> -->
 						    <div class="content">
 						     	__ten__
 						    </div>
 						</div>
+						<div class="ui list divided"></div>
 					</div>
 				</div>
 			</div>
@@ -136,7 +140,7 @@ $congViec = null;?>
 	   	var currentCount = add_phan_cong();
 	   	var template = $('#event_result .template').html();
 	   	template = template.replace(/__ten__/g, ten);
-	   	$('#event_result').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
+	   	$('#event_result .list').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
 	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
 	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
 	   	$('#pc_'+currentCount+' .ui.dropdown')
@@ -161,6 +165,18 @@ $congViec = null;?>
 	   	});*/
 	   }
 	});
+
+	$('#phan_lai').click(function(){
+		$('#event_result > .list').empty();
+		$('#event_result > fieldset > fieldset').remove();
+	});
+
+
+	$('.reset.able :input')
+	 	.val('')
+	 	.removeAttr('checked')
+	 	.removeAttr('selected');
+	
 
 	function add_phan_cong() {
         var currentCount = $('#event_result > fieldset > fieldset').length;

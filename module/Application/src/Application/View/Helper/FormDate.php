@@ -17,7 +17,7 @@ class FormDate extends AbstractHelper{
                 });
                 $('#<?php echo $id ?>.form-date .jqxDate').on('valueChanged', function (event) {
                     var date = event.args.date;
-                    var dateString = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+                    var dateString = date.getFullYear() + '-' + pad((date.getMonth()+1),2) + '-' + pad(date.getDate(),2);
                     $('input[name="<?php echo $element->getAttribute('name'); ?>"]').val(dateString);
                 });
 
@@ -25,6 +25,11 @@ class FormDate extends AbstractHelper{
                     if(val)
                         return $.jqx._jqxDateTimeInput.getDateTime(new Date(val));
                     return null;
+                }
+
+                function pad (str, max) {
+                    str = str.toString();
+                    return str.length < max ? pad("0" + str, max) : str;
                 }
             </script>
         </div>

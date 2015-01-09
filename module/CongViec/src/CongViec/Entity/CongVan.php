@@ -7,6 +7,7 @@ use Datetime;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="cong_van")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -95,10 +96,10 @@ class CongVan
 	/**
 	 * @ORM\Column(name="trang_thai", type="integer")	
 	 */
-	protected $trangThai;
+	protected $trangThai = 1; // mac dinh chua xem
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan")
+	 * @ORM\ManyToOne(targetEntity="CongViec\Entity\CongVan", cascade={"persist"})
 	 * @ORM\JoinColumn(name="cha_id", referencedColumnName="id", nullable=true)
 	 */
 	protected $cha;
@@ -123,9 +124,23 @@ class CongVan
     protected $donViTiepNhans;
 
     /**
-     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="cha", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\CongViec", mappedBy="cha")
      */
     protected $congViecs;
+
+    /**
+	 * @ORM\PrePersist 
+	 */
+	public function onPrePersist(){
+    	$this->ngayTao = new DateTime('now');
+
+    	/*$sm = $this->getServiceManager(); //phai truyen duoc sm vao moi su dung duoc
+		$auth = $sm->get('zfcuser_auth_service');
+		if ($auth->hasIdentity()) {
+		    $user = $auth->getIdentity();
+		    $this->nguoiTao = $user;
+		}*/
+	}
 
     public function __construct()
     {
