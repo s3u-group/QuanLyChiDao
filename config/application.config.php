@@ -9,6 +9,7 @@ return array(
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
+        'BjyAuthorize',
         'BaconStringUtils',
         'Application',
         'Taxonomy',
