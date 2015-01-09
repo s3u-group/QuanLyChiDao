@@ -51,7 +51,8 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         $this->add(array(
             'name' => 'username',
             'type' => 'text',
-            'options' => array(                
+            'options' => array(
+                'label'=>'Tên đăng nhập'
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập tên đăng nhập'
@@ -65,7 +66,10 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập mật khẩu'
-            ),           
+            ),
+            'options' => array(
+                'label' => 'Mật khẩu'
+            )           
         ));
 
         $this->add(array(
@@ -92,12 +96,16 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 
         $this->add(array(
             'name' => 'gioiTinh',
-            'type' => 'hidden',
+            'type' => 'radio',
             'attributes' => array(
 
             ),
             'options' => array(
-                'label' => 'Giới tính'
+                'label' => 'Giới tính',
+                'value_options'=>array(
+                    '1'=>'Nam',
+                    '2'=>'Nữ'
+                ),                
             )
         ));
 

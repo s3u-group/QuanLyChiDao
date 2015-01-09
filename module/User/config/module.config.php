@@ -84,8 +84,7 @@ return array(
 
     //phân quyền theo zfcuser
     
-    /*'bjyauthorize'=>array(
-
+    /* 'bjyauthorize'=>array(
         'guards'=>array(
             'BjyAuthorize\Guard\Controller'=>array(                
                 
@@ -120,8 +119,7 @@ return array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
                     'action'    =>array(),
                     'roles'     =>array(),
-                ),
-              
+                ),              
             ),
         ),
     ),*/
