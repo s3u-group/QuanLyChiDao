@@ -145,13 +145,13 @@
 	  <div class="fields">
 	  	<div class="eight wide field">
 	      <label>Đơn vị</label>
-	      <?php
-		    $donVi=$nguoiDung->get('donVi');	      	
-	      	//$donVi->setAttribute('class','ui selection dropdown');
-	      	$donVi->setAttribute('required','required');
-			$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
-	      	echo $this->formElement($donVi);
-		  ?>		  
+			<?php
+			    $donVi=$nguoiDung->get('donVi');	      	
+		      	//$donVi->setAttribute('required','required');
+				//$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));					
+		      	echo $this->formElement($donVi);
+		      	echo $this->formElementErrors($donVi);
+			  ?>			  
 		</div>
 	  </div>
 

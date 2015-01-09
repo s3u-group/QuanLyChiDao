@@ -161,11 +161,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(                
             )
         ));
-
-        /*$this->add(array(
-            'name' => 'donVi',
-            'type' => 'hidden',            
-        ));*/
+        
         $this->add(array(
              'name' => 'donVi',
              'type' => '\Zend\Form\Element\Select',
@@ -173,8 +169,11 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                  'label' => 'Đơn vị',
                  'empty_option'=>'----------Chọn Đơn Vị----------',
                  'disable_inarray_validator' => true,
+                 'value_options' => $this->getDonViOptions($objectManager)
              ),
-             'attributes'=>array('required'=>'required'),
+             'attributes'=>array(
+                'required'=>'required',                
+             ),
          ));
 
         $this->add(array(
@@ -229,6 +228,16 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => false
             )
         );
+    }
+
+    public function getDonViOptions($objectManager){
+        $options = array();
+        $query = $objectManager->createQuery('select dv from User\Entity\DonVi dv');
+        $donVis = $query->getResult();
+        foreach($donVis as $donVi){
+            $options[$donVi->getId()] = $donVi->getTenDonVi();
+        }
+        return $options;        
     }
 
 }
