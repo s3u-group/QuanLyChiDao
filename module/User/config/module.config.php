@@ -97,7 +97,7 @@ return array(
     //phân quyền theo zfcuser
     
      'bjyauthorize'=>array(
-
+ 
         'guards'=>array(
             'BjyAuthorize\Guard\Controller'=>array(                
                 // ApplicationController
