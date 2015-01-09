@@ -197,6 +197,10 @@ class CongViecController extends AbstractActionController
         if($request->isPost()){
             $form->bind($congViec);
             $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
             if($form->isValid()){
 
                 $pcNguoiGiaoViec = new PhanCong();
@@ -206,6 +210,10 @@ class CongViecController extends AbstractActionController
 
                 $entityManager->persist($congViec);
                 $entityManager->flush();
+
+                $post = $post['congViec']['dinhKems'];
+                $this->dinhKemMoi($entityManager, $post, $congViec);
+
                 $form->bind($congViec);
             }
         }

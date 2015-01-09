@@ -7,18 +7,29 @@ echo $this->form()->openTag($form);
 $congViec = $form->get('congViec');
 $congVan = $congViec->get('cha');?>
 <div class="ui form">
-	<?php echo $this->formHidden($congVan->get('id')); ?>
 	<div class="ui celled grid">
+		<div class="row">
+			<div class="eight wide column">
+				<h2 class="ui header"><span><i class="plus icon"></i></span> GIAO VIỆC MỚI</h2>
+			</div>
+		</div>
 		<div class="row">
 			<div class="ten wide column">
 				<?php $user =  $this->zfcUserIdentity();?>
 				<?php $nguoiTao = $congViec->get('nguoiTao'); ?>
 				<?php $nguoiTao->setAttribute('value', $user->getId()) ?>
 				<?php echo $this->formHidden($nguoiTao); ?>
-				<div class="field">
-					<?php echo $this->formLabel($congViec->get('loai')); ?>
-		          	<?php echo $this->formElement($congViec->get('loai')); ?>
-		          	<?php echo $this->formElementErrors($congViec->get('loai')); ?>
+				<div class="two fields">
+					<div class="field">
+						<?php echo $this->formLabel($congViec->get('loai')); ?>
+			          	<?php echo $this->formElement($congViec->get('loai')); ?>
+			          	<?php echo $this->formElementErrors($congViec->get('loai')); ?>
+					</div>
+					<div class="field">
+						<?php echo $this->formLabel($congViec->get('linhVuc')); ?>
+			          	<?php echo $this->formElement($congViec->get('linhVuc')); ?>
+			          	<?php echo $this->formElementErrors($congViec->get('linhVuc')); ?>
+			        </div>
 				</div>
 				<div class="field reset able">
 					<?php echo $this->formLabel($congViec->get('ten')); ?>
@@ -41,14 +52,10 @@ $congVan = $congViec->get('cha');?>
 					<?php echo $this->formLabel($congViec->get('noiDung')); ?>
 		          	<?php echo $this->formElement($congViec->get('noiDung')); ?>
 		          	<?php echo $this->formElementErrors($congViec->get('noiDung')); ?>
-				</div>
-				<div class="field reset able">
-					<?php echo $this->formLabel($congViec->get('dinhKems')); ?>
-		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
-		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
 				</div>			
 			</div>
 			<div class="six wide column">
+				<?php echo $this->formHidden($congVan->get('id')); ?>
 				<div class="field">
 					<?php echo $this->formLabel($congVan->get('soHieu')); ?>
 		          	<?php echo $this->formElement($congVan->get('soHieu')); ?>
@@ -60,7 +67,6 @@ $congVan = $congViec->get('cha');?>
 		          	<?php echo $this->formElementErrors($congVan->get('ngayBanHanh')); ?>
 				</div>
 				<div class="field">
-					<?php //var_dump($congVan->get('nguoiKy')->getValue()); ?>
 					<?php echo $this->formLabel($congVan->get('nguoiKy')); ?>
 		          	<?php echo $this->formElement($congVan->get('nguoiKy')); ?>
 		          	<?php echo $this->formElementErrors($congVan->get('nguoiKy')); ?>
@@ -70,10 +76,15 @@ $congVan = $congViec->get('cha');?>
 		          	<?php echo $this->formElement($congVan->get('trichYeu')); ?>
 		          	<?php echo $this->formElementErrors($congVan->get('trichYeu')); ?>
 				</div>
-				<div class="field">
-					<?php echo $this->formLabel($congVan->get('dinhKems')); ?>
-		          	<?php echo $this->formElement($congVan->get('dinhKems')); ?>
-		          	<?php echo $this->formElementErrors($congVan->get('dinhKems')); ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="eight wide column">
+				<div class="field reset able">
+					<?php echo $this->formLabel($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElement($congViec->get('dinhKems')); ?>
+		          	<?php echo $this->formElementErrors($congViec->get('dinhKems')); ?>
 				</div>
 			</div>
 		</div>

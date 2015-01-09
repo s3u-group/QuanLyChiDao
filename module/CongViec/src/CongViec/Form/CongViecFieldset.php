@@ -37,6 +37,18 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
+            'name' => 'linhVuc',
+            'type' => 'select',
+            'options' => array(
+                'label' => 'Lĩnh vực',
+                'value_options' => $this->getLinhVucOption($sm)
+            ),
+            'attributes' => array(
+                'class' => 'ui dropdown'
+            )
+        ));
+
+        $this->add(array(
             'name' => 'ten',
             'type' => 'text',
             'options' => array(
@@ -141,6 +153,14 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         if($sm){
             $taxonomyService = $sm->get('taxonomyService');
             $options = $taxonomyService->getValueForOption('loai-cong-viec');
+            return $options;
+        }
+    }
+
+    public function getLinhVucOption($sm){
+        if($sm){
+            $taxonomyService = $sm->get('taxonomyService');
+            $options = $taxonomyService->getValueForOption('linh-vuc');
             return $options;
         }
     }
