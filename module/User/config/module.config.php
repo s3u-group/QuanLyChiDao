@@ -84,7 +84,7 @@ return array(
 
     //phân quyền theo zfcuser
     
-     'bjyauthorize'=>array(
+    /*'bjyauthorize'=>array(
 
         'guards'=>array(
             'BjyAuthorize\Guard\Controller'=>array(                
@@ -103,8 +103,8 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongVan'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array(),
+                    'roles'     =>array(),
                 ),
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
@@ -113,16 +113,16 @@ return array(
                 ),
                 array(
                     'controller'=>array('CongViec\Controller\PhanCong'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array(),
+                    'roles'     =>array(),
                 ),
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array(),
+                    'roles'     =>array(),
                 ),
               
             ),
         ),
-    ),
+    ),*/
 );

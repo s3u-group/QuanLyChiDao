@@ -1,3 +1,19 @@
+<?php /*
+$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
+$form->prepare();?>
+
+<?php
+echo $this->form()->openTag($form);
+$user = $form->get('user');
+?>
+	<div class="field">
+		<?php echo $this->formLabel($user->get('donVi')); ?>
+      	<?php echo $this->formElement($user->get('donVi')); ?>
+      	<?php echo $this->formElementErrors($user->get('donVi')); ?>
+	</div>
+	<?php echo $this->formSubmit($form->get('submit')); ?>
+<?php echo $this->form()->closeTag(); */?>
+
 <?php
 	if ($this->flashMessenger()->hasMessages()) 
 	{
@@ -24,23 +40,24 @@
 </div>
 
 <div class="ui bottom attached active tab segment" data-tab="first">
+	<?php
+  	$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
+	$form->setAttribute('role','form');
+	$form->prepare(); 
+  	echo $this->form()->openTag($form);
+  	$nguoiDung = $form->get('user');   	
+	echo $this->formHidden($nguoiDung->get('id'));
+	echo $this->formHidden($nguoiDung->get('username'));
+	echo $this->formHidden($nguoiDung->get('password'));
+	echo $this->formHidden($nguoiDung->get('gioiTinh'));
+	echo $this->formHidden($nguoiDung->get('ngayTao'));
+	echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+	echo $this->formHidden($nguoiDung->get('ngayChinhSua')); ?>
 	<div class="ui small form segment">
 	  <div class="fields">
 	    <div class="four wide field">
 	      <label>Họ</label>
 	      <?php
-	      	$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
-			$form->setAttribute('role','form');
-			$form->prepare(); 
-	      	echo $this->form()->openTag($form);
-	      	$nguoiDung=$form->get('user');	      	
-			echo $this->formHidden($nguoiDung->get('id'));
-			echo $this->formHidden($nguoiDung->get('username'));
-			echo $this->formHidden($nguoiDung->get('password'));
-			echo $this->formHidden($nguoiDung->get('gioiTinh'));
-			echo $this->formHidden($nguoiDung->get('ngayTao'));
-			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
-			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
 	      	$ho=$nguoiDung->get('ho');
 	      	$ho->setAttribute('required','required');
 	      	echo $this->formElement($ho); 
@@ -126,20 +143,9 @@
 	  </div>
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Đơn vị</label>
-			<?php
-			    $donVi=$nguoiDung->get('donVi');	      	
-		      	$donVi->setAttribute('required','required');
-				$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
-				$donVi->setAttribute('class','ui dropdown');
-		      	//echo $this->formElement($donVi);
-		      	echo $this->formElementErrors($donVi);
-			  ?>
-<select name="gender" class="ui dropdown" id="select" name="user[donVi]">
-  <option value="">Gender</option>
-  <option value="male">Male</option>
-  <option value="female">Female</option>
-</select>			  
+		      	<?php echo $this->formLabel($nguoiDung->get('donVi')); ?>
+		      	<?php echo $this->formElement($nguoiDung->get('donVi')); ?>
+		      	<?php echo $this->formElementErrors($nguoiDung->get('donVi')); ?>			  
 		</div>
 	  </div>
 	  <div class="fields">
@@ -167,10 +173,7 @@ $(document).ready(function(){
 
 	$('.ui.radio.checkbox').checkbox();
 
-	$('.ui.dropdown').dropdown();
-});$('#select')
-  .dropdown()
-;
+});
 
 $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
