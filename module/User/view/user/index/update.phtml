@@ -24,39 +24,36 @@
 </div>
 
 <div class="ui bottom attached active tab segment" data-tab="first">
+	<?php
+  	$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
+	$form->setAttribute('role','form');
+	$form->prepare(); 
+  	echo $this->form()->openTag($form);
+  	$nguoiDung = $form->get('user');   	
+	echo $this->formHidden($nguoiDung->get('id'));
+	echo $this->formHidden($nguoiDung->get('username'));
+	echo $this->formHidden($nguoiDung->get('password'));
+	echo $this->formHidden($nguoiDung->get('gioiTinh'));
+	echo $this->formHidden($nguoiDung->get('ngayTao'));
+	echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+	echo $this->formHidden($nguoiDung->get('ngayChinhSua')); ?>
 	<div class="ui small form segment">
 	  <div class="fields">
 	    <div class="four wide field">
-	      <label>Họ</label>
-	      <?php
-	      	$form->setAttribute('action', $this->url('user/crud', array('action'=>'update','id' => $id)));
-			$form->setAttribute('role','form');
-			$form->prepare(); 
-	      	echo $this->form()->openTag($form);
-	      	$nguoiDung=$form->get('user');	      	
-			echo $this->formHidden($nguoiDung->get('id'));
-			echo $this->formHidden($nguoiDung->get('username'));
-			echo $this->formHidden($nguoiDung->get('password'));
-			echo $this->formHidden($nguoiDung->get('gioiTinh'));
-			echo $this->formHidden($nguoiDung->get('ngayTao'));
-			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
-			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
-	      	$ho=$nguoiDung->get('ho');
-	      	$ho->setAttribute('required','required');
-	      	echo $this->formElement($ho); 
-	      ?> 
+	    	<?php $nguoiDung->get('ho')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('ho')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('ho')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('ho')); ?>
 	    </div>
 	    <div class="four wide field">
-	      <label>Tên</label>	      
-	      <?php 
-	      	$ten=$nguoiDung->get('ten');
-	      	$ten->setAttribute('required','required');
-	      	echo $this->formElement($ten); 
-	      ?> 
+	    	<?php $nguoiDung->get('ten')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('ten')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('ten')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('ten')); ?>	      
 	    </div>
 	   </div>
-	   <div class="field">
-	      <label>Giới tính</label>	      
+	   <div class="field">	   		
+	  	  <?php echo $this->formLabel($nguoiDung->get('gioiTinh')); ?>
 	      <div class="ui form">
 			  <div class="inline fields">
 			    <?php     	
@@ -75,38 +72,35 @@
 
 	  <div class="fields">
 	  	<div class="four wide field">
-	      <label>Tên hiển thị</label>
-	      <?php 
-	      	$displayName=$nguoiDung->get('displayName');
-	      	echo $this->formElement($displayName); 
-	      ?>
+	  		<?php $nguoiDung->get('displayName')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('displayName')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('displayName')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('displayName')); ?>	      
 	    </div>
 	    <div class="four wide field">
-	      <label>Điện thoại</label>
-	      <?php 
-	      	$dienThoai=$nguoiDung->get('dienThoai');	      	
-	      	echo $this->formElement($dienThoai); 
-	      ?> 
+	    	<?php $nguoiDung->get('dienThoai')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('dienThoai')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('dienThoai')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('dienThoai')); ?>	      
 	  	</div>
 	  </div>
 
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Địa chỉ</label>
-	      <?php 
-	      	$diaChi=$nguoiDung->get('diaChi');	      	
-	      	echo $this->formElement($diaChi);	      	
-	      ?>
+	  		<?php $nguoiDung->get('diaChi')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('diaChi')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('diaChi')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('diaChi')); ?>	      
 	    </div>
 	  </div>
 
 	  <div class="fields">
 	  	<div class="eight wide field">
-	      <label>Email</label>
-	      <?php 
-	      	$email=$nguoiDung->get('email');
-	      	$email->setAttribute('required','required');	      	
-	      	echo $this->formElement($email);
+	  		<?php $nguoiDung->get('email')->setAttribute('required','required');?>
+	  		<?php echo $this->formLabel($nguoiDung->get('email')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('email')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('email')); ?>	      
+	      <?php 	      	
 	      	if($kiemTraEmail==1)
 	      	{
 	      		echo "<div class='ui red message'>Email đã được sử dụng</div>";	      		
@@ -115,21 +109,10 @@
 	    </div>
 	  </div>
 	  <div class="fields">
-	  	<div class="eight wide field">
-	      <label>Đơn vị</label>
-			<?php
-			    $donVi=$nguoiDung->get('donVi');	      	
-		      	$donVi->setAttribute('required','required');
-				$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
-				$donVi->setAttribute('class','ui dropdown');
-		      	//echo $this->formElement($donVi);
-		      	echo $this->formElementErrors($donVi);
-			  ?>
-				<select name="gender" class="ui dropdown" id="select" name="user[donVi]">
-				  <option value="">Gender</option>
-				  <option value="male">Male</option>
-				  <option value="female">Female</option>
-				</select>			  
+	  	<div class="eight wide field">	  	
+	      	<?php echo $this->formLabel($nguoiDung->get('donVi')); ?>
+	      	<?php echo $this->formElement($nguoiDung->get('donVi')); ?>
+	      	<?php echo $this->formElementErrors($nguoiDung->get('donVi')); ?>
 		</div>
 	  </div>
 	  <div class="fields">
@@ -158,10 +141,11 @@ $(document).ready(function(){
 	$('.ui.radio.checkbox').checkbox();
 
 	$('.ui.dropdown').dropdown();
+	
+	$('#select')
+	  .dropdown()
+	;
 });
-$('#select')
-  .dropdown()
-;
 
 $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();

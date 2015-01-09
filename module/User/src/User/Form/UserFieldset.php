@@ -65,7 +65,10 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập mật khẩu'
-            ),           
+            ),
+            'options' => array(
+                'label' => 'Mật khẩu'
+            )           
         ));
 
         $this->add(array(
@@ -101,7 +104,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'value_options'=>array(
                     '1'=>'Nam',
                     '2'=>'Nữ'
-                ),
+                ),                
             )
         ));
 
@@ -168,16 +171,13 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         
         $this->add(array(
              'name' => 'donVi',
-             'type' => '\Zend\Form\Element\Select',
+             'type' => 'select',
              'options' => array(
                  'label' => 'Đơn vị',
-                 'empty_option'=>'----------Chọn Đơn Vị----------',
-                 'disable_inarray_validator' => true,
-                 //'value_options' => $this->getDonViOptions($objectManager)
+                 'value_options' => $this->getDonViOptions($objectManager)
              ),
              'attributes'=>array(
-                'required'=>'required',  
-                'value'=>'male'              
+                'class'  => 'ui dropdown'           
              ),
          ));        
 

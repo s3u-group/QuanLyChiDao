@@ -128,8 +128,7 @@ class IndexController extends AbstractActionController
 
         $request = $this->getRequest();        
         if ($request->isPost()) {            
-            $form->setData($request->getPost());
-                die(var_dump($request->getPost()));
+            $form->setData($request->getPost());                
             if ($form->isValid()) {
                 $emailMoi=$user->getEmail();                
                 if($emailCu!=$emailMoi)
@@ -145,14 +144,6 @@ class IndexController extends AbstractActionController
                             'kiemTraEmail'=>1
                         );
                     }                    
-                }
-                if($request->getPost()->get('gioiTinh')=='Nam')
-                {
-                    $user->setGioiTinh(1);
-                }
-                else
-                {
-                    $user->setGioiTinh(2);
                 }                
                 $entityManager->flush();                
                 $this->flashMessenger()->addMessage('Cập nhật thành công!');
