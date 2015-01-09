@@ -54,7 +54,7 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        $this->add(array(
+        /*$this->add(array(
             'name' => 'nguoiKy',
             'type' => 'select',
             'options' => array(
@@ -65,21 +65,22 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
                 'class' => 'ui dropdown',
                 'required' => 'required'
             )
-        ));
+        ));*/
 
-       /* $this->add(array(
+        $this->add(array(
            'name' => 'nguoiKy',
            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
            'options' => array(
                 'object_manager'     => $objectManager,
-                'target_class'       => 'Tutorial\Entity\Countries',
-                'property' => 'continent',
-                'is_method' => true,
-                'find_method'        => array(
-                    'name'   => 'getContinent',
-                ),
-            ), 
-        ));*/
+                'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
+                'label' => 'Người ký',
+                'value_options' => $this->getNguoiKyOptions($objectManager)
+            ),
+            'attributes' => array(
+                'class' => 'ui dropdown',
+                'required' => 'required'
+            )
+        ));
 
         $this->add(array(
             'name' => 'dinhKems',
