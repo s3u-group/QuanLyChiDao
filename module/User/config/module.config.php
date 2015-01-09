@@ -82,7 +82,7 @@ return array(
     ),
 
 
-    /*//phân quyền theo zfcuser
+    //phân quyền theo zfcuser
     
      'bjyauthorize'=>array(
 
@@ -98,16 +98,31 @@ return array(
                 array(
                     'controller'=>array('zfcuser'),  
                     'action'    =>array('logout'),                 
-                    'roles'     =>array('nguoi-dung'),
+                    'roles'     =>array('cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem'),
                 ),                
 
                 array(
-                    'controller'=>array('S3UTaxonomy\Controller\Taxonomy'),
-                    'action'    =>array('taxonomyIndex','taxonomyEdit','taxonomyAdd'),
-                    'roles'     =>array('nguoi-dung'),
+                    'controller'=>array('CongViec\Controller\CongVan'),
+                    'action'    =>array(''),
+                    'roles'     =>array(''),
+                ),
+                array(
+                    'controller'=>array('CongViec\Controller\CongViec'),
+                    'action'    =>array('index'),
+                    'roles'     =>array('cong-viec-can-xu-ly'),
+                ),
+                array(
+                    'controller'=>array('CongViec\Controller\PhanCong'),
+                    'action'    =>array(''),
+                    'roles'     =>array(''),
+                ),
+                array(
+                    'controller'=>array('CongViec\Controller\TheoDoi'),
+                    'action'    =>array(''),
+                    'roles'     =>array(''),
                 ),
               
             ),
         ),
-    ),*/
+    ),
 );
