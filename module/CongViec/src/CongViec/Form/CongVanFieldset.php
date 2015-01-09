@@ -67,6 +67,20 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
+       /* $this->add(array(
+           'name' => 'nguoiKy',
+           'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+           'options' => array(
+                'object_manager'     => $objectManager,
+                'target_class'       => 'Tutorial\Entity\Countries',
+                'property' => 'continent',
+                'is_method' => true,
+                'find_method'        => array(
+                    'name'   => 'getContinent',
+                ),
+            ), 
+        ));*/
+
         $this->add(array(
             'name' => 'dinhKems',
             'type' => 'file',
