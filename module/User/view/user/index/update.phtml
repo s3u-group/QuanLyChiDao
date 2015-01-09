@@ -56,46 +56,22 @@
 	    </div>
 	   </div>
 	   <div class="field">
-	      <label>Giới tính</label>
-	      <?php 
-	      var_dump($nguoiDung->get('gioiTinh'));
-	      if($nguoiDung->get('gioiTinh')->getCheckedValue()==1)
-	      {
-	      	die(var_dump('Nam'));
-	      	echo $this->formRadio($nguoiDung->get('gioiTinh')->setValue(1));
-	      }
-	  	  else
-	  	  {
-	  	  	die(var_dump('Nữ'));
-	  	  	//echo $this->formRadio($nguoiDung->get('gioiTinh')->getCheckedValue(2));
-	  	  }
-	      ?>
-
-		  <?php		  	
-		  	if($nguoiDung->get('gioiTinh')->getValue()=='Nam')
-		  	{?>
-		  		<div class="ui radio checkbox">
-		  			<input name="gioiTinh" value="Nam" checked="checked" type="radio">
-		  			<label>Nam</label>
-		  		</div>
-		  		<div class="ui radio checkbox">
-			        <input name="gioiTinh" value="Nu" type="radio">
-			        <label>Nữ</label>
-			    </div>
-		  <?php }
-		  	else
-		  	{?>
-		  		<div class="ui radio checkbox">
-		  			<input name="gioiTinh" value="Nam" type="radio">
-		  			<label>Nam</label>
-		  		</div>
-		  		<div class="ui radio checkbox">
-			        <input name="gioiTinh" value="Nu" checked="checked" type="radio">
-			        <label>Nữ</label>
-			    </div>
-		  	<?php }
-		  ?>	    
-	  </div>
+	      <label>Giới tính</label>	      
+	      <div class="ui form">
+			  <div class="inline fields">
+			    <?php     	
+			      if($nguoiDung->get('gioiTinh')->getValue()=='Nam')
+			      {		      			      	
+			      	echo $this->formRadio($nguoiDung->get('gioiTinh')->setValue(1));		      	
+			      }
+			  	  else
+			  	  {		  	  	
+			  	  	echo $this->formRadio($nguoiDung->get('gioiTinh')->setValue(2));		  	  	
+			  	  }
+			    ?>			    
+			  </div>			  
+			</div>
+	   </div>
 
 	  <div class="fields">
 	  	<div class="four wide field">
@@ -182,7 +158,8 @@ $(document).ready(function(){
 	$('.ui.radio.checkbox').checkbox();
 
 	$('.ui.dropdown').dropdown();
-});$('#select')
+});
+$('#select')
   .dropdown()
 ;
 
