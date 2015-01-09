@@ -111,8 +111,7 @@
     <div class="sixteen wide column fluid">
       <table class="ui table" id="tblTatCa">
         <thead>
-          <tr>
-            
+          <tr>            
             <th>Chủ đề</th>
             <th>Người tạo công việc</th>
             <th>Hạn xử lý</th>            
@@ -120,143 +119,83 @@
         </thead>
         <tbody>
         <?php
-          foreach ($congViecs as $congViec) {
-            if($dieuKienLoc=='Tất cả')
-            {
+          foreach ($congViecs as $congViec) {     
+            if($dieuKienLoc=='Tất cả'){
               if($congViec->getTrangThaiNhom()=='Chưa xem')
-              {
-                echo '<tr class="blue">';                
+              { ?>
+                <tr class="blue">
+              <?php
               }
               elseif($congViec->getTrangThaiNhom()=='Đang xử lý')
-              {
-                echo '<tr class="purple">';
+              { ?>
+                <tr class="purple">
+              <?php
               }
               elseif($congViec->getTrangThaiNhom()=='Trễ hạn')
-              {
-                echo '<tr class="lightred">';
+              { ?>
+                <tr class="lightred">
+              <?php
               }
               elseif($congViec->getTrangThaiNhom()=='Chưa rõ')
-              {
-                echo '<tr>';
+              { ?>
+                <tr>
+              <?php
               } 
               if($congViec->getTrangThaiNhom()!='Hoàn thành'&&$congViec->getTrangThaiNhom()!='Đã hủy')
-              {
-                $link=0;
-                if($congViec->getNguoiThucHiens())
-                {
-                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
-                  
-                  foreach ($nguoiThucHiens as $nguoiThucHien) {
-                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
-                    {
-                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
-                        $link=1;
-                      }                      
-                    }
-                  }
-                  
-                }
-                if ($link==1){
-                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                }
-                else{   
-                  echo '<td>'.$congViec->getTen().'</td>';
-                }               
-                  echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
-                  echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-                echo '</tr>';
-              }
-                  
+              { ?>
+                  <td>
+                    <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?></a>
+                  </td>                       
+                  <td>
+                    <?php echo $congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen(); ?>
+                  </td>
+                  <td>
+                    <?php echo $congViec->getNgayHoanThanh()->format('d-m-Y'); ?>
+                  </td>
+                </tr>
+              <?php
+              }                  
             }
-            elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem')
-            {
-              echo '<tr class="blue">'; 
-                
-                $link=0;
-                if($congViec->getNguoiThucHiens())
-                {
-                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
-                  
-                  foreach ($nguoiThucHiens as $nguoiThucHien) {
-                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
-                    {
-                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
-                        $link=1;
-                      }                      
-                    }
-                  }
-                  
-                }
-                if ($link==1){
-                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                }
-                else{   
-                  echo '<td>'.$congViec->getTen().'</td>';
-                }      
-                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';
+            elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem'){
+              ?><tr class="blue">                
+                <td>
+                  <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen();?></a>
+                </td>
+                <td>
+                  <?php echo $congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen(); ?>
+                </td>
+                <td>
+                  <?php echo $congViec->getNgayHoanThanh()->format('d-m-Y'); ?>
+                </td>
+              </tr>
+            <?php
             }
-            elseif($dieuKienLoc=='Đang xử lý'&&$congViec->getTrangThaiNhom()=='Đang xử lý')
-            {
-              echo '<tr class="purple">'; 
-                
-                $link=0;
-                if($congViec->getNguoiThucHiens())
-                {
-                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
-                  
-                  foreach ($nguoiThucHiens as $nguoiThucHien) {
-                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
-                    {
-                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
-                        $link=1;
-                      }                      
-                    }
-                  }
-                  
-                }
-                if ($link==1){
-                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                }
-                else{   
-                  echo '<td>'.$congViec->getTen().'</td>';
-                }      
-                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';
+            elseif($dieuKienLoc=='Đang xử lý'&&$congViec->getTrangThaiNhom()=='Đang xử lý'){
+              ?><tr class="purple">
+               
+                <td><a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen();?></a></td>
+                     
+                <td>
+                  <?php echo $congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen(); ?>
+                </td>
+                <td>
+                  <?php echo $congViec->getNgayHoanThanh()->format('d-m-Y'); ?>
+                </td>
+              </tr>
+            <?php
             }
-            elseif($dieuKienLoc=='Trễ hạn'&&$congViec->getTrangThaiNhom()=='Trễ hạn')
-            {
-              echo '<tr class="lightred">'; 
-                
-                $link=0;
-                if($congViec->getNguoiThucHiens())
-                {
-                  $nguoiThucHiens=$congViec->getNguoiThucHiens();
-                  
-                  foreach ($nguoiThucHiens as $nguoiThucHien) {
-                    if($nguoiThucHien->getVaiTro()=='Phân công'||$nguoiThucHien->getVaiTro()=='Cập nhật'||$nguoiThucHien->getVaiTro()=='Theo dõi')
-                    {
-                      if($nguoiThucHien->getNguoiThucHien()->getId()==$idUser){
-                        $link=1;
-                      }                      
-                    }
-                  }
-                  
-                }
-                if ($link==1){
-                  echo '<td><a href="'.$this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())).'">'.$congViec->getTen().'</a></td>';
-                }
-                else{   
-                  echo '<td>'.$congViec->getTen().'</td>';
-                }      
-                echo '<td>'.$congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen().'</td>';
-                echo '<td>'.$congViec->getNgayHoanThanh()->format('d-m-Y').'</td>';
-              echo '</tr>';
-            }
-
-              
+            elseif($dieuKienLoc=='Trễ hạn'&&$congViec->getTrangThaiNhom()=='Trễ hạn'){
+              ?><tr class="lightred">
+                <td><a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?></a></td>
+                <td>
+                  <?php echo $congViec->getNguoiTao()->getHo().' '.$congViec->getNguoiTao()->getTen(); ?>
+                </td>
+                <td>
+                  <?php echo $congViec->getNgayHoanThanh()->format('d-m-Y'); ?>
+                </td>
+              </tr>
+            <?php
+            }              
           }
         ?>          
         </tbody>

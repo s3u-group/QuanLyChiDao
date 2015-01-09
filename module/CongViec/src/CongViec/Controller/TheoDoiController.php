@@ -174,9 +174,13 @@ class TheoDoiController extends AbstractActionController
         $baoCao = new TheoDoi();
         $form->bind($baoCao);
 
-        $nguoiThucHiens=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        $nguoiThucHiens=$this->KiemTraQuyenCuaUser()->capNhatCongViec($id);
+        if(!$nguoiThucHiens){
+            $this->flashMessenger()->addMessage('Xin lỗi bạn không có quyền thêm báo cáo cho công việc này');
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
+        }
+        // lấy người thực hiện
         $nguoiThucHiens=$nguoiThucHiens->getNguoiThucHiens();
-        //die(var_dump($nguoiThucHiens));
 
         $request=$this->getRequest();
         if($request->isPost())
@@ -199,7 +203,7 @@ class TheoDoiController extends AbstractActionController
             }
             else
             {
-                die(var_dump($form->getMessages()));
+                //die(var_dump($form->getMessages()));
                 $this->flashMessenger()->addMessage('Thêm báo cáo thất bại!');
             }
         }
@@ -245,6 +249,16 @@ class TheoDoiController extends AbstractActionController
         } 
         $entityManager=$this->getEntityManager();
         $baoCao=$entityManager->getRepository('CongViec\Entity\TheoDoi')->find($id); 
+        
+        $idCongViec=$baoCao->getCongVan()->getId();
+
+        // kiểm tra công việc
+        $congViec=$this->KiemTraQuyenCuaUser()->capNhatCongViec($idCongViec);
+        if(!$congViec){
+            $this->flashMessenger()->addMessage('Xin lỗi bạn không có quyền cập nhật báo cáo trên công việc này');
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongViec));
+        }
+
         if($baoCao)
         {            
             $idCongVan=$baoCao->getCongVan()->getId();

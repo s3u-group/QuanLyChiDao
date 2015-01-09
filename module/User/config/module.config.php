@@ -6,6 +6,19 @@ return array(
 		)
 	),
 
+    'controller_plugins' => array(
+        'factories'=>array(
+            'kiemTraQuyenCuaUser' => function($sm){
+                $entityManager=$sm->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+                $serviceManager=$sm->getServiceLocator();
+                $kiemTraQuyenCuaUser=new User\Controller\Plugin\KiemTraQuyenCuaUser();
+                $kiemTraQuyenCuaUser->setEntityManager($entityManager);
+                $kiemTraQuyenCuaUser->setServiceManager($serviceManager);
+                return $kiemTraQuyenCuaUser;
+            },
+        ),
+    ),
+
 	'view_manager' => array(
         'template_path_stack' => array(
             'user' => __DIR__ . '/../view',
@@ -88,7 +101,14 @@ return array(
 
         'guards'=>array(
             'BjyAuthorize\Guard\Controller'=>array(                
-                
+                // ApplicationController
+                array(
+                    'controller'=>array('Application\Controller\Index'),
+                    'action'    =>array('app-info'),
+                    'roles'     =>array('ho-so-ca-nhan','admin'),
+                ),
+
+                //zfcuserController
                 array(
                     'controller'=>array('zfcuser'),  
                     'action'    =>array('login'),                 
@@ -98,30 +118,111 @@ return array(
                 array(
                     'controller'=>array('zfcuser'),  
                     'action'    =>array('logout'),                 
-                    'roles'     =>array('cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem'),
-                ),                
+                    'roles'     =>array('cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem','admin'),
+                ),   
 
                 array(
+                    'controller'=>array('zfcuser'),
+                    'action'    =>array('changepassword'),
+                    'roles'     =>array('doi-mat-khau','admin'),
+                ),            
+
+                /**
+                 * @var chưa sử dụng
+                 */
+                //CongVanController
+                array(
                     'controller'=>array('CongViec\Controller\CongVan'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array('index','cong-van-moi'),
+                    'roles'     =>array('admin'),
                 ),
+
+                //CongViecController
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('index'),
+                    'action'    =>array('index','chi-tiet-cong-viec'),
                     'roles'     =>array('cong-viec-can-xu-ly'),
                 ),
+
+                array(
+                    'controller'=>array('CongViec\Controller\CongViec'),
+                    'action'    =>array('giao-viec','chi-tiet-cong-viec','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
+                    'roles'     =>array('giao-viec-moi'),
+                ),
+
+                array(
+                    'controller'=>array('CongViec\Controller\CongViec'),
+                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec'),
+                    'roles'     =>array('nhat-ky-cong-viec'),
+                ),               
+
+                /**
+                 * @var chưa sử dụng
+                 */
+                // PhanCongController
                 array(
                     'controller'=>array('CongViec\Controller\PhanCong'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array(),
+                    'roles'     =>array('admin'),
                 ),
+                
+
+                // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array(''),
-                    'roles'     =>array(''),
+                    'action'    =>array('index','chi-tiet-cong-viec','bao-cao-moi','hoan-thanh'),
+                    'roles'     =>array('theo-doi-viec-da-giao','admin'),
                 ),
-              
+
+                array(
+                    'controller'=>array('CongViec\Controller\TheoDoi'),
+                    'action'    =>array('bao-cao-nghiem-thu','bao-cao-moi','chi-tiet-cong-viec','hoan-thanh'),
+                    'roles'     =>array('bao-cao-nghiem-thu','admin'),
+                ),
+
+                array(
+                    'controller'=>array('CongViec\Controller\TheoDoi'),
+                    'action'    =>array('huy-bao-cao'),
+                    'roles'     =>array('giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','admin'),
+                ),
+
+
+                // UserController
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('create-account','update'),
+                    'roles'     =>array('tao-tai-khoan','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('list'),
+                    'roles'     =>array('danh-sach-nhan-vien','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('tao-don-vi','sua-don-vi'),
+                    'roles'     =>array('tao-don-vi','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('danh-muc-don-vi'),
+                    'roles'     =>array('danh-muc-don-vi','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('phan-quyen','ajax-get-to-chuc','user-roles'),
+                    'roles'     =>array('phan-quyen','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('view'),
+                    'roles'     =>array('ho-so-ca-nhan','admin'),
+                ),
+
+                /**
+                 * @var admin có toàn quyền trên hệ thống
+                 */
+
             ),
         ),
     ),

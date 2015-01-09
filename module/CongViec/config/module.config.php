@@ -94,8 +94,16 @@ return array(
 
     'view_helpers'=>array(
         'invokables'=>array( 
-            'array_danh_sach_nguoi_thuc_hien'=>'CongViec\View\Helper\ArrayDanhSachNguoiThucHien',
-            'vaiTro' => 'CongViec\View\Helper\VaiTro'
+            'arrayDanhSachNguoiThucHien'=>'CongViec\View\Helper\ArrayDanhSachNguoiThucHien',
+            'vaiTro' => 'CongViec\View\Helper\VaiTro',            
+        ),
+        'factories'=>array(
+            'getVaiTroOfUser' => function($sm){
+                $serviceManager=$sm->getServiceLocator();
+                $getVaiTroOfUser=new \CongViec\View\Helper\GetVaiTroOfUser();
+                $getVaiTroOfUser->setServiceManager($serviceManager);
+                return $getVaiTroOfUser;
+            },
         ),
     ),
 
