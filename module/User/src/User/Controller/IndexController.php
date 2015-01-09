@@ -114,7 +114,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('cong_viec');
         }        
         $entityManager = $this->getEntityManager();        
-
+        $donVis = $entityManager->getRepository('User\Entity\DonVi')->findAll();
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
 
         $emailCu=$user->getEmail();        
@@ -128,7 +128,8 @@ class IndexController extends AbstractActionController
 
         $request = $this->getRequest();        
         if ($request->isPost()) {            
-            $form->setData($request->getPost());            
+            $form->setData($request->getPost());
+                die(var_dump($request->getPost()));
             if ($form->isValid()) {
                 $emailMoi=$user->getEmail();                
                 if($emailCu!=$emailMoi)
@@ -136,9 +137,10 @@ class IndexController extends AbstractActionController
                     $query=$entityManager->createQuery('SELECT u FROM User\Entity\User u WHERE u.email=\''.$emailMoi.'\'');
                     $email=$query->getResult();
                     if($email)
-                    {                        
+                    {
                         return array(
                             'form' => $form,
+                            'donVis'=>$donVis,
                             'id'=>$id,
                             'kiemTraEmail'=>1
                         );
@@ -162,6 +164,7 @@ class IndexController extends AbstractActionController
         } 
         return array(
             'form' => $form,
+            'donVis'=>$donVis,
             'id'=>$id,
             'kiemTraEmail'=>0,            
         );
@@ -186,19 +189,10 @@ class IndexController extends AbstractActionController
 
             $bcrypt = new Bcrypt();
             $bcrypt->setCost(14);
-
-            /*$passAdmin=$bcrypt->create($post['matKhauAdmin']);
-            $admin = $entityManager->getRepository('User\Entity\User')->find(1);
-            if($admin->getPassword()==$passAdmin)
-            {*/
-                $password = $post['matKhauMoi'];            
-                $user->setPassword ($bcrypt->create($password));
-                $entityManager->flush();  
-                return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
-            /*}
-            else
-            {                
-            }*/
+            $password = $post['matKhauMoi'];
+            $user->setPassword ($bcrypt->create($password));
+            $entityManager->flush();
+            return $this->redirect()->toRoute('user/crud',array('action'=>'list'));
         }
 
         return array(

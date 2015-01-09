@@ -169,12 +169,13 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                  'label' => 'Đơn vị',
                  'empty_option'=>'----------Chọn Đơn Vị----------',
                  'disable_inarray_validator' => true,
-                 'value_options' => $this->getDonViOptions($objectManager)
+                 //'value_options' => $this->getDonViOptions($objectManager)
              ),
              'attributes'=>array(
-                'required'=>'required',                
+                'required'=>'required',  
+                'value'=>'male'              
              ),
-         ));
+         ));        
 
         $this->add(array(
             'name' => 'congViecs',

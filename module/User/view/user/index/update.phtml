@@ -129,11 +129,17 @@
 	      <label>Đơn vị</label>
 			<?php
 			    $donVi=$nguoiDung->get('donVi');	      	
-		      	//$donVi->setAttribute('required','required');
-				//$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
-		      	echo $this->formElement($donVi);
+		      	$donVi->setAttribute('required','required');
+				$donVi->setValueOptions($this->MakeArrayOptionDonVi($donVis));
+				$donVi->setAttribute('class','ui dropdown');
+		      	//echo $this->formElement($donVi);
 		      	echo $this->formElementErrors($donVi);
-			  ?>			  
+			  ?>
+<select name="gender" class="ui dropdown" id="select" name="user[donVi]">
+  <option value="">Gender</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+</select>			  
 		</div>
 	  </div>
 	  <div class="fields">
@@ -161,8 +167,10 @@ $(document).ready(function(){
 
 	$('.ui.radio.checkbox').checkbox();
 
-	$('select.dropdown').dropdown();
-});
+	$('.ui.dropdown').dropdown();
+});$('#select')
+  .dropdown()
+;
 
 $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
