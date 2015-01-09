@@ -5,32 +5,32 @@
   <a class="active item" data-tab="first">TẠO TÀI KHOẢN</a>
 </div>
 <div class="ui bottom attached active tab segment" data-tab="first">
+<?php
+	$form->setAttribute('action', $this->url('user/crud', array('action'=>'create-account')));
+	$form->setAttribute('id','frmCreateAccount');
+		$form->setAttribute('onSubmit','return kiemTra();');
+	$form->setAttribute('role','form');
+	$form->prepare(); 
+	echo $this->form()->openTag($form);	      	
+	$nguoiDung = $form->get('user');	
+	echo $this->formHidden($nguoiDung->get('id'));
+
+	$nguoiDung->get('ngayTao')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('ngayTao'));
+	$nguoiDung->get('dangNhapCuoi')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
+	$nguoiDung->get('ngayChinhSua')->setAttribute('value',Date('Y-m-d'));
+	echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
+?>
 	<div class="ui small form segment">
 	  <div class="fields">
-	  	<div class="eight wide field">
-	      <label>Tên đăng nhập</label>
-	      <?php
-			$form->setAttribute('action', $this->url('user/crud', array('action'=>'create-account')));
-			$form->setAttribute('id','frmCreateAccount');
-  			$form->setAttribute('onSubmit','return kiemTra();');
-			$form->setAttribute('role','form');
-			$form->prepare(); 
-			echo $this->form()->openTag($form);	      	
-			$nguoiDung = $form->get('user');	
-			echo $this->formHidden($nguoiDung->get('id'));
-
-			$nguoiDung->get('ngayTao')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('ngayTao'));
-			$nguoiDung->get('dangNhapCuoi')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('dangNhapCuoi'));
-			$nguoiDung->get('ngayChinhSua')->setAttribute('value',Date('Y-m-d'));
-			echo $this->formHidden($nguoiDung->get('ngayChinhSua'));
-
+	  	<div class="eight wide field">	      
+	      <?php  
 	      	$username=$nguoiDung->get('username');
 	      	$username->setAttribute('required','required');
-	      	$username->setAttribute('autofocus','autofocus');
+	      	$username->setAttribute('autofocus','autofocus');	      	
+	      	echo $this->formLabel($username);
 	      	echo $this->formElement($username);
-
 	      	if($kiemTraUsername==1)
 	      	{
 	      		echo "<div class='ui red message'>Tên đăng nhập đã được sử dụng</div>";	      		

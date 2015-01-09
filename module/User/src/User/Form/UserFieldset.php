@@ -51,7 +51,8 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
         $this->add(array(
             'name' => 'username',
             'type' => 'text',
-            'options' => array(                
+            'options' => array(
+                'label'=>'Tên đăng nhập'
             ),
             'attributes' => array(
                 'placeholder' => 'Nhập tên đăng nhập'
