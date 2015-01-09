@@ -7,13 +7,14 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 
 use CongViec\Entity\CongViec;
+use CongViec\Form\CongVanFieldset;
 use CongViec\Form\PhanCongFieldset;
 
 class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
 {
     public function __construct(ObjectManager $objectManager, $sm = null)
     {
-        parent::__construct('congViecs');
+        parent::__construct('congViec');
 
         $this->setHydrator(new DoctrineHydrator($objectManager))
              ->setObject(new CongViec());
@@ -48,7 +49,10 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	'type' => 'textarea',
         	'options' => array(
         		'label' => 'Nội dung'
-        	)
+        	),
+            'attributes' => array(
+                'required' => 'required'
+            )
         ));
 
         $this->add(array(
@@ -58,7 +62,8 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         		'label' => 'Ngày bắt đầu'
         	),
             'attributes' => array(
-                'value' => date('Y-m-d')
+                'value' => date('Y-m-d'),
+                'required' => 'required'
             )
         ));
 
@@ -67,7 +72,10 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         	'type' => 'date',
         	'options' => array(
         		'label' => 'Ngày hoàn thành'
-        	)
+        	),
+            'attributes' => array(
+                'required' => 'required'
+            )
         ));
 
         $this->add(array(
@@ -97,6 +105,15 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
                 'class' => 'ui hidden'
             )
         ));
+
+        $fieldsetCongVan = new CongVanFieldset($objectManager);
+        $fieldsetCongVan->setUseAsBaseFieldset(true);
+        $this->add($fieldsetCongVan);
+
+        $this->add(array(
+            'type' => 'hidden',
+            'name' => 'nguoiTao'
+        ));
     }
 
     public function getInputFilterSpecification()
@@ -115,7 +132,7 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => true
             ),
             'ngayHoanThanh' => array(
-                'required' => false
+                'required' => true
             )
         );
     }

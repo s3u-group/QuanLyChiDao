@@ -6,6 +6,7 @@ use Zend\View\Model\JsonModel;
 
 use CongViec\Entity\CongVan;
 use CongViec\Entity\CongViec;
+use CongViec\Entity\PhanCong;
 use CongViec\Entity\DinhKem;
 use CongViec\Form\GiaoViecForm;
 use DateTime;
@@ -190,15 +191,22 @@ class CongViecController extends AbstractActionController
     public function giaoViecAction(){
         $entityManager = $this->getEntityManager();
         $form = new GiaoViecForm($entityManager, $this->getServiceLocator());
-        $congVan = new CongVan();
+        $congViec = new CongViec();
 
         $request = $this->getRequest();
         if($request->isPost()){
-            $form->bind($congVan);
+            $form->bind($congViec);
             $form->setData($request->getPost());
             if($form->isValid()){
-                $entityManager->persist($congVan);
+
+                $pcNguoiGiaoViec = new PhanCong();
+                $pcNguoiGiaoViec->setVaiTro(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
+                $pcNguoiGiaoViec->setNguoiThucHien($congViec->getCha()->getNguoiKy());
+                $congViec->addNguoiThucHiens(array($pcNguoiGiaoViec));
+
+                $entityManager->persist($congViec);
                 $entityManager->flush();
+                $form->bind($congViec);
             }
         }
 

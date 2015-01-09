@@ -11,9 +11,9 @@ use CongViec\Form\CongViecFieldset;
 
 class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(ObjectManager $objectManager, $sm = null)
+    public function __construct(ObjectManager $objectManager)
     {
-        parent::__construct('cong-van');
+        parent::__construct('cha');
 
         $this->setHydrator(new DoctrineHydrator($objectManager))
              ->setObject(new CongVan());
@@ -27,8 +27,11 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             'name' => 'soHieu',
             'type' => 'Text',
             'options'=>array(
-                'label' => 'Số hiệu'      
+                'label' => 'Số hiệu công văn'      
             ),
+            'attributes' => array(
+                'required' => 'required'
+            )
         ));
 
         $this->add(array(
@@ -46,7 +49,8 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Ngày ban hành'
             ),
             'attributes' => array(
-                'value' => date('Y-m-d')
+                'value' => date('Y-m-d'),
+                'required' => 'required'
             )
         ));
 
@@ -58,7 +62,8 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
                 'value_options' => $this->getNguoiKyOptions($objectManager)
             ),
             'attributes' => array(
-                'class' => 'ui dropdown'
+                'class' => 'ui dropdown',
+                'required' => 'required'
             )
         ));
 
@@ -73,11 +78,11 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        /*$fieldset = new CongViecFieldset($objectManager, $sm);
+        /*$fieldset = new CongViecFieldset($objectManager);
         $fieldset->setUseAsBaseFieldset(true);
         $this->add($fieldset);*/
 
-        $congViecFieldset = new CongViecFieldset($objectManager, $sm);
+        /*$congViecFieldset = new CongViecFieldset($objectManager);
         $this->add(array(
             'type' => 'Zend\Form\Element\Collection',
             'name' => 'congViecs',
@@ -88,7 +93,7 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
             //    'allow_add' => true,
                 'target_element' => $congViecFieldset
             ),
-        ));
+        ));*/
        
     }
     public function getInputFilterSpecification()
