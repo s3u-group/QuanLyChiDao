@@ -92,12 +92,16 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 
         $this->add(array(
             'name' => 'gioiTinh',
-            'type' => 'hidden',
+            'type' => 'radio',
             'attributes' => array(
 
             ),
             'options' => array(
-                'label' => 'Giới tính'
+                'label' => 'Giới tính',
+                'value_options'=>array(
+                    '1'=>'Nam',
+                    '2'=>'Nữ'
+                ),
             )
         ));
 
