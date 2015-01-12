@@ -81,22 +81,24 @@
         </div>
       </div>
     </div>
-    </form>
-    <div class="sixteen wide column fluid">
+  </form>  
+  <div class="sixteen wide column fluid">
+    <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-bao-cao')); ?>">
       <table class="ui table" id="tblTatCa">
         <thead>
           <tr>
-            
             <th>Chủ đề</th>
             <th>Người tạo công việc</th>
             <th>Hạn xử lý</th>            
           </tr>
         </thead>
         <tbody>
-        <?php
+        <?php          
           foreach ($congViecs as $congViec) {
             if($dieuKienLoc=='Hoàn thành'&&$congViec->getTrangThaiNhom()=='Hoàn thành')
-            {?><tr class="green">                
+            { ?>
+          <input type="hidden" name="mangId[]" value="<?php echo $congViec->getId();?>" />
+              <tr class="green">
                 <td>
                   <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?>
                   </a>
@@ -111,7 +113,9 @@
             <?php 
             }
             elseif($dieuKienLoc=='Chưa xem'&&$congViec->getTrangThaiNhom()=='Chưa xem')
-            { ?><tr class="blue">               
+            { ?>
+          <input type="hidden" name="mangId[]" value="<?php echo $congViec->getId();?>" />
+              <tr class="blue">
                 <td>
                   <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?>
                   </a>
@@ -126,7 +130,9 @@
             <?php 
             }
             elseif($dieuKienLoc=='Đang xử lý'&&$congViec->getTrangThaiNhom()=='Đang xử lý')
-            {?> <tr class="purple">                
+            { ?> 
+          <input type="hidden" name="mangId[]" value="<?php echo $congViec->getId();?>" />
+              <tr class="purple">  
                 <td>
                   <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?>
                   </a>
@@ -141,7 +147,9 @@
             <?php 
             }
             elseif($dieuKienLoc=='Trễ hạn'&&$congViec->getTrangThaiNhom()=='Trễ hạn')
-            { ?> <tr class="lightred">
+            { ?>
+          <input type="hidden" name="mangId[]" value="<?php echo $congViec->getId();?>" />
+              <tr class="lightred">
                 <td>
                   <a href="<?php echo $this->url('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())); ?>"><?php echo $congViec->getTen(); ?>
                   </a>
@@ -157,9 +165,10 @@
           }
         ?>          
         </tbody>
-      </table>
-    </div>
-    <div class="right aligned sixteen wide column">                  
+      </table>      
+  </div>
+
+  <div class="right aligned sixteen wide column">                  
       <table align="right">
         <tr style="text-align:left;">
           <td>
@@ -194,8 +203,11 @@
           </td>
         </tr> 
       </table>              
-    </div>
   </div>
+  <div class="sixteen wide column">
+    <input class="tiny ui button item"value="Xuất báo cáo" type="submit">
+  </div>
+  </form>
 </div>
 
 <script type="text/javascript">

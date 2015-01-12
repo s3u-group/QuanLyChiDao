@@ -145,13 +145,13 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('giao-viec','chi-tiet-cong-viec','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
+                    'action'    =>array('giao-viec','ajax-get-to-chuc','chi-tiet-cong-viec','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
                     'roles'     =>array('giao-viec-moi'),
                 ),
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec'),
+                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec','xuat-bao-cao'),
                     'roles'     =>array('nhat-ky-cong-viec'),
                 ),               
 
