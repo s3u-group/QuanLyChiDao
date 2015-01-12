@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `cong_van`(
   `id`              bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `so_hieu`         varchar(255) DEFAULT NULL,
+  `so_hieu`         varchar(255) DEFAULT NULL UNIQUE,
   `ten`             varchar(255) DEFAULT NULL,
   `loai_id`         bigint(20) unsigned,
   `linh_vuc_id`     bigint(20) unsigned,

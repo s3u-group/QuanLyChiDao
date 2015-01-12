@@ -197,6 +197,10 @@ class CongViecController extends AbstractActionController
         if($request->isPost()){
             $form->bind($congViec);
             $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
             if($form->isValid()){
 
                 $pcNguoiGiaoViec = new PhanCong();
@@ -206,6 +210,10 @@ class CongViecController extends AbstractActionController
 
                 $entityManager->persist($congViec);
                 $entityManager->flush();
+
+                $post = $post['congViec']['dinhKems'];
+                $this->dinhKemMoi($entityManager, $post, $congViec);
+
                 $form->bind($congViec);
             }
         }
@@ -310,6 +318,13 @@ class CongViecController extends AbstractActionController
         $entityManager=$this->getEntityManager();
         $dinhKem=$entityManager->getRepository('CongViec\Entity\DinhKem')->find($id);
         $idCongViec=$dinhKem->getCongVan()->getId();
+
+        if(!$this->KiemTraQuyenCuaUser()->huyDinhKem($idCongViec)){
+            $this->flashMessenger()->addMessage('Xin lỗi bạn không có quyền hủy đính kèm của công việc này');
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongViec));
+     
+        }
+
         $ymd=$dinhKem->getCongVan()->getNgayTao()->format('Y/m/d');
         $path="./public/filedinhkems/".$ymd.'/';
         $mask =__ROOT_PATH__.'/public/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
@@ -322,13 +337,18 @@ class CongViecController extends AbstractActionController
     
 
     public function hoanThanhAction()
-    {
+    {        
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'index'));
         }
+
         $entityManager=$this->getEntityManager();
-        $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        $congViec=$this->KiemTraQuyenCuaUser()->capNhatCongViec($id);
+        if(!$congViec){
+            $this->flashMessenger()->addMessage('Xin lỗi bạn không có quyền cập nhật công việc này');
+            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
+        }
         
         $ngayHienTai=date('Y-m-d');        
         $ngayHoanThanh=$congViec->getNgayHoanThanh()->format('Y-m-d');

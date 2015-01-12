@@ -3,25 +3,25 @@ use CongViec\Entity\CongViec;
 use CongViec\Entity\TheoDoi;
 
 
-	if ($this->flashMessenger()->hasMessages()) 
-	{
-    	echo '<div class="ui positive message">
-  				<i id="btFm" class="close icon"></i>
-  				<div class="header">';
+if ($this->flashMessenger()->hasMessages()) 
+{
+	echo '<div class="ui positive message">
+				<i id="btFm" class="close icon"></i>
+				<div class="header">';
 
-    	$messages = $this->flashMessenger()->getMessages();
-    	foreach($messages as $message) {
-        	echo $message;
-    	}
-    	echo '</div></div>';
+	$messages = $this->flashMessenger()->getMessages();
+	foreach($messages as $message) {
+    	echo $message;
+	}
+	echo '</div></div>';
 
-    	echo '
-	    <script type="text/javascript">
-	        setTimeout(function(){
-	            document.getElementById("btFm").click();
-	        },5000);
-	    </script>';
-    }	
+	echo '
+    <script type="text/javascript">
+        setTimeout(function(){
+            document.getElementById("btFm").click();
+        },5000);
+    </script>';
+}
 ?>
 <div class="sixteen wide column row"><h3>Chi tiết công việc</h3></div>	
 <div class="ui top attached tabular menu">
@@ -132,7 +132,7 @@ use CongViec\Entity\TheoDoi;
  	$form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'chi-tiet-cong-viec','id'=>$congViec->getId())));
 	$form->prepare();
 	echo $this->form()->openTag($form);
-	$capNhatCongViec=$form->get('congViecs');
+	$capNhatCongViec=$form->get('congViec');
 	echo $this->formHidden($capNhatCongViec->get('id'));
 ?>
 	<div class="ui form">
@@ -186,10 +186,17 @@ use CongViec\Entity\TheoDoi;
 					}
 					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl(); ?>
 					<a href="<?php echo $link ?>" class="blue"><?php echo $fileName; ?></a>&nbsp;&nbsp;
-					<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Hủy</a>
-				<?php
+					<?php
+					/**
+					 * @var nếu user đang đăng nhập chính là người tạo thì hiển thị links hủy
+					 * 		ngược lại thì không hiển thị
+					 */
+					if($this->GetVaiTroOfUser()->enableButtonUpdate($congViec)){ ?>
+						<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'xoa-dinh-kem','id'=>$dinhKem->getId())); ?>">Hủy</a>
+					<?php
+					}					
 				}
-			?>
+				?>
 			
 		</div>
 		</div>
@@ -198,16 +205,24 @@ use CongViec\Entity\TheoDoi;
 			<?php echo $this->formRow($capNhatCongViec->get('dinhKems')); ?>
 			</div>
 		</div>
-
-		<div class="sixteen wide column row right aligned">
-			<div class="fields">
-				<div class="sixteen wide field">
-				<?php 
-					$form->get('submit')->setAttribute('class','ui button blue');
-					echo $this->formSubmit($form->get('submit')); ?>
+		<?php
+		/**
+		 * @var nếu user đang đăng nhập chính là người tạo thì hiển thị button lưu
+		 * 		ngược lại thì không hiển thị
+		 */
+		if($this->GetVaiTroOfUser()->enableButtonUpdate($congViec)){ ?>
+			<div class="sixteen wide column row right aligned">
+				<div class="fields">
+					<div class="sixteen wide field">
+					<?php 
+						$form->get('submit')->setAttribute('class','ui button blue');
+						echo $this->formSubmit($form->get('submit')); ?>
+					</div>
 				</div>
 			</div>
-		</div>
+		<?php
+		}
+		?>
 	</div>
 	<?php
 	echo $this->form()->closeTag();
@@ -222,7 +237,17 @@ use CongViec\Entity\TheoDoi;
 			<th>Ngày báo cáo</th>
 			<th>Người tạo báo cáo</th>
 			<th>Đính kèm</th>
-			<th>Hủy</th>
+			<?php 
+			/**
+			 * @var nếu có quyền cập nhật công việc tức là có quyền hủy
+			 */
+			
+			if($this->GetVaiTroOfUser()->capNhatCongViec($congViec)){
+			?>
+				<th>Hủy</th>
+			<?php
+			}
+			?>
 		</tr>
 	</thead>
 	<tbody>
@@ -246,9 +271,7 @@ use CongViec\Entity\TheoDoi;
 			echo '<td>';
 				echo $theoDoi->getNguoiTao()->getHo().' '.$theoDoi->getNguoiTao()->getTen();
 			echo '</td>';
-			echo '<td>'; ?>
-				<!-- <table> -->
-				<?php
+			echo '<td>'; 
 				$ymd=$theoDoi->getNgayBaoCao()->format('Y/m/d');
 				
 				
@@ -268,15 +291,18 @@ use CongViec\Entity\TheoDoi;
 					
 					$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
 					echo '<a href="'.$link.'">'.$fileName.'</a>'; 						
-				}
-				?>				
-				<!-- </table> -->
-			<?php 
-			echo '</td>'; ?>
+				}				
+			/**
+			 * @var nếu có quyền cập nhật công việc tức là có quyền hủy
+			 */
+			
+			if($this->GetVaiTroOfUser()->capNhatCongViec($congViec)){
+			?>
 			<td>
 				<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'huy-bao-cao','id'=>$theoDoi->getId())); ?>"><i class="large inverted red trash icon"></i></a>
 			</td>
 		<?php
+			}
 		echo '</tr>';
 
 	}
@@ -284,27 +310,24 @@ use CongViec\Entity\TheoDoi;
 		
 	</tbody>
 </table>
-<?php 
-	if($congViec->getTrangThai()==CongViec::HOAN_THANH||$congViec->getTrangThai()==CongViec::TRE_HAN)
-	{?>
-		<div class="sixteen wide column row right aligned">
-			<input type="submit" value="Hoàn thành" class="ui button green">&nbsp;
-			<input type="submit" value="Báo cáo mới" class="ui button blue">
-		</div>
-	<?php
-	}
-	else{ ?>
+	<?php 
+	/**
+	 * @var nếu có quyền cập nhật công việc thì hiển thị link cập nhật công việc
+	 */
+	
+	if($this->GetVaiTroOfUser()->capNhatCongViec($congViec)){
+	?>
 		<div class="sixteen wide column row right aligned">
 			<a href="<?php echo $this->url('cong_viec/crud',array('action'=>'hoan-thanh','id'=>$congViec->getId())); ?>">
-			<input type="submit" id="btnHoanThanh" value="Hoàn thành" class="ui button green">
-			</a>
+			<input type="submit" id="btnHoanThanh" value="Hoàn thành" class="ui button green"></a>
 			&nbsp;
 			<a href="<?php echo $this->url('theo_doi/crud',array('action'=>'bao-cao-moi','id'=>$congViec->getId())); ?>">
 			<input type="submit" id="btnBaoCaoMoi" value="Báo cáo mới" class="ui button blue">
 			</a>
 		</div>
 	<?php
-	}
+	}		
+	
 ?>
 
 <script type="text/javascript">
