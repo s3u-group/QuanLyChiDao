@@ -45,7 +45,8 @@ INSERT INTO `user_role` (`id`, `roleId`, `role_name`, `is_default`, `parent_id`)
 (11, 'phan-quyen', 'PhÃ¢n quyá»n', 0, NULL),
 (12, 'ho-so-ca-nhan', 'Há»“ sÆ¡ cÃ¡ nhÃ¢n', 0, NULL),
 (13, 'doi-mat-khau', 'Äá»•i máº­t kháº©u', 0, NULL),
-(14, 'thong-tin-phan-mem', 'ThÃ´ng tin pháº§n má»n', 0, NULL);
+(14, 'thong-tin-phan-mem', 'ThÃ´ng tin pháº§n má»n', 0, NULL),
+(15, 'admin', 'Admin', 0, NULL);
 
 
 CREATE TABLE IF NOT EXISTS `user_role_linker` (
