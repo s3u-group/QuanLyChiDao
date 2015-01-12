@@ -49,30 +49,46 @@
           <th>Giới tính</th>
           <th>Điện thoại</th>
           <th>Địa chỉ</th>
-          <th>Thuộc đơn vị</th>
-          <?php //if($this->zfcUserIdentity()->getId()==1){?>
-          <th>Cập nhật</th>
-          <?php //} ?>
+          <th>Thuộc đơn vị</th>          
+          <th>Cập nhật</th>          
         </tr>
       </thead>
       <tbody>
-      	<?php foreach($users as $user):?>
-			<tr>					
+      	<?php 
+          $i=0;
+          foreach($users as $user):
+            if($i==0)
+            {
+        ?>
+			<tr>
 				<td><?php echo $this->escapeHtml($user->getDisplayName()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getHo()).' '.$this->escapeHtml($user->getTen()); ?></td>				
 				<td><?php echo $this->escapeHtml($user->getGioiTinh()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
 				<td><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>
-        <td><?php echo $this->escapeHtml($user->getDonVi()->getTenDonVi()) ?></td>
-        <?php //if($this->zfcUserIdentity()->getId()==1){?>
+        <td><?php echo $this->escapeHtml($user->getDonVi()->getTenDonVi()) ?></td>        
 				<td>          
           <a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>" title="Sửa thông tin"><i class="edit icon"></i></a>            
-        </td>
-        <?php //} ?>
+        </td>        
 			</tr>
-			<?php endforeach; ?>
+			<?php 
+        $i=1;
+        }else
+        {?>
+      <tr>
+        <td class="positive"><?php echo $this->escapeHtml($user->getDisplayName()) ?></td>
+        <td class="positive"><?php echo $this->escapeHtml($user->getHo()).' '.$this->escapeHtml($user->getTen()); ?></td>        
+        <td class="positive"><?php echo $this->escapeHtml($user->getGioiTinh()) ?></td>
+        <td class="positive"><?php echo $this->escapeHtml($user->getDienThoai()) ?></td>
+        <td class="positive"><?php echo $this->escapeHtml($user->getDiaChi()) ?></td>
+        <td class="positive"><?php echo $this->escapeHtml($user->getDonVi()->getTenDonVi()) ?></td>        
+        <td class="positive">          
+          <a href="<?php echo $this->url('user/crud', array('action'=>'update', 'id'=>$user->getId())) ?>" title="Sửa thông tin"><i class="edit icon"></i></a>            
+        </td>        
+      </tr>
+        <?php $i=0;} endforeach; ?>
       </tbody>
-    </table>
+    </table>    
 </div>
     
 <script type="text/javascript">
