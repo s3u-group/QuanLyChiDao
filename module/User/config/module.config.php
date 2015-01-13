@@ -151,7 +151,7 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec','xuat-bao-cao'),
+                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec','xuat-bao-cao','xuat-bao-cao-qua-trinh'),
                     'roles'     =>array('nhat-ky-cong-viec'),
                 ),               
 

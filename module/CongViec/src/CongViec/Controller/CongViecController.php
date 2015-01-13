@@ -412,8 +412,7 @@ class CongViecController extends AbstractActionController
     }
 
     public function xuatBaoCaoAction()
-    {
-        
+    {        
         $entityManager=$this->getEntityManager();
         $request=$this->getRequest();
         if($request->isPost())
@@ -437,7 +436,7 @@ class CongViecController extends AbstractActionController
                 $objPHPExcel = new PHPExcel();                
                 $fileName='bao_cao';
                 $tieuDe='NHẬT KÝ CÔNG VIỆC';                
-                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
+                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện/ Người chủ trì',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
                 $PI_ExportExcel=$this->ExportExcel();
                 $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
             }
@@ -467,7 +466,7 @@ class CongViecController extends AbstractActionController
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);        
+        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);
 
         $objPHPExcel->getActiveSheet()->setCellValue('A2', $fieldName[0])
                                       ->setCellValue('B2', $fieldName[1])
@@ -481,15 +480,24 @@ class CongViecController extends AbstractActionController
 
         foreach(array('A','B','D','E','F') as $columnID) {
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        }        
+        }
+
         foreach ($congViecs as $index => $congViec) {            
+            $nguoiThucHiens=$congViec->getNguoiThucHiens();
+            foreach ($nguoiThucHiens as $nguoiThucHien)
+            {
+                if($nguoiThucHien->getVaiTro()==4)
+                {                    
+                    $chuTri=$nguoiThucHien->getNguoiThucHien()->getHoTen();
+                }                
+            }            
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
-
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu());
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getCha()->getSoHieu()."\n".$congViec->getCha()->getNguoiKy()->getHoTen());
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
-            $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,'');
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,$chuTri);
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$dong, date_format($congViec->getNgayHoanThanh(), 'd-m-Y'));
             if($congViec->getTrangThai()==0)
             {
@@ -517,5 +525,59 @@ class CongViecController extends AbstractActionController
         foreach(range('A','F') as $columnID) {
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }        
+    }
+
+    public function xuatBaoCaoQuaTrinhAction()
+    {
+        $entityManager=$this->getEntityManager();
+        $request=$this->getRequest();
+        if($request->isPost())
+        {
+            die(var_dump('Dang xay dung'));
+        /*
+            $mangIds=$request->getPost()->get('mangId');
+            $mang='';                
+            $i = 0;
+            $len = count($mangIds);
+            foreach ($mangIds as $mangId) {
+                $mang.=''.$mangId.'';
+                if ($i != $len - 1)
+                {
+                    $mang.=',';
+                }
+                $i++;
+            }                
+            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\TheoDoi td WHERE td.id IN ('.$mang.')');
+            $theoDois=$query->getResult();                
+            $objPHPExcel = new PHPExcel();                
+            $fileName='bao_cao_qua_trinh';
+            $tieuDe='DANH SÁCH BÁO CÁO QUÁ TRÌNH THỰC HIỆN CÔNG VIỆC';                
+            $fieldName=array(0=>'Tên công việc',1=>'Ngày ban hành',2=>'Hạn xử lý',3=>'Trạng thái',4=>'STT',5=>'Nội dung',6=>'Ngày báo cáo', 7=>'Người tạo báo cáo');
+            $PI_ExportExcel=$this->ExportExcel();
+            $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois));*/
+        }
+        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'nhat-ky-cong-viec'));
+    }
+
+    public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois)
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        else
+        {
+            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
+        }
+
+        $entityManager=$this->getEntityManager();        
+        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');        
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);
     }
 }
