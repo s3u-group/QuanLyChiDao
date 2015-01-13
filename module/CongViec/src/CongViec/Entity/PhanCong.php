@@ -65,6 +65,10 @@ class PhanCong
 	}
 
 	public function getVaiTro(){
+		return $this->vaiTro;
+	}
+
+	public function getVaiTroLabel(){
 		switch ($this->vaiTro) {			
 			case '1':
 				return 'Phân công';

@@ -459,7 +459,7 @@ class User implements UserInterface, ProviderInterface
         $phanCongs = $congViec->getNguoiThucHiens();
         foreach($phanCongs as $phanCong){
             if($phanCong->getNguoiThucHien()->getId() == $this->id){
-                return $phanCong->getVaiTro();
+                return $phanCong->getVaiTroLabel();
             }
         }
     }

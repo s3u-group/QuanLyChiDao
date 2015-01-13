@@ -92,6 +92,18 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'invokables' => array(
+        ),
+        'factories' => array(
+            'cong_viec' => function($sm){
+                $congViec = new \CongViec\Service\CongViec();
+                $congViec->setServiceManager($sm);
+                return $congViec;
+            }
+        ),
+    ),
+
     'view_helpers'=>array(
         'invokables'=>array( 
             'arrayDanhSachNguoiThucHien'=>'CongViec\View\Helper\ArrayDanhSachNguoiThucHien',

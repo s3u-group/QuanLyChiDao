@@ -8,6 +8,8 @@ use CongViec\Entity\DinhKemTheoDoi;
 use CongViec\Form\TheoDoiForm;
 use CongViec\Form\TheoDoiFieldset;
 
+use CongViec\Form\LocForm;
+
 class TheoDoiController extends AbstractActionController
 {
 	protected $entityManager;
@@ -20,7 +22,104 @@ class TheoDoiController extends AbstractActionController
         }
         return $this->entityManager;
     }
+
     public function indexAction(){
+        if(!$this->zfcUserAuthentication()->hasIdentity()) {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        else {
+            $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+        }
+
+        $entityManager=$this->getEntityManager();  
+
+        $form = new LocForm();
+
+        $request=$this->getRequest();
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('cv')
+            ->from('CongViec\Entity\CongViec', 'cv')
+            ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+            ->leftJoin('cv.cha', 'c')
+            ->leftJoin('c.nguoiKy', 'nk')
+            ->where('cv.trangThai in (?2)')
+            ->andWhere('pc.vaiTro != ?50')
+            ->setParameter(1, $userId)
+            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+            ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ;
+
+        if($request->isPost()){
+            $post = $request->getPost();
+
+            /**
+             * Thoi gian
+             */
+            if(isset($post['tuNgay']) && $post['tuNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh >= ?3');
+                $qb->setParameter(3, $post['tuNgay']);
+            }
+            if(isset($post['denNgay']) && $post['denNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh <= ?4');
+                $qb->setParameter(4, $post['denNgay']);
+            }
+
+            /**
+             * Trang thai
+             */
+            switch ($post['trangThai']) {
+                case '1':
+                    // chua xu ly
+                    $qb->andWhere('cv.trangThai = ?5');
+                    $qb->setParameter(5, \CongViec\Entity\CongViec::CHUA_XEM);
+                    break;
+                case '2':
+                    // dang xu ly
+                    $qb->andWhere('cv.trangThai = ?6');
+                    $qb->setParameter(6, \CongViec\Entity\CongViec::DANG_XU_LY);
+                    break;
+                case '3':
+                    // qua han
+                    $qb->andWhere('cv.ngayHoanThanh <= ?7');
+                    $date = new DateTime('now');
+                    $qb->setParameter(7, $date->format('Y-m-d H:i:s'));
+                    break;
+                case '4':
+                    // tat ca
+                    break;
+            }
+
+            /**
+             * Tim nhanh
+             */
+            if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
+                if($post['tieuChi'] == 1){
+                    // tim theo chu de
+                    $qb->andWhere('cv.ten like ?8');
+                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                }
+                else{
+                    // tim theo ten nguoi ky
+                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                }
+            }
+
+            $form->setData($post);
+        }
+        
+        //var_dump($qb->getDql());
+        $query = $qb->getQuery();
+        $congViecs = $query->getResult();
+
+        return array(
+            'form' => $form,
+            'congViecs'=>$congViecs,
+        );
+
+    }
+    
+    public function aindexAction(){
         
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {

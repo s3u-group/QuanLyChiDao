@@ -484,12 +484,13 @@ class CongViecController extends AbstractActionController
         }
 
         foreach ($congViecs as $index => $congViec) {
+            $congVan = $congViec->getCongVan();
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu().$congViec->getNguoiKy()->getHoTen());
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congVan->getSoHieu().$congVan->getNguoiKy()->getHoTen());
             $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu()."\n".$congViec->getNguoiKy()->getHoTen());            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congVan->getSoHieu()."\n".$congVan->getNguoiKy()->getHoTen());            
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,'');
