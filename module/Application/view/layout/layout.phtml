@@ -45,8 +45,8 @@
                   <a href="<?php echo $this->url('user/crud', array('action'=>'view')); ?>" class="item">
                     Chào <strong><?php echo $this->zfcUserIdentity()->getUsername();?></strong>
                   </a>
+                  <a href="<?php echo $this->url('zfcuser/logout'); ?>" class="item">Đăng xuất</a>
                 <?php endif; ?> 
-                <a href="<?php echo $this->url('zfcuser/logout'); ?>" class="item">Đăng xuất</a>
               </div>
             </div>
           </div>

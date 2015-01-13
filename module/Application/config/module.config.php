@@ -102,7 +102,9 @@ return array(
     ),
     'view_helpers'=>array(
         'invokables'=>array(
-            'formJqxDate'=>'Application\View\Helper\FormDate',
+            'formJqxDate'=>'Application\Form\View\Helper\FormDate',
+            'jqxDate' => 'Application\Form\View\Helper\Date',
+            'formLocRadio' => 'Application\Form\View\Helper\FormLocRadio'
         ),
     ),
     // Placeholder for console routes

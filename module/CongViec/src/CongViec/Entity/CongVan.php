@@ -15,7 +15,7 @@ use Datetime;
  */
 class CongVan 
 {
-	// tre han : ngay hien tai > ngay hoan thanh & chua hoan thanh
+	// tre han : hoan thanh tre han
 	const DA_HUY = 0;
 	const CHUA_XEM = 1;
 	const DANG_XU_LY = 5;
@@ -128,6 +128,8 @@ class CongVan
      */
     protected $congViecs;
 
+    protected $quaHan = false;
+
     /**
 	 * @ORM\PrePersist 
 	 */
@@ -140,6 +142,17 @@ class CongVan
 		    $user = $auth->getIdentity();
 		    $this->nguoiTao = $user;
 		}*/
+	}
+
+	/**
+	 * @ORM\PostLoad
+	 */
+	public function onPostLoad(){
+		$date = new DateTime('now');
+		if($this->ngayHoanThanh <= $date)
+			$this->quaHan = true;
+		else 
+			$this->quaHan = false;
 	}
 
     public function __construct()
@@ -343,6 +356,10 @@ class CongVan
 		return $this->cha;
 	}
 
+	public function getCongVan(){
+		return $this->cha;
+	}
+
     public function addDinhKems($dinhKems){
         foreach ($dinhKems as $dinhKem) {
             $this->dinhKems->add($dinhKem);
@@ -409,5 +426,9 @@ class CongVan
 
     public function getCongViecs(){
     	return $this->congViecs->toArray();
+    }
+
+    public function isQuaHan(){
+    	return $this->quaHan;
     }
 }

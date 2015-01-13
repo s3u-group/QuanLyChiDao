@@ -12,6 +12,8 @@ use CongViec\Form\GiaoViecForm;
 use DateTime;
 use CongViec\Form\CapNhatCongViecForm;
 
+use CongViec\Form\LocForm;
+
 
 class CongViecController extends AbstractActionController
 {
@@ -27,96 +29,98 @@ class CongViecController extends AbstractActionController
     }
 
     public function indexAction(){
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
+        if(!$this->zfcUserAuthentication()->hasIdentity()) {
            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        else
-        {
-            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
+        else {
+            $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
         }
-        
-        $dieuKienLoc='';
-        $dieuKien='';
-        $tuNgay='';
-        $denNgay='';
-        $duLieu='';
 
+        $entityManager=$this->getEntityManager();  
 
-        $entityManager=$this->getEntityManager();           
+        $form = new LocForm();
+
         $request=$this->getRequest();
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('cv')
+            ->from('CongViec\Entity\CongViec', 'cv')
+            ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+            ->leftJoin('cv.cha', 'c')
+            ->leftJoin('c.nguoiKy', 'nk')
+            ->where('cv.trangThai in (?2)')
+            ->setParameter(1, $userId)
+            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
+
+        if($request->isPost()){
+            $post = $request->getPost();
+
+            /**
+             * Thoi gian
+             */
+            if(isset($post['tuNgay']) && $post['tuNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh >= ?3');
+                $qb->setParameter(3, $post['tuNgay']);
+            }
+            if(isset($post['denNgay']) && $post['denNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh <= ?4');
+                $qb->setParameter(4, $post['denNgay']);
+            }
+
+            /**
+             * Trang thai
+             */
+            switch ($post['trangThai']) {
+                case '1':
+                    // chua xu ly
+                    $qb->andWhere('cv.trangThai = ?5');
+                    $qb->setParameter(5, \CongViec\Entity\CongViec::CHUA_XEM);
+                    break;
+                case '2':
+                    // dang xu ly
+                    $qb->andWhere('cv.trangThai = ?6');
+                    $qb->setParameter(6, \CongViec\Entity\CongViec::DANG_XU_LY);
+                    break;
+                case '3':
+                    // qua han
+                    $qb->andWhere('cv.ngayHoanThanh <= ?7');
+                    $date = new DateTime('now');
+                    $qb->setParameter(7, $date->format('Y-m-d H:i:s'));
+                    break;
+                case '4':
+                    // tat ca
+                    break;
+            }
+
+            /**
+             * Tim nhanh
+             */
+            if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
+                if($post['tieuChi'] == 1){
+                    // tim theo chu de
+                    $qb->andWhere('cv.ten like ?8');
+                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                }
+                else{
+                    // tim theo ten nguoi ky
+                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                }
+            }
+
+            $form->setData($post);
+        }
         
-        if($request->isPost())
-        {           
-            $post=$request->getPost();
-            //die(var_dump($post));
-            if($post['btnSubmit']!='Xem hết')
-            {
-                $dk='';
-                $dieuKienLoc=$post['dieuKienLoc'];
-                $dieuKien=$post['dieuKien'];
-                $tuNgay=$post['tuNgay'];
-                $denNgay=$post['denNgay'];
-                $duLieu=$post['txtDuLieu'];
-                if($post['txtDuLieu'])
-                {
-                    if($post['dieuKien']=='ten'){
-                        $dk.=' and cv.ten LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-                    }
-                    elseif($post['dieuKien']=='nguoiTao'){
-                        $dk.='and u.username LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-                    }
-                }
-                if($post['tuNgay']!=''&&$post['denNgay']!='')
-                {
-                    $dk.='and cv.ngayHoanThanh >=\''.$post['tuNgay'].'\''.' and cv.ngayHoanThanh <=\''.$post['denNgay'].'\'';
-                }
-                elseif ($post['tuNgay']==''&&$post['denNgay']!='') {
-                    $dk.='and cv.ngayHoanThanh <=\''.$post['denNgay'].'\'';
-                }
-                elseif ($post['denNgay']==''&&$post['tuNgay']!='') {
-                    $dk.='and cv.ngayHoanThanh >=\''.$post['tuNgay'].'\'';
-                }             
-                if($dk!='')
-                {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
-                }
-                elseif($dk=='')
-                {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-                }
+        //var_dump($qb->getDql());
+        $query = $qb->getQuery();
+        $congViecs = $query->getResult();
 
-                $congViecs=$query->getResult();
-                
-                
-            }
-            else
-            {
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-                $congViecs=$query->getResult();
-            }
-        }
-        else
-        {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.trangThai!='.CongViec::TRE_HAN.' and cv.trangThai!='.CongViec::HOAN_THANH.' and cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-            $congViecs=$query->getResult();
-        }
-        if($dieuKienLoc=='')
-        {
-            $dieuKienLoc='Tất cả';
-        }
-
-        /*die(var_dump($congViecs));*/
         return array(
+            'form' => $form,
             'congViecs'=>$congViecs,
-            'dieuKienLoc'=>$dieuKienLoc,
-            'tuNgay'=>$tuNgay,
-            'denNgay'=>$denNgay,
-            'duLieu'=>$duLieu,
-            'dieuKien'=>$dieuKien,
         );
-        
+
     }
+    
     public function nhatKyCongViecAction(){
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
@@ -257,7 +261,7 @@ class CongViecController extends AbstractActionController
             $data = $request->getPost();
             $id = $data['id'];
             $query = $entityManager->createQuery('select u from User\Entity\User u where u.id = :id');
-            $query->setParamater('id', $id);
+            $query->setParameter('id', $id);
             $nhanVien = $query->getResult();
             $response = array(
                 'id' => $id,
