@@ -434,7 +434,7 @@ class CongViecController extends AbstractActionController
                 $objPHPExcel = new PHPExcel();                
                 $fileName='bao_cao';
                 $tieuDe='BẢNG CẬP NHẬT CÔNG VĂN CHỈ ĐẠO GIAO CÁC PHÒNG BAN THÀNH PHỐ';                
-                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện-Tình trạng xử lý');
+                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
                 $PI_ExportExcel=$this->ExportExcel();
                 $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
             }
