@@ -478,9 +478,8 @@ class CongViecController extends AbstractActionController
 
         foreach(array('A','B','D','E','F') as $columnID) {
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        }
-
-        foreach ($congViecs as $index => $congViec) {
+        }        
+        foreach ($congViecs as $index => $congViec) {            
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu().$congViec->getNguoiKy()->getHoTen());

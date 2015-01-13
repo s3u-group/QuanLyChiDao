@@ -229,7 +229,7 @@ if ($this->flashMessenger()->hasMessages())
 	?>
 </div>
 <div class="sixteen wide column row"><h3>Danh sách các báo cáo quá trình</h3></div>	
-
+<form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-danh-sach-bao-cao')); ?>">
 <table  class="ui table">
 	<thead>
         <tr>
@@ -251,15 +251,14 @@ if ($this->flashMessenger()->hasMessages())
 		</tr>
 	</thead>
 	<tbody>
-	<?php
+	<?php	
 	foreach ($theoDois as $theoDoi) {
 		if($theoDoi->getTrangThai()==TheoDoi::DA_HUY){
 			echo '<tr class="lightred">';
 		}
 		else{
 			echo '<tr>';
-		}
-		
+		}		
 			echo '<td>'; 
 				echo $theoDoi->getNoiDung();
 			echo '</td>';
@@ -304,7 +303,6 @@ if ($this->flashMessenger()->hasMessages())
 		<?php
 			}
 		echo '</tr>';
-
 	}
 	?>
 		
@@ -326,9 +324,12 @@ if ($this->flashMessenger()->hasMessages())
 			</a>
 		</div>
 	<?php
-	}		
-	
+	}	
 ?>
+<div class="sixteen wide column">
+    <input class="tiny ui button item"value="Xuất danh sách báo cáo" type="submit">
+</div>
+</form>
 
 <script type="text/javascript">
 	$(document).ready(function(){
