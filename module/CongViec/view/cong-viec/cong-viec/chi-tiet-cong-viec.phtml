@@ -229,7 +229,7 @@ if ($this->flashMessenger()->hasMessages())
 	?>
 </div>
 <div class="sixteen wide column row"><h3>Danh sách các báo cáo quá trình</h3></div>	
-<form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-danh-sach-bao-cao')); ?>">
+<!-- <form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-danh-sach-bao-cao')); ?>"> -->
 <table  class="ui table">
 	<thead>
         <tr>
@@ -327,7 +327,11 @@ if ($this->flashMessenger()->hasMessages())
 	}	
 ?>
 <div class="sixteen wide column">
+	<?php
+	if($theoDois)
+	{?>
     <input class="tiny ui button item"value="Xuất danh sách báo cáo" type="submit">
+    <?php }?>
 </div>
 </form>
 

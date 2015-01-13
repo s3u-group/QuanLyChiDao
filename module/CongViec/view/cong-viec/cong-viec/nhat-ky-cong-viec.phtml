@@ -95,6 +95,7 @@
         <tbody>
         <?php          
           foreach ($congViecs as $congViec) {
+            die(var_dump($congViec->getCha()));
             if($dieuKienLoc=='Hoàn thành'&&$congViec->getTrangThaiNhom()=='Hoàn thành')
             { ?>
           <input type="hidden" name="mangId[]" value="<?php echo $congViec->getId();?>" />

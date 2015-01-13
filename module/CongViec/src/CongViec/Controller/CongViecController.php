@@ -433,8 +433,8 @@ class CongViecController extends AbstractActionController
                 $congViecs=$query->getResult();                
                 $objPHPExcel = new PHPExcel();                
                 $fileName='bao_cao';
-                $tieuDe='BẢNG CẬP NHẬT CÔNG VĂN CHỈ ĐẠO GIAO CÁC PHÒNG BAN THÀNH PHỐ';                
-                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
+                $tieuDe='NHẬT KÝ CÔNG VIỆC';                
+                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
                 $PI_ExportExcel=$this->ExportExcel();
                 $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
             }
@@ -457,7 +457,7 @@ class CongViecController extends AbstractActionController
             $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
         }        
         $entityManager=$this->getEntityManager();        
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
         $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
         $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');        
@@ -482,10 +482,8 @@ class CongViecController extends AbstractActionController
         foreach ($congViecs as $index => $congViec) {            
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu().$congViec->getNguoiKy()->getHoTen());
-            $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
 
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu()."\n".$congViec->getNguoiKy()->getHoTen());            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu());
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,'');
