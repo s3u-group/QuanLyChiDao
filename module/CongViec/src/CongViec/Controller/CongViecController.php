@@ -9,11 +9,25 @@ use CongViec\Entity\CongViec;
 use CongViec\Entity\PhanCong;
 use CongViec\Entity\DinhKem;
 use CongViec\Form\GiaoViecForm;
-use DateTime;
 use CongViec\Form\CapNhatCongViecForm;
+use DateTime;
+use DateTimeZone;
 
 use CongViec\Form\LocForm;
 
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PHPExcel_Writer_Excel5;
+use PHPExcel_Cell;
+use PHPExcel_Cell_DataType;
+use PHPExcel_Shared_Date;
+use PHPExcel_Style_NumberFormat;
+use PHPExcel_Style_Color;
+use PHPExcel_RichText;
+use PHPExcel_Style_Border;
+use PHPExcel_Style_Alignment;
+use PHPExcel_Style_Fill;
+use PHPExcel_Style_Font;
 
 class CongViecController extends AbstractActionController
 {
@@ -135,7 +149,6 @@ class CongViecController extends AbstractActionController
         $dieuKien='';
         $duLieu='';
 
-
         $entityManager=$this->getEntityManager();           
         $request=$this->getRequest();
         
@@ -164,8 +177,6 @@ class CongViecController extends AbstractActionController
                     $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
                 }
                 $congViecs=$query->getResult();
-                
-                
             }
             else
             {
@@ -394,6 +405,109 @@ class CongViecController extends AbstractActionController
                 $entityManager->persist($dk);
                 $entityManager->flush();
             }
+        }
+    }
+
+    public function xuatBaoCaoAction()
+    {
+        
+        $entityManager=$this->getEntityManager();
+        $request=$this->getRequest();
+        if($request->isPost())
+        {
+            if($request->getPost()->get('mangId'))
+            {
+                $mangIds=$request->getPost()->get('mangId');
+                $mang='';                
+                $i = 0;
+                $len = count($mangIds);
+                foreach ($mangIds as $mangId) {
+                    $mang.=''.$mangId.'';
+                    if ($i != $len - 1)
+                    {
+                        $mang.=',';
+                    }
+                    $i++;
+                }                
+                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id IN ('.$mang.')');
+                $congViecs=$query->getResult();                
+                $objPHPExcel = new PHPExcel();                
+                $fileName='bao_cao';
+                $tieuDe='BẢNG CẬP NHẬT CÔNG VĂN CHỈ ĐẠO GIAO CÁC PHÒNG BAN THÀNH PHỐ';                
+                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện-Tình trạng xử lý');
+                $PI_ExportExcel=$this->ExportExcel();
+                $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
+            }
+            else
+            {
+                //Không có dữ liệu để xuất
+            }
+        }
+        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'nhat-ky-cong-viec'));
+    }
+
+    public function data($objPHPExcel, $tieuDe, $fieldName,$congViecs)
+    {
+        if(!$this->zfcUserAuthentication()->hasIdentity())
+        {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        else
+        {
+            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
+        }        
+        $entityManager=$this->getEntityManager();
+        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);
+
+        $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', $fieldName[0])
+                                      ->setCellValue('B2', $fieldName[1])
+                                      ->setCellValue('C2', $fieldName[2])
+                                      ->setCellValue('D2', $fieldName[3])
+                                      ->setCellValue('E2', $fieldName[4])
+                                      ->setCellValue('F2', $fieldName[5])
+                                      ->getStyle('A2:F2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        foreach ($congViecs as $index => $congViec) {            
+            $dong=$index+3;            
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu());
+
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,'');
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$dong, date_format($congViec->getNgayHoanThanh(), 'd-m-Y'));
+            if($congViec->getTrangThai()==0)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Đã hủy');
+            }
+            if($congViec->getTrangThai()==1)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Chưa xem');
+            }
+            if($congViec->getTrangThai()==5)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Đang xử lý');
+            }
+            if($congViec->getTrangThai()==10)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Hoàn thành');
+            }
+            if($congViec->getTrangThai()==15)
+            {
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Trễ hạn');
+            }
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':F'.$dong)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         }
     }
 }
