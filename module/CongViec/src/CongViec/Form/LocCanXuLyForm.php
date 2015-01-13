@@ -3,7 +3,7 @@ namespace CongViec\Form;
 
 use Zend\Form\Form;
 
-class LocForm extends Form
+class LocCanXuLyForm extends Form
 {
 
     public function __construct()
