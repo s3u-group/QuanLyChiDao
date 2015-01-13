@@ -482,7 +482,7 @@ class CongViecController extends AbstractActionController
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
 
-        foreach ($congViecs as $index => $congViec) {            
+        foreach ($congViecs as $index => $congViec) {
             $nguoiThucHiens=$congViec->getNguoiThucHiens();
             foreach ($nguoiThucHiens as $nguoiThucHien)
             {
@@ -533,8 +533,6 @@ class CongViecController extends AbstractActionController
         $request=$this->getRequest();
         if($request->isPost())
         {
-            die(var_dump('Dang xay dung'));
-        /*
             $mangIds=$request->getPost()->get('mangId');
             $mang='';                
             $i = 0;
@@ -547,20 +545,19 @@ class CongViecController extends AbstractActionController
                 }
                 $i++;
             }                
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\TheoDoi td WHERE td.id IN ('.$mang.')');
+            $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td WHERE td.id IN ('.$mang.')');
             $theoDois=$query->getResult();                
             $objPHPExcel = new PHPExcel();                
             $fileName='bao_cao_qua_trinh';
             $tieuDe='DANH SÁCH BÁO CÁO QUÁ TRÌNH THỰC HIỆN CÔNG VIỆC';                
-            $fieldName=array(0=>'Tên công việc',1=>'Ngày ban hành',2=>'Hạn xử lý',3=>'Trạng thái',4=>'STT',5=>'Nội dung',6=>'Ngày báo cáo', 7=>'Người tạo báo cáo');
+            $fieldName=array(0=>'Tên công việc',1=>'Ngày ban hành: ',2=>'Hạn xử lý: ',3=>'Trạng thái: ',4=>'STT',5=>'Nội dung',6=>'Ngày báo cáo', 7=>'Người tạo báo cáo');
             $PI_ExportExcel=$this->ExportExcel();
-            $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois));*/
-        }
-        return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'nhat-ky-cong-viec'));
+            $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois));
+        }        
     }
 
     public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois)
-    {
+    {        
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
@@ -573,11 +570,31 @@ class CongViecController extends AbstractActionController
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
         $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
-        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');        
-        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:D1")->getFont()->setSize(13);
+
+        $objPHPExcel->getActiveSheet()->mergeCells('A2:D2');
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', $fieldName[0])
+                                      ->setCellValue('A3', $fieldName[1])
+                                      ->setCellValue('C3', $fieldName[2])
+                                      ->setCellValue('D3', $fieldName[3])
+                                      ->setCellValue('A4', $fieldName[4])
+                                      ->setCellValue('B4', $fieldName[5])
+                                      ->setCellValue('C4', $fieldName[6])
+                                      ->setCellValue('D4', $fieldName[7])
+                                      ->getStyle('A2:D2')->getFont()->setBold(true);
+
+        foreach ($theoDois as $index => $theoDoi) {
+
+        }
+
+        foreach(range('A','D') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
     }
 }

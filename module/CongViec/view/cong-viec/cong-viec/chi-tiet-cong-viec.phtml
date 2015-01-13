@@ -228,8 +228,8 @@ if ($this->flashMessenger()->hasMessages())
 	echo $this->form()->closeTag();
 	?>
 </div>
-<div class="sixteen wide column row"><h3>Danh sách các báo cáo quá trình</h3></div>	
-<form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-bao-cao-qua-trinh')); ?>">
+<div class="sixteen wide column row"><h3>Danh sách các báo cáo quá trình</h3></div>
+<form method="post" action="<?php echo $this->url('cong_viec/crud',array('action'=>'xuat-bao-cao-qua-trinh'));?>">
 <table  class="ui table">
 	<thead>
         <tr>
@@ -331,7 +331,8 @@ if ($this->flashMessenger()->hasMessages())
 	<?php	
 	if($theoDois)
 	{?>
-    <input class="tiny ui button item"value="Xuất danh sách báo cáo" type="submit">
+	<!-- <input type="hidden" name="idCongViec" value="<?php echo $congViec->getId();?>"> -->
+    <input class="tiny ui button item" value="Xuất danh sách báo cáo" type="submit">
     <?php }?>
 </div>
 </form>
