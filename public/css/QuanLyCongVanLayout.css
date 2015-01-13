@@ -28,10 +28,6 @@ a:hover{
 .ui.table tr.blue td a, 
 .ui.table td.blue {
 background: #F5F5FF !important;
-border-top-color: #458ac6 !important;
-border-bottom-color: #458ac6 !important;
-border-left-color: #458ac6 !important;
-border-right-color: #458ac6 !important;
 color: #458ac6 !important;
 }
 
@@ -39,10 +35,6 @@ color: #458ac6 !important;
 .ui.table tr.purple td a, 
 .ui.table td.purple {
 background: #EBD8FD !important;
-border-top-color: #564f8a !important;
-border-bottom-color: #564f8a !important;
-border-left-color: #564f8a !important;
-border-right-color: #564f8a !important;
 color: #564f8a !important;
 }
 
@@ -50,10 +42,6 @@ color: #564f8a !important;
 .ui.table tr.green td a, 
 .ui.table td.green {
 background: #eeffe7 !important;
-border-top-color: #66c17b !important;
-border-bottom-color: #66c17b !important;
-border-left-color: #66c17b !important;
-border-right-color: #66c17b !important;
 color: #66c17b !important;
 }
 
@@ -61,10 +49,6 @@ color: #66c17b !important;
 .ui.table tr.lightred td a,
 .ui.table td.lightred {
 background: #FCE3FC !important;
-border-top-color: #dc6868 !important;
-border-bottom-color: #dc6868 !important;
-border-left-color: #dc6868 !important;
-border-right-color: #dc6868 !important;
 color: #dc6868 !important;
 }
 
@@ -102,4 +86,14 @@ color: #dc6868 !important;
 
 .ui.hidden{
 	display: none;
+}
+
+.ui.form .inline.fields .field>.date,
+.ui.form .inline.fields .field>.form-date {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.ui.menu .selection.dropdown{
+	border: 0;
 }

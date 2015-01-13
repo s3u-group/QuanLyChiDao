@@ -763,7 +763,7 @@ a:hover {
   width: 1.2857em;
   height: 1.2857em;
   border-radius: 500rem;
-  border: 0.2em solid rgba(0, 0, 0, 0.15);
+  border: 0.2em solid rgba(255, 255, 255, 0.15);
 }
 
 .ui.loading.button:after {
@@ -17632,7 +17632,7 @@ ol.ui.horizontal.list li:before,
 /* Small */
 
 .ui.small.menu .item {
-  font-size: 0.875rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.small.vertical.menu {
@@ -17652,7 +17652,7 @@ ol.ui.horizontal.list li:before,
 /* Large */
 
 .ui.large.menu .item {
-  font-size: 1.125rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.menu .item .item {
@@ -18174,7 +18174,7 @@ ol.ui.horizontal.list li:before,
   background: #ffffff;
   margin: 1em 0em;
   border: 1px solid #d0d0d0;
-  box-shadow: none;
+  box-shadow: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   border-radius: 0.25rem;
   color: rgba(0, 0, 0, 0.8);
   border-collapse: separate;
@@ -18204,12 +18204,13 @@ ol.ui.horizontal.list li:before,
 /* Headers */
 
 .ui.table thead {
-  box-shadow: none;
+  box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .ui.table thead th {
   cursor: auto;
-  background: #f0f0f0;
+  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   text-align: left;
   color: rgba(0, 0, 0, 0.8);
   padding: 0.7em 0.8em;
@@ -18240,13 +18241,13 @@ ol.ui.horizontal.list li:before,
 /* Footer */
 
 .ui.table tfoot {
-  box-shadow: none;
+  box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, 0.05);
 }
 
 .ui.table tfoot th {
   cursor: auto;
   border-top: 1px solid #d4d4d5;
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.05);
   text-align: left;
   color: rgba(0, 0, 0, 0.8);
   padding: 0.7em 0.8em;
@@ -19285,7 +19286,7 @@ ol.ui.horizontal.list li:before,
 }
 
 /*******************************
-         Theme Overrides
+           Overrides
 *******************************/
 
 /*******************************
@@ -21126,7 +21127,8 @@ a.ui.card:hover,
 
 .ui.items > .item > .content > .header {
   display: inline-block;
-  margin: -0.165em 0em 0em;
+  margin: -webkit-calc(2rem -  0.165em ) 0em 1rem;
+  margin: calc(2rem -  0.165em ) 0em 1rem;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.85);
@@ -21468,7 +21470,7 @@ a.ui.card:hover,
 ---------------*/
 
 .ui.items > .item {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 /*******************************
@@ -22728,7 +22730,7 @@ a.ui.card:hover,
   vertical-align: middle;
   background: rgba(0, 0, 0, 0.85);
   opacity: 0;
-  line-height: 1;
+  line-height: 1.33;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   -webkit-animation-duration: 0.5s;
@@ -22758,7 +22760,7 @@ a.ui.card:hover,
 .ui.dimmer > .content > div {
   display: table-cell;
   vertical-align: middle;
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* Loose Coupling */
@@ -22847,7 +22849,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 }
 
 .ui.inverted.dimmer > .content > * {
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /*--------------
@@ -25547,15 +25549,15 @@ a.ui.nag {
 *******************************/
 
 .ui.mini.rating .icon {
-  font-size: 0.7rem;
+  font-size: 0.71428571rem;
 }
 
 .ui.tiny.rating .icon {
-  font-size: 0.8rem;
+  font-size: 0.85714286rem;
 }
 
 .ui.small.rating .icon {
-  font-size: 0.875rem;
+  font-size: 0.92857143rem;
 }
 
 .ui.rating .icon {
@@ -25563,15 +25565,15 @@ a.ui.nag {
 }
 
 .ui.large.rating .icon {
-  font-size: 1.1rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.huge.rating .icon {
-  font-size: 1.5rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.massive.rating .icon {
-  font-size: 2rem;
+  font-size: 1.71428571rem;
 }
 
 /* Realign */
@@ -26900,7 +26902,7 @@ html.ios {
   background: #ffffff;
   margin: 1em 0em;
   border: 1px solid #d0d0d0;
-  box-shadow: none;
+  box-shadow: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   border-radius: 0.25rem;
   color: rgba(0, 0, 0, 0.8);
   border-collapse: separate;
@@ -26930,12 +26932,13 @@ html.ios {
 /* Headers */
 
 .ui.table thead {
-  box-shadow: none;
+  box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .ui.table thead th {
   cursor: auto;
-  background: #f0f0f0;
+  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   text-align: left;
   color: rgba(0, 0, 0, 0.8);
   padding: 0.7em 0.8em;
@@ -26966,13 +26969,13 @@ html.ios {
 /* Footer */
 
 .ui.table tfoot {
-  box-shadow: none;
+  box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, 0.05);
 }
 
 .ui.table tfoot th {
   cursor: auto;
   border-top: 1px solid #d4d4d5;
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.05);
   text-align: left;
   color: rgba(0, 0, 0, 0.8);
   padding: 0.7em 0.8em;
@@ -28011,7 +28014,7 @@ html.ios {
 }
 
 /*******************************
-         Theme Overrides
+           Overrides
 *******************************/
 
 /*******************************

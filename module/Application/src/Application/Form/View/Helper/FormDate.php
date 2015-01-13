@@ -1,10 +1,12 @@
 <?php
-namespace Application\View\Helper;
+namespace Application\Form\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
 class FormDate extends AbstractHelper{
     public function __invoke($element){
+        if(!($width = $element->getAttribute('width')))
+            $width = '250px';
         $filter = new \Zend\I18n\Filter\Alnum();  ?>
         <?php $id = $filter->filter($element->getAttribute('name')); ?>
         <div class="form-date" id="<?php echo $id ?>">
@@ -12,7 +14,7 @@ class FormDate extends AbstractHelper{
             <div class="jqxDate"></div>
             <script type="text/javascript">
                 $('#<?php echo $id ?>.form-date .jqxDate').jqxDateTimeInput({
-                    width: '250px', height: '25px',
+                    width: '<?php echo $width ?>', height: '25px',
                     value: setValue('<?php echo $element->getValue(); ?>')
                 });
                 $('#<?php echo $id ?>.form-date .jqxDate').on('valueChanged', function (event) {
