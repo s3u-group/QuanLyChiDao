@@ -454,4 +454,13 @@ class User implements UserInterface, ProviderInterface
     public function getCongViecs(){
         return $this->congViecs->toArray();
     }
+
+    public function getNhiemVu($congViec){
+        $phanCongs = $congViec->getNguoiThucHiens();
+        foreach($phanCongs as $phanCong){
+            if($phanCong->getNguoiThucHien()->getId() == $this->id){
+                return $phanCong->getVaiTro();
+            }
+        }
+    }
 }

@@ -628,4 +628,15 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         return parent::getCongViecs();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getNhiemVu($congViec)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNhiemVu', array($congViec));
+
+        return parent::getNhiemVu($congViec);
+    }
+
 }
