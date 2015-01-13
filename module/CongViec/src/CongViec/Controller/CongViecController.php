@@ -455,7 +455,7 @@ class CongViecController extends AbstractActionController
         $entityManager=$this->getEntityManager();
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
         $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
-        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');        
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
@@ -473,11 +473,13 @@ class CongViecController extends AbstractActionController
                                       ->getStyle('A2:F2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        foreach ($congViecs as $index => $congViec) {            
+        foreach ($congViecs as $index => $congViec) {
+        die(var_dump($congViec->getNguoiKy()));            
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu());
 
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu()."\n".$congViec->getNguoiKy());
             $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
