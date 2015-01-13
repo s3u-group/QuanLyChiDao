@@ -8,11 +8,11 @@ $congViec = $form->get('congViec');
 $congVan = $congViec->get('cha');?>
 <div class="ui form">
 	<div class="ui celled grid">
-		<div class="row">
+		<!-- <div class="row">
 			<div class="eight wide column">
 				<h2 class="ui header"><span><i class="plus icon"></i></span> GIAO VIỆC MỚI</h2>
 			</div>
-		</div>
+		</div> -->
 		<div class="row">
 			<div class="ten wide column">
 				<?php $user =  $this->zfcUserIdentity();?>
@@ -152,13 +152,13 @@ $congVan = $congViec->get('cha');?>
 	   	var template = $('#event_result .template').html();
 	   	template = template.replace(/__ten__/g, ten);
 	   	$('#event_result .list').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
-	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
-	   	$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
+	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
+	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
 	   	$('#pc_'+currentCount+' .ui.dropdown')
 	        .dropdown({
 	        	onChange: function (val) {
 	        		if(!isNaN(val)){
-	        			$('input[name="cong-van[congViecs][0][nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(val);
+	        			$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(val);
 	        		}
 			    }
 	        })
@@ -187,6 +187,7 @@ $congVan = $congViec->get('cha');?>
 	 	.val('')
 	 	.removeAttr('checked')
 	 	.removeAttr('selected');
+	$('#event_result > fieldset > fieldset').remove();
 	
 
 	function add_phan_cong() {

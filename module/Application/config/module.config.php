@@ -140,7 +140,7 @@ return array(
                         )
                     ),
                     array(
-                        'label' => 'Theo dõi việc đã giao',
+                        'label' => 'Công việc đã giao',
                         'route' => 'theo_doi/crud',
                         'params' => array(
                             'action' => 'index'

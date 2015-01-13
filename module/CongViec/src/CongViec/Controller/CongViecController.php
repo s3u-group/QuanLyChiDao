@@ -62,8 +62,11 @@ class CongViecController extends AbstractActionController
             ->leftJoin('cv.cha', 'c')
             ->leftJoin('c.nguoiKy', 'nk')
             ->where('cv.trangThai in (?2)')
+            ->andWhere('pc.vaiTro != ?50')
             ->setParameter(1, $userId)
-            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
+            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+            ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ;
 
         if($request->isPost()){
             $post = $request->getPost();
