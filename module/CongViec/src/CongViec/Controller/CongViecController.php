@@ -459,17 +459,15 @@ class CongViecController extends AbstractActionController
         {
             $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
         }        
-        $entityManager=$this->getEntityManager();
+        $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+
         $objPHPExcel->getActiveSheet()->setCellValue('A1', $tieuDe);
-        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:F1');        
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);
-
-        $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->setSize(13);        
 
         $objPHPExcel->getActiveSheet()->setCellValue('A2', $fieldName[0])
                                       ->setCellValue('B2', $fieldName[1])
@@ -480,12 +478,18 @@ class CongViecController extends AbstractActionController
                                       ->getStyle('A2:F2')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        foreach ($congViecs as $index => $congViec) {            
+
+        foreach(array('A','B','D','E','F') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        }
+
+        foreach ($congViecs as $index => $congViec) {
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu());
-
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu().$congViec->getNguoiKy()->getHoTen());
             $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getSoHieu()."\n".$congViec->getNguoiKy()->getHoTen());            
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,'');
@@ -511,6 +515,10 @@ class CongViecController extends AbstractActionController
                 $objPHPExcel->getActiveSheet()->setCellValue('F'.$dong, 'Trễ hạn');
             }
             $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':F'.$dong)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':F'.$dong)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
         }
+        foreach(range('A','F') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }        
     }
 }
