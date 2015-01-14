@@ -475,14 +475,6 @@ class CongViecController extends AbstractActionController
 
     public function data($objPHPExcel, $tieuDe, $fieldName,$congViecs)
     {
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
-           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
-        }
-        else
-        {
-            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
-        }        
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
@@ -585,14 +577,6 @@ class CongViecController extends AbstractActionController
 
     public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois)
     {
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
-           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
-        }
-        else
-        {
-            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
-        }        
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
@@ -614,7 +598,6 @@ class CongViecController extends AbstractActionController
                                       ->setCellValue('C4', $fieldName[3])
                                       ->setCellValue('D4', $fieldName[4])
                                       ->getStyle('A2:D2')->getFont()->setBold(true);
-
         $trangThai=$theoDois[0]->getCongVan()->getTrangThai();
         $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Tên: '.$theoDois[0]->getCongVan()->getTen());
         $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Ngày Ban Hành: '.$theoDois[0]->getCongVan()->getNgayBanHanh()->format('d/m/Y'));
