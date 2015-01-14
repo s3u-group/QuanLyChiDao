@@ -22,6 +22,11 @@ class DonVi
 	 */
 	protected $tenDonVi;
 
+    /**
+     * @ORM\Column(name="ten_viet_tat", type="text")
+     */
+    protected $tenVietTat;
+
 	/**
 	 * @ORM\OneToMany(targetEntity="User\Entity\User", mappedBy="donVi")
 	 */
@@ -53,6 +58,21 @@ class DonVi
 	public function getTenDonVi(){
 		return $this->tenDonVi;
 	}
+
+    public function setTenVietTat($tenVietTat){
+        $this->tenVietTat = $tenVietTat;
+        return $this;
+    }
+
+    public function getTenVietTat(){
+        return $this->tenVietTat;
+    }
+
+    public function getTenVietTatHoacDayDu(){
+        if($this->tenVietTat)
+            return $this->tenVietTat;
+        return $this->tenDonVi;
+    }
 
 	public function addNhanViens($nhanViens){
         foreach($nhanViens as $nhanVien){

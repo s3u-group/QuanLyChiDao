@@ -14,9 +14,14 @@ use User\Form\CreateDonViForm;
 use User\Form\UpdateDonViForm;
 use Zend\View\Model\JsonModel;
 
+use User\Form\ThemNhanVienForm;
+use User\Form\LocDanhSachNhanVienForm;
+
 class IndexController extends AbstractActionController
 {
  	protected $entityManager;
+
+    protected $userService;
 
     /**
      * @var TaxonomyControllerOptionsInterface
@@ -30,6 +35,137 @@ class IndexController extends AbstractActionController
           $this->entityManager=$this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         }
         return $this->entityManager;
+    }
+
+    public function getUserService()
+    {
+        if (!$this->userService instanceof UserService) {
+            $this->userService = $this->getServiceLocator()->get('user_service');
+        }
+        return $this->userService;
+    }
+
+    public function themNhanVienAction(){
+        $entityManager = $this->getEntityManager();
+
+        $form = new ThemNhanVienForm($entityManager);
+        $user = new User();
+        $form->bind($user);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            $defaultRole = $entityManager->getRepository('User\Entity\Role')
+                                  ->findOneBy(array('roleId' => 'cong-viec-can-xu-ly'));
+            $user->addRole($defaultRole);
+            if($form->isValid()){
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Bạn vừa thêm nhân viên mới thành công!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'them-nhan-vien'));
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
+    }
+
+    public function danhSachNhanVienAction(){
+        $entityManager = $this->getEntityManager();
+        $form = new LocDanhSachNhanVienForm();
+
+        $request=$this->getRequest();
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('nv')
+            ->from('User\Entity\User', 'nv')
+            ;
+
+        if($request->isPost()){
+            $post = $request->getPost();
+            $form->setData($post);
+
+            /**
+             * Tim nhanh
+             */
+            if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
+                if($post['tieuChi'] == 1){
+                    // tim theo ho ten
+                    $qb->andWhere('CONCAT(nv.ho, \' \', nv.ten) like ?1');
+                    $qb->setParameter(1, '%'.$post['tuKhoa'].'%');
+                }
+                else{
+                    // tim theo dien thoai
+                    $qb->andWhere('nv.dienThoai like ?2');
+                    $qb->setParameter(2, '%'.$post['tuKhoa'].'%');
+                }
+            }
+        }
+
+        $query = $qb->getQuery();
+        $nhanViens = $query->getResult();
+
+        return array(
+            'form' => $form,
+            'nhanViens'=>$nhanViens,
+        );
+
+    }
+
+    public function capNhatNhanVienAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('user/crud', array('action'=>'danh-sach-nhan-vien'));
+        }
+
+        $entityManager = $this->getEntityManager();
+
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        $form = new UpdateUserForm($entityManager);
+        $form->bind($user);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Bạn vừa thay đổi thành công thông tin của một nhân viên!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'danh-sach-nhan-vien'));
+            }
+        }
+
+        return array(
+            'form'=> $form,
+            'idUser' => $id
+        );
+    }
+
+    public function capTaiKhoanAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id){
+            return $this->redirect()->toRoute('user/crud', array('action'=>'danh-sach-nhan-vien'));
+        }
+        $entityManager = $this->getEntityManager();
+
+        $user = $entityManager->getRepository('User\Entity\User')->find($id);
+        $form = new CreateAccountForm($entityManager);
+        $form->bind($user);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $user = $this->getUserService()->edit($form, (array)$request->getPost(), $user);
+                
+                $this->flashMessenger()->addSuccessMessage('Bạn vừa thay đổi thành công thông tin tài khoản của một nhân viên!');
+                return $this->redirect()->toRoute('user/crud',array('action'=>'danh-sach-nhan-vien'));
+            }
+        }
+
+        return array(
+            'form' => $form,
+            'idUser' => $id
+        );
     }
 
     public function listAction(){

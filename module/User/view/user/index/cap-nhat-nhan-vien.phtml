@@ -1,0 +1,72 @@
+<?php echo $this->partial('template/flash'); ?>
+<?php $form->setAttribute('action', $this->url('user/crud', array('action'=>'cap-nhat-nhan-vien', 'id'=>$idUser)));
+$form->prepare();?>
+
+<?php
+echo $this->form()->openTag($form);
+$user = $form->get('user');?>
+<div class="ui form">
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="ten wide column">
+				<div class="fields">
+					<div class="ten wide field">
+						<label>Họ tên nhân viên</label>
+						<div class="fields">
+							<div class="ten wide field">
+					          	<?php echo $this->formElement($user->get('ho')); ?>
+					          	<?php echo $this->formElementErrors($user->get('ho')); ?>
+							</div>
+							<div class="six wide field">
+					          	<?php echo $this->formElement($user->get('ten')); ?>
+					          	<?php echo $this->formElementErrors($user->get('ten')); ?>
+							</div>
+						</div>
+					</div>				
+					<div class="six wide field">
+						<?php echo $this->formLabel($user->get('gioiTinh')); ?>
+			          	<?php echo $this->formElement($user->get('gioiTinh')); ?>
+			          	<?php echo $this->formElementErrors($user->get('gioiTinh')); ?>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<?php echo $this->formLabel($user->get('dienThoai')); ?>
+			          	<?php echo $this->formElement($user->get('dienThoai')); ?>
+			          	<?php echo $this->formElementErrors($user->get('dienThoai')); ?>
+					</div>
+					<div class="field">
+						<?php echo $this->formLabel($user->get('email')); ?>
+			          	<?php echo $this->formElement($user->get('email')); ?>
+			          	<?php echo $this->formElementErrors($user->get('email')); ?>
+					</div>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($user->get('diaChi')); ?>
+		          	<?php echo $this->formElement($user->get('diaChi')); ?>
+		          	<?php echo $this->formElementErrors($user->get('diaChi')); ?>
+				</div>
+			</div>
+			<div class="six wide column">
+				<div class="field">
+					<?php echo $this->formLabel($user->get('donVi')); ?>
+		          	<?php echo $this->formElement($user->get('donVi')); ?>
+		          	<?php echo $this->formElementErrors($user->get('donVi')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($user->get('chucVu')); ?>
+		          	<?php echo $this->formElement($user->get('chucVu')); ?>
+		          	<?php echo $this->formElementErrors($user->get('chucVu')); ?>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="sixteen wide column">
+				<div class="field">
+					<?php echo $this->formSubmit($form->get('submit')); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag();?>

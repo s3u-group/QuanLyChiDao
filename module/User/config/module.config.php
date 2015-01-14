@@ -2,7 +2,8 @@
 return array(
 	'controllers' => array(
 		'invokables' => array(
-			'User\Controller\Index' => 'User\Controller\IndexController'
+            'User\Controller\Index' => 'User\Controller\IndexController',
+			'User\Controller\DonVi' => 'User\Controller\DonViController',
 		)
 	),
 
@@ -71,8 +72,35 @@ return array(
                             )  */                        
                         ),
                 	),                   
-                )  
-			)
+                )
+			),
+            'don_vi' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/don-vi',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'DonVi',
+                        'action'     => 'danh-muc',
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]*'
+                            ),  
+                           /* 'defaults' => array(
+                                'action'     => 'list',
+                            )  */                        
+                        ),
+                    ),                   
+                ) 
+            ),
 		),
 	),
 
@@ -117,7 +145,7 @@ return array(
                 array(
                     'controller'=>array('zfcuser'),  
                     'action'    =>array('logout'),                 
-                    'roles'     =>array('khach','cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem','admin'),
+                    'roles'     =>array('cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem','admin'),
                 ),   
 
                 array(
@@ -189,12 +217,17 @@ return array(
                 // UserController
                 array(
                     'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('them-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan'),
+                    'roles'     =>array('tao-tai-khoan','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\Index'),
                     'action'    =>array('create-account','update'),
                     'roles'     =>array('tao-tai-khoan','admin'),
                 ),
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('list'),
+                    'action'    =>array('list', 'danh-sach-nhan-vien'),
                     'roles'     =>array('danh-sach-nhan-vien','admin'),
                 ),
                 array(
@@ -216,6 +249,18 @@ return array(
                     'controller'=>array('User\Controller\Index'),
                     'action'    =>array('view'),
                     'roles'     =>array('ho-so-ca-nhan','admin'),
+                ),
+
+                //DonViController
+                array(
+                    'controller'=>array('User\Controller\DonVi'),
+                    'action'    =>array('tao-moi','cap-nhat'),
+                    'roles'     =>array('tao-don-vi','admin'),
+                ),
+                array(
+                    'controller'=>array('User\Controller\DonVi'),
+                    'action'    =>array('danh-muc'),
+                    'roles'     =>array('danh-muc-don-vi','admin'),
                 ),
 
                 /**

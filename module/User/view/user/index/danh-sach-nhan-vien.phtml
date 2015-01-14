@@ -1,0 +1,75 @@
+<?php echo $this->partial('template/flash'); ?>
+<?php $form->setAttribute('action', $this->url('user/crud', array('action'=>'danh-sach-nhan-vien'))); ?>
+<?php $form->prepare();?>
+
+<?php echo $this->form()->openTag($form);?>
+	<div class="ui form">
+	    <div class="ui celled grid">
+
+		    <div class="row">
+		        <div class="sixteen wide column">
+		        	<div class="ui menu">
+			            <div class="menu">
+				            <div class="item">
+				                Tìm nhanh
+				            </div>
+				            <?php echo $this->formElement($form->get('tieuChi')); ?>
+				            <div class="item">
+				                <div class="ui icon input">
+				                    <?php echo $this->formElement($form->get('tuKhoa')); ?>
+				                  	<i class="search icon"></i>
+				                </div>
+				            </div>
+				            <div class="right item">
+				                <input type="submit" class="tiny ui button" value="Tìm">
+				                <input id="xemHet" type="submit"  class="tiny ui button" value="Xem hết">
+				            </div>
+			            </div>
+			         </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+<?php echo $this->form()->closeTag(); ?>
+<div class="ui grid"> 
+	<div class="sixteen wide column fluid">
+	    <table class="ui celled structured table">
+	    	<thead>
+	    		<th>STT</th>
+	    		<th>Họ tên</th>
+	    		<th>Giới tính</th>
+	    		<th>Điện thoại</th>
+	    		<th>Địa chỉ</th>
+	    		<th>Đơn vị</th>
+	    		<th></th>
+	    	</thead>
+	    	<tbody>
+	    		<?php foreach($nhanViens as $i => $nhanVien): ?>
+	    			<tr>
+	    				<td><?php echo $i+1 ?></td>
+	    				<td><?php echo $nhanVien->getHoTen() ?></td>
+	    				<td><?php echo $nhanVien->getGioiTinh() ?></td>
+	    				<td><?php echo $nhanVien->getDienThoai(); ?></td>
+	    				<td><?php echo $nhanVien->getDiaChi(); ?></td>
+	    				<td><?php echo $nhanVien->getTenDonVi(); ?></td>
+	    				<td class="center aligned">
+	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-nhat-nhan-vien', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cập nhật thông tin"><i class="edit icon"></i></a>
+	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-tai-khoan', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cấp tài khoản"><i class="privacy icon"></i></a>
+	    				</td>
+	    			</tr>
+	    		<?php endforeach; ?>
+	    	</tbody>
+	    </table>
+	</div>
+</div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    $('#xemHet').click(function(){
+      $('input[name="tuKhoa"]').val('');
+    });
+
+  });
+    
+</script>

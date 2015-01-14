@@ -159,6 +159,7 @@ class CongViecController extends AbstractActionController
             ->andWhere('pc.vaiTro != ?50')
             ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
             ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ->orderBy('cv.id', 'DESC')
             ;
 
         if($request->isPost()){
@@ -246,10 +247,8 @@ class CongViecController extends AbstractActionController
             );
             if($form->isValid()){
 
-                $pcNguoiGiaoViec = new PhanCong();
-                $pcNguoiGiaoViec->setVaiTro(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
-                $pcNguoiGiaoViec->setNguoiThucHien($congViec->getCha()->getNguoiKy());
-                $congViec->addNguoiThucHiens(array($pcNguoiGiaoViec));
+                $congViec = $this->xuLyNguoiGiaoViec($congViec);
+                $congViec = $this->xuLyDonViTiepNhan($congViec);
 
                 $entityManager->persist($congViec);
                 $entityManager->flush();
@@ -264,6 +263,27 @@ class CongViecController extends AbstractActionController
         return array(
             'form' => $form,
         );
+    }
+
+    public function xuLyNguoiGiaoViec($congViec){
+        $pcNguoiGiaoViec = new PhanCong();
+        $pcNguoiGiaoViec->setVaiTro(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
+        $pcNguoiGiaoViec->setNguoiThucHien($congViec->getCha()->getNguoiKy());
+        $congViec->addNguoiThucHiens(array($pcNguoiGiaoViec));
+        return $congViec;
+    }
+
+    public function xuLyDonViTiepNhan($congViec){
+        $users = $congViec->getNguoiThucHiens();
+        $donViIds = array();
+        foreach($users as $user){
+            $donVi = $user->getNguoiThucHien()->getDonVi();
+            if(!in_array($donVi->getId(), $donViIds)){
+                $congViec->addDonViTiepNhans(array($donVi));
+                $donViIds[] = $donVi->getId();
+            }
+        }
+        return $congViec;
     }
 
     public function ajaxGetToChucAction(){

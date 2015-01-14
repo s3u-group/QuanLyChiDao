@@ -32,8 +32,8 @@ class UpdateDonViForm extends Form
             'name' => 'submit',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Lưu',
-                'class' => 'tiny ui button item red',
+                'value' => 'Lưu thông tin',
+                'class' => 'ui blue button',
             ),
         ));
     }

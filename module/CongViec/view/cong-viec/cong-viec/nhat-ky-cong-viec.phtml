@@ -63,7 +63,7 @@
 <?php $trangThai = $form->get('trangThai')->getValue(); ?>
 <div class="ui grid"> 
   <div class="sixteen wide column fluid">
-    <table class="ui celled structured table" id="tblTatCa">
+    <table class="ui celled structured table">
       <thead>
         <tr>    
           <th>STT</th>      
@@ -82,7 +82,7 @@
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">
-                <?php elseif($congViec->getTrangThai() == \CongViec\Entity\CongViec::CHUA_XEM): ?>
+                <?php elseif($congViec->getTrangThai() == \CongViec\Entity\CongViec::HOAN_THANH || $congViec->getTrangThai() == \CongViec\Entity\CongViec::TRE_HAN): ?>
                   <td class="positive">
                 <?php else: ?>
                   <td>
@@ -102,7 +102,13 @@
                 <div><a class="ui link" href="<?php echo $this->url('cong_viec/crud', array('action' => 'chi-tiet-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
-              <td></td>
+              <td>
+                <?php if($donVis = $congViec->getDonViTiepNhans()): ?>
+                  <?php foreach($donVis as $donVi): ?>
+                    <?php echo $donVi->getTenVietTatHoacDayDu(). ', '; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+              </td>
               <td>
                 <?php echo $congViec->getNgayHoanThanh()->format('d/m/Y'); ?>
               </td>
@@ -123,13 +129,13 @@
   </div>
   <?php if($trangThai == 4): //tat ca ?>
     <div class="ui grid">
-      <div class="two wide column">
-        <div class="ui green empty circular label"></div>
-        <span style="color:green;">&nbsp;Chưa xem</span>
-      </div>
-      <div class="two wide column">
+      <div class="three wide column">
         <div class="ui empty circular label"></div>
-        <span>&nbsp;Đang xử lý</span>
+        <span>&nbsp;Chưa hoàn thành</span>
+      </div>
+      <div class="three wide column">
+        <div class="ui green empty circular label"></div>
+        <span style="color:green;">&nbsp;Đã hoàn thành</span>
       </div>
       <div class="two wide column">
         <div class="ui red empty circular label"></div>

@@ -1,0 +1,30 @@
+<?php echo $this->partial('template/flash'); ?>
+<?php $form->setAttribute('action', $this->url('don_vi/crud', array('action'=>'cap-nhat', 'id' => $donViId)));
+$form->prepare(); 
+echo $this->form()->openTag($form);
+$donVi = $form->get('don-vi'); ?>
+	<div class="ui form">
+		<div class="ui celled grid">
+			<div class="row">
+	        	<div class="sixteen wide column">
+	        		<div class="two fields">
+	        			<div class="field">
+	        				<?php echo $this->formLabel($donVi->get('tenDonVi')); ?>
+				          	<?php echo $this->formElement($donVi->get('tenDonVi')); ?>
+				          	<?php echo $this->formElementErrors($donVi->get('tenDonVi')); ?>
+	        			</div>
+	        			<div class="field">
+	        				<?php echo $this->formLabel($donVi->get('tenVietTat')); ?>
+				          	<?php echo $this->formElement($donVi->get('tenVietTat')); ?>
+				          	<?php echo $this->formElementErrors($donVi->get('tenVietTat')); ?>
+	        			</div>
+	        		</div>
+	        		<div class="field">
+	        			<?php echo $this->formHidden($donVi->get('id')); ?>
+	        			<?php echo $this->formSubmit($form->get('submit')); ?>
+	        		</div>
+	        	</div>
+	        </div>
+	    </div>
+	</div>
+<?php echo $this->form()->closeTag(); ?>

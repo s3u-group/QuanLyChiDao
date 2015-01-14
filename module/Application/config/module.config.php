@@ -98,6 +98,7 @@ return array(
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
             'menu/default'            => __DIR__ . '/../view/partial/menu/default.phtml',
+            'template/flash'            => __DIR__ . '/../view/partial/template/flash.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -168,35 +169,32 @@ return array(
                 'icon' => '<i class="sitemap icon"></i>',
                 'pages' => array(
                     array(
-                        'label' => 'Tạo tài khoản',
+                        'label' => 'Thêm nhân viên',
                         /*'uri' => '#'*/
                         'route' => 'user/crud',
                         'params' => array(
-                            'action' => 'create-account',
+                            'action' => 'them-nhan-vien',
                         )
                     ),
                     array(
                         'label' => 'Danh sách nhân viên',
                         'route' => 'user/crud',
                         'params' => array(
-                            'action' => 'list',
+                            'action' => 'danh-sach-nhan-vien',
                         )
                     ),
                     array(
                         'label' => 'Tạo đơn vị',
                         //'uri' => '#'
-                        'route' => 'user/crud',
+                        'route' => 'don_vi/crud',
                         'params' => array(
-                            'action' => 'tao-don-vi',
+                            'action' => 'tao-moi',
                         )
                     ),
                     array(
                         'label' => 'Danh mục đơn vị',
                         //'uri' => '#'
-                        'route' => 'user/crud',
-                        'params' => array(
-                            'action' => 'danh-muc-don-vi',
-                        )
+                        'route' => 'don_vi',
                     ),
                     array(
                         'label' => 'Phân quyền',

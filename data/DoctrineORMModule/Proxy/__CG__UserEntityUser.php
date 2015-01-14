@@ -598,6 +598,17 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getTenDonVi()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenDonVi', array());
+
+        return parent::getTenDonVi();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addCongViecs($congViecs)
     {
 

@@ -11,7 +11,10 @@
 			<div class="ten wide column">
 				<div class="field">
 					<!-- <label>Quyền</label> -->
-					<div id="event_result" class="ui divided list">
+					<div id="event_result">
+						<div class="ui inverted dimmer">
+						    <div class="ui text loader">Đang tải...</div>
+						  </div>
 						<div class="template">
 							<div class="item">						
 								<table class="ui table">
@@ -99,12 +102,16 @@
 	            data:{
 	                'id':id
 	            },
+	            beforeSend: function(){
+	            	$('#event_result .dimmer').addClass('active');
+	            },
 	            success:function(data){	            	
 	            	$('.checkboxQuyen').each(function(){ this.checked = false; });
 	            	$.each(data, function(key,val){
 	            		var idRole='#q_'+val.id;
 	            		$(idRole).prop('checked', true);
 	            	});
+	            	$('#event_result .dimmer').removeClass('active');
 	            }
 	        });
 	   }

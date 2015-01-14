@@ -64,10 +64,10 @@ class DonVi extends \User\Entity\DonVi implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'tenDonVi', 'nhanViens', 'congVanDens');
+            return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'nhanViens', 'congVanDens');
         }
 
-        return array('__isInitialized__', 'id', 'tenDonVi', 'nhanViens', 'congVanDens');
+        return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'nhanViens', 'congVanDens');
     }
 
     /**
@@ -204,6 +204,39 @@ class DonVi extends \User\Entity\DonVi implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenDonVi', array());
 
         return parent::getTenDonVi();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTenVietTat($tenVietTat)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTenVietTat', array($tenVietTat));
+
+        return parent::setTenVietTat($tenVietTat);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenVietTat()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenVietTat', array());
+
+        return parent::getTenVietTat();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenVietTatHoacDayDu()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenVietTatHoacDayDu', array());
+
+        return parent::getTenVietTatHoacDayDu();
     }
 
     /**

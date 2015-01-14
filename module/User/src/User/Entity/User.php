@@ -211,7 +211,10 @@ class User implements UserInterface, ProviderInterface
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        if($email == '')
+            $this->email = null;
+        else
+            $this->email = $email;
     }
 
     /**
@@ -314,7 +317,10 @@ class User implements UserInterface, ProviderInterface
      * @return void
      */
     public function setDienThoai($dienThoai){
-        $this->dienThoai = $dienThoai;
+        if($dienThoai == '')
+            $this->dienThoai = null;
+        else
+            $this->dienThoai = $dienThoai;
         return $this;
     }
 
@@ -379,7 +385,7 @@ class User implements UserInterface, ProviderInterface
                 return 'Nữ';
                 break;
             default:
-                return '--';
+                return '/';
         }
     }
 
@@ -435,6 +441,11 @@ class User implements UserInterface, ProviderInterface
 
     public function getDonVi(){
         return $this->donVi;
+    }
+
+    public function getTenDonVi(){
+        if($donVi = $this->donVi)
+            return $donVi->getTenDonVi();
     }
 
     public function addCongViecs($congViecs){

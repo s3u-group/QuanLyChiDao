@@ -19,6 +19,30 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $sm = $e->getApplication()->getServiceManager();
+        $eventManager->attach(
+            'route',
+            function($e) {
+                $app = $e->getApplication();
+                $routeMatch = $e->getRouteMatch();
+                $sm = $app->getServiceManager();
+                $auth = $sm->get('zfcuser_auth_service');
+                if (!$auth->hasIdentity() && $routeMatch->getMatchedRouteName() != 'zfcuser/login') {
+                    $response = $e->getResponse();
+                    $response->getHeaders()->addHeaderLine(
+                        'Location',
+                        $e->getRouter()->assemble(
+                                array(),
+                                array('name' => 'zfcuser/login')
+                        )
+                    );
+                    $response->setStatusCode(302);
+                    return $response;
+                }
+            },
+            -100
+        );
     }
 
     public function getConfig()

@@ -33,43 +33,8 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Email',
             ),
             'attributes' => array(
-                'placeholder' => 'Nhập email'
+               // 'placeholder' => 'Nhập email'
             ),
-        ));
-
-        $this->add(array(
-            'name' => 'displayName',
-            'type' => 'text',
-            'options' => array(
-                'label' => 'Tên hiển thị',
-            ),
-            'attributes' => array(
-                'placeholder' => 'Nhập tên hiển thị'
-            ),
-        ));
-
-        $this->add(array(
-            'name' => 'username',
-            'type' => 'text',
-            'options' => array(
-                'label'=>'Tên đăng nhập'
-            ),
-            'attributes' => array(
-                'placeholder' => 'Nhập tên đăng nhập'
-            ),            
-        ));
-
-        $this->add(array(
-            'name' => 'password',
-            'type' => 'text',
-            'options' => array(                
-            ),
-            'attributes' => array(
-                'placeholder' => 'Nhập mật khẩu'
-            ),
-            'options' => array(
-                'label' => 'Mật khẩu'
-            )           
         ));
 
         $this->add(array(
@@ -96,9 +61,9 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 
         $this->add(array(
             'name' => 'gioiTinh',
-            'type' => 'radio',
+            'type' => 'select',
             'attributes' => array(
-
+                'class' => 'ui dropdown'
             ),
             'options' => array(
                 'label' => 'Giới tính',
@@ -116,59 +81,9 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Địa chỉ',
             ),
             'attributes' => array(
-                'placeholder' => 'Nhập địa chỉ'
+              //  'placeholder' => 'Nhập địa chỉ'
             ),
-        ));
-
-        $this->add(array(
-            'name' => 'thanhPho',
-            'type' => 'select',
-            'attributes' => array(
-
-            ),
-            'options' => array(
-                'label' => 'Thành phố'
-            )
-        ));
-
-        $this->add(array(
-            'name' => 'quocGia',
-            'type' => 'select',
-            'attributes' => array(
-
-            ),
-            'options' => array(
-                'label' => 'Quốc gia'
-            )
-        ));
-
-        $this->add(array(
-            'name' => 'ngayTao',
-            'type' => 'Date',
-            'attributes' => array(
-            ),
-            'options' => array(                
-            )
-        ));
-    
-
-        $this->add(array(
-            'name' => 'dangNhapCuoi',
-            'type' => 'Date',
-            'attributes' => array(
-            ),
-            'options' => array(                
-            )
-        ));       
-
-        $this->add(array(
-            'name' => 'ngayChinhSua',
-            'type' => 'Date',
-            'attributes' => array(
-            ),
-            'options' => array(                
-            )
-        ));
+        ));      
         
         $this->add(array(
              'name' => 'donVi',
@@ -180,12 +95,26 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
              'attributes'=>array(
                 'class'  => 'ui dropdown'           
              ),
-         ));        
+         ));   
 
-        $this->add(array(
-            'name' => 'congViecs',
-            'type' => 'hidden',            
-        ));
+         $this->add(array(
+            'name' => 'chucVu',
+            'type' => 'select',
+            'options' => array(
+                'label' => 'Chức vụ',
+                'value_options' => array(
+                    '1' => 'Chủ tịch',
+                    '2' => 'Phó chủ tịch',
+                    '3' => 'Trưởng phòng',
+                    '4' => 'Phó phòng',
+                    '5' => 'Nhân viên'
+                )
+            ),
+            'attributes' => array(
+                'class' => 'ui dropdown',
+                'value' => '5'
+            )
+        ));     
 
         $dienThoai = new \User\Form\Element\Phone();
         $dienThoai->setEntityManager($objectManager);
@@ -194,48 +123,76 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'label' => 'Điện thoại'
         ));
         $this->add($dienThoai);   
-
-        $this->add(array(
-            'name' => 'state',
-            'type' => 'checkbox',
-            'options' => array(
-                'label' => 'Hoạt động',
-                'use_hidden_element' => true,
-                'checked_value' => '1',
-                'unchecked_value' => '0'
-            ),
-            'attributes' => array(
-            ),
-        ));
     }
 
     public function getInputFilterSpecification()
     {
         return array(
             'ho' => array(
-                'required' => true
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Họ không được rỗng' 
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'ten' => array(
-                'required' => true
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Tên không được rỗng' 
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'dienThoai' => array(
-                'required' => true
+                'required' => false,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Điện thoại không được rỗng' 
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'diaChi' => array(
-                'required' => true
+                'required' => false,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Địa không được rỗng' 
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'email' => array(
-                'required' => true
+                'required' => false,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Email không được rỗng' 
+                            ),
+                        ),
+                    ),
+                ),
             ),
-            'state' => array(
-                'required' => false
-            ),
-            'thanhPho' => array(
-                'required' => false
-            ),
-            'quocGia' => array(
-                'required' => false
-            )
         );
     }
 

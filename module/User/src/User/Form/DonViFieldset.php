@@ -32,23 +32,66 @@ class DonViFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Tên đơn vị',
             ),
-            'attributes' => array(
-                'placeholder' => 'Nhập tên đơn vị'
-            ),
         ));
+
         $this->add(array(
-            'name' => 'nhanViens',
-            'type' => 'hidden'
-        ));
-        $this->add(array(
-            'name' => 'congVanDens',
-            'type' => 'hidden'
+            'name' => 'tenVietTat',
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Tên viết tắt'
+            )
         ));        
     }
 
     public function getInputFilterSpecification()
     {
-        return array(            
+        return array( 
+            'tenDonVi' => array(
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Tên đơn vị không được rỗng' 
+                            ),
+                        ),
+                    ),
+                    /*array( //da chuyen sang form
+                        'name' => 'DoctrineModule\Validator\NoObjectExists',
+                        'options' => array(
+                            'object_repository' => $this->objectManager->getRepository('User\Entity\DonVi'),
+                            'fields' => 'tenDonVi',
+                            'messages' => array(
+                                'objectFound' => 'Tên đơn vị đã tồn tại !'
+                            ),
+                        )
+                    )*/
+                )
+            ),
+            'tenVietTat' => array(
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' =>'NotEmpty', 
+                        'options' => array(
+                            'messages' => array(
+                                'isEmpty' => 'Tên viết tắt không được rỗng' 
+                            ),
+                        ),
+                    ),
+                    /*array(
+                        'name' => 'DoctrineModule\Validator\NoObjectExists',
+                        'options' => array(
+                            'object_repository' => $this->objectManager->getRepository('User\Entity\DonVi'),
+                            'fields' => 'tenVietTat',
+                            'messages' => array(
+                                'objectFound' => 'Tên đơn vị hoặc tên viết tắt đã tồn tại !'
+                            ),
+                        )
+                    )*/
+                )
+            ),
         );
     }
 

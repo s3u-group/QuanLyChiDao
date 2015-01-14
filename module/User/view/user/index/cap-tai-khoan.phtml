@@ -1,0 +1,36 @@
+<?php echo $this->partial('template/flash'); ?>
+<?php $form->setAttribute('action', $this->url('user/crud', array('action'=>'cap-tai-khoan', 'id'=>$idUser)));
+$form->prepare();?>
+
+<?php
+echo $this->form()->openTag($form);?>
+<div class="ui form">
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="sixteen wide column">
+				<div class="field">
+					<?php echo $this->formLabel($form->get('username')); ?>
+		          	<?php echo $this->formElement($form->get('username')); ?>
+		          	<?php echo $this->formElementErrors($form->get('username')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($form->get('password')); ?>
+		          	<?php echo $this->formElement($form->get('password')); ?>
+		          	<?php echo $this->formElementErrors($form->get('password')); ?>
+				</div>
+
+				<div class="field">
+					<?php echo $this->formLabel($form->get('passwordVerify')); ?>
+		          	<?php echo $this->formElement($form->get('passwordVerify')); ?>
+		          	<?php echo $this->formElementErrors($form->get('passwordVerify')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formHidden($form->get('id')); ?>
+					<?php echo $this->formHidden($form->get('csrf')); ?>
+					<?php echo $this->formSubmit($form->get('submit')); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag(); ?>

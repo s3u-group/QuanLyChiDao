@@ -5,35 +5,35 @@ use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 
-class CreateDonViForm extends Form
+class ThemNhanVienForm extends Form
 {
+
     protected $objectManager;
 
     public function __construct(ObjectManager $objectManager)
     {
+        parent::__construct('them-nhan-vien-form');
         $this->objectManager = $objectManager;
-        parent::__construct('create-don-vi-form');
 
         $this
             ->setAttribute('method', 'post')
             ->setAttribute('autocomplete', 'off')
-            ->setHydrator(new DoctrineHydrator($objectManager))
-            ;        
+            ->setHydrator(new DoctrineHydrator($objectManager));        
 
         /*$this->add(array(
             'type' => 'Zend\Form\Element\Csrf',
             'name' => 'csrf',
         ));*/
 
-        $donViFieldset = new DonViFieldset($objectManager);
-        $donViFieldset->setUseAsBaseFieldset(true);
-        $this->add($donViFieldset);
+        $userFieldset = new UserFieldset($objectManager);
+        $userFieldset->setUseAsBaseFieldset(true);
+        $this->add($userFieldset);
 
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Tạo đơn vị',
+                'value' => 'Thêm nhân viên',
                 'class' => 'ui blue button',
             ),
         ));
@@ -42,25 +42,26 @@ class CreateDonViForm extends Form
     public function getInputFilter()
     {
         $formInputFilter = parent::getInputFilter();
-        $tenDonViInput = $formInputFilter->get('don-vi')->get('tenDonVi');
+        $input = $formInputFilter->get('user')->get('dienThoai');
         $myValidator = new \DoctrineModule\Validator\NoObjectExists(array(
-            'object_repository' => $this->objectManager->getRepository('User\Entity\DonVi'),
-            'fields' => 'tenDonVi',
+            'object_repository' => $this->objectManager->getRepository('User\Entity\User'),
+            'fields' => 'dienThoai',
             'messages' => array(
-                'objectFound' => 'Tên đơn vị đã tồn tại !'
+                'objectFound' => 'Điện thoại này đã sử dụng'
             ),
         ));
-        $tenDonViInput->getValidatorChain()->addValidator($myValidator);
+        $input->getValidatorChain()->addValidator($myValidator);
 
-        $tenVietTatInput = $formInputFilter->get('don-vi')->get('tenVietTat');
+        $formInputFilter = parent::getInputFilter();
+        $input = $formInputFilter->get('user')->get('email');
         $myValidator = new \DoctrineModule\Validator\NoObjectExists(array(
-            'object_repository' => $this->objectManager->getRepository('User\Entity\DonVi'),
-            'fields' => 'tenVietTat',
+            'object_repository' => $this->objectManager->getRepository('User\Entity\User'),
+            'fields' => 'email',
             'messages' => array(
-                'objectFound' => 'Tên đơn vị hoặc tên viết tắt đã tồn tại !'
+                'objectFound' => 'Email này đã sử dụng'
             ),
         ));
-        $tenVietTatInput->getValidatorChain()->addValidator($myValidator);
+        $input->getValidatorChain()->addValidator($myValidator);
 
         return $formInputFilter;
     }
