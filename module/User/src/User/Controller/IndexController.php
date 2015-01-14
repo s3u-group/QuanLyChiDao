@@ -56,7 +56,7 @@ class IndexController extends AbstractActionController
         if($request->isPost()){
             $form->setData($request->getPost());
             $defaultRole = $entityManager->getRepository('User\Entity\Role')
-                                  ->findOneBy(array('roleId' => 'cong-viec-can-xu-ly'));
+                                  ->findOneBy(array('roleId' => 'nguoi-dung'));
             $user->addRole($defaultRole);
             if($form->isValid()){
                 $entityManager->persist($user);
@@ -79,6 +79,8 @@ class IndexController extends AbstractActionController
         $qb = $entityManager->createQueryBuilder();
         $qb->select('nv')
             ->from('User\Entity\User', 'nv')
+            ->where('nv.state != ?1')
+            ->setParameter(1, 0)
             ;
 
         if($request->isPost()){
@@ -91,13 +93,13 @@ class IndexController extends AbstractActionController
             if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
                 if($post['tieuChi'] == 1){
                     // tim theo ho ten
-                    $qb->andWhere('CONCAT(nv.ho, \' \', nv.ten) like ?1');
-                    $qb->setParameter(1, '%'.$post['tuKhoa'].'%');
+                    $qb->andWhere('CONCAT(nv.ho, \' \', nv.ten) like ?2');
+                    $qb->setParameter(2, '%'.$post['tuKhoa'].'%');
                 }
                 else{
                     // tim theo dien thoai
-                    $qb->andWhere('nv.dienThoai like ?2');
-                    $qb->setParameter(2, '%'.$post['tuKhoa'].'%');
+                    $qb->andWhere('nv.dienThoai like ?3');
+                    $qb->setParameter(3, '%'.$post['tuKhoa'].'%');
                 }
             }
         }

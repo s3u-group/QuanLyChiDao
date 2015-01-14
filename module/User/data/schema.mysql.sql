@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `users`(
   `email`           VARCHAR(255) DEFAULT NULL UNIQUE,
   `display_name`    VARCHAR(50) DEFAULT NULL,
   `password`        VARCHAR(128) DEFAULT NULL,
-  `state`           SMALLINT UNSIGNED NOT NULL DEFAULT '1',
+  `state`           SMALLINT UNSIGNED NOT NULL DEFAULT `1`,
   `dien_thoai`	    varchar(20) DEFAULT NULL UNIQUE,
   `dia_chi`		      varchar(255) DEFAULT NULL,
   `ho`              varchar(255) DEFAULT NULL,
@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS `users`(
   `thanh_pho_id`    bigint(20) unsigned,
   `quoc_gia_id`     bigint(20) unsigned,
   `don_vi_id`       int(11) unsigned,
-  `ngay_tao`        datetime DEFAULT '0000-00-00 00:00:00',
-  `dang_nhap_cuoi`  datetime DEFAULT '0000-00-00 00:00:00',
-  `ngay_chinh_sua`  datetime DEFAULT '0000-00-00 00:00:00',
+  `ngay_tao`        datetime DEFAULT `0000-00-00 00:00:00`,
+  `dang_nhap_cuoi`  datetime DEFAULT `0000-00-00 00:00:00`,
+  `ngay_chinh_sua`  datetime DEFAULT `0000-00-00 00:00:00`,
   KEY `thanh_pho_id` (`thanh_pho_id`),
   KEY `quoc_gia_id` (`quoc_gia_id`),
   KEY `don_vi_id` (`don_vi_id`)
@@ -44,22 +44,14 @@ CREATE TABLE IF NOT EXISTS `don_vi`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `users` (`id`,`username`, `password`) VALUES (1, `admin`, `$2y$14$GcPpzRHXOs4KHhKldLWtE.NG8Ryk8rvsq2/tlQWHF1v1oucfOodPO`);
-
-INSERT INTO `user_role_linker` (`user_id`, `role_id`) VALUES (1,1);
-
 INSERT INTO `user_role` (`id`, `roleId`, `role_name`, `is_default`, `parent_id`) VALUES
-(1, 'nguoi-dung', 'Nguoi dung', 0, NULL), /*cong viec can xu ly, */
-(2, 'giao-viec', 'Giao viec', 0, NULL), /*giao viec moi, cong viec da giao*/
-(3, 'xuat-bao-cao', 'Xuat bao cao', 0, NULL), /*nhat ky cong viec*/
-(4, 'theo-doi-viec-da-giao', 'Theo dÃµi viá»‡c Ä‘Ã£ giao', 0, NULL),
-(5, 'bao-cao-nghiem-thu', 'BÃ¡o cÃ¡o nghiá»‡m thu', 0, NULL),
-(6, 'nhat-ky-cong-viec', 'Nháº­t kÃ½ cÃ´ng viá»‡c', 0, NULL),
-(7, 'tao-tai-khoan', 'Táº¡o tÃ i khoáº£n', 0, NULL),
-(8, 'danh-sach-nhan-vien', 'Danh sÃ¡ch nhÃ¢n viÃªn', 0, NULL),
-(9, 'tao-don-vi', 'Táº¡o Ä‘Æ¡n vá»‹', 0, NULL),
-(10, 'danh-muc-don-vi', 'Danh má»¥c Ä‘Æ¡n vá»‹', 0, NULL),
-(11, 'phan-quyen', 'PhÃ¢n quyá»n', 0, NULL),
-(12, 'ho-so-ca-nhan', 'Há»“ sÆ¡ cÃ¡ nhÃ¢n', 0, NULL),
-(13, 'doi-mat-khau', 'Äá»•i máº­t kháº©u', 0, NULL),
-(14, 'thong-tin-phan-mem', 'ThÃ´ng tin pháº§n má»n', 0, NULL);
+(1, 'khach', 'Khach', 0, NULL),
+(2, 'nguoi-dung', 'Nguoi dung', 0, 1),
+(3, 'xu-ly-cong-viec', 'Xu ly cong viec', 0, 2),
+(4, 'giao-viec', 'Giao cong viec', 0, 3),
+(5, 'ket-xuat', 'Ket xuat bao cao', 0, 4),
+(6, 'quan-tri', 'Quan tri', 0, 5);
+
+INSERT INTO `users` (`user_id`,`username`, `password`, `state`) VALUES (1, 'admin', '$2y$14$GcPpzRHXOs4KHhKldLWtE.NG8Ryk8rvsq2/tlQWHF1v1oucfOodPO', 0);
+
+INSERT INTO `user_role_linker` (`user_id`, `role_id`) VALUES (1,6);

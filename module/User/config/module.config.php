@@ -130,142 +130,86 @@ return array(
             'BjyAuthorize\Guard\Controller'=>array(                
                 // ApplicationController
                 array(
-                    'controller'=>array('Application\Controller\Index'),
-                    'action'    =>array('app-info'),
-                    'roles'     =>array('ho-so-ca-nhan','admin'),
+                    'controller' => array('Application\Controller\Index'),
+                    'action' => array('app-info'),
+                    'roles' => array('nguoi-dung'),
                 ),
 
                 //zfcuserController
                 array(
-                    'controller'=>array('zfcuser'),  
-                    'action'    =>array('login'),                 
-                    'roles'     =>array('khach'),
-                ),
+                    'controller' => array('zfcuser'),  
+                    'action' => array('login'),
+                    'roles' => array('khach') 
+                ), 
 
                 array(
-                    'controller'=>array('zfcuser'),  
-                    'action'    =>array('logout'),                 
-                    'roles'     =>array('cong-viec-can-xu-ly','giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','nhat-ky-cong-viec','tao-tai-khoan','danh-sach-nhan-vien', 'tao-don-vi','danh-muc-don-vi','phan-quyen','ho-so-ca-nhan','doi-mat-khau','thong-tin-phan-mem','admin'),
+                    'controller' => array('zfcuser'),  
+                    'action' => array('logout', 'changepassword'),
+                    'roles' => array('nguoi-dung')
                 ),   
-
-                array(
-                    'controller'=>array('zfcuser'),
-                    'action'    =>array('changepassword'),
-                    'roles'     =>array('doi-mat-khau','admin'),
-                ),            
-
-                /**
-                 * @var chưa sử dụng
-                 */
-                //CongVanController
-                array(
-                    'controller'=>array('CongViec\Controller\CongVan'),
-                    'action'    =>array('index','cong-van-moi'),
-                    'roles'     =>array('admin'),
-                ),
 
                 //CongViecController
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('index','chi-tiet-cong-viec'),
-                    'roles'     =>array('cong-viec-can-xu-ly'),
+                    'action'    =>array('index','chi-tiet-cong-viec', 'ajax-get-to-chuc','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
+                    'roles'     =>array('xu-ly-cong-viec'),
+                ), 
+
+                array(
+                    'controller'=>array('CongViec\Controller\CongViec'),
+                    'action'    =>array('giao-viec'),
+                    'roles'     =>array('giao-viec'),
                 ),
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('giao-viec','ajax-get-to-chuc','chi-tiet-cong-viec','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
-                    'roles'     =>array('giao-viec-moi'),
-                ),
-
-                array(
-                    'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('nhat-ky-cong-viec','chi-tiet-cong-viec','xuat-bao-cao'),
-                    'roles'     =>array('nhat-ky-cong-viec'),
-                ),               
-
-                /**
-                 * @var chưa sử dụng
-                 */
-                // PhanCongController
-                array(
-                    'controller'=>array('CongViec\Controller\PhanCong'),
-                    'action'    =>array(),
-                    'roles'     =>array('admin'),
-                ),
-                
+                    'action'    =>array('nhat-ky-cong-viec','xuat-bao-cao'),
+                    'roles'     =>array('ket-xuat'),
+                ), 
 
                 // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('index','chi-tiet-cong-viec','bao-cao-moi','hoan-thanh'),
-                    'roles'     =>array('theo-doi-viec-da-giao','admin'),
+                    'action'    =>array('index'),
+                    'roles'     =>array('giao-viec'),
                 ),
 
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('bao-cao-nghiem-thu','bao-cao-moi','chi-tiet-cong-viec','hoan-thanh'),
-                    'roles'     =>array('bao-cao-nghiem-thu','admin'),
+                    'action'    =>array('chi-tiet-cong-viec','bao-cao-moi', 'bao-cao-nghiem-thu', 'hoan-thanh', 'huy-bao-cao'),
+                    'roles'     =>array('xu-ly-cong-viec'),
                 ),
-
-                array(
-                    'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('huy-bao-cao'),
-                    'roles'     =>array('giao-viec-moi','theo-doi-viec-da-giao','bao-cao-nghiem-thu','admin'),
-                ),
-
 
                 // UserController
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('them-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan'),
-                    'roles'     =>array('tao-tai-khoan','admin'),
+                    'action'    =>array('them-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan', 'phan-quyen','ajax-get-to-chuc','user-roles'),
+                    'roles'     =>array('quan-tri'),
                 ),
+
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('create-account','update'),
-                    'roles'     =>array('tao-tai-khoan','admin'),
+                    'action'    =>array('danh-sach-nhan-vien'),
+                    'roles'     =>array('ket-xuat'),
                 ),
-                array(
-                    'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('list', 'danh-sach-nhan-vien'),
-                    'roles'     =>array('danh-sach-nhan-vien','admin'),
-                ),
-                array(
-                    'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('tao-don-vi','sua-don-vi'),
-                    'roles'     =>array('tao-don-vi','admin'),
-                ),
-                array(
-                    'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('danh-muc-don-vi'),
-                    'roles'     =>array('danh-muc-don-vi','admin'),
-                ),
-                array(
-                    'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('phan-quyen','ajax-get-to-chuc','user-roles'),
-                    'roles'     =>array('phan-quyen','admin'),
-                ),
+
                 array(
                     'controller'=>array('User\Controller\Index'),
                     'action'    =>array('view'),
-                    'roles'     =>array('ho-so-ca-nhan','admin'),
+                    'roles'     =>array('nguoi-dung'),
                 ),
 
-                //DonViController
+               //DonViController
                 array(
                     'controller'=>array('User\Controller\DonVi'),
                     'action'    =>array('tao-moi','cap-nhat'),
-                    'roles'     =>array('tao-don-vi','admin'),
+                    'roles'     =>array('quan-tri'),
                 ),
                 array(
                     'controller'=>array('User\Controller\DonVi'),
                     'action'    =>array('danh-muc'),
-                    'roles'     =>array('danh-muc-don-vi','admin'),
+                    'roles'     =>array('ket-xuat'),
                 ),
-
-                /**
-                 * @var admin có toàn quyền trên hệ thống
-                 */
 
             ),
         ),
