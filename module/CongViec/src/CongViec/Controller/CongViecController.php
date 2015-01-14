@@ -507,7 +507,7 @@ class CongViecController extends AbstractActionController
                 {                    
                     $chuTri=$nguoiThucHien->getNguoiThucHien()->getHoTen();
                 }                
-            }            
+            }
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
             $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
@@ -622,7 +622,7 @@ class CongViecController extends AbstractActionController
         if($trangThai==15)
         {
             $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Trễ hạn');
-        }        
+        }
         foreach(array('A','C','D') as $columnID) {
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
