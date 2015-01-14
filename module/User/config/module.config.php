@@ -221,6 +221,11 @@ return array(
                 /**
                  * @var admin có toàn quyền trên hệ thống
                  */
+                array(
+                    'controller'=>array('User\Controller\Index'),
+                    'action'    =>array('admin-change-pass-word'),
+                    'roles'     =>array('admin'),
+                ),
 
             ),
         ),
