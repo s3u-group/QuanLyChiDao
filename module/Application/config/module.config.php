@@ -146,13 +146,13 @@ return array(
                             'action' => 'index'
                         )
                     ),
-                    array(
+                   /* array(
                         'label' => 'Báo cáo nghiệm thu',
                         'route' => 'theo_doi/crud',
                         'params' => array(
                             'action' => 'bao-cao-nghiem-thu'
                         )
-                    ),
+                    ),*/
                     array(
                         'label' => 'Nhật ký công việc',
                         'route' => 'cong_viec/crud',

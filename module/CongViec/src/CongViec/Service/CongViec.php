@@ -2,6 +2,7 @@
 namespace CongViec\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class CongViec implements ServiceManagerAwareInterface{
 
@@ -43,8 +44,9 @@ class CongViec implements ServiceManagerAwareInterface{
 
 	public function getBaoCaoCuoi($congViec){
 		$entityManager = $this->getEntityManager();
-		$query = $entityManager->createQuery('select bc from CongViec\Entity\TheoDoi bc where bc.congVan = ?1 orderBy bc.id DESC')
+		$query = $entityManager->createQuery('select bc from CongViec\Entity\TheoDoi bc where bc.congVan = ?1 order by bc.id DESC');
+		$query->setMaxResults(1);
 		$query->setParameter(1, $congViec->getId());
-		return $query->getSingleResult();
+		return $query->getOneOrNullResult();
 	}
 }

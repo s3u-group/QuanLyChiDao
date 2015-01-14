@@ -13,7 +13,8 @@ use CongViec\Form\CapNhatCongViecForm;
 use DateTime;
 use DateTimeZone;
 
-use CongViec\Form\LocForm;
+use CongViec\Form\LocCanXuLyForm;
+use CongViec\Form\LocNhatKyForm;
 
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -52,7 +53,7 @@ class CongViecController extends AbstractActionController
 
         $entityManager=$this->getEntityManager();  
 
-        $form = new LocForm();
+        $form = new LocCanXuLyForm();
 
         $request=$this->getRequest();
         $qb = $entityManager->createQueryBuilder();
@@ -139,71 +140,95 @@ class CongViecController extends AbstractActionController
     }
     
     public function nhatKyCongViecAction(){
-        if(!$this->zfcUserAuthentication()->hasIdentity())
-        {
+        if(!$this->zfcUserAuthentication()->hasIdentity()) {
            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
         }
-        else
-        {
-            $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
-        }
-        
-        $dieuKienLoc='';
-        $dieuKien='';
-        $duLieu='';
 
-        $entityManager=$this->getEntityManager();           
+        $entityManager=$this->getEntityManager();  
+
+        $form = new LocNhatKyForm();
+
         $request=$this->getRequest();
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('cv')
+            ->from('CongViec\Entity\CongViec', 'cv')
+            ->join('cv.nguoiThucHiens', 'pc')
+            ->leftJoin('cv.cha', 'c')
+            ->leftJoin('c.nguoiKy', 'nk')
+            ->where('cv.trangThai in (?2)')
+            ->andWhere('pc.vaiTro != ?50')
+            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+            ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ;
+
+        if($request->isPost()){
+            $post = $request->getPost();
+
+            /**
+             * Thoi gian
+             */
+            if(isset($post['tuNgay']) && $post['tuNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh >= ?3');
+                $qb->setParameter(3, $post['tuNgay']);
+            }
+            if(isset($post['denNgay']) && $post['denNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh <= ?4');
+                $qb->setParameter(4, $post['denNgay']);
+            }
+
+            /**
+             * Trang thai
+             */
+            switch ($post['trangThai']) {
+                case '1':
+                    // chua hoan thanh
+                    $qb->andWhere('cv.trangThai in (?5)');
+                    $qb->setParameter(5, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
+                    break;
+                case '2':
+                    // da hoan thanh
+                    $qb->andWhere('cv.trangThai in (?6)');
+                    $qb->setParameter(6, array(\CongViec\Entity\CongViec::HOAN_THANH, \CongViec\Entity\CongViec::TRE_HAN));
+                    break;
+                case '3':
+                    // qua han
+                    $qb->andWhere('cv.ngayHoanThanh <= ?7');
+                    $date = new DateTime('now');
+                    $qb->setParameter(7, $date->format('Y-m-d H:i:s'));
+                    break;
+                case '4':
+                    // tat ca
+                    break;
+            }
+
+            /**
+             * Tim nhanh
+             */
+            if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
+                if($post['tieuChi'] == 1){
+                    // tim theo chu de
+                    $qb->andWhere('cv.ten like ?8');
+                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                }
+                else{
+                    // tim theo ten nguoi ky
+                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                }
+            }
+
+            $form->setData($post);
+        }
         
-        if($request->isPost())
-        {           
-            $post=$request->getPost();
-            //die(var_dump($post));
-            if($post['btnSubmit']!='Xem hết')
-            {
-                $dk='';
-                $dieuKienLoc=$post['dieuKienLoc'];
-                $dieuKien=$post['dieuKien'];
-                $duLieu=$post['txtDuLieu'];
-                if($post['txtDuLieu'])
-                {
-                    if($post['dieuKien']=='ten'){
-                        $dk.=' and cv.ten LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-                    }
-                    elseif($post['dieuKien']=='nguoiTao'){
-                        $dk.='and u.username LIKE '.'\''.'%'.$post['txtDuLieu'].'%'.'\'';
-                    }
-                }
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc, User\Entity\User u WHERE cv.id=pc.congVan and cv.nguoiTao=u.id and pc.nguoiThucHien='.$idUser.' '.$dk);
-                if($dk=='')
-                {
-                    $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-                }
-                $congViecs=$query->getResult();
-            }
-            else
-            {
-                $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-                $congViecs=$query->getResult();
-            }
-        }
-        else
-        {
-            $query=$entityManager->createQuery('SELECT cv FROM CongViec\Entity\CongViec cv, CongViec\Entity\PhanCong pc WHERE cv.id=pc.congVan and pc.nguoiThucHien='.$idUser);
-            $congViecs=$query->getResult();
-        }
-        if($dieuKienLoc=='')
-        {
-            $dieuKienLoc='Trễ hạn';
-        }
-        //die(var_dump($congViecs));
+        //var_dump($qb->getDql());
+        $query = $qb->getQuery();
+        $congViecs = $query->getResult();
+
         return array(
+            'form' => $form,
             'congViecs'=>$congViecs,
-            'dieuKienLoc'=>$dieuKienLoc,
-            'duLieu'=>$duLieu,
-            'dieuKien'=>$dieuKien,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
-        
     }
 
     public function giaoViecAction(){
@@ -482,7 +507,7 @@ class CongViecController extends AbstractActionController
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
 
-        foreach ($congViecs as $index => $congViec) {
+        foreach ($congViecs as $index => $congViec) {            
             $nguoiThucHiens=$congViec->getNguoiThucHiens();
             foreach ($nguoiThucHiens as $nguoiThucHien)
             {
@@ -494,7 +519,7 @@ class CongViecController extends AbstractActionController
             $dong=$index+3;            
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);            
             $objPHPExcel->getActiveSheet()->getStyle('B'.$dong)->getAlignment()->setWrapText(true);
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $congViec->getCha()->getSoHieu()."\n".$congViec->getCha()->getNguoiKy()->getHoTen());
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, 'Số '.$congViec->getCha()->getSoHieu().'ngày '."\n".$congViec->getCha()->getNguoiKy()->getHoTen());
 
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong,$congViec->getNoiDung());
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong,$chuTri);
@@ -532,7 +557,7 @@ class CongViecController extends AbstractActionController
         $entityManager=$this->getEntityManager();
         $request=$this->getRequest();
         if($request->isPost())
-        {
+        {            
             $mangIds=$request->getPost()->get('mangId');
             $mang='';                
             $i = 0;
@@ -544,20 +569,22 @@ class CongViecController extends AbstractActionController
                     $mang.=',';
                 }
                 $i++;
-            }                
+            }
+
             $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td WHERE td.id IN ('.$mang.')');
-            $theoDois=$query->getResult();                
+            $theoDois=$query->getResult();
+
             $objPHPExcel = new PHPExcel();                
             $fileName='bao_cao_qua_trinh';
             $tieuDe='DANH SÁCH BÁO CÁO QUÁ TRÌNH THỰC HIỆN CÔNG VIỆC';                
-            $fieldName=array(0=>'Tên công việc',1=>'Ngày ban hành: ',2=>'Hạn xử lý: ',3=>'Trạng thái: ',4=>'STT',5=>'Nội dung',6=>'Ngày báo cáo', 7=>'Người tạo báo cáo');
+            $fieldName=array(0=>'Tên công việc',1=>'STT',2=>'Nội dung',3=>'Ngày báo cáo', 4=>'Người tạo báo cáo');
             $PI_ExportExcel=$this->ExportExcel();
             $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois));
         }        
     }
 
     public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois)
-    {        
+    {
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
            return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
@@ -565,8 +592,7 @@ class CongViecController extends AbstractActionController
         else
         {
             $idUser=$this->zfcUserAuthentication()->getIdentity()->getId();
-        }
-
+        }        
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
@@ -577,22 +603,57 @@ class CongViecController extends AbstractActionController
         $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle("A1:D1")->getFont()->setSize(13);
 
+        $objPHPExcel->getActiveSheet()->getStyle('A4:D4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:D4')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+
         $objPHPExcel->getActiveSheet()->mergeCells('A2:D2');
         $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
         $objPHPExcel->getActiveSheet()->setCellValue('A2', $fieldName[0])
-                                      ->setCellValue('A3', $fieldName[1])
-                                      ->setCellValue('C3', $fieldName[2])
-                                      ->setCellValue('D3', $fieldName[3])
-                                      ->setCellValue('A4', $fieldName[4])
-                                      ->setCellValue('B4', $fieldName[5])
-                                      ->setCellValue('C4', $fieldName[6])
-                                      ->setCellValue('D4', $fieldName[7])
+                                      ->setCellValue('A4', $fieldName[1])
+                                      ->setCellValue('B4', $fieldName[2])
+                                      ->setCellValue('C4', $fieldName[3])
+                                      ->setCellValue('D4', $fieldName[4])
                                       ->getStyle('A2:D2')->getFont()->setBold(true);
 
+        $trangThai=$theoDois[0]->getCongVan()->getTrangThai();
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Tên: '.$theoDois[0]->getCongVan()->getTen());
+        $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Ngày Ban Hành: '.$theoDois[0]->getCongVan()->getNgayBanHanh()->format('d/m/Y'));
+        $objPHPExcel->getActiveSheet()->setCellValue('C3', 'Hạn Xử Lý: '.$theoDois[0]->getCongVan()->getNgayHoanThanh()->format('d/m/Y'));
+
+        if($trangThai==0)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Đã hủy');
+        }
+        if($trangThai==1)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Chưa xem');
+        }
+        if($trangThai==5)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Đang xử lý');
+        }
+        if($trangThai==10)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Hoàn thành');
+        }
+        if($trangThai==15)
+        {
+            $objPHPExcel->getActiveSheet()->setCellValue('D3', 'Trạng thái: Trễ hạn');
+        }        
+        foreach(array('A','C','D') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        }
         foreach ($theoDois as $index => $theoDoi) {
+            $dong=$index+5;
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$dong, $theoDoi->getNoiDung());
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$dong, $theoDoi->getNgayBaoCao()->format('d/m/Y'));
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$dong, $theoDoi->getNguoiTao()->getHoTen());
+
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':D'.$dong)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':D'.$dong)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 
         }
-
         foreach(range('A','D') as $columnID) {
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }

@@ -7,8 +7,9 @@ use CongViec\Entity\TheoDoi;
 use CongViec\Entity\DinhKemTheoDoi;
 use CongViec\Form\TheoDoiForm;
 use CongViec\Form\TheoDoiFieldset;
+use DateTime;
 
-use CongViec\Form\LocForm;
+use CongViec\Form\LocCongViecDaGiaoForm;
 
 class TheoDoiController extends AbstractActionController
 {
@@ -33,7 +34,7 @@ class TheoDoiController extends AbstractActionController
 
         $entityManager=$this->getEntityManager();  
 
-        $form = new LocForm();
+        $form = new LocCongViecDaGiaoForm();
 
         $request=$this->getRequest();
         $qb = $entityManager->createQueryBuilder();
@@ -41,12 +42,11 @@ class TheoDoiController extends AbstractActionController
             ->from('CongViec\Entity\CongViec', 'cv')
             ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
             ->leftJoin('cv.cha', 'c')
-            ->leftJoin('c.nguoiKy', 'nk')
-            ->where('cv.trangThai in (?2)')
-            ->andWhere('pc.vaiTro != ?50')
+            ->leftJoin('pc.nguoiThucHien', 'ct', 'with', 'pc.vaiTro = ?50')
+            ->andWhere('pc.vaiTro = ?2')
             ->setParameter(1, $userId)
-            ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
-            ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ->setParameter(2, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+            ->setParameter(50, \CongViec\Entity\PhanCong::CHU_TRI)
             ;
 
         if($request->isPost()){
@@ -69,14 +69,14 @@ class TheoDoiController extends AbstractActionController
              */
             switch ($post['trangThai']) {
                 case '1':
-                    // chua xu ly
-                    $qb->andWhere('cv.trangThai = ?5');
-                    $qb->setParameter(5, \CongViec\Entity\CongViec::CHUA_XEM);
+                    // chua hoan thanh
+                    $qb->andWhere('cv.trangThai in (?5)');
+                    $qb->setParameter(5, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
                     break;
                 case '2':
-                    // dang xu ly
-                    $qb->andWhere('cv.trangThai = ?6');
-                    $qb->setParameter(6, \CongViec\Entity\CongViec::DANG_XU_LY);
+                    // da hoan thanh
+                    $qb->andWhere('cv.trangThai in (?6)');
+                    $qb->setParameter(6, array(\CongViec\Entity\CongViec::HOAN_THANH, \CongViec\Entity\CongViec::TRE_HAN));
                     break;
                 case '3':
                     // qua han
@@ -99,8 +99,8 @@ class TheoDoiController extends AbstractActionController
                     $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
                 }
                 else{
-                    // tim theo ten nguoi ky
-                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                    // tim theo ten nguoi chu tri
+                    $qb->andWhere('CONCAT(ct.ho, \' \', ct.ten) like ?9');
                     $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
                 }
             }
@@ -115,6 +115,7 @@ class TheoDoiController extends AbstractActionController
         return array(
             'form' => $form,
             'congViecs'=>$congViecs,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
 
     }

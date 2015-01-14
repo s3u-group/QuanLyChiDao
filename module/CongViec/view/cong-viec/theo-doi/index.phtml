@@ -1,5 +1,5 @@
 <?php $user=$this->zfcUserIdentity();?>
-<?php $form->setAttribute('action', $this->url('cong_viec/crud')); ?>
+<?php $form->setAttribute('action', $this->url('theo_doi/crud')); ?>
 <?php $form->prepare();?>
 
 <?php echo $this->form()->openTag($form);?>
@@ -68,7 +68,7 @@
         <tr>    
           <th>STT</th>      
           <th class="six wide">Nội dung công việc</th>
-          <th class="five wide">Báo cáo mới nhất</th> 
+          <th class="five wide">Báo cáo cuối</th> 
           <th>Chủ trì</th>
           <th>Hạn xử lý</th>       
         </tr>
@@ -81,7 +81,7 @@
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">
-                <?php elseif($congViec->getTrangThai() == \CongViec\Entity\CongViec::CHUA_XEM): ?>
+                <?php elseif($congViec->getTrangThai() == \CongViec\Entity\CongViec::HOAN_THANH || $congViec->getTrangThai() == \CongViec\Entity\CongViec::TRE_HAN): ?>
                   <td class="positive">
                 <?php else: ?>
                   <td>
@@ -96,7 +96,9 @@
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>
-                fdsfs
+                <?php if($baoCao = $congViecService->getBaoCaoCuoi($congViec)): ?>
+                  <strong>[<?php echo $baoCao->getNguoiTao()->getTen(); ?>]</strong> - <?php echo $baoCao->getNoiDung(); ?>
+                <?php endif; ?>
               </td>                    
               <td>
                 <?php $user = $congViec->getNguoiChuTri(); ?>
@@ -117,13 +119,13 @@
   </div>
   <?php if($trangThai == 4): //tat ca ?>
     <div class="ui grid">
-      <div class="two wide column">
-        <div class="ui green empty circular label"></div>
-        <span style="color:green;">&nbsp;Chưa xem</span>
-      </div>
-      <div class="two wide column">
+      <div class="three wide column">
         <div class="ui empty circular label"></div>
-        <span>&nbsp;Đang xử lý</span>
+        <span>&nbsp;Chưa hoàn thành</span>
+      </div>
+      <div class="three wide column">
+        <div class="ui green empty circular label"></div>
+        <span style="color:green;">&nbsp;Đã hoàn thành</span>
       </div>
       <div class="two wide column">
         <div class="ui red empty circular label"></div>
