@@ -24,7 +24,8 @@ class TheoDoiForm extends Form
              'name' => 'submit',
              'type' => 'Submit',
              'attributes' => array(
-                 'value' => 'Lưu thông tin'
+                 'value' => 'Lưu thông tin',
+                 'class' => 'ui blue button'
              ),
          ));
     }

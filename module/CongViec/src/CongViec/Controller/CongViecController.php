@@ -89,14 +89,14 @@ class CongViecController extends AbstractActionController
              */
             switch ($post['trangThai']) {
                 case '1':
-                    // chua xu ly
-                    $qb->andWhere('cv.trangThai = ?5');
-                    $qb->setParameter(5, \CongViec\Entity\CongViec::CHUA_XEM);
+                    // chua xem
+                    $qb->andWhere('pc.trangThai = ?5');
+                    $qb->setParameter(5, \CongViec\Entity\PhanCong::CHUA_XEM);
                     break;
                 case '2':
                     // dang xu ly
-                    $qb->andWhere('cv.trangThai = ?6');
-                    $qb->setParameter(6, \CongViec\Entity\CongViec::DANG_XU_LY);
+                    $qb->andWhere('pc.trangThai = ?6');
+                    $qb->setParameter(6, \CongViec\Entity\PhanCong::DA_XEM);
                     break;
                 case '3':
                     // qua han
@@ -135,6 +135,7 @@ class CongViecController extends AbstractActionController
         return array(
             'form' => $form,
             'congViecs'=>$congViecs,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
 
     }
@@ -331,45 +332,48 @@ class CongViecController extends AbstractActionController
         }
     }
 
+    public function xemCongViecAction(){
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+
+        $entityManager = $this->getEntityManager();
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        
+        /* cap nhat trang thai */
+        if($congViec->isChuaXem()){
+            $congViec->setTrangThai(\CongViec\Entity\CongViec::DANG_XU_LY);
+            $entityManager->flush();
+        }
+        $this->moCongViec($congViec);
+        
+        return array(
+            'congViec' => $congViec,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
+        );
+    }
+
+    public function moCongViec($congViec){
+        $entityManager = $this->getEntityManager();
+        $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien = ?2');
+        $query->setParameter(1, $congViec->getId());
+        $query->setParameter(2, $userId);
+        $phanCong = $query->getOneOrNullResult();
+        $phanCong->setTrangThai(\CongViec\Entity\PhanCong::DA_XEM);
+        $entityManager->flush();
+    }
+
     public function chiTietCongViecAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
-            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'index'));
-        }  
-        $entityManager=$this->getEntityManager();
-        $congViec=$entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
-        $form = new CapNhatCongViecForm($entityManager);
-        $form->bind($congViec);
-        $request=$this->getRequest();
-        if($request->isPost())
-        {
-            $form->setData($request->getPost());
-            if($form->isValid()){
-                $entityManager->flush();
-                $post = array_merge_recursive(
-                    $request->getPost()->toArray(),
-                    $request->getFiles()->toArray()
-                );
-                //die(var_dump($post));
-                $post=$post['congViecs']['dinhKems'];
-                $this->dinhKemMoi($entityManager,$post,$congViec);
-                $this->flashMessenger()->addMessage('Cập nhật công việc thành công!');
-                return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$id));
-            }
-            else
-            {
-                $this->flashMessenger()->addMessage('Cập nhật công việc thất bại!');
-                //die(var_dump($form->getMessages()));
-            }
-            
-        }
-        $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td JOIN td.congVan cv WHERE cv.id=\''.$id.'\'');
-        $theoDois=$query->getResult();
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+
+        $entityManager = $this->getEntityManager();
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        
         return array(
-            'congViec'=>$congViec,
-            'theoDois'=>$theoDois,
-            'form'=>$form,
+            'congViec' => $congViec,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
     }
 

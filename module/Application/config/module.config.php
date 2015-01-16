@@ -214,7 +214,7 @@ return array(
                         'label' => 'Hồ sơ cá nhân',
                         'route' => 'user/crud',
                         'params' => array(
-                            'action' => 'view'
+                            'action' => 'ho-so-ca-nhan'
                         )
                     ),
                     array(

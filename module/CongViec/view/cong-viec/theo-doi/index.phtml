@@ -92,7 +92,7 @@
                 <?php echo $i+1; ?>
               </td>
               <td>
-                <div><a class="ui link" href="<?php echo $this->url('cong_viec/crud', array('action' => 'chi-tiet-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
+                <div><a class="ui link" href="<?php echo $this->url('theo_doi/crud', array('action' => 'xem-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>

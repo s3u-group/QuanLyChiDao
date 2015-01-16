@@ -13,12 +13,12 @@
 			  		Lĩnh vực: <strong><?php echo $congViec->getLinhVucLabel(); ?></strong>
 			  	</div>
 			</div>		
-			<a href="#" class="ui small button right floated">
+			<!-- <a href="#" class="ui small button right floated">
 			  	In công việc
-			</a>
-			<!-- <a href="<?php echo $this->url('theo_doi/crud', array('action'=>'bao-cao', 'id'=>$congViec->getId())) ?>" class="ui small button right floated <?php echo $congViec->isHoanThanh()?'disabled':''; ?>">
+			</a> -->
+			<a href="<?php echo $this->url('theo_doi/crud', array('action'=>'bao-cao', 'id'=>$congViec->getId())) ?>" class="ui small button right floated <?php echo $congViec->isHoanThanh()?'disabled':''; ?>">
 			  	Tạo báo cáo
-			</a> -->	
+			</a>	
 			<!-- <a href="<?php echo $this->url('theo_doi/crud', array('action'=>'nghiem-thu', 'id'=>$congViec->getId())) ?>" class="ui green animated fade small button right floated <?php echo $congViec->isHoanThanh()?'disabled':''; ?>">
 			  	<div class="visible content">Nghiệm thu</div>
 			  	<div class="hidden content">Hoàn thành</div>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="ten wide column">
+		<div class="sixteen wide column">
 			<h3 class="ui header"><?php echo $congViec->getTen(); ?>
 				<?php if($congViec->isHoanThanh()): ?>
 					<div class="ui red horizontal label">Hoàn thành</div>
@@ -79,25 +79,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="six wide column">
-			<h3 class="ui header">Phân công</h3>
-			<div class="ui divider"></div>
-			<?php $nguoiThucHiens = $congViecService->getNguoiDuocPhanCong($congViec); ?>
-			<div class="ui list">
-				<?php foreach($nguoiThucHiens as $phanCong): ?>
-		            <div class="item">
-		              	<?php $user = $phanCong->getNguoiThucHien(); ?>
-		              	<?php if($phanCong->chuaXem()): ?>
-		              		<div class="ui empty circular label"></div>
-		              	<?php else: ?>
-		              		<div class="ui green empty circular label"></div>
-		          		<?php endif; ?>
-		              	<?php echo $user->getHoTen(); ?>
-		              	<div class="right floated"><?php echo $phanCong->getVaiTroLabel(); ?></div>
-		            </div>
-	        	<?php endforeach; ?>
-	        </div>
 		</div>
 	</div>
 </div>

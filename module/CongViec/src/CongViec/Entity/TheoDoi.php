@@ -4,9 +4,11 @@ namespace CongViec\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Datetime;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="theo_doi")
  */
 class TheoDoi
@@ -58,6 +60,13 @@ class TheoDoi
 	 * @ORM\Column(name="trang_thai", type="integer")	
 	 */
 	protected $trangThai=1;
+
+	/**
+	 * @ORM\PrePersist 
+	 */
+	public function onPrePersist(){
+    	$this->ngayBaoCao = new DateTime('now');
+	}
 
     public function __construct(){
         $this->dinhKems = new ArrayCollection();
@@ -130,6 +139,11 @@ class TheoDoi
     }
     public function getNguoiTao(){
     	return $this->nguoiTao;
+    }
+
+    public function getTenNguoiTao(){
+    	if($nguoiTao = $this->getNguoiTao())
+    		return $nguoiTao->getHoTen();
     }
 
 }

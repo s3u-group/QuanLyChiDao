@@ -1,0 +1,37 @@
+<?php $form->setAttribute('action', $this->url('quyen/crud', array('action'=>'sua-quyen', 'id'=>$roleId)));
+$form->prepare();?>
+
+<?php
+echo $this->form()->openTag($form);
+$form->get('roleId')->setAttribute('readonly', 'true');
+$form->get('submit')->setAttribute('value', 'Lưu thông tin');
+?>
+<div class="ui form">
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="sixteen wide column">
+				<div class="field">
+					<?php echo $this->formLabel($form->get('roleId')); ?>
+		          	<?php echo $this->formElement($form->get('roleId')); ?>
+		          	<?php echo $this->formElementErrors($form->get('roleId')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($form->get('roleName')); ?>
+		          	<?php echo $this->formElement($form->get('roleName')); ?>
+		          	<?php echo $this->formElementErrors($form->get('roleName')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($form->get('parent')); ?>
+		          	<?php echo $this->formElement($form->get('parent')); ?>
+		          	<?php echo $this->formElementErrors($form->get('parent')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formHidden($form->get('csrf')) ?>
+					<?php echo $this->formHidden($form->get('id')) ?>
+					<?php echo $this->formSubmit($form->get('submit')) ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag(); ?>

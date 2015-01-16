@@ -1,0 +1,33 @@
+<?php
+$form->setAttribute('action', $this->url('theo_doi/crud', array('action'=>'nghiem-thu', 'id'=> $id)));
+$form->prepare();?>
+
+<?php
+echo $this->form()->openTag($form);
+$baoCao = $form->get('theo-doi');?>
+<div class="ui form">
+	<div class="ui celled grid">
+		<div class="row">
+			<div class="sixteen wide column">
+				<div class="field">
+					<?php $baoCao->get('noiDung')->setLabel('Kết quả nghiệm thu') ?>
+					<?php echo $this->formLabel($baoCao->get('noiDung')); ?>
+					<?php echo $this->formElement($baoCao->get('noiDung')); ?>
+					<?php echo $this->formElementErrors($baoCao->get('noiDung')); ?>
+				</div>
+				<div class="field">
+					<?php echo $this->formLabel($baoCao->get('dinhKems')); ?>
+					<?php echo $this->formElement($baoCao->get('dinhKems')); ?>
+					<?php echo $this->formElementErrors($baoCao->get('dinhKems')); ?>
+				</div>
+				<div class="field">
+					<?php $baoCao->get('nguoiTao')->setValue($this->zfcUserIdentity()->getId()); ?>
+					<?php $baoCao->get('congVan')->setValue($id); ?>
+					<?php echo $this->formHidden($baoCao->get('nguoiTao')); ?>
+					<?php echo $this->formHidden($baoCao->get('congVan')); ?>
+					<?php echo $this->formSubmit($form->get('submit')); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

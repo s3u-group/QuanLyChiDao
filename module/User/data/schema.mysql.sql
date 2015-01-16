@@ -45,12 +45,12 @@ CREATE TABLE IF NOT EXISTS `don_vi`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `user_role` (`id`, `roleId`, `role_name`, `is_default`, `parent_id`) VALUES
-(1, 'khach', 'Khach', 0, NULL),
-(2, 'nguoi-dung', 'Nguoi dung', 0, 1),
-(3, 'xu-ly-cong-viec', 'Xu ly cong viec', 0, 2),
-(4, 'giao-viec', 'Giao cong viec', 0, 3),
-(5, 'ket-xuat', 'Ket xuat bao cao', 0, 4),
-(6, 'quan-tri', 'Quan tri', 0, 5);
+(1, 'khach', 'KhÃ¡ch', 0, NULL),
+(2, 'nguoi-dung', 'NgÆ°á»i dÃ¹ng', 0, 1),
+(3, 'xu-ly-cong-viec', 'Xá»­ lÃ½ cÃ´ng viá»‡c', 0, 2),
+(4, 'giao-viec', 'Giao cÃ´ng viá»‡c', 0, 3),
+(5, 'ket-xuat', 'Káº¿t xuáº¥t bÃ¡o cÃ¡o', 0, 4),
+(6, 'quan-tri', 'Quáº£n trá»‹', 0, 5);
 
 INSERT INTO `users` (`user_id`,`username`, `password`, `state`) VALUES (1, 'admin', '$2y$14$GcPpzRHXOs4KHhKldLWtE.NG8Ryk8rvsq2/tlQWHF1v1oucfOodPO', 0);
 

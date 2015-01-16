@@ -49,4 +49,24 @@ class CongViec implements ServiceManagerAwareInterface{
 		$query->setParameter(1, $congViec->getId());
 		return $query->getOneOrNullResult();
 	}
+
+    public function getNguoiDuocPhanCong($congViec){
+        //danh sach nguoi thuc hien ngoai tru nguoi phan cong, co sap xep theo vai tro
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.vaiTro != ?2 order by p.vaiTro');
+        $query->setParameter(1, $congViec->getId());
+        $query->setParameter(2, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
+        $phanCongs = $query->getResult();
+        return $phanCongs;
+    }
+
+    public function getPhuTrach($congViec){
+        $entityManager = $this->getEntityManager();
+        $sm = $this->getServiceManager();
+        $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien = ?2');
+        $query->setParameter(1, $congViec->getId());
+        $query->setParameter(2, $userId);
+        return $query->getOneOrNullResult();
+    }
 }

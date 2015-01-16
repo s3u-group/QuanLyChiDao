@@ -23,43 +23,34 @@ class TheoDoiFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
-            'name' => 'ngayBaoCao',
-            'type' => 'date',
-            'options'=>array(
-                'label' => 'Ngày báo cáo'      
-            ),
+            'type' => 'hidden',
+            'name' => 'nguoiTao'
+        ));
+
+        $this->add(array(
+            'type' => 'hidden',
+            'name' => 'congVan'
         ));
 
         $this->add(array(
             'name' => 'noiDung',
             'type' => 'Textarea',
             'options'=>array(
-                'label' => 'nội dung'
+                'label' => 'Nội dung'
             ),
         ));
 
         $this->add(array(
-            'name' => 'congVan',
-            'type' => 'Hidden',
+            'name' => 'dinhKems',
+            'type' => 'file',
+            'options' => array(
+                'label' => 'Đính kèm'
+            ),
+            'attributes' => array(
+                'id' => 'dinhKem',
+                'multiple' => true
+            )
         ));
-         $this->add(array(
-             'name' => 'nguoiBaoCao',
-             'type' => 'Hidden',
-             'options' => array(
-                 'label' => 'Người báo cáo mặc định là người chủ trì',
-             ),
-         ));
-         $this->add(array(
-             'name' => 'nguoiTao',
-             'type' => 'Hidden',
-         ));
-
-        // File Input
-        $dinhKems = new \Zend\Form\Element\File('dinhKems');
-        $dinhKems->setAttribute('id', 'dinhKems') 
-                 ->setAttribute('label', 'Đính kèm')  
-                 ->setAttribute('multiple', true);   // That's it
-        $this->add($dinhKems);
        
     }
     public function getInputFilterSpecification()
@@ -69,12 +60,6 @@ class TheoDoiFieldset extends Fieldset implements InputFilterProviderInterface
                 'required' => false
             ),
             'noiDung' => array(
-                'required' => true
-            ),
-            'nguoiBaoCao' => array(
-                'required' => false // tam thoi de false
-            ),
-            'ngayBaoCao' => array(
                 'required' => true
             ),
         );

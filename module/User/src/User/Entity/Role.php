@@ -121,4 +121,9 @@ class Role implements HierarchicalRoleInterface
     {
         $this->parent = $parent;
     }
+
+    public function getTenCha(){
+        if($cha = $this->parent)
+            return $cha->getRoleName();
+    }
 }

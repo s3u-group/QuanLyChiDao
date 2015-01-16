@@ -128,6 +128,11 @@ class CongVan
      */
     protected $congViecs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="CongViec\Entity\TheoDoi", mappedBy="congVan")
+     */
+    protected $baoCaos;
+
     protected $quaHan = false;
 
     /**
@@ -161,6 +166,7 @@ class CongVan
         $this->nguoiThucHiens = new ArrayCollection();
         $this->donViTiepNhans = new ArrayCollection();
         $this->congViecs = new ArrayCollection();
+        $this->baoCaos = new ArrayCollection();
     }
 
 	public function getId(){
@@ -192,12 +198,22 @@ class CongVan
 		return $this->loai;
 	}
 
+	public function getLoaiLabel(){
+		if($loai = $this->getLoai())
+			return $loai->getTermName();
+	}
+
 	public function setLinhVuc($linhVuc){
 		$this->linhVuc = $linhVuc;
 	}
 
 	public function getLinhVuc(){
 		return $this->linhVuc;
+	}
+
+	public function getLinhVucLabel(){
+		if($linhVuc = $this->getLinhVuc())
+			return $linhVuc->getTermName();
 	}
 
 	public function setTrichYeu($trichYeu){
@@ -428,7 +444,36 @@ class CongVan
     	return $this->congViecs->toArray();
     }
 
+    public function addBaoCaos($baoCaos){
+    	foreach($baoCaos as $baoCao){
+    		$baoCao->setCongVan($this);
+    		$this->baoCaos->add($baoCao);
+    	}
+    }
+
+    public function removeBaoCaos($baoCaos){
+    	foreach($baoCaos as $baoCao){
+    		$baoCao->setCongVan(null);
+    		$this->baoCaos->remove($baoCao);
+    	}
+    }
+
+    public function getBaoCaos(){
+    	return $this->baoCaos->toArray();
+    }
+
     public function isQuaHan(){
     	return $this->quaHan;
+    }
+
+    public function isHoanThanh(){
+    	if($this->trangThai == self::HOAN_THANH) return 1;
+    	if($this->trangThai == self::TRE_HAN) return 1;
+    	return 0;
+    }
+
+    public function isChuaXem(){
+    	if($this->trangThai == self::CHUA_XEM) return 1;
+    	return 0;
     }
 }

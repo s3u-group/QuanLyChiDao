@@ -1,5 +1,5 @@
 <?php $user=$this->zfcUserIdentity();?>
-<?php $form->setAttribute('action', $this->url('cong_viec/crud')); ?>
+<?php $form->setAttribute('action', $this->url('cong_viec')); ?>
 <?php $form->prepare();?>
 
 <?php echo $this->form()->openTag($form);?>
@@ -79,11 +79,12 @@
         <?php if(count($congViecs)): ?>
           <?php foreach($congViecs as $i=>$congViec): ?>
           <?php $congVan = $congViec->getCongVan(); ?>
+          <?php $phuTrach = $congViecService->getPhuTrach($congViec); ?>
           <tr>
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">
-                <?php elseif($congViec->getTrangThai() == \CongViec\Entity\CongViec::CHUA_XEM): ?>
+                <?php elseif($phuTrach->getTrangThai() == \CongViec\Entity\PhanCong::CHUA_XEM): ?>
                   <td class="positive">
                 <?php else: ?>
                   <td>
@@ -94,7 +95,7 @@
                 <?php echo $i+1; ?>
               </td>
               <td>
-                <div><a class="ui link" href="<?php echo $this->url('cong_viec/crud', array('action' => 'chi-tiet-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
+                <div><a class="ui link" href="<?php echo $this->url('cong_viec/crud', array('action' => 'xem-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>

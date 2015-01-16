@@ -235,6 +235,17 @@ class TermTaxonomy extends \Taxonomy\Entity\TermTaxonomy implements \Doctrine\OR
     /**
      * {@inheritDoc}
      */
+    public function getTermName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTermName', array());
+
+        return parent::getTermName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setTaxonomy($taxonomy)
     {
 

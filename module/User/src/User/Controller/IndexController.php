@@ -16,6 +16,8 @@ use Zend\View\Model\JsonModel;
 
 use User\Form\ThemNhanVienForm;
 use User\Form\LocDanhSachNhanVienForm;
+use User\Form\QuyenForm;
+use User\Entity\Role;
 
 class IndexController extends AbstractActionController
 {
@@ -167,6 +169,13 @@ class IndexController extends AbstractActionController
         return array(
             'form' => $form,
             'idUser' => $id
+        );
+    }
+
+    public function hoSoCaNhanAction(){
+        $user = $this->zfcUserAuthentication()->getIdentity();
+        return array(
+            'user' => $user
         );
     }
 

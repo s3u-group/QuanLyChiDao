@@ -3,7 +3,8 @@ return array(
 	'controllers' => array(
 		'invokables' => array(
             'User\Controller\Index' => 'User\Controller\IndexController',
-			'User\Controller\DonVi' => 'User\Controller\DonViController',
+            'User\Controller\DonVi' => 'User\Controller\DonViController',
+			'User\Controller\Quyen' => 'User\Controller\QuyenController',
 		)
 	),
 
@@ -101,6 +102,33 @@ return array(
                     ),                   
                 ) 
             ),
+            'quyen' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/quyen',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Quyen',
+                        'action'     => 'danh-sach',
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]*'
+                            ),  
+                           /* 'defaults' => array(
+                                'action'     => 'list',
+                            )  */                        
+                        ),
+                    ),                   
+                )
+            ),
 		),
 	),
 
@@ -151,7 +179,7 @@ return array(
                 //CongViecController
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('index','chi-tiet-cong-viec', 'ajax-get-to-chuc','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
+                    'action'    =>array('index', 'xem-cong-viec', 'chi-tiet-cong-viec', 'ajax-get-to-chuc','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
                     'roles'     =>array('xu-ly-cong-viec'),
                 ), 
 
@@ -170,10 +198,17 @@ return array(
                 // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('index'),
+                    'action'    =>array('index', 'xem-cong-viec'),
                     'roles'     =>array('giao-viec'),
                 ),
 
+                array(
+                    'controller'=>array('CongViec\Controller\TheoDoi'),
+                    'action'    =>array('tao-bao-cao', 'bao-cao', 'nghiem-thu'),
+                    'roles'     =>array('xu-ly-cong-viec'),
+                ),
+
+                /**xem xet bo phan duoi */
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
                     'action'    =>array('chi-tiet-cong-viec','bao-cao-moi', 'bao-cao-nghiem-thu', 'hoan-thanh', 'huy-bao-cao'),
@@ -195,8 +230,15 @@ return array(
 
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('view'),
+                    'action'    =>array('ho-so-ca-nhan'),
                     'roles'     =>array('nguoi-dung'),
+                ),
+
+                // QuyenController
+                array(
+                    'controller'=>array('User\Controller\Quyen'),
+                    'action'    =>array('tao-quyen', 'danh-sach', 'sua-quyen'),
+                    'roles'     =>array('quan-tri'),
                 ),
 
                //DonViController

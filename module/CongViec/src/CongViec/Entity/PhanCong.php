@@ -16,6 +16,9 @@ class PhanCong
 	const CHU_TRI = 4;
 	const PHOI_HOP = 5;
 
+	const CHUA_XEM = 1;
+	const DA_XEM = 2;
+
 	/**
 	 * @ORM\Column(name="id",type="bigint",length=20)
 	 * @ORM\Id
@@ -40,6 +43,11 @@ class PhanCong
 	 */
 	protected $vaiTro = 5; //mac dinh la nguoi phoi hop
 
+	/**
+	 * @ORM\Column(name="trang_thai", type="integer")
+	 */
+	protected $trangThai = 1; //mac dinh la chua xem
+
 	public function getId(){
 		return $this->id;
 	}
@@ -61,7 +69,11 @@ class PhanCong
 	}
 
 	public function setVaiTro($vaiTro){
-		$this->vaiTro = $vaiTro;
+		if($vaiTro == '')
+			$this->vaiTro = null;
+		else
+			$this->vaiTro = $vaiTro;
+		return $this;
 	}
 
 	public function getVaiTro(){
@@ -90,5 +102,36 @@ class PhanCong
 				return 'Chưa rõ';
 				break;
 		};
+	}
+
+	public function setTrangThai($trangThai){
+		if($trangThai == '')
+			$this->trangThai = null;
+		else
+			$this->trangThai = $trangThai;
+		return $this;
+	}
+
+	public function getTrangThai(){
+		return $this->trangThai;
+	}
+
+	public function chuaXem(){
+		if($this->trangThai == self::CHUA_XEM) return 1;
+		return 0;
+	}
+
+	public function getTrangThaiLabel(){
+		switch ($this->trangThai) {			
+			case '1':
+				return 'Chưa xem';
+				break;
+			case '2':
+				return 'Đã xem';
+				break;
+			default:
+				return 'Chưa rõ';
+				break;
+		}
 	}
 }

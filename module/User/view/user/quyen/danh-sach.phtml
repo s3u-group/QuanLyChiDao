@@ -1,0 +1,27 @@
+<?php echo $this->partial('template/flash'); ?>
+<div class="ui grid"> 
+  	<div class="sixteen wide column fluid">
+    	<table class="ui celled structured table">
+    		<thead>
+    			<th>STT</th>
+    			<th>Mã quyền</th>
+    			<th>Tên quyền</th>
+    			<th>Quyền cha</th>
+    			<th></th>
+    		</thead>
+    		<tbody>
+    			<?php foreach($roles as $i => $role): ?>
+    				<tr>
+    					<td><?php echo $i+1 ?></td>
+    					<td><?php echo $role->getRoleId(); ?></td>
+    					<td><?php echo $role->getRoleName(); ?></td>
+    					<td><?php echo $role->getTenCha(); ?></td>
+    					<td class="center aligned">
+                            <a href="<?php echo $this->url('quyen/crud', array('action'=>'sua-quyen', 'id'=>$role->getId())) ?>" class="ui mini icon button" title="Sửa quyền"><i class="edit icon"></i></a>
+                        </td>
+    				</tr>
+    			<?php endforeach; ?>
+    		</tbody>
+    	</table>
+	</div>
+</div>

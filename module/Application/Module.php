@@ -11,6 +11,8 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\I18n\Translator\Translator;
+use Zend\Validator\AbstractValidator;
 
 class Module
 {
@@ -20,6 +22,21 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
+        /**
+         * Viet hoa
+         */
+        $translator=$e->getApplication()->getServiceManager()->get('translator');
+        $translator->addTranslationFile(
+            'phpArray',
+            './vendor/zendframework/zendframework/resources/languages/vi/Zend_Validate.php'
+
+        );
+
+        AbstractValidator::setDefaultTranslator($translator);
+
+        /**
+         * Tu dong chuyen sang trang login khi chua dang nhap
+         */
         $sm = $e->getApplication()->getServiceManager();
         $eventManager->attach(
             'route',

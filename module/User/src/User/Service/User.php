@@ -56,7 +56,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $argv = array();
         // then check if admin wants to change user password
         if ($this->getOptions()->getAllowPasswordChange()) {
-            if (!empty($data['passwordVerify'])) {
+            if (empty($data['password'])) {
                 $argv['password'] = $this->generatePassword();
             } elseif (!empty($data['password'])) {
                 $argv['password'] = $data['password'];

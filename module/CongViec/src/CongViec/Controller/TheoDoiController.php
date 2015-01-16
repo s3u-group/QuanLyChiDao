@@ -119,8 +119,133 @@ class TheoDoiController extends AbstractActionController
         );
 
     }
+
+    public function xemCongViecAction(){
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+
+        $entityManager = $this->getEntityManager();
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+
+        return array(
+            'congViec' => $congViec,
+            'congViecService' => $this->getServiceLocator()->get('cong_viec')
+        );
+    }
+
+    public function taoBaoCaoAction(){
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+        
+        $entityManager = $this->getEntityManager();
+        $baoCao = new TheoDoi();
+        $form = new TheoDoiForm($entityManager);
+        $form->bind($baoCao);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            if($form->isValid()){
+                $entityManager->persist($baoCao);
+                $entityManager->flush();
+
+                $post = $post['theo-doi']['dinhKems'];
+                $this->dinhKemMoi($post,$baoCao);
+
+                $this->redirect()->toRoute('theo_doi/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
+            }
+        }
+
+        return array(
+            'form' => $form,
+            'id' => $idCongViec
+        );
+    }
+
+    public function baoCaoAction(){
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+        
+        $entityManager = $this->getEntityManager();
+        $baoCao = new TheoDoi();
+        $form = new TheoDoiForm($entityManager);
+        $form->bind($baoCao);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            if($form->isValid()){
+                $entityManager->persist($baoCao);
+                $entityManager->flush();
+
+                $post = $post['theo-doi']['dinhKems'];
+                $this->dinhKemMoi($post,$baoCao);
+
+                $this->redirect()->toRoute('cong_viec/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
+            }
+        }
+
+        return array(
+            'form' => $form,
+            'id' => $idCongViec
+        );
+    }
+
+    public function nghiemThuAction(){
+        $idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
+        
+        $entityManager = $this->getEntityManager();
+        $baoCao = new TheoDoi();
+        $form = new TheoDoiForm($entityManager);
+        $form->bind($baoCao);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            if($form->isValid()){
+                $entityManager->persist($baoCao);
+                $entityManager->flush();
+
+                $this->dongCongViec($idCongViec);
+
+                $post = $post['theo-doi']['dinhKems'];
+                $this->dinhKemMoi($post,$baoCao);
+
+                return $this->redirect()->toRoute('theo_doi');
+            }
+        }
+
+        return array(
+            'form' => $form,
+            'id' => $idCongViec
+        );
+    }
+
+    public function dongCongViec($idCongViec){
+        $entityManager = $this->getEntityManager();
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        if($congViec->isQuaHan())
+            $congViec->setTrangThai(\CongViec\Entity\CongViec::TRE_HAN);
+        else
+            $congViec->setTrangThai(\CongViec\Entity\CongViec::HOAN_THANH);
+        $congViec->setNgayHoanThanhThuc(new DateTime('now'));
+        $entityManager->flush();
+    }
     
-    public function aindexAction(){
+ /*   public function aindexAction(){
         
         if(!$this->zfcUserAuthentication()->hasIdentity())
         {
@@ -190,7 +315,7 @@ class TheoDoiController extends AbstractActionController
             'dieuKien'=>$dieuKien,
         );
         
-    }
+    }*/
 
      public function baoCaoNghiemThuAction(){
         

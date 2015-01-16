@@ -41,7 +41,7 @@ class LocCanXuLyForm extends Form
             'type' => 'radio',
             'options' => array(
                 'value_options' => array(
-                    '1' => 'Công việc chưa xử lý',
+                    '1' => 'Công việc chưa xem',
                     '2' => 'Công việc đang xử lý',
                     '3' => 'Công việc bị quá hạn',
                     '4' => 'Tất cả các công việc'

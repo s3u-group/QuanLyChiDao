@@ -98,6 +98,11 @@ class TermTaxonomy
 		return $this->term;
 	}
 
+	public function getTermName(){
+		if($term = $this->getTerm())
+			return $term->getName();
+	}
+
 	public function setTaxonomy($taxonomy)
 	{
 		$this->taxonomy = $taxonomy;
