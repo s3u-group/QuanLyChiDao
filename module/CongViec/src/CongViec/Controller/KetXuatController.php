@@ -151,7 +151,7 @@ class KetXuatController extends AbstractActionController
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
 
-        /*foreach ($congViecs as $index => $congViec) {            
+        foreach ($congViecs as $index => $congViec) {            
             $nguoiThucHiens=$congViec->getNguoiThucHiens();
             foreach ($nguoiThucHiens as $nguoiThucHien)
             {
@@ -190,43 +190,28 @@ class KetXuatController extends AbstractActionController
             }
             $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':F'.$dong)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$dong.':F'.$dong)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        }*/
+        }
         foreach(range('A','F') as $columnID) {
             $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
         }        
     }
 
-    public function xuatBaoCaoQuaTrinhAction(){
+    public function inCongViecAction(){
         $entityManager=$this->getEntityManager();
-        $request=$this->getRequest();
-        if($request->isPost())
-        {            
-            $mangIds=$request->getPost()->get('mangId');
-            $mang='';                
-            $i = 0;
-            $len = count($mangIds);
-            foreach ($mangIds as $mangId) {
-                $mang.=''.$mangId.'';
-                if ($i != $len - 1)
-                {
-                    $mang.=',';
-                }
-                $i++;
-            }
+    	$idCongViec = (int) $this->params()->fromRoute('id', 0);
+        if(!$idCongViec) die('Lỗi không tìm thấy công việc');
 
-            $query=$entityManager->createQuery('SELECT td FROM CongViec\Entity\TheoDoi td WHERE td.id IN ('.$mang.')');
-            $theoDois=$query->getResult();
-
-            $objPHPExcel = new PHPExcel();                
+        $entityManager = $this->getEntityManager();
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $objPHPExcel = new PHPExcel();                
             $fileName='bao_cao_qua_trinh';
             $tieuDe='DANH SÁCH BÁO CÁO QUÁ TRÌNH THỰC HIỆN CÔNG VIỆC';                
             $fieldName=array(0=>'Tên công việc',1=>'STT',2=>'Nội dung',3=>'Ngày báo cáo', 4=>'Người tạo báo cáo');
             $PI_ExportExcel=$this->ExportExcel();
-            $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois));
-        }        
+            $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$congViec));
     }
 
-    public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$theoDois)
+    public function dataBaoCaoQuaTrinh($objPHPExcel, $tieuDe, $fieldName,$congViec)
     {
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
@@ -249,10 +234,12 @@ class KetXuatController extends AbstractActionController
                                       ->setCellValue('C4', $fieldName[3])
                                       ->setCellValue('D4', $fieldName[4])
                                       ->getStyle('A2:D2')->getFont()->setBold(true);
-        $trangThai=$theoDois[0]->getCongVan()->getTrangThai();
-        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Tên: '.$theoDois[0]->getCongVan()->getTen());
-        $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Ngày Ban Hành: '.$theoDois[0]->getCongVan()->getNgayBanHanh()->format('d/m/Y'));
-        $objPHPExcel->getActiveSheet()->setCellValue('C3', 'Hạn Xử Lý: '.$theoDois[0]->getCongVan()->getNgayHoanThanh()->format('d/m/Y'));
+
+        $congVan = $congViec->getCongVan();
+        $trangThai=$congVan->getTrangThai();
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Sóo hiệu: '.$congVan->getSoHieu());
+        $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Ngày Ban Hành: '.$congViec->getNgayBanHanh()->format('d/m/Y'));
+        $objPHPExcel->getActiveSheet()->setCellValue('C3', 'Hạn Xử Lý: '.$congViec->getNgayHoanThanh()->format('d/m/Y'));
 
         if($trangThai==0)
         {
@@ -277,6 +264,7 @@ class KetXuatController extends AbstractActionController
         foreach(array('A','C','D') as $columnID) {
             $objPHPExcel->getActiveSheet()->getStyle($columnID)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
+        $theoDois = $congViec->getBaoCaos();
         foreach ($theoDois as $index => $theoDoi) {
             $dong=$index+5;
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$dong, $index+1);

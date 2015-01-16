@@ -198,7 +198,7 @@ return array(
                 // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\KetXuat'),
-                    'action'    =>array('in-danh-sach-cong-viec'),
+                    'action'    =>array('in-danh-sach-cong-viec', 'in-cong-viec'),
                     'roles'     =>array('ket-xuat'),
                 ),
 
