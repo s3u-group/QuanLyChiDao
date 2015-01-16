@@ -191,9 +191,16 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('nhat-ky-cong-viec','xuat-bao-cao'),
+                    'action'    =>array('nhat-ky-cong-viec'),
                     'roles'     =>array('ket-xuat'),
                 ), 
+
+                // TheoDoiController
+                array(
+                    'controller'=>array('CongViec\Controller\KetXuat'),
+                    'action'    =>array('in-danh-sach-cong-viec'),
+                    'roles'     =>array('ket-xuat'),
+                ),
 
                 // TheoDoiController
                 array(
@@ -252,7 +259,6 @@ return array(
                     'action'    =>array('danh-muc'),
                     'roles'     =>array('ket-xuat'),
                 ),
-
             ),
         ),
     ),

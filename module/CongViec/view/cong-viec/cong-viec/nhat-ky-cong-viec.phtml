@@ -143,6 +143,12 @@
       </div>
   </div>
   <?php endif; ?>
+  <div class="five wide column">
+    <a href="#" id="xuatFile" class="ui icon labeled button">
+      <i class="print icon"></i>
+      Xuất file
+    </a>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -156,6 +162,15 @@
       $('input[name="tuKhoa"]').val('');
     });
 
+    $('#xuatFile').click(function(){
+      var action = $('#locForm').attr('action');
+      $('#locForm').attr('target', '_blank');
+      $('#locForm').attr('action', '<?php echo $this->url('ket_xuat/crud', array('action'=>'in-danh-sach-cong-viec')) ?>');
+      $('#locForm').submit();
+      $('#locForm').attr('action', action);
+      $('#locForm').attr('target', '');
+    });
+
   });
-    
+  
 </script>

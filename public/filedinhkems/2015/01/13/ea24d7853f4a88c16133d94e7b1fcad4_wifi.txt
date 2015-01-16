@@ -1,0 +1,7 @@
+netsh wlan set hostednetwork mode=allow ssid=wifi-win8 key=12345678
+
+netsh wlan start hostednetwork
+
+netsh wlan show hostednetwork
+
+netsh wlan set hostednetwork mode=disallow ssid=wifi-win8 key=12345678
