@@ -13,7 +13,7 @@
 			  		Lĩnh vực: <strong><?php echo $congViec->getLinhVucLabel(); ?></strong>
 			  	</div>
 			</div>		
-			<a href="<?php echo $this->url('ket_xuat/crud', array('action'=>'in-cong-viec', 'id'=>$congViec->getId())) ?>" class="ui small button right floated">
+			<a target="_blank" href="<?php echo $this->url('ket_xuat/crud', array('action'=>'in-cong-viec', 'id'=>$congViec->getId())) ?>" class="ui small button right floated">
 			  	In công việc
 			</a>
 			<!-- <a href="<?php echo $this->url('theo_doi/crud', array('action'=>'bao-cao', 'id'=>$congViec->getId())) ?>" class="ui small button right floated <?php echo $congViec->isHoanThanh()?'disabled':''; ?>">
