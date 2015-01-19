@@ -1,0 +1,63 @@
+<?php echo $this->partial('template/flash'); ?>
+<div class="ui grid">
+	<div class="six wide column">
+		<?php $form->setAttribute('action', $this->url('danh_muc/crud', array('action' => 'linh-vuc')));
+		$form->prepare();
+		$taxonomy = $form->get('taxonomy');
+		$term = $taxonomy->get('term');
+		echo $this->form()->openTag($form);?>
+
+		<div class="ui form">
+			<div class="ui celled grid">
+				<div class="row">
+		        	<div class="sixteen wide column">
+	        			<div class="field">
+	        				<?php $term->get('name')->setLabel('Lĩnh vực'); ?>
+	        				<?php echo $this->formLabel($term->get('name')); ?>
+				          	<?php echo $this->formElement($term->get('name')); ?>
+				          	<?php echo $this->formElementErrors($term->get('name')); ?>
+	        			</div>
+	        			<div class="field">
+	        				<?php $taxonomy->get('description')->setLabel('Mô tả') ?>
+	        				<?php echo $this->formLabel($taxonomy->get('description')); ?>
+				          	<?php echo $this->formElement($taxonomy->get('description')); ?>
+				          	<?php echo $this->formElementErrors($taxonomy->get('description')); ?>
+	        			</div>
+		        		<div class="field">
+		        			<?php echo $this->formHidden($term->get('slug'));?>
+		        			<?php echo $this->formHidden($form->get('csrf'));?>
+		        			<?php $form->get('submit')->setValue('Thêm lĩnh vực') ?>
+		        			<?php echo $this->formSubmit($form->get('submit')); ?>
+		        		</div>
+		        	</div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="ten wide column">
+		<table class="ui celled structured striped table">
+      		<thead>
+      			<tr>
+      				<th>STT</th>
+      				<th>Tên loại</th>
+      				<th>Mô tả</th>
+      				<th></th>
+      			</tr>
+      		</thead>
+      		<tbody>
+      			<?php foreach($loais as $i => $loai): ?>
+      			<?php $term = $loai->getTerm(); ?>
+      			<tr>
+      				<td class="one wide"><?php echo $i+1; ?></td>
+      				<td><?php echo $term->getName() ?></td>
+      				<td><?php echo $loai->getDescription() ?></td>
+      				<td class="three wide center aligned">
+                        <a href="<?php echo $this->url('danh_muc/crud', array('action'=>'sua-linh-vuc', 'id'=>$loai->getId())) ?>" class="ui mini icon button" title="Sửa lĩnh vực"><i class="edit icon"></i></a>
+                        <a href="<?php echo $this->url('danh_muc/crud', array('action'=>'xoa-linh-vuc', 'id'=>$loai->getId())) ?>" class="ui mini icon button" title="Xóa lĩnh vực"><i class="remove icon"></i></a>
+                    </td>
+      			</tr>
+      			<?php endforeach; ?>
+      		</tbody>
+      	</table>
+	</div>
+</div>

@@ -7,6 +7,7 @@ return array(
             'CongViec\Controller\PhanCong' => 'CongViec\Controller\PhanCongController',
             'CongViec\Controller\TheoDoi' => 'CongViec\Controller\TheoDoiController',
             'CongViec\Controller\KetXuat' => 'CongViec\Controller\KetXuatController',
+            'CongViec\Controller\TraCuu' => 'CongViec\Controller\TraCuuController',
 
         ),
     ),
@@ -57,7 +58,16 @@ return array(
                                 'id'=>'[0-9]+',
                             ),                            
                         ),
-                    ),            
+                    ), 
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),          
                 ),
             ),
             'theo_doi' => array(
@@ -81,7 +91,49 @@ return array(
                                 'id'=>'[0-9]+',
                             ),                            
                         ),
-                    ),            
+                    ),  
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),           
+                ),
+            ),
+            'tra_cuu' => array(
+                'type'    => 'literal', 
+                'options' => array(
+                    'route'    => '/tra-cuu',                    
+                    'defaults' => array(
+                       '__NAMESPACE__'=>'CongViec\Controller',
+                        'controller' => 'TraCuu',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'=>'[0-9]+',
+                            ),                            
+                        ),
+                    ),  
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),           
                 ),
             ),
             'ket_xuat' => array(

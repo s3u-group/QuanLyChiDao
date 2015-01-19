@@ -69,4 +69,54 @@ class CongViec implements ServiceManagerAwareInterface{
         $query->setParameter(2, $userId);
         return $query->getOneOrNullResult();
     }
+
+    public function thongBaoCongViecThayDoi($congViec, $user){
+      $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien != ?2');
+        $query->setParameter(1, $congViec->getId());
+        $query->setParameter(2, $user->getId());
+        $phanCongs = $query->getResult();
+        foreach($phanCongs as $phanCong){
+          if($phanCong->getTrangThai != \CongViec\Entity\PhanCong::CHUA_XEM){
+            $phanCong->setTrangThai(\CongViec\Entity\PhanCong::BAO_CAO_MOI);
+          }
+          $entityManager->flush();
+        }
+    }
+
+    public function congViecMois(){
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->leftJoin('cv.cha', 'c')
+          ->leftJoin('c.nguoiKy', 'nk')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('pc.vaiTro != ?50')
+          ->andWhere('pc.trangThai = ?5')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(50, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+          ->setParameter(5, \CongViec\Entity\PhanCong::CHUA_XEM)
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
+    }
+
+    public function baoCaoMois(){
+      return array();
+    }
+
+    public function sapHetHans(){
+      return array();
+    }
+
+    public function treHans(){
+      return array();
+    }
 }

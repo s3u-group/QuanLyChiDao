@@ -63,7 +63,7 @@
 <?php $trangThai = $form->get('trangThai')->getValue(); ?>
 <div class="ui grid"> 
   <div class="sixteen wide column fluid">
-    <table class="ui celled structured table">
+    <table class="ui celled structured striped table">
       <thead>
         <tr>    
           <th>STT</th>      
@@ -79,12 +79,12 @@
         <?php if(count($congViecs)): ?>
           <?php foreach($congViecs as $i=>$congViec): ?>
           <?php $congVan = $congViec->getCongVan(); ?>
-          <?php $phuTrach = $congViecService->getPhuTrach($congViec); ?>
+          <?php $phuTrach = $congViecService->getPhuTrach($congViec); //phu trach la phan cong duoc minh phu trach?>
           <tr>
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">
-                <?php elseif($phuTrach->getTrangThai() == \CongViec\Entity\PhanCong::CHUA_XEM): ?>
+                <?php elseif($phuTrach->isChuaXem()): ?>
                   <td class="positive">
                 <?php else: ?>
                   <td>
@@ -120,21 +120,25 @@
         <?php endif; ?>
       </tbody>
     </table>
+    <?php echo $this->paginationControl($this->congViecs,
+                                    'Sliding',
+                                    'paginator/paginator', 
+                                    array('route' => 'cong_viec/paginator')); ?>
   </div>
   <?php if($trangThai == 4): //tat ca ?>
-    <div class="ui grid">
-      <div class="two wide column">
-        <div class="ui green empty circular label"></div>
-        <span style="color:green;">&nbsp;Chưa xem</span>
-      </div>
-      <div class="two wide column">
-        <div class="ui empty circular label"></div>
-        <span>&nbsp;Đang xử lý</span>
-      </div>
-      <div class="two wide column">
-        <div class="ui red empty circular label"></div>
-        <span style="color:red;">&nbsp;Quá hạn</span>
-      </div>
+  <div class="ui horizontal list">
+    <div class="item">
+      <div class="ui green empty circular label"></div>
+      <span style="color:green;">&nbsp;Chưa xem</span>
+    </div>
+    <div class="item">
+      <div class="ui empty circular label"></div>
+      <span>&nbsp;Đang xử lý</span>
+    </div>
+    <div class="item">
+      <div class="ui red empty circular label"></div>
+      <span style="color:red;">&nbsp;Quá hạn</span>
+    </div>
   </div>
   <?php endif; ?>
 </div>

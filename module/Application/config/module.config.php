@@ -98,7 +98,8 @@ return array(
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
             'menu/default'            => __DIR__ . '/../view/partial/menu/default.phtml',
-            'template/flash'            => __DIR__ . '/../view/partial/template/flash.phtml',
+            'template/flash'          => __DIR__ . '/../view/partial/template/flash.phtml',
+            'paginator/paginator'     => __DIR__ . '/../view/partial/paginator/paginator.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -124,10 +125,13 @@ return array(
 
     'navigation' => array(
         'main' => array(
-            array(
+            'menu'=>array(
                 'label' => 'Quản lý công việc',
                 'uri' => '#',
                 'icon' => '<i class="feed icon"></i>',
+                'resource' => 'menu',
+                'privilege' => 'menu_nguoi_dung',
+                //'icon' => $this->isAllowed('menu', 'menu_nguoi_dung')?'<i class="feed icon"></i>':'',
                 'pages' => array(
                     array(
                         'label' => 'Công việc cần xử lý',
@@ -142,31 +146,18 @@ return array(
                     ),
                     array(
                         'label' => 'Công việc đã giao',
-                        'route' => 'theo_doi/crud',
-                        'params' => array(
-                            'action' => 'index'
-                        )
+                        'route' => 'theo_doi',
                     ),
-                   /* array(
-                        'label' => 'Báo cáo nghiệm thu',
-                        'route' => 'theo_doi/crud',
-                        'params' => array(
-                            'action' => 'bao-cao-nghiem-thu'
-                        )
-                    ),*/
                     array(
-                        'label' => 'Nhật ký công việc',
-                        'route' => 'cong_viec/crud',
-                        'params' => array(
-                            'action' => 'nhat-ky-cong-viec',
-                        )
+                        'label' => 'Theo dõi công việc',
+                        'route' => 'tra_cuu'
                     ),
                 ),
             ),
             array(
-                'label' => 'Quản lý tổ chức',
+                'label' => 'Quản lý nhân viên',
                 'uri' => '#',
-                'icon' => '<i class="sitemap icon"></i>',
+                'icon' => '<i class="users icon"></i>',
                 'pages' => array(
                     array(
                         'label' => 'Thêm nhân viên',
@@ -184,19 +175,6 @@ return array(
                         )
                     ),
                     array(
-                        'label' => 'Tạo đơn vị',
-                        //'uri' => '#'
-                        'route' => 'don_vi/crud',
-                        'params' => array(
-                            'action' => 'tao-moi',
-                        )
-                    ),
-                    array(
-                        'label' => 'Danh mục đơn vị',
-                        //'uri' => '#'
-                        'route' => 'don_vi',
-                    ),
-                    array(
                         'label' => 'Phân quyền',
                         'route' => 'user/crud',
                         'params' => array(
@@ -204,6 +182,38 @@ return array(
                         )
                     )
                 ),
+            ),
+            array(
+                'label' => 'Danh mục',
+                'uri' => '#',
+                'icon' => '<i class="sitemap icon"></i>',
+                'pages' => array(
+                    array(
+                        'label' => 'Tạo đơn vị',
+                        'route' => 'don_vi/crud',
+                        'params' => array(
+                            'action' => 'tao-moi',
+                        )
+                    ),
+                    array(
+                        'label' => 'Danh mục đơn vị',
+                        'route' => 'don_vi',
+                    ),
+                    array(
+                        'label' => 'Danh mục loại công việc',
+                        'route' => 'danh_muc/crud',
+                        'params' => array(
+                            'action' => 'loai-cong-viec'
+                        )
+                    ),
+                    array(
+                        'label' => 'Danh mục lĩnh vực',
+                        'route' => 'danh_muc/crud',
+                        'params' => array(
+                            'action' => 'linh-vuc'
+                        )
+                    )
+                )
             ),
             array(
                 'label' => 'Hệ thống',

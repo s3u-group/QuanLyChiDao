@@ -14,6 +14,22 @@ return array(
                 'object_manager'    => 'doctrine.entitymanager.orm_default',
             ),
         ),
-        
+        'resource_providers' => array(
+            'BjyAuthorize\Provider\Resource\Config' => array(
+                'menu' => array(),
+            ),
+        ),
+        'rule_providers' => array(
+            'BjyAuthorize\Provider\Rule\Config' => array(
+                'allow' => array(
+                    
+                   /* [0] -> role
+                    [1] -> resource
+                    [2] -> rule*/
+                    
+                    array( array( 'quan-tri' ), 'menu', array( 'menu_nguoi_dung' ) ),
+                ),
+            ),
+        )
     ),
 );

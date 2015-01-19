@@ -18,6 +18,7 @@ class PhanCong
 
 	const CHUA_XEM = 1;
 	const DA_XEM = 2;
+	const BAO_CAO_MOI = 3;
 
 	/**
 	 * @ORM\Column(name="id",type="bigint",length=20)
@@ -116,7 +117,7 @@ class PhanCong
 		return $this->trangThai;
 	}
 
-	public function chuaXem(){
+	public function isChuaXem(){
 		if($this->trangThai == self::CHUA_XEM) return 1;
 		return 0;
 	}

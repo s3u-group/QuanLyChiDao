@@ -93,6 +93,10 @@ $congVan = $congViec->get('cha');?>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Thực hiện</label>
+					<div class="ui left icon input">
+					  	<input placeholder="Tìm người thực hiện..." type="text" id="jstree_s">
+					  	<i class="users icon"></i>
+					</div>
 					<div class="jstree"></div>
 				</div>
 			</div>
@@ -139,7 +143,8 @@ $congVan = $congViec->get('cha');?>
 				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
 				"dataType" : "json" // needed only if you do not supply JSON headers
 			}
-		}
+		},
+		"plugins" : [ "search" ]
 	}).bind("dblclick.jstree", function (event) {
 	   var node = $(event.target).closest("li");
 	   var id = node.attr('id');
@@ -175,6 +180,15 @@ $congVan = $congViec->get('cha');?>
 	   		}
 	   	});*/
 	   }
+	});
+
+	var to = false;
+	$('#jstree_s').keyup(function () {
+	    if(to) { clearTimeout(to); }
+	    to = setTimeout(function () {
+	      	var v = $('#jstree_s').val();
+	      	$('.jstree').jstree(true).search(v);
+	    }, 250);
 	});
 
 	$('#phan_lai').click(function(){

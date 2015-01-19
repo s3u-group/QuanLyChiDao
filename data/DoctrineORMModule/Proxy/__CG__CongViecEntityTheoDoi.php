@@ -176,6 +176,17 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
     /**
      * {@inheritDoc}
      */
+    public function onPrePersist()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'onPrePersist', array());
+
+        return parent::onPrePersist();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
 
@@ -347,6 +358,17 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNguoiTao', array());
 
         return parent::getNguoiTao();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenNguoiTao()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenNguoiTao', array());
+
+        return parent::getTenNguoiTao();
     }
 
 }

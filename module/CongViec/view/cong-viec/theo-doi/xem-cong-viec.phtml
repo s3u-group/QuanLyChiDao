@@ -34,6 +34,29 @@
 			</h3>
 			<div class="ui divider"></div>
 			<p><?php echo $congViec->getNoiDung(); ?></p>
+			<?php if($dinhKems = $congViec->getDinhKems()): ?>
+				<p>
+					<u>Đính kèm:</u> 
+		   			<?php
+						$ymd = $congViec->getNgayTao()->format('Y/m/d');
+					 	foreach ($dinhKems as $soFile => $dinhKem) {
+					 		if($soFile>0){
+					 			echo ' | ';
+					 		}
+					 		$explodes=explode('_',$dinhKem->getUrl());
+							$fileName='';							
+							foreach ($explodes as $key => $explode) {
+								if($key>0)
+								{
+									$fileName.=$explode;
+								}								
+							}
+							$link=$this->basePath().'/filedinhkems/'.$ymd.'/'.$dinhKem->getUrl();
+							echo '<a href="'.$link.'">'.$fileName.'</a>'; 
+						}
+					?>
+				</p>
+			<?php endif; ?>
 			<div class="ui divider"></div>
 			<?php $baoCaos = $congViec->getBaoCaos(); ?>
 			<div class="ui list">
@@ -88,7 +111,7 @@
 				<?php foreach($nguoiThucHiens as $phanCong): ?>
 		            <div class="item">
 		              	<?php $user = $phanCong->getNguoiThucHien(); ?>
-		              	<?php if($phanCong->chuaXem()): ?>
+		              	<?php if($phanCong->isChuaXem()): ?>
 		              		<div class="ui empty circular label"></div>
 		              	<?php else: ?>
 		              		<div class="ui green empty circular label"></div>

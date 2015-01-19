@@ -7,12 +7,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 
-class AddTaxonomyForm extends Form
+class UpdateTaxonomyForm extends Form
 {
 
     public function __construct(ObjectManager $objectManager)
     {
-        parent::__construct('taxonomy-form');
+        parent::__construct('update-taxonomy-form');
 
         $this
             ->setAttribute('method', 'post')

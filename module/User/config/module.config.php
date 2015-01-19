@@ -159,7 +159,7 @@ return array(
                 // ApplicationController
                 array(
                     'controller' => array('Application\Controller\Index'),
-                    'action' => array('app-info'),
+                    'action' => array('app-info', 'index'),
                     'roles' => array('nguoi-dung'),
                 ),
 
@@ -180,59 +180,54 @@ return array(
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
                     'action'    =>array('index', 'xem-cong-viec', 'chi-tiet-cong-viec', 'ajax-get-to-chuc','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
-                    'roles'     =>array('xu-ly-cong-viec'),
+                    'roles'     =>array('xu-ly-cong-viec', 'quan-tri'),
                 ), 
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
                     'action'    =>array('giao-viec'),
-                    'roles'     =>array('giao-viec'),
+                    'roles'     =>array('giao-viec', 'quan-tri'),
                 ),
 
+                // TraCuuController
                 array(
-                    'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('nhat-ky-cong-viec'),
-                    'roles'     =>array('ket-xuat'),
+                    'controller'=>array('CongViec\Controller\TraCuu'),
+                    'action'    =>array('index'),
+                    'roles'     =>array('ket-xuat', 'quan-tri'),
                 ), 
 
-                // TheoDoiController
+                // KetXuatController
                 array(
                     'controller'=>array('CongViec\Controller\KetXuat'),
                     'action'    =>array('in-danh-sach-cong-viec', 'in-cong-viec'),
-                    'roles'     =>array('ket-xuat'),
+                    'roles'     =>array('ket-xuat', 'quan-tri'),
                 ),
 
                 // TheoDoiController
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
                     'action'    =>array('index', 'xem-cong-viec'),
-                    'roles'     =>array('giao-viec'),
+                    'roles'     =>array('giao-viec', 'quan-tri'),
                 ),
 
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
                     'action'    =>array('tao-bao-cao', 'bao-cao', 'nghiem-thu'),
-                    'roles'     =>array('xu-ly-cong-viec'),
+                    'roles'     =>array('xu-ly-cong-viec', 'quan-tri'),
                 ),
 
                 /**xem xet bo phan duoi */
-                array(
+              /*  array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
                     'action'    =>array('chi-tiet-cong-viec','bao-cao-moi', 'bao-cao-nghiem-thu', 'hoan-thanh', 'huy-bao-cao'),
                     'roles'     =>array('xu-ly-cong-viec'),
-                ),
+                ),*/
 
                 // UserController
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('them-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan', 'phan-quyen','ajax-get-to-chuc','user-roles'),
+                    'action'    =>array('them-nhan-vien', 'danh-sach-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan', 'phan-quyen','ajax-get-to-chuc','user-roles'),
                     'roles'     =>array('quan-tri'),
-                ),
-
-                array(
-                    'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('danh-sach-nhan-vien'),
-                    'roles'     =>array('ket-xuat'),
                 ),
 
                 array(
@@ -251,14 +246,15 @@ return array(
                //DonViController
                 array(
                     'controller'=>array('User\Controller\DonVi'),
-                    'action'    =>array('tao-moi','cap-nhat'),
+                    'action'    =>array('tao-moi','cap-nhat', 'danh-muc'),
                     'roles'     =>array('quan-tri'),
                 ),
+                // TaxonomyController
                 array(
-                    'controller'=>array('User\Controller\DonVi'),
-                    'action'    =>array('danh-muc'),
-                    'roles'     =>array('ket-xuat'),
-                ),
+                    'controller' => array('Taxonomy\Controller\DanhMuc'),
+                    'action' => array('loai-cong-viec', 'sua-loai-cong-viec', 'xoa-loai-cong-viec', 'linh-vuc', 'sua-linh-vuc', 'xoa-linh-vuc'),
+                    'roles' => array('quan-tri')
+                )
             ),
         ),
     ),

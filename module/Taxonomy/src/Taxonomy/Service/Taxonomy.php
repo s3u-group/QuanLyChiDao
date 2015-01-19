@@ -81,4 +81,13 @@ class Taxonomy{
         }
         return $tree;    
     }
+
+    public function getTaxonomy($tax){
+        $objectManager = $this->getEntityManager();
+      
+        $query = $objectManager->createQuery('select t1,t2 from Taxonomy\Entity\TermTaxonomy t1 join t1.term t2 where t1.taxonomy = :tax');
+        $query->setParameter('tax',$tax);
+        $taxons = $query->getResult();        
+        return $taxons;
+    }
 }

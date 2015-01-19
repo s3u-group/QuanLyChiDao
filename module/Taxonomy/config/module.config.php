@@ -2,7 +2,8 @@
 return array(
 	'controllers' => array(
 		'invokables' => array(
-			'Taxonomy\Controller\Index' => 'Taxonomy\Controller\IndexController',
+            'Taxonomy\Controller\Index' => 'Taxonomy\Controller\IndexController',
+			'Taxonomy\Controller\DanhMuc' => 'Taxonomy\Controller\DanhMucController'
 		),
 	),
 
@@ -25,6 +26,33 @@ return array(
 
     'router' => array(
         'routes' => array(
+            'danh_muc' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/danh-muc',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Taxonomy\Controller',
+                        'controller' => 'DanhMuc',
+                        'action'     => 'loai-cong-viec',
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]*'
+                            ),  
+                           /* 'defaults' => array(
+                                'action'     => 'list',
+                            )  */                        
+                        ),
+                    ),                   
+                ) 
+            ),
             'taxonomies' => array(
                 'type'    => 'literal', 
                 'options' => array(

@@ -16,6 +16,10 @@ use DateTimeZone;
 use CongViec\Form\LocCanXuLyForm;
 use CongViec\Form\LocNhatKyForm;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Writer_Excel5;
@@ -53,7 +57,7 @@ class CongViecController extends AbstractActionController
 
         $entityManager=$this->getEntityManager();  
 
-        $form = new LocCanXuLyForm();
+        $form = new LocCanXuLyForm($entityManager, $userId);
 
         $request=$this->getRequest();
         $qb = $entityManager->createQueryBuilder();
@@ -95,8 +99,8 @@ class CongViecController extends AbstractActionController
                     break;
                 case '2':
                     // dang xu ly
-                    $qb->andWhere('pc.trangThai = ?6');
-                    $qb->setParameter(6, \CongViec\Entity\PhanCong::DA_XEM);
+                    $qb->andWhere('pc.trangThai != ?6');
+                    $qb->setParameter(6, \CongViec\Entity\PhanCong::CHUA_XEM);
                     break;
                 case '3':
                     // qua han
@@ -127,14 +131,26 @@ class CongViecController extends AbstractActionController
 
             $form->setData($post);
         }
+        else{
+            //mac dinh chi hien chua xem
+            $qb->andWhere('pc.trangThai = ?10');
+            $qb->setParameter(10, \CongViec\Entity\PhanCong::CHUA_XEM);
+        }
         
         //var_dump($qb->getDql());
-        $query = $qb->getQuery();
-        $congViecs = $query->getResult();
+        /*$query = $qb->getQuery();
+        $congViecs = $query->getResult();*/
+        $adapter = new DoctrineAdapter(new ORMPaginator($qb));
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);     
+        $page = (int)$this->params('page');
+        if($page) 
+            $paginator->setCurrentPageNumber($page);
 
         return array(
             'form' => $form,
-            'congViecs'=>$congViecs,
+            'congViecs'=>$paginator,
             'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
 

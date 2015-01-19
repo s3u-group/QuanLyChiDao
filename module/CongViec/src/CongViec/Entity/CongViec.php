@@ -37,4 +37,12 @@ class CongViec extends CongVan{
 				$res[] = $user->getNguoiThucHien();
 		return $res;
 	}
+
+	public function getDonViChuCong(){
+		if($nguoiChuTri = $this->getNguoiChuTri()){
+			if($donVi = $nguoiChuTri->getDonVi()){
+				return $donVi;
+			}
+		}
+	}
 }

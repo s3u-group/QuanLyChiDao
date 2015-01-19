@@ -9,6 +9,10 @@ use CongViec\Form\TheoDoiForm;
 use CongViec\Form\TheoDoiFieldset;
 use DateTime;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 use CongViec\Form\LocCongViecDaGiaoForm;
 
 class TheoDoiController extends AbstractActionController
@@ -34,7 +38,7 @@ class TheoDoiController extends AbstractActionController
 
         $entityManager=$this->getEntityManager();  
 
-        $form = new LocCongViecDaGiaoForm();
+        $form = new LocCongViecDaGiaoForm($entityManager, $userId);
 
         $request=$this->getRequest();
         $qb = $entityManager->createQueryBuilder();
@@ -107,14 +111,26 @@ class TheoDoiController extends AbstractActionController
 
             $form->setData($post);
         }
+        else{
+            //mac dinh hien cong viec chua hoan thanh
+            $qb->andWhere('cv.trangThai in (?10)');
+            $qb->setParameter(10, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
+        }
         
         //var_dump($qb->getDql());
-        $query = $qb->getQuery();
-        $congViecs = $query->getResult();
+        /*$query = $qb->getQuery();
+        $congViecs = $query->getResult();*/
+        $adapter = new DoctrineAdapter(new ORMPaginator($qb));
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);     
+        $page = (int)$this->params('page');
+        if($page) 
+            $paginator->setCurrentPageNumber($page);
 
         return array(
             'form' => $form,
-            'congViecs'=>$congViecs,
+            'congViecs'=>$paginator,
             'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
 
@@ -155,6 +171,9 @@ class TheoDoiController extends AbstractActionController
 
                 $post = $post['theo-doi']['dinhKems'];
                 $this->dinhKemMoi($post,$baoCao);
+                $this->getServiceLocator()
+                    ->get('cong_viec')
+                    ->thongBaoCongViecThayDoi($baoCao->getCongVan(), $this->zfcUserAuthentication()->getIdentity());
 
                 $this->redirect()->toRoute('theo_doi/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
             }
@@ -166,7 +185,7 @@ class TheoDoiController extends AbstractActionController
         );
     }
 
-    public function baoCaoAction(){
+   /* public function baoCaoAction(){
         $idCongViec = (int) $this->params()->fromRoute('id', 0);
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
         
@@ -188,6 +207,9 @@ class TheoDoiController extends AbstractActionController
 
                 $post = $post['theo-doi']['dinhKems'];
                 $this->dinhKemMoi($post,$baoCao);
+                $this->getServiceLocator()
+                    ->get('cong_viec')
+                    ->thongBaoCongViecThayDoi($congViec, $this->zfcUserAuthentication()->getIdentity());
 
                 $this->redirect()->toRoute('cong_viec/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
             }
@@ -197,7 +219,7 @@ class TheoDoiController extends AbstractActionController
             'form' => $form,
             'id' => $idCongViec
         );
-    }
+    }*/
 
     public function nghiemThuAction(){
         $idCongViec = (int) $this->params()->fromRoute('id', 0);

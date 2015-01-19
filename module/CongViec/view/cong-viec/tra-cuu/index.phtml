@@ -1,5 +1,5 @@
 <?php $user=$this->zfcUserIdentity();?>
-<?php $form->setAttribute('action', $this->url('theo_doi')); ?>
+<?php $form->setAttribute('action', $this->url('tra_cuu')); ?>
 <?php $form->prepare();?>
 
 <?php echo $this->form()->openTag($form);?>
@@ -67,10 +67,11 @@
       <thead>
         <tr>    
           <th>STT</th>      
-          <th class="six wide">Nội dung công việc</th>
-          <th class="five wide">Báo cáo cuối</th> 
-          <th>Chủ trì</th>
-          <th>Hạn xử lý</th>       
+          <th class="four wide">Công văn, người ký</th> 
+          <th>Nội dung công việc</th>
+          <th>Cơ quan chủ công</th>    
+          <th>Hạn xử lý</th>  
+          <th>Báo cáo cuối</th>    
         </tr>
       </thead>
       <tbody>
@@ -92,20 +93,27 @@
                 <?php echo $i+1; ?>
               </td>
               <td>
-                <div><a class="ui link" href="<?php echo $this->url('theo_doi/crud', array('action' => 'xem-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
+                <div>
+                  Số <?php echo $congVan->getSoHieu(); ?> ngày <?php echo $congVan->getNgayBanHanh()->format('d/m/Y'); ?>
+                </div>
+                <div><?php echo $congVan->getNguoiKy()->getHoTen(); ?></div>
+              </td>
+              <td>
+                <div><a class="ui link" href="<?php echo $this->url('cong_viec/crud', array('action' => 'chi-tiet-cong-viec', 'id' => $congViec->getId())) ?>"><?php echo $congViec->getTen(); ?></a></div>
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>
-                <?php if($baoCao = $congViecService->getBaoCaoCuoi($congViec)): ?>
-                  <strong>[<?php echo $baoCao->getNguoiTao()->getTen(); ?>]</strong> - <?php echo $baoCao->getNoiDung(); ?>
+                <?php if($donVi = $congViec->getDonViChuCong()): ?>
+                    <?php echo $donVi->getTenVietTatHoacDayDu(); ?>
                 <?php endif; ?>
-              </td>                    
-              <td>
-                <?php $user = $congViec->getNguoiChuTri(); ?>
-                <?php if($user) echo $user->getHoTen(); ?>
-              </td> 
+              </td>
               <td>
                 <?php echo $congViec->getNgayHoanThanh()->format('d/m/Y'); ?>
+              </td>
+              <td>
+                <?php if($baoCao = $congViecService->getBaoCaoCuoi($congViec)): ?>
+                  <?php echo $baoCao->getNoiDung(); ?>
+                <?php endif; ?>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -137,6 +145,12 @@
     </div>
   </div>
   <?php endif; ?>
+  <div class="">
+    <a href="#" id="xuatFile" class="ui icon labeled button">
+      <i class="print icon"></i>
+      Xuất file
+    </a>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -150,6 +164,15 @@
       $('input[name="tuKhoa"]').val('');
     });
 
+    $('#xuatFile').click(function(){
+      var action = $('#locForm').attr('action');
+      $('#locForm').attr('target', '_blank');
+      $('#locForm').attr('action', '<?php echo $this->url('ket_xuat/crud', array('action'=>'in-danh-sach-cong-viec')) ?>');
+      $('#locForm').submit();
+      $('#locForm').attr('action', action);
+      $('#locForm').attr('target', '');
+    });
+
   });
-    
+  
 </script>
