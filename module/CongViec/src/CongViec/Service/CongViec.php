@@ -3,6 +3,7 @@ namespace CongViec\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Datetime;
 
 class CongViec implements ServiceManagerAwareInterface{
 
@@ -61,6 +62,7 @@ class CongViec implements ServiceManagerAwareInterface{
     }
 
     public function getPhuTrach($congViec){
+      //tra ve phan cong do minh dam nhan
         $entityManager = $this->getEntityManager();
         $sm = $this->getServiceManager();
         $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
@@ -70,18 +72,40 @@ class CongViec implements ServiceManagerAwareInterface{
         return $query->getOneOrNullResult();
     }
 
-    public function thongBaoCongViecThayDoi($congViec, $user){
+    public function daGiao($congViec){
+      $phuTrach = $this->getPhuTrach($congViec);
+      if(!$phuTrach) return 0;
+      if($phuTrach->getVaiTro() == \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
+        return 1;
+      return 0;
+    }
+
+    public function thongBaoCongViecThayDoi($congViec){
       $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien != ?2');
-        $query->setParameter(1, $congViec->getId());
-        $query->setParameter(2, $user->getId());
-        $phanCongs = $query->getResult();
-        foreach($phanCongs as $phanCong){
-          if($phanCong->getTrangThai != \CongViec\Entity\PhanCong::CHUA_XEM){
-            $phanCong->setTrangThai(\CongViec\Entity\PhanCong::BAO_CAO_MOI);
-          }
-          $entityManager->flush();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+      $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien != ?2');
+      $query->setParameter(1, $congViec->getId());
+      $query->setParameter(2, $userId);
+      $phanCongs = $query->getResult();
+      foreach($phanCongs as $phanCong){
+        if($phanCong->getTrangThai != \CongViec\Entity\PhanCong::CHUA_XEM){
+          $phanCong->setTrangThai(\CongViec\Entity\PhanCong::BAO_CAO_MOI);
         }
+        $entityManager->flush();
+      }
+    }
+
+    public function moCongViec($congViec){
+        $entityManager = $this->getEntityManager();
+        $sm = $this->getServiceManager();
+        $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien = ?2');
+        $query->setParameter(1, $congViec->getId());
+        $query->setParameter(2, $userId);
+        $phanCong = $query->getOneOrNullResult();
+        $phanCong->setTrangThai(\CongViec\Entity\PhanCong::DA_XEM);
+        $entityManager->flush();
     }
 
     public function congViecMois(){
@@ -93,8 +117,6 @@ class CongViec implements ServiceManagerAwareInterface{
       $qb->select('cv')
           ->from('CongViec\Entity\CongViec', 'cv')
           ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
-          ->leftJoin('cv.cha', 'c')
-          ->leftJoin('c.nguoiKy', 'nk')
           ->where('cv.trangThai in (?2)')
           ->andWhere('pc.vaiTro != ?50')
           ->andWhere('pc.trangThai = ?5')
@@ -109,14 +131,127 @@ class CongViec implements ServiceManagerAwareInterface{
     }
 
     public function baoCaoMois(){
-      return array();
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('pc.trangThai = ?5')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(5, \CongViec\Entity\PhanCong::BAO_CAO_MOI)
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
     }
 
-    public function sapHetHans(){
-      return array();
+    public function sapHetHanTheoDois(){
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('cv.ngayHoanThanh > ?4')
+          ->andWhere('cv.ngayHoanThanh <= ?5')
+          ->andWhere('pc.vaiTro in (?6)')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(4, new Datetime('now'))
+          ->setParameter(5, new Datetime('+ 5 days'))
+          ->setParameter(6, array(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG, \CongViec\Entity\PhanCong::NGUOI_CAP_NHAT, \CongViec\Entity\PhanCong::NGUOI_THEO_DOI))
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
     }
 
-    public function treHans(){
-      return array();
+    public function treHanTheoDois(){
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('cv.ngayHoanThanh <= ?7')
+          ->andWhere('pc.vaiTro in (?6)')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(7, new DateTime('now'))
+          ->setParameter(6, array(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG, \CongViec\Entity\PhanCong::NGUOI_CAP_NHAT, \CongViec\Entity\PhanCong::NGUOI_THEO_DOI))
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
+    }
+
+    public function sapHetHanThucHiens(){
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('cv.ngayHoanThanh > ?4')
+          ->andWhere('cv.ngayHoanThanh <= ?5')
+          ->andWhere('pc.vaiTro in (?6)')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(4, new Datetime('now'))
+          ->setParameter(5, new Datetime('+ 5 days'))
+          ->setParameter(6, array(\CongViec\Entity\PhanCong::CHU_TRI, \CongViec\Entity\PhanCong::PHOI_HOP))
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
+    }
+
+    public function treHanThucHiens(){
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('cv')
+          ->from('CongViec\Entity\CongViec', 'cv')
+          ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
+          ->where('cv.trangThai in (?2)')
+          ->andWhere('cv.ngayHoanThanh <= ?7')
+          ->andWhere('pc.vaiTro in (?6)')
+          ->setParameter(1, $userId)
+          ->setParameter(2, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY))
+          ->setParameter(7, new DateTime('now'))
+          ->setParameter(6, array(\CongViec\Entity\PhanCong::CHU_TRI, \CongViec\Entity\PhanCong::PHOI_HOP))
+          ;
+      $query = $qb->getQuery();
+      $congViecs = $query->getResult();
+      return $congViecs;
+    }
+
+    public function duocPhanCong($congViec){
+      if(!$congViec instanceof \CongViec\Entity\CongViec) return 0;
+      $entityManager = $this->getEntityManager();
+      $sm = $this->getServiceManager();
+      $userId = $sm->get('zfcuser_auth_service')->getIdentity()->getId();
+      $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien = ?2');
+      $query->setParameter(1, $congViec->getId());
+      $query->setParameter(2, $userId);
+      $phanCong = $query->getOneOrNullResult();
+      if($phanCong) return 1;
+      return 0;
     }
 }

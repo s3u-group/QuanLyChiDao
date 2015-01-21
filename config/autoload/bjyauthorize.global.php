@@ -27,7 +27,10 @@ return array(
                     [1] -> resource
                     [2] -> rule*/
                     
-                    array( array( 'quan-tri' ), 'menu', array( 'menu_nguoi_dung' ) ),
+                    array( array( 'quan-tri', 'xu-ly-cong-viec' ), 'menu', array( 'menu_xu_ly_viec' ) ),
+                    array( array( 'quan-tri', 'giao-viec' ), 'menu', array( 'menu_giao_viec' ) ),
+                    array( array( 'quan-tri', 'ket-xuat' ), 'menu', array( 'menu_ket_xuat' ) ),
+                    array( array( 'quan-tri' ), 'menu', array( 'menu_quan_tri' ) ),
                 ),
             ),
         )

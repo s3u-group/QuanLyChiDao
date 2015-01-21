@@ -108,6 +108,10 @@ class TheoDoi
 		return $this->congVan;
 	}
 
+	public function getCongViec(){
+		return $this->congVan;
+	}
+
     public function addDinhKems($dinhKems){
         foreach ($dinhKems as $dinhKem) {
             $this->dinhKems->add($dinhKem);

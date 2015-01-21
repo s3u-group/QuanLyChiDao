@@ -23,5 +23,9 @@
     			<?php endforeach; ?>
     		</tbody>
     	</table>
+        <?php echo $this->paginationControl($this->donVis,
+                                    'Sliding',
+                                    'paginator/paginator', 
+                                    array('route' => 'don_vi/paginator')); ?>
 	</div>
 </div>

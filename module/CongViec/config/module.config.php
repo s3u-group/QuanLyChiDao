@@ -136,6 +136,39 @@ return array(
                     ),           
                 ),
             ),
+            'cong_viec_don_vi' => array(
+                'type'    => 'literal', 
+                'options' => array(
+                    'route'    => '/cong-viec-don-vi',                    
+                    'defaults' => array(
+                       '__NAMESPACE__'=>'CongViec\Controller',
+                        'controller' => 'TraCuu',
+                        'action'     => 'cong-viec-don-vi',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'crud' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '[/][:action][/:id]',
+                            'constraints' => array(                            
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'=>'[0-9]+',
+                            ),                            
+                        ),
+                    ),  
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),           
+                ),
+            ),
             'ket_xuat' => array(
                 'type'    => 'literal', 
                 'options' => array(

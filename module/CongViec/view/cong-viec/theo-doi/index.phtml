@@ -77,7 +77,7 @@
         <?php if(count($congViecs)): ?>
           <?php foreach($congViecs as $i=>$congViec): ?>
           <?php $congVan = $congViec->getCongVan(); ?>
-          <tr>
+          <tr class="<?php if($congViec->isDaHuy()) echo 'ui deleted';?>">
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">

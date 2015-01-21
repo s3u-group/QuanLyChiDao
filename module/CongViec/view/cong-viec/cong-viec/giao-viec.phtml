@@ -1,9 +1,8 @@
-<?php
-$form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'giao-viec')));
+<?php echo $this->partial('template/flash'); ?>
+<?php $form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'giao-viec')));
 $form->prepare();?>
 
-<?php
-echo $this->form()->openTag($form);
+<?php echo $this->form()->openTag($form);
 $congViec = $form->get('congViec');
 $congVan = $congViec->get('cha');?>
 <div class="ui form">
@@ -108,6 +107,7 @@ $congVan = $congViec->get('cha');?>
 						<?php echo $this->formCollection($nguoiThucHiens); ?>
 						<div class="template ui hidden">
 						    <?php echo $this->vaiTro(); ?>
+						    <i class="remove icon link"></i>
 						    <!-- <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png"> -->
 						    <div class="content">
 						     	__ten__
@@ -137,6 +137,7 @@ $congVan = $congViec->get('cha');?>
 </div>
 <?php echo $this->form()->closeTag();?>
 <script type="text/javascript">
+	var currentCount = 0;
 	$('.jstree').jstree({
 		'core' : {
 			'data' : {
@@ -193,23 +194,29 @@ $congVan = $congViec->get('cha');?>
 
 	$('#phan_lai').click(function(){
 		$('#event_result > .list').empty();
-		$('#event_result > fieldset > fieldset').remove();
+		$('#event_result > fieldset > div').remove();
 	});
 
+	$('#event_result').on('click', '.remove.icon', function(){
+		var id = $(this).closest('.item').attr('id').substring(3);
+		$('#event_result > .list > #pc_'+id).remove();
+		$('#event_result > fieldset > #fs_'+id).remove();
+	});
 
 	$('.reset.able :input')
 	 	.val('')
 	 	.removeAttr('checked')
 	 	.removeAttr('selected');
-	$('#event_result > fieldset > fieldset').remove();
+	$('#event_result > fieldset > div').remove();
 	
 
 	function add_phan_cong() {
-        var currentCount = $('#event_result > fieldset > fieldset').length;
+        //var currentCount = $('#event_result > fieldset > fieldset').length;
+        currentCount++;
         var template = $('#event_result > fieldset > span').data('template');
         template = template.replace(/__index__/g, currentCount);
 
-        $('#event_result > fieldset').prepend(template);
+        $('#event_result > fieldset').prepend('<div id="fs_'+currentCount+'">' + template + '</div>');
 
         return currentCount;
     }

@@ -126,6 +126,99 @@ class KetXuatController extends AbstractActionController
                 $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
     }
 
+    public function inDanhSachCongViecDonViAction(){
+        if(!$this->zfcUserAuthentication()->hasIdentity()) {
+           return $this->redirect()->toRoute('zfcuser/login',array('action'=>'login'));
+        }
+        else {
+            $user = $this->zfcUserAuthentication()->getIdentity();
+            $donVi = $user->getDonVi();
+        }
+
+        $entityManager=$this->getEntityManager(); 
+
+        $request=$this->getRequest();
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('cv')
+            ->from('CongViec\Entity\CongViec', 'cv')
+            ->join('cv.nguoiThucHiens', 'pc')
+            ->leftJoin('cv.cha', 'c')
+            ->leftJoin('c.nguoiKy', 'nk')
+            ->leftJoin('cv.donViTiepNhans', 'dv')
+            ->where('dv.id = ?1')
+            ->setParameter(1, $donVi->getId())
+            ->orderBy('cv.ngayTao', 'DESC')
+            ;
+
+        if($request->isPost()){
+            $post = $request->getPost();
+
+            /**
+             * Thoi gian
+             */
+            if(isset($post['tuNgay']) && $post['tuNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh >= ?3');
+                $qb->setParameter(3, $post['tuNgay']);
+            }
+            if(isset($post['denNgay']) && $post['denNgay'] != ''){
+                $qb->andWhere('cv.ngayHoanThanh <= ?4');
+                $qb->setParameter(4, $post['denNgay']);
+            }
+
+            /**
+             * Trang thai
+             */
+            switch ($post['trangThai']) {
+                case '1':
+                    // chua hoan thanh
+                    $qb->andWhere('cv.trangThai in (?5)');
+                    $qb->setParameter(5, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
+                    break;
+                case '2':
+                    // da hoan thanh
+                    $qb->andWhere('cv.trangThai in (?6)');
+                    $qb->setParameter(6, array(\CongViec\Entity\CongViec::HOAN_THANH, \CongViec\Entity\CongViec::TRE_HAN));
+                    break;
+                case '3':
+                    // qua han
+                    $qb->andWhere('cv.ngayHoanThanh <= ?7');
+                    $date = new DateTime('now');
+                    $qb->setParameter(7, $date->format('Y-m-d H:i:s'));
+                    break;
+                case '4':
+                    // tat ca
+                    break;
+            }
+
+            /**
+             * Tim nhanh
+             */
+            if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
+                if($post['tieuChi'] == 1){
+                    // tim theo chu de
+                    $qb->andWhere('cv.ten like ?8');
+                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                }
+                else{
+                    // tim theo ten nguoi ky
+                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                }
+            }
+        }
+        
+        //var_dump($qb->getDql());
+        $query = $qb->getQuery();
+        $congViecs = $query->getResult();
+
+        $objPHPExcel = new PHPExcel();                
+                $fileName='bao_cao';
+                $tieuDe='NHẬT KÝ CÔNG VIỆC';                
+                $fieldName=array(0=>'STT',1=>'Số ký hiệu văn bản, người ký',2=>'Nội dung được giao',3=>'Cơ quan chủ công thực hiện/ Người chủ trì',4=>'Thời gian hoàn thành',5=>'Kết quả thực hiện');
+                $PI_ExportExcel=$this->ExportExcel();
+                $exportExcel=$PI_ExportExcel->exportExcel($objPHPExcel, $fileName, $this->data($objPHPExcel, $tieuDe, $fieldName,$congViecs));
+    }
+
     public function data($objPHPExcel, $tieuDe, $fieldName,$congViecs){
         $entityManager=$this->getEntityManager();        
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);

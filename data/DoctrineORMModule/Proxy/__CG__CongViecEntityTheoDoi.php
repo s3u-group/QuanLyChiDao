@@ -286,6 +286,17 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
     /**
      * {@inheritDoc}
      */
+    public function getCongViec()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCongViec', array());
+
+        return parent::getCongViec();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addDinhKems($dinhKems)
     {
 

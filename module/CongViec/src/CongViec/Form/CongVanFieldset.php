@@ -72,7 +72,7 @@ class CongVanFieldset extends Fieldset implements InputFilterProviderInterface
            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
            'options' => array(
                 'object_manager'     => $objectManager,
-                'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
+                'target_class'       => 'User\Entity\User',
                 'label' => 'Người ký',
                 'value_options' => $this->getNguoiKyOptions($objectManager)
             ),

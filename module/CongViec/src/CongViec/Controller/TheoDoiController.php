@@ -2,6 +2,7 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use CongViec\Entity\PhanCong;
 use CongViec\Entity\TheoDoi;
 use CongViec\Entity\DinhKemTheoDoi;
@@ -141,15 +142,22 @@ class TheoDoiController extends AbstractActionController
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
 
         $entityManager = $this->getEntityManager();
-        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $congViecService =  $this->getServiceLocator()->get('cong_viec');
+        //$congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $query = $entityManager->createQuery('select c, b from CongViec\Entity\CongViec c left join c.baoCaos b with b.trangThai != ?2 where c.id = ?1 order by b.ngayBaoCao DESC');
+        $query->setParameter(1, $idCongViec);
+        $query->setParameter(2, \CongViec\Entity\TheoDoi::DA_HUY);
+        $congViec = $query->getOneOrNullResult();
+
+        $congViecService->moCongViec($congViec); // thay doi trang thai trong phan cong
 
         return array(
             'congViec' => $congViec,
-            'congViecService' => $this->getServiceLocator()->get('cong_viec')
+            'congViecService' =>$congViecService
         );
     }
 
-    public function taoBaoCaoAction(){
+    public function taoBaoCaoAction(){ //tu theo doi viec da giao
         $idCongViec = (int) $this->params()->fromRoute('id', 0);
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
         
@@ -173,7 +181,7 @@ class TheoDoiController extends AbstractActionController
                 $this->dinhKemMoi($post,$baoCao);
                 $this->getServiceLocator()
                     ->get('cong_viec')
-                    ->thongBaoCongViecThayDoi($baoCao->getCongVan(), $this->zfcUserAuthentication()->getIdentity());
+                    ->thongBaoCongViecThayDoi($baoCao->getCongVan());
 
                 $this->redirect()->toRoute('theo_doi/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
             }
@@ -185,7 +193,7 @@ class TheoDoiController extends AbstractActionController
         );
     }
 
-   /* public function baoCaoAction(){
+    public function baoCaoAction(){ //tu xem cong viec can xu ly
         $idCongViec = (int) $this->params()->fromRoute('id', 0);
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
         
@@ -209,7 +217,7 @@ class TheoDoiController extends AbstractActionController
                 $this->dinhKemMoi($post,$baoCao);
                 $this->getServiceLocator()
                     ->get('cong_viec')
-                    ->thongBaoCongViecThayDoi($congViec, $this->zfcUserAuthentication()->getIdentity());
+                    ->thongBaoCongViecThayDoi($baoCao->getCongVan());
 
                 $this->redirect()->toRoute('cong_viec/crud', array('action'=>'xem-cong-viec', 'id'=>$idCongViec));
             }
@@ -219,7 +227,7 @@ class TheoDoiController extends AbstractActionController
             'form' => $form,
             'id' => $idCongViec
         );
-    }*/
+    }
 
     public function nghiemThuAction(){
         $idCongViec = (int) $this->params()->fromRoute('id', 0);
@@ -245,6 +253,9 @@ class TheoDoiController extends AbstractActionController
 
                 $post = $post['theo-doi']['dinhKems'];
                 $this->dinhKemMoi($post,$baoCao);
+                $this->getServiceLocator()
+                    ->get('cong_viec')
+                    ->thongBaoCongViecThayDoi($baoCao->getCongVan());
 
                 return $this->redirect()->toRoute('theo_doi');
             }
@@ -265,6 +276,41 @@ class TheoDoiController extends AbstractActionController
             $congViec->setTrangThai(\CongViec\Entity\CongViec::HOAN_THANH);
         $congViec->setNgayHoanThanhThuc(new DateTime('now'));
         $entityManager->flush();
+    }
+
+    public function huyBaoCaoAction(){
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $id = (int) $this->params()->fromRoute('id', 0);
+            if (!$id) {
+                $response = array(
+                    'status' => 'error',
+                    'message' => 'Không tìm thấy báo cáo'
+                );
+            }
+            else{
+                $entityManager = $this->getEntityManager();
+                $user = $this->zfcUserAuthentication()->getIdentity();
+                $baoCao = $entityManager->getRepository('CongViec\Entity\TheoDoi')->find($id);
+
+                if($baoCao->getNguoiTao()->getId() == $user->getId()){
+                    $baoCao->setTrangThai(\CongViec\Entity\TheoDoi::DA_HUY);
+                    $entityManager->flush();
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'Báo cáo đã hủy'
+                    );
+                }
+                else{
+                    $response = array(
+                        'status' => 'error',
+                        'message' => 'Bạn không thể hủy báo cáo này'
+                    );
+                }
+            }
+            $json = new JsonModel($response);
+            return $json;
+        }
     }
     
  /*   public function aindexAction(){
@@ -489,35 +535,6 @@ class TheoDoiController extends AbstractActionController
             }
         }
     }
-    public function huyBaoCaoAction(){
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
-            return $this->redirect()->toRoute('theo_doi/crud',array('action'=>'index'));
-        } 
-        $entityManager=$this->getEntityManager();
-        $baoCao=$entityManager->getRepository('CongViec\Entity\TheoDoi')->find($id); 
-        
-        $idCongViec=$baoCao->getCongVan()->getId();
-
-        // kiểm tra công việc
-        $congViec=$this->KiemTraQuyenCuaUser()->capNhatCongViec($idCongViec);
-        if(!$congViec){
-            $this->flashMessenger()->addMessage('Xin lỗi bạn không có quyền cập nhật báo cáo trên công việc này');
-            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongViec));
-        }
-
-        if($baoCao)
-        {            
-            $idCongVan=$baoCao->getCongVan()->getId();
-            $baoCao->setTrangThai(TheoDoi::DA_HUY);
-            //$entityManager->remove($baoCao);
-            $entityManager->flush();
-            return $this->redirect()->toRoute('cong_viec/crud',array('action'=>'chi-tiet-cong-viec','id'=>$idCongVan));
-        }
-        else{
-            return $this->redirect()->toRoute('theo_doi/crud',array('action'=>'index'));
-        }
-
-    }
+    
    
 }

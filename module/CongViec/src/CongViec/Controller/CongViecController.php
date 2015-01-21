@@ -274,6 +274,7 @@ class CongViecController extends AbstractActionController
                 $this->dinhKemMoi($entityManager, $post, $congViec);
 
                 $form->bind($congViec);
+                $this->flashMessenger()->addSuccessMessage('Bạn vừa thêm đơn vị mới thành công!');
             }
         }
 
@@ -283,10 +284,23 @@ class CongViecController extends AbstractActionController
     }
 
     public function xuLyNguoiGiaoViec($congViec){
+        $nguoiKy = $congViec->getCongVan()->getNguoiKy();
+        $nguoiTao = $congViec->getNguoiTao();
+        $nguoiThucHiens = array();
+
         $pcNguoiGiaoViec = new PhanCong();
         $pcNguoiGiaoViec->setVaiTro(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
-        $pcNguoiGiaoViec->setNguoiThucHien($congViec->getCha()->getNguoiKy());
-        $congViec->addNguoiThucHiens(array($pcNguoiGiaoViec));
+        $pcNguoiGiaoViec->setNguoiThucHien($nguoiKy);
+        $nguoiThucHiens[] = $pcNguoiGiaoViec;
+
+        if($nguoiTao->getId() != $nguoiKy->getId()){
+            $pcNguoiGiaoViec = new PhanCong();
+            $pcNguoiGiaoViec->setVaiTro(\CongViec\Entity\PhanCong::NGUOI_PHAN_CONG);
+            $pcNguoiGiaoViec->setNguoiThucHien($nguoiTao);
+            $nguoiThucHiens[] = $pcNguoiGiaoViec;
+        }
+
+        $congViec->addNguoiThucHiens($nguoiThucHiens);
         return $congViec;
     }
 
@@ -353,30 +367,26 @@ class CongViecController extends AbstractActionController
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
 
         $entityManager = $this->getEntityManager();
-        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $congViecService = $this->getServiceLocator()->get('cong_viec');
+        //$congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $query = $entityManager->createQuery('select c, b from CongViec\Entity\CongViec c left join c.baoCaos b with b.trangThai != ?2 where c.id = ?1 order by b.ngayBaoCao DESC');
+        $query->setParameter(1, $idCongViec);
+        $query->setParameter(2, \CongViec\Entity\TheoDoi::DA_HUY);
+        $congViec = $query->getOneOrNullResult();
+
+        if(!$congViecService->duocPhanCong($congViec)) die('Bạn không thể xem nội dung này');
         
         /* cap nhat trang thai */
         if($congViec->isChuaXem()){
             $congViec->setTrangThai(\CongViec\Entity\CongViec::DANG_XU_LY);
             $entityManager->flush();
         }
-        $this->moCongViec($congViec);
+        $congViecService->moCongViec($congViec); // thay doi trang thai trong phan cong
         
         return array(
             'congViec' => $congViec,
-            'congViecService' => $this->getServiceLocator()->get('cong_viec')
+            'congViecService' => $congViecService
         );
-    }
-
-    public function moCongViec($congViec){
-        $entityManager = $this->getEntityManager();
-        $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
-        $query = $entityManager->createQuery('select p from CongViec\Entity\PhanCong p where p.congVan = ?1 and p.nguoiThucHien = ?2');
-        $query->setParameter(1, $congViec->getId());
-        $query->setParameter(2, $userId);
-        $phanCong = $query->getOneOrNullResult();
-        $phanCong->setTrangThai(\CongViec\Entity\PhanCong::DA_XEM);
-        $entityManager->flush();
     }
 
     public function chiTietCongViecAction()
@@ -385,12 +395,51 @@ class CongViecController extends AbstractActionController
         if(!$idCongViec) return $this->redirect()->toRoute('theo_doi');
 
         $entityManager = $this->getEntityManager();
-        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        //$congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($idCongViec);
+        $query = $entityManager->createQuery('select c, b from CongViec\Entity\CongViec c left join c.baoCaos b with b.trangThai != ?2 where c.id = ?1 order by b.ngayBaoCao DESC');
+        $query->setParameter(1, $idCongViec);
+        $query->setParameter(2, \CongViec\Entity\TheoDoi::DA_HUY);
+        $congViec = $query->getOneOrNullResult();
         
         return array(
             'congViec' => $congViec,
             'congViecService' => $this->getServiceLocator()->get('cong_viec')
         );
+    }
+
+    public function huyCongViecAction(){
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $id = (int) $this->params()->fromRoute('id', 0);
+            if (!$id) {
+                $response = array(
+                    'status' => 'error',
+                    'message' => 'Không tìm thấy công việc'
+                );
+            }
+            else{
+                $entityManager = $this->getEntityManager();
+                $user = $this->zfcUserAuthentication()->getIdentity();
+                $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+                $service = $this->getServiceLocator()->get('cong_viec');
+                if($service->daGiao($congViec)){
+                    $congViec->setTrangThai(\CongViec\Entity\CongViec::DA_HUY);
+                    $entityManager->flush();
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'Công việc đã hủy'
+                    );
+                }
+                else{
+                    $response = array(
+                        'status' => 'error',
+                        'message' => 'Bạn không thể hủy công việc này'
+                    );
+                }
+            }
+            $json = new JsonModel($response);
+            return $json;
+        }
     }
 
     public function xoaDinhKemAction(){

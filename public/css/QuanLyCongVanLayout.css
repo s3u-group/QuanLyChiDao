@@ -97,3 +97,13 @@ color: #dc6868 !important;
 .ui.menu .selection.dropdown{
 	border: 0;
 }
+
+.ui.right-bnt{
+	position: absolute;;
+	top: 5px;
+	right: 5px;
+}
+
+.ui.deleted{
+	text-decoration: line-through;
+}

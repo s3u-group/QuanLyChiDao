@@ -1,22 +1,161 @@
 <div class="ui celled grid">
     <div class="row">
         <div class="eight wide column">
-            <h4 class="ui header">Công việc mới</h4>
-            <?php var_dump($congViecs); ?>
+            <label class="ui blue label">Công việc mới [<?php echo count($congViecs); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($congViecs): ?>
+                <?php foreach($congViecs as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php echo $this->url('cong_viec/crud', array('action'=>'xem-cong-viec', 'id'=>$congViec->getId())) ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
         </div>
         <div class="eight wide column">
-            <h4 class="ui header">Báo cáo mới</h4>
-            <?php var_dump($baoCaos); ?>
+            <label class="ui blue label">Công việc có báo cáo mới [<?php echo count($baoCaos); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($baoCaos): ?>
+                <?php foreach($baoCaos as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php 
+                                if($service->daGiao($congViec)) 
+                                    echo $this->url('theo_doi/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                else 
+                                    echo $this->url('cong_viec/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="eight wide column">
-            <h4 class="ui header">Công việc sắp hết hạn</h4>
-            <?php var_dump($sapHetHans); ?>
+            <h3>Theo dõi</h3>
+            <label class="ui red label">Công việc sắp hết hạn [<?php echo count($sapHetHanTheoDois); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($sapHetHanTheoDois): ?>
+                <?php foreach($sapHetHanTheoDois as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php 
+                                if($service->daGiao($congViec)) 
+                                    echo $this->url('theo_doi/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                else 
+                                    echo $this->url('cong_viec/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
+            <label class="ui red label">Công việc quá hạn [<?php echo count($treHanTheoDois); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($treHanTheoDois): ?>
+                <?php foreach($treHanTheoDois as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php 
+                                if($service->daGiao($congViec)) 
+                                    echo $this->url('theo_doi/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                else 
+                                    echo $this->url('cong_viec/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
         </div>
         <div class="eight wide column">
-            <h4 class="ui header">Công việc trễ hạn</h4>
-            <?php var_dump($treHans); ?>
+            <h3>Thực hiện</h3>
+            <label class="ui red label">Công việc sắp hết hạn [<?php echo count($sapHetHanThucHiens); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($sapHetHanThucHiens): ?>
+                <?php foreach($sapHetHanThucHiens as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php 
+                                if($service->daGiao($congViec)) 
+                                    echo $this->url('theo_doi/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                else 
+                                    echo $this->url('cong_viec/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
+            <label class="ui red label">Công việc quá hạn [<?php echo count($treHanThucHiens); ?>]</label>
+            <div class="ui divided selection list">
+            <?php if($treHanThucHiens): ?>
+                <?php foreach($treHanThucHiens as $congViec): ?>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php 
+                                if($service->daGiao($congViec)) 
+                                    echo $this->url('theo_doi/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                else 
+                                    echo $this->url('cong_viec/crud', array(
+                                        'action'=>'xem-cong-viec', 
+                                        'id'=>$congViec->getId()
+                                    )); 
+                                ?>" class="header"><?php echo $congViec->getTen(); ?></a>
+                            <div class="description"><?php echo $congViec->getNoiDung(); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="item">Không có công việc</div>
+            <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

@@ -476,4 +476,9 @@ class CongVan
     	if($this->trangThai == self::CHUA_XEM) return 1;
     	return 0;
     }
+
+    public function isDaHuy(){
+    	if($this->trangThai == self::DA_HUY) return 1;
+    	return 0;
+    }
 }

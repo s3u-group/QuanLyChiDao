@@ -4,6 +4,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 use User\Entity\DonVi;
 use User\Form\CreateDonViForm;
 use User\Form\UpdateDonViForm;
@@ -24,11 +28,22 @@ class DonViController extends AbstractActionController
     public function danhMucAction(){
       $entityManager = $this->getEntityManager();
 
-      $query = $entityManager->createQuery('select dv from User\Entity\DonVi dv');
-      $donVis = $query->getResult();
+      /*$query = $entityManager->createQuery('select dv from User\Entity\DonVi dv');
+      $donVis = $query->getResult();*/
+
+      $qb = $entityManager->createQueryBuilder();
+      $qb->select('dv')->from('User\Entity\DonVi', 'dv');
+
+      $adapter = new DoctrineAdapter(new ORMPaginator($qb));
+        
+      $paginator = new Paginator($adapter);
+      $paginator->setDefaultItemCountPerPage(10);     
+      $page = (int)$this->params('page');
+      if($page) 
+          $paginator->setCurrentPageNumber($page);
 
       return array(
-        'donVis' => $donVis
+        'donVis' => $paginator
       );
     }
 

@@ -14,6 +14,10 @@ use User\Form\CreateDonViForm;
 use User\Form\UpdateDonViForm;
 use Zend\View\Model\JsonModel;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 use User\Form\ThemNhanVienForm;
 use User\Form\LocDanhSachNhanVienForm;
 use User\Form\QuyenForm;
@@ -106,12 +110,19 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $query = $qb->getQuery();
-        $nhanViens = $query->getResult();
+        /*$query = $qb->getQuery();
+        $nhanViens = $query->getResult();*/
+        $adapter = new DoctrineAdapter(new ORMPaginator($qb));
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);     
+        $page = (int)$this->params('page');
+        if($page) 
+            $paginator->setCurrentPageNumber($page);
 
         return array(
             'form' => $form,
-            'nhanViens'=>$nhanViens,
+            'nhanViens'=>$paginator,
         );
 
     }

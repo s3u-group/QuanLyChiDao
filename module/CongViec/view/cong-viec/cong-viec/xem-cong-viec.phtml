@@ -63,9 +63,18 @@
 				<div class="item">
 					<div class="content">
 						<div class="header">Danh sách báo cáo</div>
-						<div class="list">
+						<div class="ui divided selection list">
 			  			<?php foreach($baoCaos as $baoCao): ?>
 			  				<div class="item">
+			  					<?php if($baoCao->getNguoiTao()->getId() == $this->zfcUserIdentity()->getId()): ?>
+								<div class="ui dropdown edit right floated">
+								  <i class="angle down icon"></i>
+								  <div class="menu">
+								  	<div class="item" data-value="huy" data-href="<?php echo $this->url('theo_doi/crud', array('action'=>'huy-bao-cao', 'id'=>$baoCao->getId())) ?>">Hủy báo cáo</div>
+								  	<div class="item" data-value="sua">Chỉnh sửa báo cáo</div>
+								  </div>
+								</div>
+								<?php endif; ?>
 			  					<i class="top aligned right triangle icon"></i>
 			  					<div class="content">
 								   	<div class="description">
@@ -105,3 +114,27 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$('.ui.dropdown.edit').dropdown({
+    	onChange: function (val, txt, ele) {
+    		var item = $(this).closest('.item');
+    		if(val == 'huy'){
+    			var href = ele.data('href');
+    			$.ajax({
+    				type: 'post',
+    				dataType: 'json',
+    				url: href,
+    				success: function(data){
+    					if(data.status == 'success'){
+    						item.remove();
+    					}
+    				}
+    			});
+    		}
+    		else{
+
+    		}
+	    }
+    });
+</script>

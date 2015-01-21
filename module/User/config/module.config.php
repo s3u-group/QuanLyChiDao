@@ -72,7 +72,16 @@ return array(
                                 'action'     => 'list',
                             )  */                        
                         ),
-                	),                   
+                	),   
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),                  
                 )
 			),
             'don_vi' => array(
@@ -99,7 +108,16 @@ return array(
                                 'action'     => 'list',
                             )  */                        
                         ),
-                    ),                   
+                    ), 
+                    'paginator' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/[trang-:page]',
+                            'defaults' => array(
+                                'page' => 1,
+                            ),
+                        ),
+                    ),                  
                 ) 
             ),
             'quyen' => array(
@@ -185,7 +203,7 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('giao-viec'),
+                    'action'    =>array('giao-viec', 'huy-cong-viec'),
                     'roles'     =>array('giao-viec', 'quan-tri'),
                 ),
 
@@ -195,12 +213,24 @@ return array(
                     'action'    =>array('index'),
                     'roles'     =>array('ket-xuat', 'quan-tri'),
                 ), 
+                
+                array(
+                    'controller'=>array('CongViec\Controller\TraCuu'),
+                    'action'    =>array('cong-viec-don-vi'),
+                    'roles'     =>array('nguoi-dung'),
+                ),
 
                 // KetXuatController
                 array(
                     'controller'=>array('CongViec\Controller\KetXuat'),
-                    'action'    =>array('in-danh-sach-cong-viec', 'in-cong-viec'),
+                    'action'    =>array('in-danh-sach-cong-viec'),
                     'roles'     =>array('ket-xuat', 'quan-tri'),
+                ),
+
+                array(
+                    'controller'=>array('CongViec\Controller\KetXuat'),
+                    'action'    =>array('in-danh-sach-cong-viec-don-vi', 'in-cong-viec'),
+                    'roles'     =>array('nguoi-dung'),
                 ),
 
                 // TheoDoiController
@@ -212,7 +242,7 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('tao-bao-cao', 'bao-cao', 'nghiem-thu'),
+                    'action'    =>array('tao-bao-cao', 'bao-cao', 'huy-bao-cao', 'nghiem-thu'),
                     'roles'     =>array('xu-ly-cong-viec', 'quan-tri'),
                 ),
 

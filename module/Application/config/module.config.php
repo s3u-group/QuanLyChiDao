@@ -129,28 +129,37 @@ return array(
                 'label' => 'Quản lý công việc',
                 'uri' => '#',
                 'icon' => '<i class="feed icon"></i>',
-                'resource' => 'menu',
-                'privilege' => 'menu_nguoi_dung',
-                //'icon' => $this->isAllowed('menu', 'menu_nguoi_dung')?'<i class="feed icon"></i>':'',
                 'pages' => array(
                     array(
                         'label' => 'Công việc cần xử lý',
-                        'route' => 'cong_viec'
+                        'route' => 'cong_viec',
+                        'resource' => 'menu',
+                        'privilege' => 'menu_xu_ly_viec',
                     ),
                     array(
                         'label' => 'Giao việc mới',
                         'route' => 'cong_viec/crud',
                         'params' => array(
                             'action' => 'giao-viec'
-                        )
+                        ),
+                        'resource' => 'menu',
+                        'privilege' => 'menu_giao_viec',
                     ),
                     array(
                         'label' => 'Công việc đã giao',
                         'route' => 'theo_doi',
+                        'resource' => 'menu',
+                        'privilege' => 'menu_giao_viec',
                     ),
                     array(
                         'label' => 'Theo dõi công việc',
-                        'route' => 'tra_cuu'
+                        'route' => 'cong_viec_don_vi',
+                    ),
+                    array(
+                        'label' => 'Tổng hợp công việc',
+                        'route' => 'tra_cuu',
+                        'resource' => 'menu',
+                        'privilege' => 'menu_ket_xuat',
                     ),
                 ),
             ),
@@ -158,10 +167,11 @@ return array(
                 'label' => 'Quản lý nhân viên',
                 'uri' => '#',
                 'icon' => '<i class="users icon"></i>',
+                'resource' => 'menu',
+                'privilege' => 'menu_quan_tri',
                 'pages' => array(
                     array(
                         'label' => 'Thêm nhân viên',
-                        /*'uri' => '#'*/
                         'route' => 'user/crud',
                         'params' => array(
                             'action' => 'them-nhan-vien',
@@ -187,6 +197,8 @@ return array(
                 'label' => 'Danh mục',
                 'uri' => '#',
                 'icon' => '<i class="sitemap icon"></i>',
+                'resource' => 'menu',
+                'privilege' => 'menu_quan_tri',
                 'pages' => array(
                     array(
                         'label' => 'Tạo đơn vị',

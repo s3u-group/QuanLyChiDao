@@ -4,10 +4,10 @@ namespace CongViec\Form;
 use Zend\Form\Form;
 use DateTime;
 
-class LocNhatKyForm extends Form
+class LocCongViecDonViForm extends Form
 {
 
-    public function __construct($entityManager)
+    public function __construct($entityManager, $donVi)
     {
         parent::__construct('loc-form');
 
@@ -41,7 +41,7 @@ class LocNhatKyForm extends Form
             'name' => 'trangThai',
             'type' => 'radio',
             'options' => array(
-                'value_options' => $this->getTrangThaiOptions($entityManager)
+                'value_options' => $this->getTrangThaiOptions($entityManager, $donVi)
             ),
             'attributes' => array(
                 'value' => '4'
@@ -83,12 +83,12 @@ class LocNhatKyForm extends Form
         ));
     }
 
-    public function getTrangThaiOptions($entityManager){
+    public function getTrangThaiOptions($entityManager, $donVi){
         
-        $countTatCa = $this->countTatCa($entityManager);
-        $countChuaHoanThanh = $this->countChuaHoanThanh($entityManager);
-        $countHoanThanh = $this->countHoanThanh($entityManager);
-        $countQuaHan = $this->countQuaHan($entityManager);
+        $countTatCa = $this->countTatCa($entityManager, $donVi);
+        $countChuaHoanThanh = $this->countChuaHoanThanh($entityManager, $donVi);
+        $countHoanThanh = $this->countHoanThanh($entityManager, $donVi);
+        $countQuaHan = $this->countQuaHan($entityManager, $donVi);
 
         return array(
             '1' => 'Chưa hoàn thành ['.$countChuaHoanThanh.']',
@@ -98,39 +98,42 @@ class LocNhatKyForm extends Form
         );
     }
 
-    public function chung($entityManager){
+    public function chung($entityManager, $donVi){
         $qb = $entityManager->createQueryBuilder();
         $qb->select('count(distinct cv.id)')
             ->from('CongViec\Entity\CongViec', 'cv')
             ->join('cv.nguoiThucHiens', 'pc')
             ->leftJoin('cv.cha', 'c')
             ->leftJoin('c.nguoiKy', 'nk')
+            ->leftJoin('cv.donViTiepNhans', 'dv')
+            ->where('dv.id = ?1')
+            ->setParameter(1, $donVi->getId())
             ;
         return $qb;
     }
 
-    public function countTatCa($entityManager){
-        $qb = $this->chung($entityManager);
+    public function countTatCa($entityManager, $donVi){
+        $qb = $this->chung($entityManager, $donVi);
         return $qb->getQuery()->getSingleScalarResult();
        // var_dump($qb->getDql());
     }
 
-    public function countChuaHoanThanh($entityManager){
-        $qb = $this->chung($entityManager);
+    public function countChuaHoanThanh($entityManager, $donVi){
+        $qb = $this->chung($entityManager, $donVi);
         $qb->andWhere('cv.trangThai in (?5)');
         $qb->setParameter(5, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countHoanThanh($entityManager){
-        $qb = $this->chung($entityManager);
+    public function countHoanThanh($entityManager, $donVi){
+        $qb = $this->chung($entityManager, $donVi);
         $qb->andWhere('cv.trangThai in (?6)');
         $qb->setParameter(6, array(\CongViec\Entity\CongViec::HOAN_THANH, \CongViec\Entity\CongViec::TRE_HAN));
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countQuaHan($entityManager){
-        $qb = $this->chung($entityManager);
+    public function countQuaHan($entityManager, $donVi){
+        $qb = $this->chung($entityManager, $donVi);
         $qb->andWhere('cv.ngayHoanThanh <= ?7');
         $date = new DateTime('now');
         $qb->setParameter(7, $date->format('Y-m-d H:i:s'));

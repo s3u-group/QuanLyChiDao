@@ -11,8 +11,11 @@ class IndexController extends AbstractActionController
         return array(
             'congViecs' => $service->congViecMois(),
             'baoCaos' => $service->baoCaoMois(),
-            'sapHetHans' => $service->sapHetHans(),
-            'treHans' => $service->treHans(),
+            'sapHetHanTheoDois' => $service->sapHetHanTheoDois(),
+            'treHanTheoDois' => $service->treHanTheoDois(),
+            'sapHetHanThucHiens' => $service->sapHetHanThucHiens(),
+            'treHanThucHiens' => $service->treHanThucHiens(),
+            'service' => $service
         );
     }
 

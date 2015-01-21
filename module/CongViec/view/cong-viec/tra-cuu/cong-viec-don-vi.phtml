@@ -1,5 +1,5 @@
 <?php $user=$this->zfcUserIdentity();?>
-<?php $form->setAttribute('action', $this->url('cong_viec/crud',array('action'=>'nhat-ky-cong-viec'))); ?>
+<?php $form->setAttribute('action', $this->url('cong_viec_don_vi')); ?>
 <?php $form->prepare();?>
 
 <?php echo $this->form()->openTag($form);?>
@@ -103,10 +103,8 @@
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>
-                <?php if($donVis = $congViec->getDonViTiepNhans()): ?>
-                  <?php foreach($donVis as $donVi): ?>
-                    <?php echo $donVi->getTenVietTatHoacDayDu(). ', '; ?>
-                  <?php endforeach; ?>
+                <?php if($donVi = $congViec->getDonViChuCong()): ?>
+                    <?php echo $donVi->getTenVietTatHoacDayDu(); ?>
                 <?php endif; ?>
               </td>
               <td>
@@ -126,24 +124,28 @@
         <?php endif; ?>
       </tbody>
     </table>
+    <?php echo $this->paginationControl($this->congViecs,
+                                    'Sliding',
+                                    'paginator/paginator', 
+                                    array('route' => 'cong_viec_don_vi/paginator')); ?>
   </div>
   <?php if($trangThai == 4): //tat ca ?>
-    <div class="ui grid">
-      <div class="three wide column">
-        <div class="ui empty circular label"></div>
-        <span>&nbsp;Chưa hoàn thành</span>
-      </div>
-      <div class="three wide column">
-        <div class="ui green empty circular label"></div>
-        <span style="color:green;">&nbsp;Đã hoàn thành</span>
-      </div>
-      <div class="two wide column">
-        <div class="ui red empty circular label"></div>
-        <span style="color:red;">&nbsp;Quá hạn</span>
-      </div>
+  <div class="ui horizontal list">
+    <div class="item">
+      <div class="ui empty circular label"></div>
+      <span>&nbsp;Chưa hoàn thành</span>
+    </div>
+    <div class="item">
+      <div class="ui green empty circular label"></div>
+      <span style="color:green;">&nbsp;Đã hoàn thành</span>
+    </div>
+    <div class="item">
+      <div class="ui red empty circular label"></div>
+      <span style="color:red;">&nbsp;Quá hạn</span>
+    </div>
   </div>
   <?php endif; ?>
-  <div class="five wide column">
+  <div class="">
     <a href="#" id="xuatFile" class="ui icon labeled button">
       <i class="print icon"></i>
       Xuất file
@@ -165,7 +167,7 @@
     $('#xuatFile').click(function(){
       var action = $('#locForm').attr('action');
       $('#locForm').attr('target', '_blank');
-      $('#locForm').attr('action', '<?php echo $this->url('ket_xuat/crud', array('action'=>'in-danh-sach-cong-viec')) ?>');
+      $('#locForm').attr('action', '<?php echo $this->url('ket_xuat/crud', array('action'=>'in-danh-sach-cong-viec-don-vi')) ?>');
       $('#locForm').submit();
       $('#locForm').attr('action', action);
       $('#locForm').attr('target', '');

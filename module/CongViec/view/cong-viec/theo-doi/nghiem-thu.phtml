@@ -11,6 +11,7 @@ $baoCao = $form->get('theo-doi');?>
 			<div class="sixteen wide column">
 				<div class="field">
 					<?php $baoCao->get('noiDung')->setLabel('Kết quả nghiệm thu') ?>
+					<?php $baoCao->get('noiDung')->setValue('Công việc hoàn thành') ?>
 					<?php echo $this->formLabel($baoCao->get('noiDung')); ?>
 					<?php echo $this->formElement($baoCao->get('noiDung')); ?>
 					<?php echo $this->formElementErrors($baoCao->get('noiDung')); ?>

@@ -32,6 +32,13 @@
 					<div class="ui red horizontal label">Hoàn thành</div>
 				<?php endif; ?>
 			</h3>
+			<div class="ui dropdown cv right-bnt">
+			  <i class="angle down icon"></i>
+			  <div class="menu">
+			  	<div class="item" data-value="huy" data-href="<?php echo $this->url('cong_viec/crud', array('action'=>'huy-cong-viec', 'id'=>$congViec->getId())) ?>">Hủy công việc</div>
+			  	<div class="item" data-value="sua">Chỉnh sửa công việc</div>
+			  </div>
+			</div>
 			<div class="ui divider"></div>
 			<p><?php echo $congViec->getNoiDung(); ?></p>
 			<?php if($dinhKems = $congViec->getDinhKems()): ?>
@@ -63,9 +70,18 @@
 				<div class="item">
 					<div class="content">
 						<div class="header">Danh sách báo cáo</div>
-						<div class="list">
+						<div class="ui divided selection list">
 			  			<?php foreach($baoCaos as $baoCao): ?>
 			  				<div class="item">
+								<?php if($baoCao->getNguoiTao()->getId() == $this->zfcUserIdentity()->getId()): ?>
+								<div class="ui dropdown edit right floated">
+								  <i class="angle down icon"></i>
+								  <div class="menu">
+								  	<div class="item" data-value="huy" data-href="<?php echo $this->url('theo_doi/crud', array('action'=>'huy-bao-cao', 'id'=>$baoCao->getId())) ?>">Hủy báo cáo</div>
+								  	<div class="item" data-value="sua">Chỉnh sửa báo cáo</div>
+								  </div>
+								</div>
+								<?php endif; ?>
 			  					<i class="top aligned right triangle icon"></i>
 			  					<div class="content">
 								   	<div class="description">
@@ -124,3 +140,46 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$('.ui.dropdown.edit').dropdown({
+    	onChange: function (val, txt, ele) {
+    		var item = $(this).closest('.item');
+    		if(val == 'huy'){
+    			var href = ele.data('href');
+    			$.ajax({
+    				type: 'post',
+    				dataType: 'json',
+    				url: href,
+    				success: function(data){
+    					if(data.status == 'success'){
+    						item.remove();
+    					}
+    				}
+    			});
+    		}
+    		else{
+
+    		}
+	    }
+    });
+
+    $('.ui.dropdown.cv').dropdown({
+    	onChange: function (val, txt, ele) {
+    		var item = $(this).closest('.item');
+    		if(val == 'huy'){
+    			var href = ele.data('href');
+    			$.ajax({
+    				type: 'post',
+    				dataType: 'json',
+    				url: href,
+    				success: function(data){
+    					window.location.replace('<?php echo $this->url('theo_doi'); ?>');
+    				}
+    			});
+    		}
+    		else{
+
+    		}
+	    }
+    });
+</script>
