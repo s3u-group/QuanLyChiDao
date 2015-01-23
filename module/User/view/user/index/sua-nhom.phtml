@@ -1,0 +1,119 @@
+<?php echo $this->partial('template/flash'); ?>
+<div class="ui celled grid">
+	<div class="row">
+		<div class="eight wide column">
+			<div class="ui form">
+				<div class="ui left icon input">
+				  	<input placeholder="Tìm người thực hiện..." type="text" id="jstree_s">
+				  	<i class="users icon"></i>
+				</div>
+			</div>
+			<div class="jstree"></div>
+		</div>
+		<div class="eight wide column">
+			<?php $form->setAttribute('action', $this->url('user/crud', array('action'=>'sua-nhom', 'id' => $id)));
+			$form->prepare();
+			echo $this->form()->openTag($form);
+			$nhom = $form->get('taxonomy');
+			$term = $nhom->get('term');
+			$users = $nhom->get('users');
+			?>
+				<div class="ui form">
+					<div class="field">
+						<?php $term->get('name')->setLabel('Tên nhóm'); ?>
+        				<?php echo $this->formLabel($term->get('name')); ?>
+			          	<?php echo $this->formElement($term->get('name')); ?>
+			          	<?php echo $this->formElementErrors($term->get('name')); ?>
+					</div>
+					<div class="field">
+						<label>Danh sách gồm có:</label>
+						<div id="event_result">
+							<?php echo $this->formCollection($users); ?>
+							<div class="template ui hidden">
+							    <i class="remove icon link"></i>
+							    <!-- <img class="ui avatar image" src="<?php echo $this->basePath();?>/img/square-image.png"> -->
+							    <div class="content">
+							     	__ten__
+							    </div>
+							</div>
+							<div class="ui list divided">
+								<?php $userInGroup = $objNhom->getUsers(); ?>
+								<?php foreach($userInGroup as $i => $user): ?>
+									<div class="item" id="pc_<?php echo $i ?>">
+									    <i class="remove icon link"></i>
+									    <div class="content">
+									     	<?php echo $user->getHoTen(); ?>
+									    </div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<?php echo $this->formHidden($term->get('slug'));?>
+		        		<?php echo $this->formHidden($form->get('csrf'));?>
+		        		<?php echo $this->formSubmit($form->get('submit')); ?>
+					</div>
+				</div>
+			<?php echo $this->form()->closeTag();?>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	/* wrap cac fieldet da co trong div fs_ */
+    $('#event_result > fieldset > fieldset').each(function(index){
+    	$(this).wrap( '<div id="fs_'+index+'"></div>' );
+    });
+
+	var currentCount = <?php echo count($userInGroup); ?>;
+	$('.jstree').jstree({
+		'core' : {
+			'data' : {
+				"url" : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-to-chuc')) ?>",
+				"dataType" : "json" // needed only if you do not supply JSON headers
+			}
+		},
+		"plugins" : [ "search" ]
+	}).bind("dblclick.jstree", function (event) {
+	   var node = $(event.target).closest("li");
+	   var id = node.attr('id');
+	   var ten = node.text();
+	   if(isNaN(id)){
+	   	alert('Vui lòng chọn nhân viên để phân công');
+	   }
+	   else{
+	   	var currentCount = add_phan_cong();
+	   	var template = $('#event_result .template').html();
+	   	template = template.replace(/__ten__/g, ten);
+	   	$('#event_result .list').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
+	   	$('input[name="taxonomy[users]['+currentCount+'][id]"]').val(id);
+	   }
+	});
+
+	var to = false;
+	$('#jstree_s').keyup(function () {
+	    if(to) { clearTimeout(to); }
+	    to = setTimeout(function () {
+	      	var v = $('#jstree_s').val();
+	      	$('.jstree').jstree(true).search(v);
+	    }, 250);
+	});
+
+    $('#event_result').on('click', '.remove.icon', function(){
+		var id = $(this).closest('.item').attr('id').substring(3);
+		$('#event_result > .list > #pc_'+id).remove();
+		$('#event_result > fieldset > #fs_'+id).remove();
+	});
+
+	function add_phan_cong() {
+        //var currentCount = $('#event_result > fieldset > fieldset').length;
+        currentCount++;
+        var template = $('#event_result > fieldset > span').data('template');
+        template = template.replace(/__index__/g, currentCount);
+
+        $('#event_result > fieldset').prepend('<div id="fs_'+currentCount+'">' + template + '</div>');
+
+        return currentCount;
+    }
+</script>

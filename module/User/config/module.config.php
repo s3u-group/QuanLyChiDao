@@ -256,7 +256,7 @@ return array(
                 // UserController
                 array(
                     'controller'=>array('User\Controller\Index'),
-                    'action'    =>array('them-nhan-vien', 'danh-sach-nhan-vien', 'cap-nhat-nhan-vien', 'cap-tai-khoan', 'phan-quyen','ajax-get-to-chuc','user-roles'),
+                    'action'    =>array('them-nhan-vien', 'danh-sach-nhan-vien', 'cap-nhat-nhan-vien', 'tao-nhom', 'danh-sach-nhom', 'sua-nhom', 'xoa-nhom', 'cap-tai-khoan', 'phan-quyen','ajax-get-to-chuc','user-roles'),
                     'roles'     =>array('quan-tri'),
                 ),
 
@@ -282,8 +282,13 @@ return array(
                 // TaxonomyController
                 array(
                     'controller' => array('Taxonomy\Controller\DanhMuc'),
-                    'action' => array('loai-cong-viec', 'sua-loai-cong-viec', 'xoa-loai-cong-viec', 'linh-vuc', 'sua-linh-vuc', 'xoa-linh-vuc'),
+                    'action' => array('loai-cong-viec', 'sua-loai-cong-viec', 'xoa-loai-cong-viec', 'linh-vuc', 'sua-linh-vuc', 'xoa-linh-vuc', 'chuc-vu', 'sua-chuc-vu', 'xoa-chuc-vu'),
                     'roles' => array('quan-tri')
+                ),
+                array(
+                    'controller' => array('Taxonomy\Controller\DanhMuc'),
+                    'action' => array('so-ngay-thuc-hien'),
+                    'roles' => array('nguoi-dung')
                 )
             ),
         ),

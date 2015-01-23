@@ -32,7 +32,8 @@ class LocDanhSachNhanVienForm extends Form
             'options' => array(
                 'value_options' => array(
                     '1' => 'Họ tên',
-                    '2' => 'Điện thoại'
+                    '2' => 'Điện thoại',
+                    '3' => 'Chức vụ'
                 )
             ),
             'attributes' => array(

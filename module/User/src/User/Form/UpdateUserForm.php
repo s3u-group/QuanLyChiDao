@@ -10,7 +10,7 @@ use User\Form\UserFieldset;
 class UpdateUserForm extends Form
 {
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm)
     {
         parent::__construct('update-user-form');
 
@@ -19,7 +19,7 @@ class UpdateUserForm extends Form
             ->setHydrator(new DoctrineHydrator($objectManager))
         ;
 
-        $userFieldset = new UserFieldset($objectManager);
+        $userFieldset = new UserFieldset($objectManager, $sm);
         $userFieldset->setUseAsBaseFieldset(true);
         $this->add($userFieldset);
 

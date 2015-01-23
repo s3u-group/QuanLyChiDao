@@ -9,6 +9,14 @@ return array(
 			array(
 				'label' => 'Lĩnh vực',
 				'slug' => 'linh-vuc'
+			),
+			array(
+				'label' => 'Chức vụ',
+				'slug' => 'chuc-vu'
+			),
+			array(
+				'label' => 'Nhóm người dùng',
+				'slug' => 'nhom-nguoi-dung'
 			)
 		)
 	)

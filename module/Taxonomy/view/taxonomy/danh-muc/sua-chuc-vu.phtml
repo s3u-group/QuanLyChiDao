@@ -1,4 +1,4 @@
-<?php $form->setAttribute('action', $this->url('danh_muc/crud', array('action' => 'sua-linh-vuc', 'id' => $id)));
+<?php $form->setAttribute('action', $this->url('danh_muc/crud', array('action' => 'sua-chuc-vu', 'id' => $id)));
 $form->prepare();
 $taxonomy = $form->get('taxonomy');
 $term = $taxonomy->get('term');
@@ -9,7 +9,7 @@ echo $this->form()->openTag($form);?>
 		<div class="row">
         	<div class="sixteen wide column">
     			<div class="field">
-    				<?php $term->get('name')->setLabel('Lĩnh vực'); ?>
+    				<?php $term->get('name')->setLabel('Chức vụ'); ?>
     				<?php echo $this->formLabel($term->get('name')); ?>
 		          	<?php echo $this->formElement($term->get('name')); ?>
 		          	<?php echo $this->formElementErrors($term->get('name')); ?>

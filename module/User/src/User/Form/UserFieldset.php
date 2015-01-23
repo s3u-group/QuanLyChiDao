@@ -12,7 +12,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
 {
     private $objectManager;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm = null)
     {
         $this->objectManager = $objectManager;
         parent::__construct('user');
@@ -102,17 +102,10 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             'type' => 'select',
             'options' => array(
                 'label' => 'Chức vụ',
-                'value_options' => array(
-                    '1' => 'Chủ tịch',
-                    '2' => 'Phó chủ tịch',
-                    '3' => 'Trưởng phòng',
-                    '4' => 'Phó phòng',
-                    '5' => 'Nhân viên'
-                )
+                'value_options' => $this->getChucVuOption($sm),
             ),
             'attributes' => array(
-                'class' => 'ui dropdown',
-                'value' => '5'
+                'class' => 'ui dropdown'
             )
         ));     
 
@@ -204,6 +197,14 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             $options[$donVi->getId()] = $donVi->getTenDonVi();
         }
         return $options;        
+    }
+
+    public function getChucVuOption($sm){
+        if($sm){
+            $taxonomyService = $sm->get('taxonomyService');
+            $options = $taxonomyService->getValueForOption('chuc-vu');
+            return $options;
+        }
     }
 
 }

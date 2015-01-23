@@ -3,6 +3,7 @@ namespace Taxonomy\Entity;
 use Datetime;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
 * @ORM\Entity
 * @ORM\Table(name="term_taxonomy")
@@ -66,6 +67,15 @@ class TermTaxonomy
      */
 	protected $modifyDate;
 
+	/**
+     * @ORM\ManyToMany(targetEntity="User\Entity\User")
+     * @ORM\JoinTable(name="user_group",
+     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="term_taxonomy_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")}
+     * )
+     */
+    protected $users;
+
 	private $level;
 
 	/**
@@ -81,6 +91,11 @@ class TermTaxonomy
 	public function onPreUpdate(){
     	$this->modifyDate = new DateTime('now');
 	}
+
+	public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
 	public function getId()
 	{
@@ -214,6 +229,22 @@ class TermTaxonomy
 		$date = $this->getModifyDate();
 		if($date)
 			return $date->format('d/m/Y H:i:s');
+	}
+
+	public function addUsers($users){
+		foreach($users as $user){
+			$this->users->add($user);
+		}
+	}
+
+	public function removeUsers($users){
+		foreach($users as $user){
+			$this->users->removeElement($user);
+		}
+	}
+
+	public function getUsers(){
+		return $this->users->toArray();
 	}
 }
 ?>

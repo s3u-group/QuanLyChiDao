@@ -1,0 +1,25 @@
+<?php echo $this->partial('template/flash'); ?>
+<table class="ui celled structured striped table">
+	<thead>
+		<tr>
+			<th>STT</th>
+			<th>Tên nhóm</th>
+                  <th>Số thành viên</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($nhoms as $i => $nhom): ?>
+		<?php $term = $nhom->getTerm(); ?>
+		<tr>
+			<td class="one wide"><?php echo $i+1; ?></td>
+			<td><?php echo $term->getName() ?></td>
+                  <td><?php echo $nhom->getCount(); ?></td>
+			<td class="three wide center aligned">
+            <a href="<?php echo $this->url('user/crud', array('action'=>'sua-nhom', 'id'=>$nhom->getId())) ?>" class="ui mini icon button" title="Sửa nhóm"><i class="edit icon"></i></a>
+            <a href="<?php echo $this->url('user/crud', array('action'=>'xoa-nhom', 'id'=>$nhom->getId())) ?>" class="ui mini icon button" title="Xóa nhóm"><i class="remove icon"></i></a>
+        </td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>

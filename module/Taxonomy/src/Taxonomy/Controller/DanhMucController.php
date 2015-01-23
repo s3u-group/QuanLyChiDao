@@ -2,6 +2,7 @@
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
  use Zend\ServiceManager\ServiceManager;
 
  use Taxonomy\Entity\Term;
@@ -52,8 +53,9 @@
           $form->setData($request->getPost());
 
           if ($form->isValid()) {
-              $entityManager->persist($loai);
-              $entityManager->flush();
+              /*$entityManager->persist($loai);
+              $entityManager->flush();*/
+              $service->luu($loai);
               $this->flashMessenger()->addSuccessMessage('Đã thêm!');
               return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'loai-cong-viec'));
           }
@@ -70,6 +72,7 @@
       $id = (int) $this->params()->fromRoute('id', 0);
       if(!$id) return $this->redirect()->toRoute('danh_muc/crud', array('action'=>'loai-cong-viec'));
       $entityManager = $this->getEntityManager();
+      $service = $this->getTaxonomyService();
       $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
       $form = new UpdateTaxonomyForm($entityManager);
       $form->bind($loai);
@@ -79,7 +82,8 @@
           $form->setData($request->getPost());
 
           if ($form->isValid()) {
-              $entityManager->flush();
+              //$entityManager->flush();
+              $service->luu($loai);
               $this->flashMessenger()->addSuccessMessage('Đã sửa!');
               return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'loai-cong-viec'));
           }
@@ -117,6 +121,18 @@
       return 0;
     }
 
+    public function soNgayThucHienAction(){
+      $request = $this->getRequest();
+      if($request->isXmlHttpRequest()){
+        $post = $request->getPost();
+        $id = $post['id'];
+        $entityManager = $this->getEntityManager();
+        $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
+        $json = new JsonModel(array('soNgay'=>$loai->getCount()));
+        return $json;
+      }
+    }
+
     public function linhVucAction(){
       $entityManager = $this->getEntityManager();
       $service = $this->getTaxonomyService();
@@ -131,9 +147,11 @@
           $form->setData($request->getPost());
 
           if ($form->isValid()) {
-              $entityManager->persist($loai);
-              $entityManager->flush();
+              /*$entityManager->persist($loai);
+              $entityManager->flush();*/
+              $service->luu($loai);
 
+              $this->flashMessenger()->addSuccessMessage('Đã thêm!');
               return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'linh-vuc'));
           }
       }
@@ -149,6 +167,7 @@
       $id = (int) $this->params()->fromRoute('id', 0);
       if(!$id) return $this->redirect()->toRoute('danh_muc/crud', array('action'=>'linh-vuc'));
       $entityManager = $this->getEntityManager();
+      $service = $this->getTaxonomyService();
       $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
       $form = new UpdateTaxonomyForm($entityManager);
       $form->bind($loai);
@@ -158,8 +177,10 @@
           $form->setData($request->getPost());
 
           if ($form->isValid()) {
-              $entityManager->flush();
+              //$entityManager->flush();
+              $service->luu($loai);
 
+              $this->flashMessenger()->addSuccessMessage('Đã sửa!');
               return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'linh-vuc'));
           }
       }
@@ -190,6 +211,90 @@
     public function daSuDungLinhVuc($loai){
       $entityManager = $this->getEntityManager();
       $query = $entityManager->createQuery('select count(c.id) from CongViec\Entity\CongViec c where c.linhVuc = ?1');
+      $query->setParameter(1, $loai->getId());
+      if($query->getSingleScalarResult() != 0)
+        return 1;
+      return 0;
+    }
+
+    public function chucVuAction(){
+      $entityManager = $this->getEntityManager();
+      $service = $this->getTaxonomyService();
+
+      $form = new AddTaxonomyForm($entityManager);
+      $loai = new TermTaxonomy();
+      $loai->setTaxonomy('chuc-vu');
+      $form->bind($loai);
+
+      $request = $this->getRequest();
+      if ($request->isPost()) {
+          $form->setData($request->getPost());
+
+          if ($form->isValid()) {
+              /*$entityManager->persist($loai);
+              $entityManager->flush();*/
+              $service->luu($loai);
+
+              $this->flashMessenger()->addSuccessMessage('Đã thêm!');
+              return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'chuc-vu'));
+          }
+      }
+      $loais = $service->getTaxonomy('chuc-vu');
+
+      return array(
+        'loais' => $loais,
+        'form' => $form
+      );
+    }
+
+    public function suaChucVucAction(){
+      $id = (int) $this->params()->fromRoute('id', 0);
+      if(!$id) return $this->redirect()->toRoute('danh_muc/crud', array('action'=>'chuc-vu'));
+      $entityManager = $this->getEntityManager();
+      $service = $this->getTaxonomyService();
+      $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
+      $form = new UpdateTaxonomyForm($entityManager);
+      $form->bind($loai);
+
+      $request = $this->getRequest();
+      if ($request->isPost()) {
+          $form->setData($request->getPost());
+
+          if ($form->isValid()) {
+              //$entityManager->flush();
+              $service->luu($loai);
+
+              $this->flashMessenger()->addSuccessMessage('Đã sửa!');
+              return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'chuc-vu'));
+          }
+      }
+      return array(
+        'id' => $id,
+        'form' => $form
+      );
+    }
+
+    public function xoaChucVuAction(){
+      $id = (int) $this->params()->fromRoute('id', 0);
+      if(!$id) return $this->redirect()->toRoute('danh_muc/crud', array('action'=>'chuc-vu'));
+      $entityManager = $this->getEntityManager();
+      $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
+      
+      if($this->daSuDungChucVu($loai)){
+        $this->flashMessenger()->addErrorMessage('Danh mục này đang sử dụng, không được xóa!');
+      }
+      else{
+        $entityManager->remove($loai);
+        $entityManager->flush();
+        $this->flashMessenger()->addSuccessMessage('Đã xóa!');
+      }
+      
+      return $this->redirect()->toRoute('danh_muc/crud', array('action' => 'chuc-vu'));
+    }
+
+    public function daSuDungChucVu($loai){
+      $entityManager = $this->getEntityManager();
+      $query = $entityManager->createQuery('select count(u.id) from User\Entity\User u where u.chucVu = ?1');
       $query->setParameter(1, $loai->getId());
       if($query->getSingleScalarResult() != 0)
         return 1;

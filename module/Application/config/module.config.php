@@ -99,6 +99,7 @@ return array(
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
             'menu/default'            => __DIR__ . '/../view/partial/menu/default.phtml',
             'template/flash'          => __DIR__ . '/../view/partial/template/flash.phtml',
+            'template/flash_current'          => __DIR__ . '/../view/partial/template/flash-current.phtml',
             'paginator/paginator'     => __DIR__ . '/../view/partial/paginator/paginator.phtml',
         ),
         'template_path_stack' => array(
@@ -185,6 +186,20 @@ return array(
                         )
                     ),
                     array(
+                        'label' => 'Tạo nhóm',
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'tao-nhom',
+                        )
+                    ),
+                    array(
+                        'label' => 'Danh sách nhóm',
+                        'route' => 'user/crud',
+                        'params' => array(
+                            'action' => 'danh-sach-nhom',
+                        )
+                    ),
+                    array(
                         'label' => 'Phân quyền',
                         'route' => 'user/crud',
                         'params' => array(
@@ -210,6 +225,13 @@ return array(
                     array(
                         'label' => 'Danh mục đơn vị',
                         'route' => 'don_vi',
+                    ),
+                    array(
+                        'label' => 'Danh mục chức vụ',
+                        'route' => 'danh_muc/crud',
+                        'params' => array(
+                            'action' => 'chuc-vu'
+                        )
                     ),
                     array(
                         'label' => 'Danh mục loại công việc',

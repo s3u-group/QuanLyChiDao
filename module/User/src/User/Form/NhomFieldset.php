@@ -1,5 +1,5 @@
 <?php
-namespace Taxonomy\Form;
+namespace User\Form;
 
 use Taxonomy\Entity\TermTaxonomy;
 use Taxonomy\Form\TermFieldset;
@@ -8,7 +8,7 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 
-class TermTaxonomyFieldset extends Fieldset implements InputFilterProviderInterface
+class NhomFieldset extends Fieldset implements InputFilterProviderInterface
 {
     public function __construct(ObjectManager $objectManager)
     {
@@ -35,7 +35,22 @@ class TermTaxonomyFieldset extends Fieldset implements InputFilterProviderInterf
             )
         ));
 
+        $userFieldset = new UserShortFieldset($objectManager);
         $this->add(array(
+            'type' => 'Zend\Form\Element\Collection',
+            'name' => 'users',
+            'options' => array(
+                'count' => 0,
+                'should_create_template' => true,
+                'allow_add' => true,
+                'target_element' => $userFieldset
+            ),
+            'attributes' => array(
+                'class' => 'ui hidden'
+            )
+        ));
+
+        /*$this->add(array(
             'name'=> 'count',
             'type' => 'text',
             'options' => array(
@@ -51,7 +66,7 @@ class TermTaxonomyFieldset extends Fieldset implements InputFilterProviderInterf
                 'empty_option' => '-- Parent --',
                 'disable_inarray_validator' => true
             )
-        ));
+        ));*/
     }
 
     public function getInputFilterSpecification()

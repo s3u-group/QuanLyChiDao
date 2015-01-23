@@ -87,15 +87,27 @@ class TraCuuController extends AbstractActionController
              * Tim nhanh
              */
             if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
-                if($post['tieuChi'] == 1){
-                    // tim theo chu de
-                    $qb->andWhere('cv.ten like ?8');
-                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
-                }
-                else{
-                    // tim theo ten nguoi ky
-                    $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
-                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                switch ($post['tieuChi']) {
+                    case '1':
+                        // tim theo chu de
+                        $qb->andWhere('cv.ten like ?8');
+                        $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '2':
+                        // tim theo ten nguoi ky
+                        $qb->andWhere('CONCAT(nk.ho, \' \', nk.ten) like ?9');
+                        $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '3':
+                        // tim theo trich yeu
+                        $qb->andWhere('c.trichYeu like ?10');
+                        $qb->setParameter(10, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '4':
+                        // tim theo so hieu
+                        $qb->andWhere('c.soHieu like ?11');
+                        $qb->setParameter(11, '%'.$post['tuKhoa'].'%');
+                        break;
                 }
             }
 
@@ -127,7 +139,7 @@ class TraCuuController extends AbstractActionController
         else {
             $user = $this->zfcUserAuthentication()->getIdentity();
             $donVi = $user->getDonVi();
-            if(!$donVi) return $this->redirect()->toRoute('cong_viec');
+            if(!$donVi) throw new \Exception("Không tìm thấy đơn vị");
         }
 
         $entityManager=$this->getEntityManager(); 

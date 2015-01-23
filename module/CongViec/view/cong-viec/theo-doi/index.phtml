@@ -68,7 +68,7 @@
         <tr>    
           <th>STT</th>      
           <th class="six wide">Nội dung công việc</th>
-          <th class="five wide">Báo cáo cuối</th> 
+          <th class="five wide">Xử lý</th> 
           <th>Chủ trì</th>
           <th>Hạn xử lý</th>       
         </tr>
@@ -77,7 +77,7 @@
         <?php if(count($congViecs)): ?>
           <?php foreach($congViecs as $i=>$congViec): ?>
           <?php $congVan = $congViec->getCongVan(); ?>
-          <tr class="<?php if($congViec->isDaHuy()) echo 'ui deleted';?>">
+          <tr>
               <?php if($trangThai == 4): ?>
                 <?php if($congViec->isQuaHan()): ?>
                   <td class="negative">
@@ -96,8 +96,12 @@
                 <div><i><?php echo $congViec->getNoiDung(); ?></i></div>
               </td>  
               <td>
-                <?php if($baoCao = $congViecService->getBaoCaoCuoi($congViec)): ?>
-                  <strong>[<?php echo $baoCao->getNguoiTao()->getTen(); ?>]</strong> - <?php echo $baoCao->getNoiDung(); ?>
+                <?php if($congViec->isDaHuy()): ?>
+                  <label class="ui red label">Đã hủy</label>
+                <?php else: ?>
+                  <?php if($baoCao = $congViecService->getBaoCaoCuoi($congViec)): ?>
+                    <?php echo $baoCao->getNoiDung(); ?>
+                  <?php endif; ?>
                 <?php endif; ?>
               </td>                    
               <td>

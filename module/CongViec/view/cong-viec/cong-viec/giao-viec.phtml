@@ -1,4 +1,4 @@
-<?php echo $this->partial('template/flash'); ?>
+<?php echo $this->partial('template/flash_current'); ?>
 <?php $form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'giao-viec')));
 $form->prepare();?>
 
@@ -220,4 +220,25 @@ $congVan = $congViec->get('cha');?>
 
         return currentCount;
     }
+
+    $('#loai-cong-viec').dropdown({
+    	onChange: function (val) {
+    		if(!isNaN(val)){
+    			$.ajax({
+    				type: 'post',
+    				dataType: 'json',
+    				url: '<?php echo $this->url('danh_muc/crud', array('action'=>'so-ngay-thuc-hien')) ?>',
+    				data: {
+    					'id': val
+    				},
+    				success: function(data){
+    					var cur = new Date(),
+    					time = cur.setDate(cur.getDate() + data.soNgay);
+    					date = new Date(time);
+    					$('#congViecngayHoanThanh.form-date .jqxDate').jqxDateTimeInput('setDate', date);
+    				}
+    			});
+    		}
+	    }
+    });
 </script>

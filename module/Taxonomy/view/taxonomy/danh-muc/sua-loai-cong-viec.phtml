@@ -15,10 +15,10 @@ echo $this->form()->openTag($form);?>
 		          	<?php echo $this->formElementErrors($term->get('name')); ?>
     			</div>
     			<div class="field">
-    				<?php $taxonomy->get('description')->setLabel('Mô tả') ?>
-    				<?php echo $this->formLabel($taxonomy->get('description')); ?>
-		          	<?php echo $this->formElement($taxonomy->get('description')); ?>
-		          	<?php echo $this->formElementErrors($taxonomy->get('description')); ?>
+    				<?php $taxonomy->get('count')->setLabel('Số ngày thực hiện') ?>
+    				<?php echo $this->formLabel($taxonomy->get('count')); ?>
+		          	<?php echo $this->formElement($taxonomy->get('count')); ?>
+		          	<?php echo $this->formElementErrors($taxonomy->get('count')); ?>
     			</div>
         		<div class="field">
         			<?php echo $this->formHidden($term->get('slug'));?>

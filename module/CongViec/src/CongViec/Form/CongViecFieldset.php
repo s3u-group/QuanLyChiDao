@@ -32,7 +32,8 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
                 'value_options' => $this->getLoaiOption($sm)
         	),
             'attributes' => array(
-                'class' => 'ui dropdown'
+                'class' => 'ui dropdown',
+                'id' => 'loai-cong-viec'
             )
         ));
 

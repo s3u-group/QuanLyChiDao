@@ -89,6 +89,12 @@ class User implements UserInterface, ProviderInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
+     * @ORM\JoinColumn(name="chuc_vu_id", referencedColumnName="term_taxonomy_id")
+     */
+    protected $chucVu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
      * @ORM\JoinColumn(name="thanh_pho_id", referencedColumnName="term_taxonomy_id")
      */
     
@@ -140,12 +146,22 @@ class User implements UserInterface, ProviderInterface
     protected $congViecs;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Taxonomy\Entity\TermTaxonomy")
+     * @ORM\JoinTable(name="user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="term_taxonomy_id")}
+     * )
+     */
+    protected $groups;
+
+    /**
      * Initialies the roles variable.
      */
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->congViecs = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -389,6 +405,23 @@ class User implements UserInterface, ProviderInterface
         }
     }
 
+    public function setChucVu($chucVu){
+        $this->chucVu = $chucVu;
+        return $this;
+    }
+
+    public function getChucVu(){
+        return $this->chucVu;
+    }
+
+    public function getChucVuLabel(){
+        if($chucVu = $this->chucVu){
+           if($term = $chucVu->getTerm()){
+                return $term->getName();
+           }
+        }
+    }
+
     public function setThanhPho($thanhPho){
         $this->thanhPho = $thanhPho;
         return $this;
@@ -464,6 +497,26 @@ class User implements UserInterface, ProviderInterface
 
     public function getCongViecs(){
         return $this->congViecs->toArray();
+    }
+
+    public function addGroup($group){
+        $this->groups->add($group);
+    }
+
+    public function addGroups($groups){
+        foreach($groups as $group){
+            $this->groups->add($group);
+        }
+    }
+
+    public function removeGroups($groups){
+        foreach($groups as $group){
+            $this->groups->removeElement($group);
+        }
+    }
+
+    public function getGroups(){
+        return $this->groups->toArray();
     }
 
     public function getNhiemVu($congViec){

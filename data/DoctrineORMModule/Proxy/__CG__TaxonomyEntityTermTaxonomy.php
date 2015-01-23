@@ -64,10 +64,10 @@ class TermTaxonomy extends \Taxonomy\Entity\TermTaxonomy implements \Doctrine\OR
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'id', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'term', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'taxonomy', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'description', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'parent', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'count', 'createUser', 'createDate', 'modifyUser', 'modifyDate', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'level');
+            return array('__isInitialized__', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'id', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'term', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'taxonomy', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'description', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'parent', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'count', 'createUser', 'createDate', 'modifyUser', 'modifyDate', 'users', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'level');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'id', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'term', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'taxonomy', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'description', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'parent', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'count', 'createUser', 'createDate', 'modifyUser', 'modifyDate', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'level');
+        return array('__isInitialized__', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'id', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'term', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'taxonomy', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'description', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'parent', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'count', 'createUser', 'createDate', 'modifyUser', 'modifyDate', 'users', '' . "\0" . 'Taxonomy\\Entity\\TermTaxonomy' . "\0" . 'level');
     }
 
     /**
@@ -483,6 +483,39 @@ class TermTaxonomy extends \Taxonomy\Entity\TermTaxonomy implements \Doctrine\OR
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModifyDateFull', array());
 
         return parent::getModifyDateFull();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addUsers($users)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addUsers', array($users));
+
+        return parent::addUsers($users);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeUsers($users)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeUsers', array($users));
+
+        return parent::removeUsers($users);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUsers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsers', array());
+
+        return parent::getUsers();
     }
 
 }

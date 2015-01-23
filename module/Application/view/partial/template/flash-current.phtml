@@ -12,7 +12,8 @@
     //echo $flash->render('error',   array('ui', 'error', 'message'));
     //echo $flash->render('info',    array('ui', 'info', 'message'));
     //echo $flash->render('default', array('ui', 'message'));
-    echo $flash->render('success', array('ui', 'success', 'message'));
+    echo $flash->renderCurrent('success', array('ui', 'success', 'message'));
+    $this->flashMessenger()->getPluginFlashMessenger()->clearCurrentMessagesFromContainer();
     ?>
 
     <?php
@@ -26,7 +27,8 @@
         ->setMessageSeparatorString('</li><li>')
         ->setMessageCloseString('</li></ul></div>');
 
-    echo $flash->render('error',   array('ui', 'error', 'message'));
+    echo $flash->renderCurrent('error',   array('ui', 'error', 'message'));
+    $this->flashMessenger()->getPluginFlashMessenger()->clearCurrentMessagesFromContainer();
     ?>
 
 <script type="text/javascript">

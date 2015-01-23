@@ -66,7 +66,9 @@ class LocCongViecDaGiaoForm extends Form
             'options' => array(
                 'value_options' => array(
                     '1' => 'Chủ đề',
-                    '2' => 'Người chủ trì'
+                //    '2' => 'Người chủ trì',
+                    '3' => 'Trích yếu',
+                    '4' => 'Số hiệu'
                 )
             ),
             'attributes' => array(

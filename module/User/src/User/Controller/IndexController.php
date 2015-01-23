@@ -2,6 +2,7 @@
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Zend\ServiceManager\ServiceManager;
 
 use User\Form\UpdateUserForm;
@@ -12,7 +13,9 @@ use Zend\Crypt\Password\Bcrypt;
 use User\Form\CreateAccountForm;
 use User\Form\CreateDonViForm;
 use User\Form\UpdateDonViForm;
-use Zend\View\Model\JsonModel;
+use User\Form\TaoNhomForm;
+use User\Form\SuaNhomForm;
+use Taxonomy\Entity\TermTaxonomy;
 
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
@@ -28,6 +31,8 @@ class IndexController extends AbstractActionController
  	protected $entityManager;
 
     protected $userService;
+
+    protected $taxonomyService;
 
     /**
      * @var TaxonomyControllerOptionsInterface
@@ -51,10 +56,17 @@ class IndexController extends AbstractActionController
         return $this->userService;
     }
 
+    public function getTaxonomyService(){
+      if(!$this->taxonomyService)
+        {
+          $this->taxonomyService=$this->getServiceLocator()->get('taxonomyService');
+        }
+        return $this->taxonomyService;
+    }
+
     public function themNhanVienAction(){
         $entityManager = $this->getEntityManager();
-
-        $form = new ThemNhanVienForm($entityManager);
+        $form = new ThemNhanVienForm($entityManager, $this->getServiceLocator());
         $user = new User();
         $form->bind($user);
 
@@ -85,6 +97,8 @@ class IndexController extends AbstractActionController
         $qb = $entityManager->createQueryBuilder();
         $qb->select('nv')
             ->from('User\Entity\User', 'nv')
+            ->leftJoin('nv.chucVu', 'cv')
+            ->leftJoin('cv.term', 't')
             ->where('nv.state != ?1')
             ->setParameter(1, 0)
             ;
@@ -97,15 +111,20 @@ class IndexController extends AbstractActionController
              * Tim nhanh
              */
             if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
-                if($post['tieuChi'] == 1){
-                    // tim theo ho ten
-                    $qb->andWhere('CONCAT(nv.ho, \' \', nv.ten) like ?2');
-                    $qb->setParameter(2, '%'.$post['tuKhoa'].'%');
-                }
-                else{
-                    // tim theo dien thoai
-                    $qb->andWhere('nv.dienThoai like ?3');
-                    $qb->setParameter(3, '%'.$post['tuKhoa'].'%');
+                switch($post['tieuChi']){
+                    case '1':
+                        // tim theo ho ten
+                        $qb->andWhere('CONCAT(nv.ho, \' \', nv.ten) like ?2');
+                        $qb->setParameter(2, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '2':
+                        // tim theo dien thoai
+                        $qb->andWhere('nv.dienThoai like ?3');
+                        $qb->setParameter(3, '%'.$post['tuKhoa'].'%');
+                    case '3':
+                        // tim theo chuc vu
+                        $qb->andWhere('t.name like ?4');
+                        $qb->setParameter(4, '%'.$post['tuKhoa'].'%');
                 }
             }
         }
@@ -136,7 +155,7 @@ class IndexController extends AbstractActionController
         $entityManager = $this->getEntityManager();
 
         $user = $entityManager->getRepository('User\Entity\User')->find($id);
-        $form = new UpdateUserForm($entityManager);
+        $form = new UpdateUserForm($entityManager, $this->getServiceLocator());
         $form->bind($user);
 
         $request = $this->getRequest();
@@ -190,7 +209,79 @@ class IndexController extends AbstractActionController
         );
     }
 
-    public function listAction(){
+    public function taoNhomAction(){
+        $entityManager = $this->getEntityManager();
+        $form = new TaoNhomForm($entityManager);
+        $nhom = new TermTaxonomy();
+        $nhom->setTaxonomy('nhom-nguoi-dung');
+        $form->bind($nhom);
+        $service = $this->getTaxonomyService();
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $nhom->setCount(count($nhom->getUsers()));
+                $service->luu($nhom);
+                $this->flashMessenger()->addSuccessMessage('Đã tạo nhóm thành công!');
+                return $this->redirect()->toRoute('user/crud', array('action' => 'tao-nhom'));
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
+    }
+
+    public function danhSachNhomAction(){
+        $service = $this->getTaxonomyService();
+        $nhoms = $service->getTaxonomy('nhom-nguoi-dung');
+        return array(
+            'nhoms' => $nhoms
+        );
+    }
+
+    public function suaNhomAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id) return $this->redirect()->toRoute('user/crud', array('action'=>'danh-sach-nhom'));
+        $entityManager = $this->getEntityManager();
+        $service = $this->getTaxonomyService();
+        $nhom = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
+        $form = new SuaNhomForm($entityManager);
+        $form->bind($nhom);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $nhom->setCount(count($nhom->getUsers()));
+                $service->luu($nhom);
+                $this->flashMessenger()->addSuccessMessage('Đã sửa!');
+                return $this->redirect()->toRoute('user/crud', array('action'=>'danh-sach-nhom'));
+            }
+        }
+
+        return array(
+            'id' => $id,
+            'form' => $form,
+            'objNhom' => $nhom
+        );
+
+    }
+
+    public function xoaNhomAction(){
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if($id){
+            $entityManager = $this->getEntityManager();
+            $loai = $entityManager->getRepository('Taxonomy\Entity\TermTaxonomy')->find($id);
+            $entityManager->remove($loai);
+            $entityManager->flush();
+            $this->flashMessenger()->addSuccessMessage('Đã xóa!');
+        }
+        return $this->redirect()->toRoute('user/crud', array('action'=>'danh-sach-nhom'));
+    }
+
+    /*public function listAction(){
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('select u from User\Entity\User u ORDER BY u.displayName ASC');
         $users = $query->getResult();
@@ -724,6 +815,6 @@ class IndexController extends AbstractActionController
             $json = new JsonModel($response);
             return $json;
         }
-    }
+    }*/
 }
 ?>

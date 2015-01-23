@@ -64,10 +64,10 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'roles', 'ho', 'ten', 'gioiTinh', 'thanhPho', 'quocGia', 'dienThoai', 'diaChi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayTao', '' . "\0" . 'User\\Entity\\User' . "\0" . 'dangNhapCuoi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayChinhSua', 'donVi', 'congViecs');
+            return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'roles', 'ho', 'ten', 'gioiTinh', 'chucVu', 'thanhPho', 'quocGia', 'dienThoai', 'diaChi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayTao', '' . "\0" . 'User\\Entity\\User' . "\0" . 'dangNhapCuoi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayChinhSua', 'donVi', 'congViecs', 'groups');
         }
 
-        return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'roles', 'ho', 'ten', 'gioiTinh', 'thanhPho', 'quocGia', 'dienThoai', 'diaChi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayTao', '' . "\0" . 'User\\Entity\\User' . "\0" . 'dangNhapCuoi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayChinhSua', 'donVi', 'congViecs');
+        return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'roles', 'ho', 'ten', 'gioiTinh', 'chucVu', 'thanhPho', 'quocGia', 'dienThoai', 'diaChi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayTao', '' . "\0" . 'User\\Entity\\User' . "\0" . 'dangNhapCuoi', '' . "\0" . 'User\\Entity\\User' . "\0" . 'ngayChinhSua', 'donVi', 'congViecs', 'groups');
     }
 
     /**
@@ -466,6 +466,39 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setChucVu($chucVu)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setChucVu', array($chucVu));
+
+        return parent::setChucVu($chucVu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getChucVu()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getChucVu', array());
+
+        return parent::getChucVu();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getChucVuLabel()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getChucVuLabel', array());
+
+        return parent::getChucVuLabel();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setThanhPho($thanhPho)
     {
 
@@ -637,6 +670,50 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCongViecs', array());
 
         return parent::getCongViecs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addGroup($group)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addGroup', array($group));
+
+        return parent::addGroup($group);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addGroups($groups)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addGroups', array($groups));
+
+        return parent::addGroups($groups);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeGroups($groups)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeGroups', array($groups));
+
+        return parent::removeGroups($groups);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGroups()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getGroups', array());
+
+        return parent::getGroups();
     }
 
     /**

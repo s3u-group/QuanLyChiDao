@@ -47,11 +47,11 @@ class TheoDoiController extends AbstractActionController
             ->from('CongViec\Entity\CongViec', 'cv')
             ->join('cv.nguoiThucHiens', 'pc', 'with', 'pc.nguoiThucHien = ?1')
             ->leftJoin('cv.cha', 'c')
-            ->leftJoin('pc.nguoiThucHien', 'ct', 'with', 'pc.vaiTro = ?50')
+           // ->leftJoin('pc.nguoiThucHien', 'ct', 'with', 'pc.vaiTro = ?50')
             ->andWhere('pc.vaiTro = ?2')
             ->setParameter(1, $userId)
             ->setParameter(2, \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG)
-            ->setParameter(50, \CongViec\Entity\PhanCong::CHU_TRI)
+           // ->setParameter(50, \CongViec\Entity\PhanCong::CHU_TRI)
             ;
 
         if($request->isPost()){
@@ -98,15 +98,27 @@ class TheoDoiController extends AbstractActionController
              * Tim nhanh
              */
             if(isset($post['tuKhoa']) && $post['tuKhoa'] != '' ){
-                if($post['tieuChi'] == 1){
-                    // tim theo chu de
-                    $qb->andWhere('cv.ten like ?8');
-                    $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
-                }
-                else{
-                    // tim theo ten nguoi chu tri
-                    $qb->andWhere('CONCAT(ct.ho, \' \', ct.ten) like ?9');
-                    $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                switch ($post['tieuChi']) {
+                    case '1':
+                        // tim theo chu de
+                        $qb->andWhere('cv.ten like ?8');
+                        $qb->setParameter(8, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '2':
+                        // tim theo ten nguoi chu tri
+                        // $qb->andWhere('CONCAT(ct.ho, \' \', ct.ten) like ?9');
+                        // $qb->setParameter(9, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '3':
+                        // tim theo trich yeu
+                        $qb->andWhere('c.trichYeu like ?10');
+                        $qb->setParameter(10, '%'.$post['tuKhoa'].'%');
+                        break;
+                    case '4':
+                        // tim theo so hieu
+                        $qb->andWhere('c.soHieu like ?11');
+                        $qb->setParameter(11, '%'.$post['tuKhoa'].'%');
+                        break;
                 }
             }
 
@@ -118,7 +130,7 @@ class TheoDoiController extends AbstractActionController
             $qb->setParameter(10, array(\CongViec\Entity\CongViec::CHUA_XEM, \CongViec\Entity\CongViec::DANG_XU_LY));
         }
         
-        //var_dump($qb->getDql());
+        //var_dump($qb->getDql());die();
         /*$query = $qb->getQuery();
         $congViecs = $query->getResult();*/
         $adapter = new DoctrineAdapter(new ORMPaginator($qb));

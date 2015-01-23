@@ -10,7 +10,7 @@ class ThemNhanVienForm extends Form
 
     protected $objectManager;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $sm)
     {
         parent::__construct('them-nhan-vien-form');
         $this->objectManager = $objectManager;
@@ -25,7 +25,7 @@ class ThemNhanVienForm extends Form
             'name' => 'csrf',
         ));*/
 
-        $userFieldset = new UserFieldset($objectManager);
+        $userFieldset = new UserFieldset($objectManager, $sm);
         $userFieldset->setUseAsBaseFieldset(true);
         $this->add($userFieldset);
 

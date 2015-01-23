@@ -41,9 +41,11 @@
 	    		<th>Điện thoại</th>
 	    		<th>Địa chỉ</th>
 	    		<th>Đơn vị</th>
+	    		<th>Chức vụ</th>
 	    		<th></th>
 	    	</thead>
 	    	<tbody>
+	    	<?php if(count($nhanViens)): ?>
 	    		<?php foreach($nhanViens as $i => $nhanVien): ?>
 	    			<tr>
 	    				<td><?php echo $i+1 ?></td>
@@ -52,12 +54,18 @@
 	    				<td><?php echo $nhanVien->getDienThoai(); ?></td>
 	    				<td><?php echo $nhanVien->getDiaChi(); ?></td>
 	    				<td><?php echo $nhanVien->getTenDonVi(); ?></td>
+	    				<td><?php echo $nhanVien->getChucVuLabel(); ?></td>
 	    				<td class="center aligned">
 	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-nhat-nhan-vien', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cập nhật thông tin"><i class="edit icon"></i></a>
 	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-tai-khoan', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cấp tài khoản"><i class="privacy icon"></i></a>
 	    				</td>
 	    			</tr>
 	    		<?php endforeach; ?>
+	    	<?php else: ?>
+	          	<tr>
+	            	<td colspan="8" class="center aligned">Không tìm thấy dữ liệu</td>
+	          	</tr>
+	        <?php endif; ?>
 	    	</tbody>
 	    </table>
 	    <?php echo $this->paginationControl($this->nhanViens,

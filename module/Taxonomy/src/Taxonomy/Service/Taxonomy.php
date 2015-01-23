@@ -15,16 +15,27 @@ class Taxonomy{
 
 	public function luu($termTaxonomy){
 		$entityManager = $this->getEntityManager();
-		$term = $termTaxonomy->getTerm();
+		$termTmp = $termTaxonomy->getTerm();
 		$query = $entityManager->createQuery('select t from Taxonomy\Entity\Term t where t.slug = :slug');
-		$query->setParameter('slug', $term->getSlug());
-		try {
-			$term = $query->getSingleResult();
-			$termTaxonomy->setTerm($term);
-	    }
-	    catch(\Doctrine\ORM\NoResultException $e) {
-	    }
-		$entityManager->persist($termTaxonomy);
+		$query->setParameter('slug', $termTmp->getSlug());
+        $term = $query->getOneOrNullResult();
+        if($term){
+            //trung slug
+            if($term->getName() == $termTmp->getName()){
+                //trung ten
+                $termTaxonomy->setTerm($term);
+            }
+            else{
+                //khac ten
+                $query = $entityManager->createQuery('select t from Taxonomy\Entity\Term t where t.slug like :slug order by t.slug DESC');
+                $query->setParameter('slug', $termTmp->getSlug().'%');
+                $term = $query->getResult()[0];
+                $chars = explode('-',$term->getSlug());
+                $stt = (int) $chars[(count($chars)-1)];
+                $termTmp->setSlug($termTmp->getSlug().'-'.($stt+1));
+            }
+        }
+        $entityManager->persist($termTaxonomy);
         $entityManager->flush();
         return $termTaxonomy;
 	}
