@@ -6,6 +6,7 @@
     			<th>STT</th>
     			<th>Tên đơn vị</th>
     			<th>Tên viết tắt</th>
+                <th>Thủ trưởng</th>
     			<th>Số thành viên</th>
     			<th></th>
     		</thead>
@@ -15,6 +16,7 @@
     					<td><?php echo $i+1 ?></td>
     					<td><?php echo $donVi->getTenDonVi(); ?></td>
     					<td><?php echo $donVi->getTenVietTat(); ?></td>
+                        <td><?php echo $donVi->getHoTenThuTruong(); ?></td>
     					<td><?php echo count($donVi->getNhanViens()); ?></td>
     					<td class="center aligned">
                             <a href="<?php echo $this->url('don_vi/crud', array('action'=>'cap-nhat', 'id'=>$donVi->getId())) ?>" class="ui mini icon button" title="Sửa đơn vị"><i class="edit icon"></i></a>

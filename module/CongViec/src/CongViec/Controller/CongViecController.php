@@ -354,11 +354,72 @@ class CongViecController extends AbstractActionController
                 foreach($nhanViens as $nhanVien){
                     $childrens[] = array(
                         'text' => $nhanVien->getHoTen(),
-                        'id' => $nhanVien->getId()
+                        'id' => $nhanVien->getId(),
+                        'icon' => 'disabled icon user'
                     );
                 }
                 $response[] = array(
                     'text' => $donVi->getTenDonVi(),
+                    'children' => $childrens
+                );
+            }
+
+            $json = new JsonModel($response);
+            return $json;
+        }
+    }
+
+    public function ajaxGetDonViAction(){
+        $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $response = array();
+            $query = $entityManager->createQuery('select d,t from User\Entity\DonVi d left join d.thuTruong t');
+            $donVis = $query->getResult();
+            foreach($donVis as $donVi){
+                $childrens = array();
+                $count = 0;
+                if($nhanVien = $donVi->getThuTruong()){
+                    $childrens[] = array(
+                        'text' => $nhanVien->getHoTen(),
+                        'id' => $nhanVien->getId()
+                    );
+                    $count = 1;
+                }
+                $response[] = array(
+                    'text' => $donVi->getTenDonVi(),
+                    'id' => $donVi->getId(),
+                    'count' => $count,
+                    'children' => $childrens
+                );
+            }
+
+            $json = new JsonModel($response);
+            return $json;
+        }
+    }
+
+    public function ajaxGetNhomNguoiDungAction(){
+        $entityManager = $this->getEntityManager();
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $response = array();
+            $query = $entityManager->createQuery('select t from Taxonomy\Entity\TermTaxonomy t where t.taxonomy = ?1');
+            $query->setParameter(1, 'nhom-nguoi-dung');
+            $nhoms = $query->getResult();
+            foreach($nhoms as $nhom){
+                $nhanViens = $nhom->getUsers();
+                $childrens = array();
+                foreach($nhanViens as $nhanVien){
+                    $childrens[] = array(
+                        'text' => $nhanVien->getHoTen(),
+                        'id' => $nhanVien->getId()
+                    );
+                }
+                $response[] = array(
+                    'text' => $nhom->getTermName(),
+                    'count' => count($nhanViens),
+                    'id' => $nhom->getId(),
                     'children' => $childrens
                 );
             }

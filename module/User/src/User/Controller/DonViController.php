@@ -76,7 +76,7 @@ class DonViController extends AbstractActionController
       }
       $entityManager = $this->getEntityManager();
       $donVi = $entityManager->getRepository('User\Entity\DonVi')->find($donViId);
-      $form = new UpdateDonViForm($entityManager);
+      $form = new UpdateDonViForm($entityManager, $donViId);
       $form->bind($donVi);
 
       $request = $this->getRequest();

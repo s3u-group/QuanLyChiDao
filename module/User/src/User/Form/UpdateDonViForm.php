@@ -10,7 +10,7 @@ use User\Form\DonViFieldset;
 class UpdateDonViForm extends Form
 {
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $id)
     {
         parent::__construct('update-don-vi-form');
 
@@ -19,7 +19,7 @@ class UpdateDonViForm extends Form
             ->setHydrator(new DoctrineHydrator($objectManager))
         ;
 
-        $donViFieldset = new DonViFieldset($objectManager);
+        $donViFieldset = new DonViFieldset($objectManager, $id);
         $donViFieldset->setUseAsBaseFieldset(true);
         $this->add($donViFieldset);
 

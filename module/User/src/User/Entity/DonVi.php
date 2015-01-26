@@ -27,6 +27,12 @@ class DonVi
      */
     protected $tenVietTat;
 
+    /**
+     * @ORM\OneToOne(targetEntity="User\Entity\User")
+     * @ORM\JoinColumn(name="thu_truong_id", referencedColumnName="user_id")
+     */
+    protected $thuTruong;
+
 	/**
 	 * @ORM\OneToMany(targetEntity="User\Entity\User", mappedBy="donVi")
 	 */
@@ -72,6 +78,21 @@ class DonVi
         if($this->tenVietTat)
             return $this->tenVietTat;
         return $this->tenDonVi;
+    }
+
+    public function setThuTruong($thuTruong){
+        $this->thuTruong = $thuTruong;
+        return $this;
+    }
+
+    public function getThuTruong(){
+        return $this->thuTruong;
+    }
+
+    public function getHoTenThuTruong(){
+        if($thuTruong = $this->thuTruong){
+            return $thuTruong->getHoTen();
+        }
     }
 
 	public function addNhanViens($nhanViens){

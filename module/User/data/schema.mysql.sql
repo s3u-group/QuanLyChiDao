@@ -43,7 +43,9 @@ CREATE TABLE IF NOT EXISTS `don_vi`(
   `id`      int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ten_don_vi`  varchar(255),
   `ten_viet_tat`  varchar(255),
-  PRIMARY KEY (`id`)
+  `thu_truong_id` int(11) unsigned,
+  PRIMARY KEY (`id`),
+  KEY `thu_truong_id` (`thu_truong_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user_group`(

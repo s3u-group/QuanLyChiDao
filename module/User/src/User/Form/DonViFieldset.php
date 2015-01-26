@@ -12,7 +12,7 @@ class DonViFieldset extends Fieldset implements InputFilterProviderInterface
 {
     private $objectManager;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $id = null)
     {
         $this->objectManager = $objectManager;
         parent::__construct('don-vi');
@@ -40,7 +40,33 @@ class DonViFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Tên viết tắt'
             )
-        ));        
+        )); 
+
+        /**
+         * Choi chieu de tranh loi khi don vi chua co nhan vien
+         */
+        if($options = $this->getUserOptions($objectManager, $id)){
+            $this->add(array(
+               'name' => 'thuTruong',
+               'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+               'options' => array(
+                    'object_manager'     => $objectManager,
+                    'target_class'       => 'User\Entity\User',
+                    'property' => 'thuTruong',
+                    'label' => 'Thủ trưởng',
+                    'value_options' => $options,
+                ),
+                'attributes' => array(
+                    'class' => 'ui dropdown'
+                )
+            ));   
+        }
+        else{
+            $this->add(array(
+                'type' => 'hidden',
+                'name' => 'thuTruong'
+            ));
+        }            
     }
 
     public function getInputFilterSpecification()
@@ -95,4 +121,14 @@ class DonViFieldset extends Fieldset implements InputFilterProviderInterface
         );
     }
 
+    public function getUserOptions($objectManager, $id){
+        $options = array();
+        $query = $objectManager->createQuery('select u from User\Entity\User u where u.donVi = ?1');
+        $query->setParameter(1, $id);
+        $users = $query->getResult();
+        foreach($users as $user){
+            $options[$user->getId()] = $user->getHoTen();
+        }
+        return $options;        
+    }
 }

@@ -64,10 +64,10 @@ class DonVi extends \User\Entity\DonVi implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'nhanViens', 'congVanDens');
+            return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'thuTruong', 'nhanViens', 'congVanDens');
         }
 
-        return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'nhanViens', 'congVanDens');
+        return array('__isInitialized__', 'id', 'tenDonVi', 'tenVietTat', 'thuTruong', 'nhanViens', 'congVanDens');
     }
 
     /**
@@ -237,6 +237,39 @@ class DonVi extends \User\Entity\DonVi implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenVietTatHoacDayDu', array());
 
         return parent::getTenVietTatHoacDayDu();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setThuTruong($thuTruong)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThuTruong', array($thuTruong));
+
+        return parent::setThuTruong($thuTruong);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThuTruong()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getThuTruong', array());
+
+        return parent::getThuTruong();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHoTenThuTruong()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getHoTenThuTruong', array());
+
+        return parent::getHoTenThuTruong();
     }
 
     /**

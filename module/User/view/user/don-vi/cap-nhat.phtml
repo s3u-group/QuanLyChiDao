@@ -19,6 +19,13 @@ $donVi = $form->get('don-vi'); ?>
 				          	<?php echo $this->formElementErrors($donVi->get('tenVietTat')); ?>
 	        			</div>
 	        		</div>
+	        		<?php if(!$donVi->get('thuTruong') instanceof \Zend\Form\Element\Hidden): ?>
+		        		<div class="field">
+	        				<?php echo $this->formLabel($donVi->get('thuTruong')); ?>
+				          	<?php echo $this->formElement($donVi->get('thuTruong')); ?>
+				          	<?php echo $this->formElementErrors($donVi->get('thuTruong')); ?>
+	        			</div>
+	        		<?php endif; ?>
 	        		<div class="field">
 	        			<?php echo $this->formHidden($donVi->get('id')); ?>
 	        			<?php echo $this->formSubmit($form->get('submit')); ?>

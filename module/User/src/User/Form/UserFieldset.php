@@ -85,29 +85,36 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
             ),
         ));      
         
+       
         $this->add(array(
-             'name' => 'donVi',
-             'type' => 'select',
-             'options' => array(
-                 'label' => 'Đơn vị',
-                 'value_options' => $this->getDonViOptions($objectManager)
-             ),
-             'attributes'=>array(
-                'class'  => 'ui dropdown'           
-             ),
-         ));   
+           'name' => 'donVi',
+           'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+           'options' => array(
+                'object_manager'     => $objectManager,
+                'target_class'       => 'User\Entity\DonVi',
+                'property' => 'donVi',
+                'label' => 'Đơn vị',
+                'value_options' => $this->getDonViOptions($objectManager),
+            ),
+            'attributes' => array(
+                'class' => 'ui dropdown'
+            )
+        ));
 
-         $this->add(array(
-            'name' => 'chucVu',
-            'type' => 'select',
-            'options' => array(
+        $this->add(array(
+           'name' => 'chucVu',
+           'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+           'options' => array(
+                'object_manager'     => $objectManager,
+                'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
+                'property' => 'chucVu',
                 'label' => 'Chức vụ',
                 'value_options' => $this->getChucVuOption($sm),
             ),
             'attributes' => array(
                 'class' => 'ui dropdown'
             )
-        ));     
+        ));   
 
         $dienThoai = new \User\Form\Element\Phone();
         $dienThoai->setEntityManager($objectManager);

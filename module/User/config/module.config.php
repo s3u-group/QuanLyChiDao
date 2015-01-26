@@ -197,7 +197,7 @@ return array(
                 //CongViecController
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('index', 'xem-cong-viec', 'chi-tiet-cong-viec', 'ajax-get-to-chuc','xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
+                    'action'    =>array('index', 'xem-cong-viec', 'chi-tiet-cong-viec', 'ajax-get-to-chuc', 'ajax-get-don-vi', 'ajax-get-nhom-nguoi-dung', 'xoa-dinh-kem','bao-cao-moi','hoan-thanh'),
                     'roles'     =>array('xu-ly-cong-viec', 'quan-tri'),
                 ), 
 

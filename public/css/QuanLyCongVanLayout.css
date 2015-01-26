@@ -107,3 +107,9 @@ color: #dc6868 !important;
 .ui.deleted{
 	text-decoration: line-through;
 }
+
+.pointer:hover{
+	cursor: pointer;
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
+	color: rgba(0, 0, 0, 0.8); 
+}

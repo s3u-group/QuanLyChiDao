@@ -92,11 +92,33 @@ $congVan = $congViec->get('cha');?>
 			<div class="eight wide column">
 				<div class="field">
 					<label>Thực hiện</label>
-					<div class="ui left icon input">
-					  	<input placeholder="Tìm người thực hiện..." type="text" id="jstree_s">
-					  	<i class="users icon"></i>
+					
+					<div class="ui pointing secondary menu">
+					  	<a class="active item" data-tab="first">Cá nhân</a>
+					  	<a class="item" data-tab="second">Đơn vị</a>
+					  	<a class="item" data-tab="thrid">Nhóm</a>
+					</div>					
+					<div class="ui bottom attached active tab" data-tab="first">
+						<div class="ui left icon input">
+						  	<input placeholder="Tìm người thực hiện..." type="text" id="jstree_s">
+						  	<i class="search icon"></i>
+						</div>
+						<div class="jstree"></div>	
 					</div>
-					<div class="jstree"></div>
+					<div class="ui bottom attached tab" data-tab="second">
+						<div class="ui left icon input">
+						  	<input placeholder="Tìm đơn vị thực hiện..." type="text" >
+						  	<i class="search icon"></i>
+						</div>
+						<div id="don-vi-list" class="ui list"></div>
+					</div>
+					<div class="ui bottom attached tab" data-tab="thrid">
+					  	<div class="ui left icon input">
+						  	<input placeholder="Tìm nhóm thực hiện..." type="text" id="jstree_s_nhom">
+						  	<i class="search icon"></i>
+						</div>
+						<div id="nhom-list" class="ui list"></div>
+					</div>
 				</div>
 			</div>
 			<div class="eight wide column">
@@ -137,6 +159,51 @@ $congVan = $congViec->get('cha');?>
 </div>
 <?php echo $this->form()->closeTag();?>
 <script type="text/javascript">
+	// @todo xu ly phan cong trung nhau
+	$.ajax({
+   		type : 'post',
+   		dataType : 'json',
+   		url : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-nhom-nguoi-dung')) ?>",
+   		success : function(data){
+   			$.each(data, function(key, val){
+   				$('#nhom-list').append('<div class="item pointer" data-id="'+val.id+'"><i class="disabled users icon link"></i><div class="content">'+val.text+' ('+val.count+')</div><div class="ui hidden val list"></div></div>');
+   				$.each(val.children, function(k, v){
+   					$('#nhom-list [data-id="'+val.id+'"] .val.list').append('<div class="item"><span>'+v.id+'</span><span>'+v.text+'</span></div>');
+   				});
+   			});
+   		}
+   	});
+
+   	$('#nhom-list').on('dblclick', '.item', function(){
+   		$(this).find('.val.list .item').each(function(){
+   			var id = $(this).find('span:eq(0)').text();
+   			var ten = $(this).find('span:eq(1)').text();
+   			add_phan_cong(id, ten);
+   		});
+   	});
+
+   	$.ajax({
+   		type : 'post',
+   		dataType : 'json',
+   		url : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-don-vi')) ?>",
+   		success : function(data){
+   			$.each(data, function(key, val){
+   				$('#don-vi-list').append('<div class="item pointer" data-id="'+val.id+'"><i class="disabled users icon link"></i><div class="content">'+val.text+'</div><div class="ui hidden val list"></div></div>');
+   				$.each(val.children, function(k, v){
+   					$('#don-vi-list [data-id="'+val.id+'"] .val.list').append('<div class="item"><span>'+v.id+'</span><span>'+v.text+'</span></div>');
+   				});
+   			});
+   		}
+   	});
+
+   	$('#don-vi-list').on('dblclick', '.item', function(){
+   		$(this).find('.val.list .item').each(function(){
+   			var id = $(this).find('span:eq(0)').text();
+   			var ten = $(this).find('span:eq(1)').text();
+   			add_phan_cong(id, ten);
+   		});
+   	});
+
 	var currentCount = 0;
 	$('.jstree').jstree({
 		'core' : {
@@ -154,32 +221,7 @@ $congVan = $congViec->get('cha');?>
 	   	alert('Vui lòng chọn nhân viên để phân công');
 	   }
 	   else{
-	   	var currentCount = add_phan_cong();
-	   	var template = $('#event_result .template').html();
-	   	template = template.replace(/__ten__/g, ten);
-	   	$('#event_result .list').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
-	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
-	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
-	   	$('#pc_'+currentCount+' .ui.dropdown')
-	        .dropdown({
-	        	onChange: function (val) {
-	        		if(!isNaN(val)){
-	        			$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(val);
-	        		}
-			    }
-	        })
-	      ;
-	   	/*$.ajax({
-	   		type : 'post',
-	   		dataType : 'json',
-	   		data : {
-	   			'id' : id,
-	   		},
-	   		url : "<?php echo $this->url('cong_viec/crud', array('action'=>'ajax-get-nhan-vien')) ?>",
-	   		success : function(data){
-	   			alert(data.id);
-	   		}
-	   	});*/
+	   	add_phan_cong(id, ten);
 	   }
 	});
 
@@ -210,7 +252,7 @@ $congVan = $congViec->get('cha');?>
 	$('#event_result > fieldset > div').remove();
 	
 
-	function add_phan_cong() {
+	function add_phan_cong(id, ten) {
         //var currentCount = $('#event_result > fieldset > fieldset').length;
         currentCount++;
         var template = $('#event_result > fieldset > span').data('template');
@@ -218,10 +260,25 @@ $congVan = $congViec->get('cha');?>
 
         $('#event_result > fieldset').prepend('<div id="fs_'+currentCount+'">' + template + '</div>');
 
+        ///////
+        var template = $('#event_result .template').html();
+	   	template = template.replace(/__ten__/g, ten);
+	   	$('#event_result .list').append('<div id="pc_'+currentCount+'" class="item">' + template + '</div>');
+	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(<?php echo \CongViec\Entity\PhanCong::PHOI_HOP; ?>);
+	   	$('input[name="congViec[nguoiThucHiens]['+currentCount+'][nguoiThucHien][id]"]').val(id);
+	   	$('#pc_'+currentCount+' .ui.dropdown')
+	        .dropdown({
+	        	onChange: function (val) {
+	        		if(!isNaN(val)){
+	        			$('input[name="congViec[nguoiThucHiens]['+currentCount+'][vaiTro]"]').val(val);
+	        		}
+			    }
+	        });
+
         return currentCount;
     }
 
-    $('#loai-cong-viec').dropdown({
+    $('#loai-cong-viec').dropdown({ //loại luồng
     	onChange: function (val) {
     		if(!isNaN(val)){
     			$.ajax({
