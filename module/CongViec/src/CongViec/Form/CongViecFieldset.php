@@ -25,27 +25,35 @@ class CongViecFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
-        	'name' => 'loai',
-        	'type' => 'select',
-        	'options' => array(
-        		'label' => 'Loại luồng',
-                'value_options' => $this->getLoaiOption($sm)
-        	),
+           'name' => 'loai',
+           'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+           'options' => array(
+                'object_manager'     => $objectManager,
+                'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
+                'label' => 'Loại luồng',
+                'value_options' => $this->getLoaiOption($sm),
+                'empty_option' => ''
+            ),
             'attributes' => array(
                 'class' => 'ui dropdown',
-                'id' => 'loai-cong-viec'
+                'id' => 'loai-cong-viec',
+                'required' => 'required'
             )
         ));
 
         $this->add(array(
-            'name' => 'linhVuc',
-            'type' => 'select',
-            'options' => array(
+           'name' => 'linhVuc',
+           'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+           'options' => array(
+                'object_manager'     => $objectManager,
+                'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
                 'label' => 'Lĩnh vực',
-                'value_options' => $this->getLinhVucOption($sm)
+                'value_options' => $this->getLinhVucOption($sm),
+                'empty_option' => ''
             ),
             'attributes' => array(
-                'class' => 'ui dropdown'
+                'class' => 'ui dropdown',
+                'required' => 'required'
             )
         ));
 

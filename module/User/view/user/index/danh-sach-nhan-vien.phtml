@@ -55,7 +55,7 @@
 	    				<td><?php echo $nhanVien->getDiaChi(); ?></td>
 	    				<td><?php echo $nhanVien->getTenDonVi(); ?></td>
 	    				<td><?php echo $nhanVien->getChucVuLabel(); ?></td>
-	    				<td class="center aligned">
+	    				<td class="two wide center aligned">
 	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-nhat-nhan-vien', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cập nhật thông tin"><i class="edit icon"></i></a>
 	    					<a href="<?php echo $this->url('user/crud', array('action'=>'cap-tai-khoan', 'id'=>$nhanVien->getId())) ?>" class="ui mini icon button" title="Cấp tài khoản"><i class="privacy icon"></i></a>
 	    				</td>

@@ -64,10 +64,10 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'ngayBaoCao', 'nguoiBaoCao', 'nguoiTao', 'noiDung', 'congVan', 'dinhKems', 'trangThai');
+            return array('__isInitialized__', 'id', 'ngayBaoCao', 'ngaySua', 'nguoiBaoCao', 'nguoiTao', 'noiDung', 'congVan', 'dinhKems', 'trangThai');
         }
 
-        return array('__isInitialized__', 'id', 'ngayBaoCao', 'nguoiBaoCao', 'nguoiTao', 'noiDung', 'congVan', 'dinhKems', 'trangThai');
+        return array('__isInitialized__', 'id', 'ngayBaoCao', 'ngaySua', 'nguoiBaoCao', 'nguoiTao', 'noiDung', 'congVan', 'dinhKems', 'trangThai');
     }
 
     /**
@@ -187,6 +187,17 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
     /**
      * {@inheritDoc}
      */
+    public function onPreUpdate()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'onPreUpdate', array());
+
+        return parent::onPreUpdate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
 
@@ -215,6 +226,28 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNgayBaoCao', array());
 
         return parent::getNgayBaoCao();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setNgaySua($ngaySua)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNgaySua', array($ngaySua));
+
+        return parent::setNgaySua($ngaySua);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNgaySua()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNgaySua', array());
+
+        return parent::getNgaySua();
     }
 
     /**
@@ -380,6 +413,17 @@ class TheoDoi extends \CongViec\Entity\TheoDoi implements \Doctrine\ORM\Proxy\Pr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTenNguoiTao', array());
 
         return parent::getTenNguoiTao();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isDaSua()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isDaSua', array());
+
+        return parent::isDaSua();
     }
 
 }

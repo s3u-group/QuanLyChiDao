@@ -1,5 +1,5 @@
 <?php echo $this->partial('template/flash_current'); ?>
-<?php $form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'giao-viec')));
+<?php $form->setAttribute('action', $this->url('cong_viec/crud', array('action'=>'sua-cong-viec', 'id'=>$id)));
 $form->prepare();?>
 
 <?php echo $this->form()->openTag($form);
@@ -123,7 +123,7 @@ $congVan = $congViec->get('cha');?>
 			</div>
 			<div class="eight wide column">
 				<div class="field">
-					<label>Phân công <i id="phan_lai" class="circular undo link icon" title="Phân công lại"></i></label>
+					<label>Phân công <!-- 	 --></label>
 					<?php $nguoiThucHiens = $congViec->get('nguoiThucHiens'); ?>
 					<div id="event_result">
 						<?php echo $this->formCollection($nguoiThucHiens); ?>
@@ -135,7 +135,23 @@ $congVan = $congViec->get('cha');?>
 						     	__ten__
 						    </div>
 						</div>
-						<div class="ui list divided"></div>
+						<div class="ui list divided">
+							<?php $phanCongs = $objCongViec->getNguoiThucHiens(); ?>
+							<?php $ids = array(); ?>
+							<?php foreach($phanCongs as $i => $phanCong): ?>
+							<?php $ids[] = (string)$user->getId(); ?>
+							<?php if($phanCong->getVaiTro() == \CongViec\Entity\PhanCong::NGUOI_PHAN_CONG) continue; ?>
+								<?php $user = $phanCong->getNguoiThucHien(); ?>
+								<div class="item" id="pc_<?php echo $i ?>" data-id="<?php echo $user->getId() ?>" data-loai="san-co">
+									<?php // con fs thì dùng js để thay đổi sau khi load trang ?>
+								    <?php echo $this->vaiTro(); ?>
+								    <i class="remove icon link"></i>
+								    <div class="content">
+								     	<?php echo $user->getHoTen(); ?>
+								    </div>
+								</div>
+							<?php endforeach; ?>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -159,7 +175,21 @@ $congVan = $congViec->get('cha');?>
 </div>
 <?php echo $this->form()->closeTag();?>
 <script type="text/javascript">
-	
+	/* wrap cac fieldet da co trong div fs_ */
+    $('#event_result > fieldset > fieldset').each(function(index){
+    	$(this).wrap( '<div id="fs_'+index+'"></div>' );
+
+    	var vaiTro = $(this).find('input[name="congViec[nguoiThucHiens]['+index+'][vaiTro]"]').val();
+    	$('#pc_'+index+' .ui.dropdown')
+	        .dropdown({
+	        	onChange: function (val) {
+	        		if(!isNaN(val)){
+	        			$('input[name="congViec[nguoiThucHiens]['+index+'][vaiTro]"]').val(val);
+	        		}
+			    }
+	        }).dropdown('set value', vaiTro);
+    });
+
 	$.ajax({
    		type : 'post',
    		dataType : 'json',
@@ -204,8 +234,9 @@ $congVan = $congViec->get('cha');?>
    		});
    	});
 
-	var currentCount = 0;
-	var ids = [];
+	var currentCount = <?php echo count($phanCongs); ?>;
+	var ids = <?php echo json_encode($ids); ?>;
+	
 	$('.jstree').jstree({
 		'core' : {
 			'data' : {
@@ -239,10 +270,14 @@ $congVan = $congViec->get('cha');?>
 		$('#event_result > .list').empty();
 		$('#event_result > fieldset > div').remove();
 		ids = [];
-		console.log(ids);
+		//console.log(ids);
 	});
 
 	$('#event_result').on('click', '.remove.icon', function(){
+		if($(this).closest('.item').data('loai') == 'san-co'){
+			alert('Không thể xóa người này');
+			return false;
+		}
 		var index = $(this).closest('.item').attr('id').substring(3);
 		var id = $(this).closest('.item').data('id');
 		ids = jQuery.grep(ids, function(value) {
@@ -253,17 +288,16 @@ $congVan = $congViec->get('cha');?>
 		$('#event_result > fieldset > #fs_'+index).remove();
 	});
 
-	$('.reset.able :input')
+	/*$('.reset.able :input')
 	 	.val('')
 	 	.removeAttr('checked')
 	 	.removeAttr('selected');
-	$('#event_result > fieldset > div').remove();
+	$('#event_result > fieldset > div').remove();*/
 	
 
 	function add_phan_cong(id, ten) {
 		if($.inArray(id, ids) > -1) return false;
 		ids.push(id);
-
         //////////
         currentCount++;
         var template = $('#event_result > fieldset > span').data('template');

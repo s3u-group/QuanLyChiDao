@@ -65,7 +65,7 @@
 						<div class="header">Danh sách báo cáo</div>
 						<div class="ui divided selection list">
 			  			<?php foreach($baoCaos as $baoCao): ?>
-			  				<div class="item">
+			  				<div class="item" data-id="<?php echo $baoCao->getId() ?>" data-action="<?php echo $this->url('theo_doi/crud', array('action'=>'sua-bao-cao', 'id'=>$baoCao->getId())) ?>">
 			  					<?php if($baoCao->getNguoiTao()->getId() == $this->zfcUserIdentity()->getId()): ?>
 								<div class="ui dropdown edit right floated">
 								  <i class="angle down icon"></i>
@@ -78,8 +78,8 @@
 			  					<i class="top aligned right triangle icon"></i>
 			  					<div class="content">
 								   	<div class="description">
-								   		<i><?php echo $baoCao->getTenNguoiTao(); ?> - <?php echo $baoCao->getNgayBaoCao()->format('d/m/Y') ?></i>
-								   		<div><?php echo $baoCao->getNoiDung(); ?></div>
+								   		<i><?php echo $baoCao->getTenNguoiTao(); ?> - <?php echo $baoCao->getNgayBaoCao()->format('d/m/Y') ?><?php if($baoCao->isDaSua()) echo '<small> - Đã chỉnh sửa</small>' ?></i>
+								   		<div class="noi-dung"><?php echo $baoCao->getNoiDung(); ?></div>
 								   		<?php if($dinhKems = $baoCao->getDinhKems()): ?>
 									   		<div>
 									   			<u>Đính kèm:</u> 
@@ -111,6 +111,36 @@
 					</div>
 				</div>
 			</div>
+
+			<?php $formTheoDoi->prepare();?>
+			<?php $formTheoDoi->setAttribute('id', 'sua-bao-cao-form') ?>
+			<?php $formTheoDoi->setAttribute('class', 'ui hidden') ?>
+			<?php $baoCao = $formTheoDoi->get('theo-doi') ?>
+			<?php echo $this->form()->openTag($formTheoDoi); ?>
+			<div class="ui form">
+				<div class="ui celled grid">
+					<div class="row">
+						<div class="sixteen wide column">
+							<div class="field">
+								<?php echo $this->formLabel($baoCao->get('noiDung')); ?>
+								<?php echo $this->formElement($baoCao->get('noiDung')); ?>
+								<?php echo $this->formElementErrors($baoCao->get('noiDung')); ?>
+							</div>
+							<div class="field">
+								<?php echo $this->formLabel($baoCao->get('dinhKems')); ?>
+								<?php echo $this->formElement($baoCao->get('dinhKems')); ?>
+								<?php echo $this->formElementErrors($baoCao->get('dinhKems')); ?>
+							</div>
+							<div class="field">
+								<?php echo $this->formHidden($baoCao->get('id')); ?>
+								<?php echo $this->formSubmit($formTheoDoi->get('submit')); ?>
+								<button id="huy-btn" class="ui button">Hủy</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php echo $this->form()->closeTag(); ?>
 		</div>
 	</div>
 </div>
@@ -119,8 +149,15 @@
 	$('.ui.dropdown.edit').dropdown({
     	onChange: function (val, txt, ele) {
     		var item = $(this).closest('.item');
+    		var href = ele.data('href');
+
+			$('#danh-sach-bao-cao .item > *:not(#sua-bao-cao-form)').show();
+			$('.ui.dropdown').dropdown('hide');
+	    	$('#sua-bao-cao-form').hide();
+
     		if(val == 'huy'){
-    			var href = ele.data('href');
+    			var xacNhan = confirm('Bạn có chắc là muốn hủy báo cáo này');
+    			if(!xacNhan) return false;
     			$.ajax({
     				type: 'post',
     				dataType: 'json',
@@ -133,8 +170,43 @@
     			});
     		}
     		else{
-
+    			//window.location.replace(href);
+    			$('#sua-bao-cao-form input[name="theo-doi[id]"]').val(item.data('id'));
+    			$('#sua-bao-cao-form textarea[name="theo-doi[noiDung]"]').val(item.find('.noi-dung').text());
+    			$('#sua-bao-cao-form').attr('action', item.data('action'));
+    			var form = $('#sua-bao-cao-form').detach();
+    			item.append(form);
+    			item.children(':not(#sua-bao-cao-form)').hide();
+    			$('#sua-bao-cao-form').show();
     		}
 	    }
+    });
+
+	$('#sua-bao-cao-form').submit(function(){
+		var item = $(this).closest('.item');
+		$.ajax({
+			type: 'post',
+			dataType: 'json',
+			data: $('#sua-bao-cao-form').serialize(),
+			url: $('#sua-bao-cao-form').attr('action'),
+			success: function(data){
+				if(data.status == 'success'){
+					item.children(':not(#sua-bao-cao-form)').show();
+    				item.children('.ui.dropdown').dropdown('hide');
+			    	$('#sua-bao-cao-form').hide();
+			    	item.find('.noi-dung').text($('#sua-bao-cao-form textarea[name="theo-doi[noiDung]"]').val());
+			    	if(item.find('.description > i > small').length == 0)
+			    		item.find('.description > i').append('<small> - Đã chỉnh sửa</small>');
+				}
+			}
+		});
+		return false;
+	});
+
+    $('#sua-bao-cao-form #huy-btn').click(function(){
+    	$(this).closest('.item').children(':not(#sua-bao-cao-form)').show();
+    	$(this).closest('.item').children('.ui.dropdown').dropdown('hide');
+    	$('#sua-bao-cao-form').hide();
+    	return false;
     });
 </script>

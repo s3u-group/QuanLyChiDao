@@ -92,7 +92,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
            'options' => array(
                 'object_manager'     => $objectManager,
                 'target_class'       => 'User\Entity\DonVi',
-                'property' => 'donVi',
+            //    'property' => 'donVi',
                 'label' => 'Đơn vị',
                 'value_options' => $this->getDonViOptions($objectManager),
             ),
@@ -107,7 +107,7 @@ class UserFieldset extends Fieldset implements InputFilterProviderInterface
            'options' => array(
                 'object_manager'     => $objectManager,
                 'target_class'       => 'Taxonomy\Entity\TermTaxonomy',
-                'property' => 'chucVu',
+            //    'property' => 'chucVu',
                 'label' => 'Chức vụ',
                 'value_options' => $this->getChucVuOption($sm),
             ),

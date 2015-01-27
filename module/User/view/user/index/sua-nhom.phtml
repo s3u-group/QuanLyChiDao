@@ -39,7 +39,8 @@
 							<div class="ui list divided">
 								<?php $userInGroup = $objNhom->getUsers(); ?>
 								<?php foreach($userInGroup as $i => $user): ?>
-									<div class="item" id="pc_<?php echo $i ?>">
+									<div class="item" id="pc_<?php echo $i ?>"> 
+										<?php // con fs thì dùng js để thay đổi sau khi load trang ?>
 									    <i class="remove icon link"></i>
 									    <div class="content">
 									     	<?php echo $user->getHoTen(); ?>

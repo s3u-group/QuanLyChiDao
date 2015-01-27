@@ -88,6 +88,11 @@ class CongVan
 	protected $ngayTao;
 
 	/**
+	 * @ORM\Column(name="ngay_sua",type="datetime")	
+	 */
+	protected $ngaySua;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
 	 * @ORM\JoinColumn(name="nguoi_tao_id", referencedColumnName="user_id")
 	 */
@@ -147,6 +152,13 @@ class CongVan
 		    $user = $auth->getIdentity();
 		    $this->nguoiTao = $user;
 		}*/
+	}
+
+	/**
+	 * @ORM\preUpdate  
+	 */
+	public function onPreUpdate(){
+    	$this->ngaySua = new DateTime('now');
 	}
 
 	/**
@@ -270,6 +282,14 @@ class CongVan
 
 	public function getNgayTao(){
 		return $this->ngayTao;
+	}
+
+	public function setNgaySua($ngaySua){
+		$this->ngaySua = $ngaySua;
+	}
+
+	public function getNgaySua(){
+		return $this->ngaySua;
 	}
 
 	public function setNguoiTao($nguoiTao){

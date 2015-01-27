@@ -26,6 +26,11 @@ class TheoDoi
 	protected $ngayBaoCao;
 
 	/**
+	 * @ORM\Column(name="ngay_sua", type="datetime")
+	 */
+	protected $ngaySua;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="User\Entity\User")
 	 * @ORM\JoinColumn(name="nguoi_bao_cao_id", referencedColumnName="user_id")
 	 */
@@ -68,6 +73,13 @@ class TheoDoi
     	$this->ngayBaoCao = new DateTime('now');
 	}
 
+	/**
+	 * @ORM\preUpdate  
+	 */
+	public function onPreUpdate(){
+    	$this->ngaySua = new DateTime('now');
+	}
+
     public function __construct(){
         $this->dinhKems = new ArrayCollection();
     }
@@ -82,6 +94,15 @@ class TheoDoi
 	
 	public function getNgayBaoCao(){
 		return $this->ngayBaoCao;
+	}
+
+	public function setNgaySua($ngaySua){
+		$this->ngaySua = $ngaySua;
+		return $this;
+	}
+
+	public function getNgaySua(){
+		return $this->ngaySua;
 	}
 
 	public function setNguoiBaoCao($nguoiBaoCao){
@@ -148,6 +169,12 @@ class TheoDoi
     public function getTenNguoiTao(){
     	if($nguoiTao = $this->getNguoiTao())
     		return $nguoiTao->getHoTen();
+    }
+
+    public function isDaSua(){
+    	if($this->ngaySua->getTimestamp())
+    		return 1;
+    	return 0;
     }
 
 }

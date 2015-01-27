@@ -165,7 +165,8 @@ class TheoDoiController extends AbstractActionController
 
         return array(
             'congViec' => $congViec,
-            'congViecService' =>$congViecService
+            'congViecService' =>$congViecService,
+            'formTheoDoi' => new TheoDoiForm($entityManager)
         );
     }
 
@@ -323,6 +324,32 @@ class TheoDoiController extends AbstractActionController
             $json = new JsonModel($response);
             return $json;
         }
+    }
+
+    public function suaBaoCaoAction(){
+        $entityManager = $this->getEntityManager();
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id) throw new Exception("Không tìm thấy báo cáo", 1);
+        $baoCao = $entityManager->getRepository('CongViec\Entity\TheoDoi')->find($id);
+        $form = new TheoDoiForm($entityManager);
+        $form->bind($baoCao);
+
+        $response = array(
+            'status' => 'error'
+        );
+
+        $request = $this->getRequest();
+        if($request->isXmlHttpRequest()){
+            $form->setData($request->getPost());
+            if($form->isValid()){
+                $entityManager->flush();
+                $response = array(
+                    'status' => 'success'
+                );
+            }
+        }
+        $json = new JsonModel($response);
+        return $json;
     }
     
  /*   public function aindexAction(){

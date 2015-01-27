@@ -52,7 +52,7 @@ class DonViFieldset extends Fieldset implements InputFilterProviderInterface
                'options' => array(
                     'object_manager'     => $objectManager,
                     'target_class'       => 'User\Entity\User',
-                    'property' => 'thuTruong',
+                //    'property' => 'thuTruong',
                     'label' => 'Thủ trưởng',
                     'value_options' => $options,
                 ),

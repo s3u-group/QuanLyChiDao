@@ -203,7 +203,7 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\CongViec'),
-                    'action'    =>array('giao-viec', 'huy-cong-viec'),
+                    'action'    =>array('giao-viec', 'huy-cong-viec', 'sua-cong-viec'),
                     'roles'     =>array('giao-viec', 'quan-tri'),
                 ),
 
@@ -242,7 +242,7 @@ return array(
 
                 array(
                     'controller'=>array('CongViec\Controller\TheoDoi'),
-                    'action'    =>array('tao-bao-cao', 'bao-cao', 'huy-bao-cao', 'nghiem-thu'),
+                    'action'    =>array('tao-bao-cao', 'bao-cao', 'huy-bao-cao', 'sua-bao-cao', 'nghiem-thu'),
                     'roles'     =>array('xu-ly-cong-viec', 'quan-tri'),
                 ),
 

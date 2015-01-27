@@ -9,6 +9,8 @@ use CongViec\Entity\CongViec;
 use CongViec\Entity\PhanCong;
 use CongViec\Entity\DinhKem;
 use CongViec\Form\GiaoViecForm;
+use CongViec\Form\SuaCongViecForm;
+use CongViec\Form\TheoDoiForm;
 use CongViec\Form\CapNhatCongViecForm;
 use DateTime;
 use DateTimeZone;
@@ -331,6 +333,9 @@ class CongViecController extends AbstractActionController
     public function xuLyDonViTiepNhan($congViec){
         $users = $congViec->getNguoiThucHiens();
         $donViIds = array();
+        $donVis = $congViec->donViTiepNhans();
+        foreach($donVis as $donVi)
+            $donViIds[] = $donVi->getId();
         foreach($users as $user){
             $donVi = $user->getNguoiThucHien()->getDonVi();
             if(!in_array($donVi->getId(), $donViIds)){
@@ -470,7 +475,8 @@ class CongViecController extends AbstractActionController
         
         return array(
             'congViec' => $congViec,
-            'congViecService' => $congViecService
+            'congViecService' => $congViecService,
+            'formTheoDoi' => new TheoDoiForm($entityManager)
         );
     }
 
@@ -525,6 +531,44 @@ class CongViecController extends AbstractActionController
             $json = new JsonModel($response);
             return $json;
         }
+    }
+
+    public function suaCongViecAction(){
+        $entityManager = $this->getEntityManager();
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(!$id) return $this->redirect()->toRoute('theo_doi');
+        $congViec = $entityManager->getRepository('CongViec\Entity\CongViec')->find($id);
+        $form = new SuaCongViecForm($entityManager, $this->getServiceLocator());
+        $form->bind($congViec);
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            if($form->isValid()){
+
+            //    $congViec = $this->xuLyNguoiGiaoViec($congViec);
+            //    $congViec = $this->xuLyDonViTiepNhan($congViec);
+
+            //    $entityManager->persist($congViec);
+                $entityManager->flush();
+
+                $post = $post['congViec']['dinhKems'];
+                $this->dinhKemMoi($entityManager, $post, $congViec);
+
+                $this->flashMessenger()->addSuccessMessage('Bạn vừa sửa một công việc thành công!');
+                return $this->redirect()->toRoute('theo_doi');
+            }
+        }
+
+        return array(
+            'form' => $form,
+            'id' => $id,
+            'objCongViec' => $congViec
+        );
     }
 
     public function xoaDinhKemAction(){
